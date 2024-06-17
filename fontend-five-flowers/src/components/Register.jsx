@@ -5,12 +5,13 @@ import { useNavigate } from 'react-router-dom';
 function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [email, setEmail] = useState(''); // Thêm email
   const [message, setMessage] = useState('');
   const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    axios.post('http://localhost:8080/register', { userName: username, password: password })
+    axios.post('http://localhost:8080/register', { userName: username, password: password, email: email }) // Gửi email
       .then(response => {
         console.log('User registered', response);
         setMessage('User registered successfully');
@@ -33,6 +34,10 @@ function Register() {
         <label>
           Password:
           <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+        </label>
+        <label>
+          Email:
+          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} /> {/* Thêm input email */}
         </label>
         <button type="submit">Register</button>
       </form>
