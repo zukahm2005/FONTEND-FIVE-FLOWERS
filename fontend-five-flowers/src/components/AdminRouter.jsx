@@ -1,14 +1,17 @@
-import React from 'react';
-import { Route, Routes } from 'react-router-dom';
-import AdminDashboard from './AdminDashboard';
+import React from "react";
+import { Link, Route, Routes } from "react-router-dom";
+import AdminDashboard from "./AdminDashboard";
 // Import các component khác của admin
 
 function AdminRoutes() {
   return (
-    <Routes>
-      <Route path="/" element={<AdminDashboard />} />
-      
-    </Routes>
+    <div>
+      <h1>Admin Router</h1>
+      <Link to="dashboard">Admin Dashboard</Link>
+      <Routes>
+        <Route path="dashboard" element={<AdminDashboard />} />
+      </Routes>
+    </div>
   );
 }
 

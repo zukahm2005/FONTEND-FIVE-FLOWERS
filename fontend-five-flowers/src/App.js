@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import AdminDashboard from './components/AdminDashboard'; // Tạo trang Admin Dashboard
-import CustomerDashboard from './components/CustomerDashboard'; // Tạo trang Customer Dashboard
+import AdminRoutes from './components/AdminRouter';
+import CustomerDashboard from './components/CustomerDashboard';
 import Login from './components/Login';
 import Register from './components/Register';
 
@@ -11,7 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Register />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="/admin/*" element={<AdminRoutes />} />
         <Route path="/customer" element={<CustomerDashboard />} />
       </Routes>
     </Router>

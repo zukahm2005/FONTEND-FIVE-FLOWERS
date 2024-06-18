@@ -1,11 +1,12 @@
-import React from 'react';
+import React from "react";
+import Logout from "./Logout";
 
 function AdminDashboard() {
   return (
     <div>
-     
       <h1>Admin Dashboard</h1>
-      đasadsa    </div>
+      <Logout />
+    </div>
   );
 }
 
