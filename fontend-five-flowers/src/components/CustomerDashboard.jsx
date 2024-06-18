@@ -1,10 +1,11 @@
 import React from 'react';
+import Logout from './Logout';
 
 function CustomerDashboard() {
   return (
     <div>
       <h1>Customer Dashboard</h1>
-      {/* Nội dung dành cho khách hàng */}
+      <Logout/>
     </div>
   );
 }

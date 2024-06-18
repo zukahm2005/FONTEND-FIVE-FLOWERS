@@ -1,10 +1,11 @@
 import React from 'react';
+import Logout from './Logout';
 
 function AdminDashboard() {
   return (
     <div>
       <h1>Admin Dashboard</h1>
-      {/* Nội dung dành cho admin */}
+      <Logout/>
     </div>
   );
 }
