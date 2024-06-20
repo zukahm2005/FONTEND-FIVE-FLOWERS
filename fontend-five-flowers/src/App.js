@@ -1,21 +1,21 @@
 import React from 'react';
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
-import AdminRoutes from './components/AdminRouter';
-import CustomerDashboard from './components/CustomerDashboard';
+import Admin from './Dashboard/Admin';
+import User from './Dashboard/User';
 import Login from './components/Login';
 import Register from './components/Register';
 
-function App() {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Register />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/admin/*" element={<AdminRoutes />} />
-        <Route path="/customer" element={<CustomerDashboard />} />
-      </Routes>
-    </Router>
-  );
-}
+const App = () => {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/admin" element={<Admin />} />
+                <Route path="/user" element={<User />} />
+                <Route path="/register" element={<Register />} />
+            </Routes>
+        </Router>
+    );
+};
 
 export default App;

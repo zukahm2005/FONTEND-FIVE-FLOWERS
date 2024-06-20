@@ -1,50 +1,70 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-function Register() {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [email, setEmail] = useState(''); // Thêm email
-  const [message, setMessage] = useState('');
-  const navigate = useNavigate();
+const Register = () => {
+    const [userName, setUserName] = useState('');
+    const [password, setPassword] = useState('');
+    const [email, setEmail] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
+    const navigate = useNavigate();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    axios.post('http://localhost:8080/register', { userName: username, password: password, email: email }) // Gửi email
-      .then(response => {
-        console.log('User registered', response);
-        setMessage('User registered successfully');
-        // Chuyển hướng người dùng đến trang đăng nhập
-        navigate('/login');
-      })
-      .catch(error => {
-        console.error('There was an error!', error);
-        setMessage('Registration failed');
-      });
-  };
+    const handleRegister = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post('http://localhost:8080/user/addUser', {
+                userName,
+                password,
+                email,
+            });
+            setSuccess('User registered successfully');
+            setError('');
+            // Chuyển hướng tới trang đăng nhập sau khi đăng ký thành công
+            navigate('/');
+        } catch (error) {
+            console.error('Registration failed', error);
+            setError('Registration failed');
+            setSuccess('');
+        }
+    };
 
-  return (
-    <div>
-      <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Username:
-          <input type="text" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </label>
-        <label>
-          Password:
-          <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </label>
-        <label>
-          Email:
-          <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} /> {/* Thêm input email */}
-        </label>
-        <button type="submit">Register</button>
-      </form>
-      {message && <p>{message}</p>}
-    </div>
-  );
-}
+    return (
+        <div>
+            <h2>Register</h2>
+            <form onSubmit={handleRegister}>
+                <div>
+                    <label>Username:</label>
+                    <input
+                        type="text"
+                        value={userName}
+                        onChange={(e) => setUserName(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label>Password:</label>
+                    <input
+                        type="password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <label>Email:</label>
+                    <input
+                        type="email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                </div>
+                <button type="submit">Register</button>
+                <Link to="/">Login</Link>
+
+                {error && <p style={{ color: 'red' }}>{error}</p>}
+                {success && <p style={{ color: 'green' }}>{success}</p>}
+            </form>
+        </div>
+    );
+};
 
 export default Register;
