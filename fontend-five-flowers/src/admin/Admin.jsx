@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { Link, Route, Routes, useNavigate } from 'react-router-dom';
-import DeleteAddress from './addressAdmin/deleteAddress/DeleteAddress';
 import GetAllAddress from './addressAdmin/getAllAddress/GetAllAdress';
 import UpdateAddress from './addressAdmin/updateAddress/UpdateAddress';
 
@@ -16,6 +15,7 @@ const Admin = () => {
 
     return (
         <div>
+            <Link to="/">Login</Link>
             <h2>Admin Dashboard</h2>
             <nav>
                 <ul>
@@ -27,7 +27,6 @@ const Admin = () => {
             <Routes>
                 <Route path="addresses" element={<GetAllAddress />} />
                 <Route path="update-address/:id" element={<UpdateAddress />} />
-                <Route path="delete-address/:id" element={<DeleteAddress />} />
             </Routes>
         </div>
     );
