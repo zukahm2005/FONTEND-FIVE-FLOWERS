@@ -1,9 +1,68 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useState } from 'react';
 
 const AddBlog = () => {
-  return (
-    <div>AddBlog</div>
-  )
-}
+    const [title, setTitle] = useState('');
+    const [content, setContent] = useState('');
+    const [imageFile, setImageFile] = useState(null);
 
-export default AddBlog
+    const handleImageUpload = async () => {
+        const formData = new FormData();
+        formData.append('file', imageFile);
+
+        try {
+            const response = await axios.post('/api/v1/blogs/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            return response.data;
+        } catch (error) {
+            console.error('Error uploading file:', error);
+            alert('Failed to upload image');
+            return null;
+        }
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const imageUrl = await handleImageUpload();
+        if (!imageUrl) return;
+
+        const blog = { title, content, imageUrl };
+
+        try {
+            const response = await axios.post('http://localhost:8080/api/v1/blogs/add', blog, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            console.log(response.data);
+            alert('Blog added successfully');
+        } catch (error) {
+            console.error(error);
+            alert('Failed to add blog');
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <div>
+                <label>Title:</label>
+                <input type="text" value={title} onChange={(e) => setTitle(e.target.value)} />
+            </div>
+            <div>
+                <label>Content:</label>
+                <textarea value={content} onChange={(e) => setContent(e.target.value)}></textarea>
+            </div>
+            <div>
+                <label>Image File:</label>
+                <input type="file" onChange={(e) => setImageFile(e.target.files[0])} />
+            </div>
+            <button type="submit">Add Blog</button>
+        </form>
+    );
+};
+
+export default AddBlog;
