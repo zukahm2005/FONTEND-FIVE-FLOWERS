@@ -11,7 +11,7 @@ const AddBlog = () => {
         formData.append('file', imageFile);
 
         try {
-            const response = await axios.post('/api/v1/blogs/upload', formData, {
+            const response = await axios.post('http://localhost:8080/api/v1/blogs/upload', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                     Authorization: `Bearer ${localStorage.getItem('token')}`

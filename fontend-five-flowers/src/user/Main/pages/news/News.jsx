@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
-const BlogList = () => {
+const News = () => {
     const [blogs, setBlogs] = useState([]);
 
     useEffect(() => {
@@ -30,5 +30,4 @@ const BlogList = () => {
     );
 };
 
-export default BlogList;
-
+export default News;
