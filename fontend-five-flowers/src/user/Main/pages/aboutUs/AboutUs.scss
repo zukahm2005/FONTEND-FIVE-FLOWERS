@@ -2,7 +2,6 @@
     padding-top: 6rem;
     width: 100%;
     margin: 0 auto;
-    
   
     .aboutus-header {
       text-align: center;
@@ -27,15 +26,75 @@
       }
     }
   
-    .aboutus-images {
-      display: flex;
-      justify-content: center;
-      gap: 10px;
-      margin-bottom: 20px;
+    .aboutus-section-container {
+      width: 80%;
+      margin: auto;
+    }
   
-      img {
-        width: 30%;
-        height: auto;
+    .aboutus-images {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+      .aboutus-section-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+  
+        .aboutus-images-containe {
+          position: relative;
+          width: calc(33.33% - 1rem);
+  
+          img {
+            width: 100%;
+            height: auto;
+            display: block;
+          }
+  
+          .aboutus-images-container-content {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+  
+            h4 {
+                font-size: 30px;
+                padding-bottom: 1rem;
+              margin-bottom: 1rem;
+              text-decoration: underline;
+              text-decoration-color: red;
+              text-decoration-thickness: 0.2rem;
+              text-underline-offset: 2rem;
+              text-align: center;
+              color: #fff;
+            }
+  
+            h6{
+                font-size: 20px;
+                margin-bottom: 1rem;
+              color: #fff;
+              text-align: center;
+            }
+            p {
+                font-size: 18px;
+                padding-top: 2rem;
+                max-width: 80%;
+                margin-bottom: 1rem;
+              color: #fff;
+              text-align: center;
+            }
+          }
+  
+          &:hover .aboutus-images-container-content {
+            opacity: 1;
+          }
+        }
       }
     }
   
@@ -44,8 +103,8 @@
       margin-bottom: 40px;
   
       h2 {
-        font-size: 24px;
-        margin-bottom: 20px;
+        font-size: 40px;
+        margin-bottom: 3rem;
       }
   
       .aboutus-component-list {
@@ -54,15 +113,15 @@
         gap: 40px;
   
         .aboutus-component {
-          width: 300px; /* Tăng gấp đôi kích thước */
+          width: 300px;
           text-align: center;
   
           img {
-            width: 100px; /* Tăng gấp đôi kích thước */
-            height: 100px; /* Tăng gấp đôi kích thước */
+            width: 100px;
+            height: 100px;
             background-color: orange;
             border-radius: 50%;
-            padding: 20px; /* Tăng gấp đôi kích thước */
+            padding: 20px;
             transition: background-color 0.3s;
   
             &:hover {
@@ -71,12 +130,12 @@
           }
   
           h3 {
-            font-size: 18px;
+            font-size: 25px;
             margin: 10px 0;
           }
   
           p {
-            font-size: 14px;
+            font-size: 20px;
             color: #666;
           }
         }
@@ -84,30 +143,65 @@
     }
   
     .aboutus-join-us {
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       margin-bottom: 40px;
+      background-color: #ffeceb;
+      padding: 40px;
+      border-radius: 10px;
   
-      h2 {
-        font-size: 24px;
-        margin-bottom: 20px;
-      }
+      .aboutus-join-content {
+        padding-top: 3rem;
+        padding-bottom: 3rem;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        align-items: center;
   
-      p {
-        font-size: 16px;
-        color: #666;
-        margin-bottom: 20px;
-      }
+        .aboutus-join-text {
+            
+          width: 70%;
   
-      button {
-        padding: 10px 20px;
-        background-color: red;
-        color: #fff;
-        border: none;
-        cursor: pointer;
-        transition: background-color 0.3s;
+          h2 {
+            font-size: 40px;
+            margin-bottom: 25px;
+            color: #000;
   
-        &:hover {
-          background-color: darkred;
+            .red-text {
+              color: #ff4040;
+            }
+          }
+  
+          p {
+            padding-top: 2rem;
+            max-width: 80%;
+            font-size: 20px;
+            color: #666;
+            margin-bottom: 20px;
+          }
+        }
+  
+        .aboutus-join-button {
+          width: 30%;
+          display: flex;
+          justify-content: center;
+  
+          button {
+            width: 50%;
+            padding: 15px 30px;
+            background-color: #ff4040;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            border-radius: 8px;
+  
+            &:hover {
+              background-color: #cc0000;
+            }
+          }
         }
       }
     }
@@ -119,8 +213,8 @@
   
       h2 {
         text-align: center;
-        font-size: 24px;
-        margin-bottom: 20px;
+        font-size: 40px;
+        margin-bottom: 3rem;
       }
   
       .aboutus-bicycles {
@@ -144,23 +238,24 @@
             position: absolute;
             top: 2rem;
             left: 0.5rem;
-            width: 50%;
+            width: 45%;
             height: 90%;
             background-color: rgba(255, 255, 255, 0.7);
             padding: 10px;
             box-sizing: border-box;
   
-            h3, p {
+            h3,
+            p {
               margin: 0;
-              padding-bottom: 5rem;
+              padding-bottom: 3rem;
             }
   
             h3 {
-              font-size: 40px;
+              font-size: 35px;
             }
   
             p {
-              font-size: 30px;
+              font-size: 25px;
               color: #666;
             }
   
@@ -211,12 +306,12 @@
           }
   
           h3 {
-            font-size: 18px;
+            font-size: 25px;
             margin: 10px 0;
           }
   
           p {
-            font-size: 14px;
+            font-size: 18px;
             color: #666;
           }
         }
