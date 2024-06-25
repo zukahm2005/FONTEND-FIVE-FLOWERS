@@ -1,0 +1,61 @@
+.innova-home-container {
+    max-width: 100%;
+    margin-top: 6rem;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+    gap: 2rem;
+    .innova-home-img {
+        .inova-img {
+            img {
+                width: 100%;
+            }
+        }
+    }
+    .innova-home-content {
+        display: flex;
+        flex-direction: column;
+        gap: 4rem;
+        padding: 3rem;
+        max-width: 70%;
+        .innova-name {
+            &::before {
+                content: "";
+                display: block;
+                width: 7%;
+                height: 3px;
+                background-color: #f96733;
+                margin-bottom: 1rem;
+            }
+            p {
+                font-size: 48px;
+                font-weight: bold;
+                color: #3c3a3b;
+            }
+        }
+        .innova-content{
+            p{
+                line-height: 2rem;
+            }
+        }
+        .innova-button {
+            button {
+                background: linear-gradient(to right, #f57c3f, #f94935);
+                border: none;
+                cursor: pointer;
+                border-radius: 2rem;
+                transition:
+                    transform 0.3s ease,
+                    background-position 1.5s ease; /* Apply transition to both properties */
+                &:hover {
+                    background-position: 100% 50%;
+                    transform: scale(1.05);
+                }
+                p {
+                    padding: 1rem 2rem;
+                    color: white;
+                    font-size: 16px;
+                  }
+            }
+        }
+    }
+}

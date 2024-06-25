@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -10,6 +10,18 @@ import "./swiperHome.scss";
 const SwiperHome = () => {
   const [activeSlide, setActiveSlide] = useState(ApiSwiperHome[0]);
   const [activeIndex, setActiveIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setActiveIndex((prevIndex) => {
+        const newIndex = (prevIndex + 1) % ApiSwiperHome.length;
+        setActiveSlide(ApiSwiperHome[newIndex]);
+        return newIndex;
+      });
+    }, 5000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   const handleSlideChange = (swiper) => {
     setActiveSlide(ApiSwiperHome[swiper.activeIndex]);
@@ -49,6 +61,7 @@ const SwiperHome = () => {
                   src={item.imageUrlBottom}
                   alt={item.nameSwiper}
                   style={{ cursor: "pointer" }}
+                  className={activeIndex !== index ? "blurred" : ""}
                 />
                 {activeIndex === index && (
                   <motion.div

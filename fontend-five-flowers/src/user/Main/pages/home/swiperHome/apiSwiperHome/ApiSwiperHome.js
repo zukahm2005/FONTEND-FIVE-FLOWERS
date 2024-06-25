@@ -15,7 +15,7 @@ const ApiSwiperHome = [
         "Always back your scooter into the curb and sit where you can see it. The sound of the throttle makes me fall in love with our bike. King of the bikes.",
       imageUrl:
         "https://bikex-club.myshopify.com/cdn/shop/files/slider-2_2000x_1_1ed19592-eb8b-495a-982a-b26c3d9f591d.jpg?v=1614290797",
-      imageUrlBottom: "https://bikex-club.myshopify.com/cdn/shop/files/mob-slider-3_767x_1_medium.jpg?v=1614290798",
+      imageUrlBottom: "https://bikex-club.myshopify.com/cdn/shop/files/mob-slider-2_767x_1_medium.jpg?v=1614290798",
     },
     {
       swiperId: 3,
