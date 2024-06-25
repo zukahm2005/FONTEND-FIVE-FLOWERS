@@ -1,0 +1,84 @@
+.special-home-container {
+    margin-top: 2rem;
+    max-width: 100%;
+    display: grid;
+    grid-template-rows: auto;
+
+    .special-home-features {
+        max-width: 100%;
+        position: relative;
+
+        .special-features-main {
+            max-width: 80%;
+            margin: 0 auto;
+
+            p {
+                font-size: 19rem;
+                color: #fafafa;
+                font-weight: bold;
+            }
+        }
+
+        .special-feature-name {
+            position: absolute;
+            top: 40%;
+            left: 40%;
+
+            p {
+                font-size: 3rem;
+                font-weight: bold;
+                color: #3c3a3b;
+            }
+
+            &::before {
+                content: "";
+                display: block;
+                width: 12%;
+                height: 3px;
+                background-color: #f96733;
+                margin-bottom: 1rem;
+                margin-left: 40%;
+            }
+        }
+    }
+
+    .special-home-icon {
+        max-width: 80%;
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+        gap: 1rem; /* Add gap between grid items */
+
+        .special-home-main {
+            text-align: center;
+
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 100%; /* Ensure it takes full width */
+
+            .special-img {
+                perspective: 1000px; /* Add perspective */
+                img {
+                    filter: brightness(0); /* Make image black */
+                    transition: transform 0.5s;
+                    transform-style: preserve-3d;
+                    backface-visibility: hidden; /* Hide back face */
+                }
+            }
+
+            .special-name {
+                h3 {
+                    font-size: 24px;
+                    color: #3c3a3b;
+                }
+            }
+
+            .special-content {
+                p {
+                    line-height: 1.6rem;
+                }
+            }
+        }
+    }
+}

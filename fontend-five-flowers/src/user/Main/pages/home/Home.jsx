@@ -1,8 +1,8 @@
 import React from 'react';
 import "./home.scss";
 import InnovatingHome from './innovatingHome/InnovatingHome';
-import SwiperHome from './swiperHome/SwiperHome';
 import SpecialHome from './specialHome/SpecialHome';
+import SwiperHome from './swiperHome/SwiperHome';
 
 const Home = () => {
   return (
