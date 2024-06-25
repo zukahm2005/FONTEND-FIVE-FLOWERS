@@ -45,7 +45,7 @@ const AddProduct = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         try {
             // First, add the product
             const productResponse = await axios.post('http://localhost:8080/api/v1/products/add', {
@@ -62,27 +62,27 @@ const AddProduct = () => {
                 }
             }, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`,
+                    Authorization: `Bearer ${localStorage.getItem('token')}`, // Kiểm tra dòng này
                     'Content-Type': 'application/json'
                 }
             });
-
+    
             const productId = productResponse.data.productId;
-
+    
             // If product is added successfully, add images
             if (productId && images.length > 0) {
                 const formData = new FormData();
                 for (let i = 0; i < images.length; i++) {
                     formData.append('files', images[i]);
                 }
-
+    
                 await axios.post(`http://localhost:8080/api/v1/products/add/images/${productId}`, formData, {
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token')}`,
                         'Content-Type': 'multipart/form-data'
                     }
                 });
-
+    
                 setMessage('Product and images added successfully');
             } else {
                 setMessage('Product added but no images to upload');
@@ -92,6 +92,7 @@ const AddProduct = () => {
             setMessage('Failed to add product. Please try again.');
         }
     };
+    
 
     return (
         <form onSubmit={handleSubmit}>
