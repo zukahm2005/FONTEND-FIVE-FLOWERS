@@ -30,7 +30,7 @@ const SwiperHome = () => {
         </div>
       </div>
       <Swiper
-        spaceBetween={10}
+        spaceBetween={35}
         slidesPerView={4}
         onSlideChange={(swiper) =>
           setActiveSlide(ApiSwiperHome[swiper.activeIndex])

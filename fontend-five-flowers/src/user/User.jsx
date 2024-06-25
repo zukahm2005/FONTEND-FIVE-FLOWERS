@@ -7,7 +7,7 @@ import Home from "./Main/pages/home/Home";
 import News from "./Main/pages/news/News";
 import Shop from "./Main/pages/shop/Shop";
 import ProductDetail from "./Main/pages/shop/productDetails/ProductDetails";
-
+import "./user.scss";
 const User = () => {
   const navigate = useNavigate();
 
@@ -19,7 +19,7 @@ const User = () => {
   }, [navigate]);
 
   return (
-    <div>
+    <div className="user-container">
       <Header />
       <div>
         <Routes>
