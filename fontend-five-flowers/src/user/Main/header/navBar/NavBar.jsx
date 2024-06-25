@@ -6,16 +6,16 @@ const NavBar = () => {
   return (
     <div className='nav-main'>
         <div className='nav-home'>
-            <Link to="/home">Home</Link>
+            <Link to="/home"><p>Home</p></Link>
         </div>
         <div className='nav-shop'>
-            <Link to="/shop">Shop</Link>
+            <Link to="/shop"><p>Shop</p></Link>
         </div>
         <div className='nav-news'>
-            <Link to="/news">News</Link>
+            <Link to="/news"><p>News</p></Link>
         </div>
         <div className='nav-aboutUs'>
-            <Link to="/aboutUs">About Us</Link>
+            <Link to="/aboutUs"><p>About Us</p></Link>
         </div>
         
         

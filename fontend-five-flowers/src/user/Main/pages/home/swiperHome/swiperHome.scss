@@ -1,0 +1,71 @@
+.home-swiper-container {
+    max-width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: red;
+  
+    .main-swiper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+  
+      .image-swiper {
+        width: 100%;
+        img {
+          width: 100%;
+          height: auto;
+          object-fit: cover;
+        }
+      }
+  
+      .swiper-details {
+        display: flex;
+        flex-direction: column;
+        top: 3rem;
+        right: 10rem;
+        position: absolute;
+        max-width: 35%;
+  
+        .name-swiper-details {
+          height: 22rem;
+          p {
+            font-size: 6rem;
+            color: #f97c37;
+            font-weight: 700;
+          }
+        }
+  
+        .desc-swiper-details {
+          padding-bottom: 2rem;
+          p {
+            font-size: 18px;
+            color: gray;
+          }
+        }
+  
+        .button-swiper-details {
+          .button-swiper {
+            p {
+              padding: 0 1rem;
+              color: white;
+              font-size: 16px;
+            }
+          }
+        }
+      }
+    }
+  
+    .swiper {
+      width: 100%;
+      .swiper-slide {
+        text-align: center;
+        img {
+          width: 100%;
+          height: auto;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+  

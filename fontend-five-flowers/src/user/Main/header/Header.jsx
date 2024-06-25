@@ -10,7 +10,7 @@ const Header = () => {
         <div className="header-logo">
           <Logo />
         </div>
-        <div className="header-navBar">
+        <div className="header-pages">
           <NavBar />
         </div>
         <div className="header-components">

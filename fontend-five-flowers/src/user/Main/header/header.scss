@@ -4,13 +4,13 @@
     z-index: 5;
     width: 100%;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(0rem, 1fr));
     min-height: 5rem;
     border-bottom: thin solid rgb(209, 209, 209);
+    background-color: white;
 
     .header-main {
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: 1fr 2fr 1fr;
         max-width: 90%;
         margin: 0 auto;
         min-height: 5.5rem;
