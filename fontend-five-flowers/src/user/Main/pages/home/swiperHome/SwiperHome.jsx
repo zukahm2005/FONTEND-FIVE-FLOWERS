@@ -3,11 +3,18 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { motion } from "framer-motion";
 import ApiSwiperHome from "./apiSwiperHome/ApiSwiperHome";
 import "./swiperHome.scss";
 
 const SwiperHome = () => {
   const [activeSlide, setActiveSlide] = useState(ApiSwiperHome[0]);
+  const [activeIndex, setActiveIndex] = useState(0);
+
+  const handleSlideChange = (swiper) => {
+    setActiveSlide(ApiSwiperHome[swiper.activeIndex]);
+    setActiveIndex(swiper.activeIndex);
+  };
 
   return (
     <div className="home-swiper-container">
@@ -32,19 +39,26 @@ const SwiperHome = () => {
       <Swiper
         spaceBetween={35}
         slidesPerView={4}
-        onSlideChange={(swiper) =>
-          setActiveSlide(ApiSwiperHome[swiper.activeIndex])
-        }
+        onSlideChange={handleSlideChange}
       >
         <div className="main-api-swiper">
           {ApiSwiperHome.map((item, index) => (
             <SwiperSlide key={index}>
-              <img
-                src={item.imageUrlBottom}
-                alt={item.nameSwiper}
-                onClick={() => setActiveSlide(item)}
-                style={{ cursor: "pointer" }}
-              />
+              <div className="swiper-slide-content" onClick={() => { setActiveSlide(item); setActiveIndex(index); }}>
+                <img
+                  src={item.imageUrlBottom}
+                  alt={item.nameSwiper}
+                  style={{ cursor: "pointer" }}
+                />
+                {activeIndex === index && (
+                  <motion.div
+                    className="underline"
+                    initial={{ width: '0%' }}
+                    animate={{ width: '100%' }}
+                    transition={{ duration: 3, ease: "linear" }}
+                  />
+                )}
+              </div>
             </SwiperSlide>
           ))}
         </div>
