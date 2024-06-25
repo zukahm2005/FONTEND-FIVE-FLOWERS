@@ -1,0 +1,225 @@
+.aboutus-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 20px;
+  
+    .aboutus-header {
+      text-align: center;
+      margin-bottom: 20px;
+  
+      h1 {
+        margin: 0;
+        font-size: 36px;
+      }
+  
+      nav {
+        margin-top: 10px;
+  
+        a {
+          text-decoration: none;
+          color: #000;
+        }
+  
+        span {
+          color: #888;
+        }
+      }
+    }
+  
+    .aboutus-images {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-bottom: 20px;
+  
+      img {
+        width: 30%;
+        height: auto;
+      }
+    }
+  
+    .aboutus-components {
+      text-align: center;
+      margin-bottom: 40px;
+  
+      h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+  
+      .aboutus-component-list {
+        display: flex;
+        justify-content: center;
+        gap: 40px;
+  
+        .aboutus-component {
+          width: 300px; /* Tăng gấp đôi kích thước */
+          text-align: center;
+  
+          img {
+            width: 100px; /* Tăng gấp đôi kích thước */
+            height: 100px; /* Tăng gấp đôi kích thước */
+            background-color: orange;
+            border-radius: 50%;
+            padding: 20px; /* Tăng gấp đôi kích thước */
+            transition: background-color 0.3s;
+  
+            &:hover {
+              background-color: black;
+            }
+          }
+  
+          h3 {
+            font-size: 18px;
+            margin: 10px 0;
+          }
+  
+          p {
+            font-size: 14px;
+            color: #666;
+          }
+        }
+      }
+    }
+  
+    .aboutus-join-us {
+      text-align: center;
+      margin-bottom: 40px;
+  
+      h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+  
+      p {
+        font-size: 16px;
+        color: #666;
+        margin-bottom: 20px;
+      }
+  
+      button {
+        padding: 10px 20px;
+        background-color: red;
+        color: #fff;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.3s;
+  
+        &:hover {
+          background-color: darkred;
+        }
+      }
+    }
+  
+    .aboutus-king-of-bicycles {
+      width: 80%;
+      margin: 0 auto;
+      margin-bottom: 40px;
+  
+      h2 {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 20px;
+      }
+  
+      .aboutus-bicycles {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: repeat(2, auto);
+        gap: 20px;
+  
+        .aboutus-bicycle {
+          position: relative;
+  
+          img {
+            width: 100%;
+            height: auto;
+          }
+  
+          .aboutus-bicycle_content_01,
+          .aboutus-bicycle_content_02,
+          .aboutus-bicycle_content_03,
+          .aboutus-bicycle_content_04 {
+            position: absolute;
+            top: 2rem;
+            left: 0.5rem;
+            width: 50%;
+            height: 90%;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            box-sizing: border-box;
+  
+            h3, p {
+              margin: 0;
+              padding-bottom: 5rem;
+            }
+  
+            h3 {
+              font-size: 40px;
+            }
+  
+            p {
+              font-size: 30px;
+              color: #666;
+            }
+  
+            button {
+              position: absolute;
+              bottom: 2rem;
+              right: 2rem;
+              background-color: red;
+              color: #fff;
+              border: none;
+              padding: 5px 10px;
+              font-size: 25px;
+              cursor: pointer;
+              transition: background-color 0.3s;
+  
+              &:hover {
+                background-color: darkred;
+              }
+            }
+          }
+        }
+      }
+    }
+  
+    .aboutus-team {
+      text-align: center;
+      margin-bottom: 40px;
+  
+      h2 {
+        font-size: 50px;
+        margin-bottom: 20px;
+        padding-bottom: 3rem;
+      }
+  
+      .aboutus-team-members {
+        display: flex;
+        justify-content: center;
+        gap: 6rem;
+  
+        .aboutus-member {
+          width: 200px;
+          text-align: center;
+  
+          img {
+            width: 100%;
+            height: auto;
+            border-radius: 50%;
+          }
+  
+          h3 {
+            font-size: 18px;
+            margin: 10px 0;
+          }
+  
+          p {
+            font-size: 14px;
+            color: #666;
+          }
+        }
+      }
+    }
+  }
+  
