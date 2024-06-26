@@ -27,5 +27,4 @@ const Component = ({ showDrawer }) => {
     </div>
   );
 };
-
 export default Component;

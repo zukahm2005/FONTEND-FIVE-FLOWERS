@@ -32,7 +32,7 @@ const Header = () => {
         </div>
       </div>
       <Drawer
-        title="Menu"
+        
         placement="right"
         onClose={onClose}
         visible={drawerVisible}
