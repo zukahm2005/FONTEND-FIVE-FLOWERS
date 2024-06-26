@@ -1,12 +1,28 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import Cart from "./cart/Cart";
 import "./component.scss";
-const Component = () => {
+import IconContextCart from "./iconContextCart/IconContextCart";
+import IconContextProfile from "./iconContextProfile/iconContextProfile";
+import Profile from "./profile/Profile";
+const Component = ({ showDrawer }) => {
   return (
     <div className="component-container">
-      <div className="component-main">
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
+      <div
+        className="profile-component-container"
+        onClick={() => showDrawer(<Profile />)}
+      >
+        <p>
+          <IconContextProfile />
+        </p>
+      </div>
+      <div
+        className="cart-component-container"
+        onClick={() => showDrawer(<Cart />)}
+      >
+        <p>
+          {" "}
+          <IconContextCart />
+        </p>
       </div>
     </div>
   );

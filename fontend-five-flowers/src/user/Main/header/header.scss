@@ -3,18 +3,19 @@
     top: 0;
     z-index: 5;
     width: 100%;
-    display: grid;
-    min-height: 5rem;
     border-bottom: thin solid rgb(235, 235, 235);
-    background-color: #fffbf9;
-
+    align-items: center;
+    background-color: #fffbf7;
     .header-main {
         display: grid;
-        grid-template-columns: 1fr 2fr 1fr;
+        grid-template-columns:1fr 2fr 1fr;
+
         max-width: 90%;
         margin: 0 auto;
-        min-height: 5.5rem;
         align-items: center;
+        min-height: 5rem;
+
+        
     }
     
 }

@@ -1,9 +1,19 @@
 .component-container {
-    .component-main {
-        display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        max-width: 100%;
-        padding: 0 10rem;
-        text-align: right;
+    display: flex;
+    justify-content: end;
+    gap: 1rem;
+    .profile-component-container{
+       text-align: right;
+       cursor: pointer;
+       p{
+        font-size: 1.6rem;
+       }
     }
+    .cart-component-container{
+        cursor: pointer;
+        P{
+            font-size: 1.8rem;
+        }
+    }
+    
 }

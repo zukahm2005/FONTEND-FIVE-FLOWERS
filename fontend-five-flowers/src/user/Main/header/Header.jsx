@@ -1,9 +1,23 @@
-import React from "react";
+import { Drawer } from 'antd';
+import React, { useState } from "react";
 import Component from "./components/Component";
 import "./header.scss";
 import Logo from "./logo/Logo";
 import NavBar from "./navBar/NavBar";
+
 const Header = () => {
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [drawerContent, setDrawerContent] = useState(null);
+
+  const showDrawer = (content) => {
+    setDrawerContent(content);
+    setDrawerVisible(true);
+  };
+
+  const onClose = () => {
+    setDrawerVisible(false);
+  };
+
   return (
     <div className="header-container">
       <div className="header-main">
@@ -14,9 +28,17 @@ const Header = () => {
           <NavBar />
         </div>
         <div className="header-components">
-          <Component />
+          <Component showDrawer={showDrawer} />
         </div>
       </div>
+      <Drawer
+        title="Menu"
+        placement="right"
+        onClose={onClose}
+        visible={drawerVisible}
+      >
+        {drawerContent}
+      </Drawer>
     </div>
   );
 };

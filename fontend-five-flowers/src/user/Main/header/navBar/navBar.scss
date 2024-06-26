@@ -1,7 +1,10 @@
 .nav-main{
-    display: grid;
-    grid-template-columns: repeat(4,0.15fr);
-    justify-content: center;
+    max-width: 50%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    gap: 4rem;
+    text-align: center;
 
     p{
         font-size: 1.3rem;
