@@ -156,23 +156,32 @@ body, html {
     display: flex;
     justify-content: center;
     gap: 10px;
-    margin-top: 20px;
+    padding: 50px 0 50px 0;
 
     button {
-      padding: 10px 15px;
+      width: 40px;
+      height: 40px;
       border: none;
-      background-color: #ff6600;
+      background-color: #fa3e2c;
       color: white;
       cursor: pointer;
-      border-radius: 0;
-      transition: background-color 0.3s;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: background-color 0.3s, transform 0.3s;
 
       &.active {
-        background-color: #e65c00;
+        background-color: #f97c37;
       }
 
       &:hover:not(.active) {
-        background-color: #e65c00;
+        background-color: #f97c37;
+      }
+
+      &:disabled {
+        background-color: #fa3e2c;
+        cursor: not-allowed;
       }
     }
   }
