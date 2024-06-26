@@ -1,3 +1,8 @@
+:root {
+  --button-bg-color: #fa3e2c;
+  --button-bg-hover-color: #f97c37;
+}
+
 .home-swiper-container {
   max-width: 100%;
   display: flex;
@@ -47,19 +52,12 @@
 
       .button-swiper-details {
         .button-swiper {
-          background: linear-gradient(to right, #f57c3f, #f94935);
-          border: none;
-          cursor: pointer;
-          border-radius: 2rem;
-          transition: transform 0.3s ease, background-position 1.5s ease; /* Apply transition to both properties */
-          &:hover {
-            background-position: 100% 50%;
-            transform: scale(1.05);
-          }
+          margin-top: 10px;
+          padding: 15px 35px;
+
+          border-radius: 30px;
           p {
-            padding: 1rem 2rem;
             color: white;
-            font-size: 16px;
           }
         }
       }
