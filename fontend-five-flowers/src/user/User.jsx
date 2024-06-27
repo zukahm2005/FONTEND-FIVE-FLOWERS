@@ -9,7 +9,6 @@ import News from "./Main/pages/news/News";
 import Shop from "./Main/pages/shop/Shop";
 import ProductDetail from "./Main/pages/shop/productDetails/ProductDetails";
 import "./user.scss";
-import Error from "../error/Error";
 
 const User = () => {
   const navigate = useNavigate();
@@ -33,8 +32,7 @@ const User = () => {
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/profile" element={<Profile />} />
-          <Route path="*" element={<Error />} />
-
+          
         </Routes>
       </div>
       <Footer />

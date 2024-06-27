@@ -1,0 +1,16 @@
+.bottom-container-admin{
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 8fr;
+    .side-bar-container-admin{
+        min-width: 13em;
+        position: fixed;
+        z-index: 2;
+        background-color: yellow;
+    }
+    .content-container-admin{
+        max-width: 100%;
+        margin-left: 13rem;
+        background-color: blue;
+    }
+}
