@@ -1,6 +1,8 @@
 import axios from 'axios';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import React, { useState } from 'react';
-
+import CKEditorComponent from './CKEditorComponent';
 const AddBlog = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
@@ -45,6 +47,7 @@ const AddBlog = () => {
             alert('Failed to add blog');
         }
     };
+    
 
     return (
         <form onSubmit={handleSubmit}>
@@ -60,6 +63,7 @@ const AddBlog = () => {
                 <label>Image File:</label>
                 <input type="file" onChange={(e) => setImageFile(e.target.files[0])} />
             </div>
+            <CKEditorComponent/>
             <button type="submit">Add Blog</button>
         </form>
     );
