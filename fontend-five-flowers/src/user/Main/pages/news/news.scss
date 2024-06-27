@@ -8,13 +8,13 @@
 body, html {
   width: 100%;
   height: 100%;
-}
+} 
 
 .news-container {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 80px;
   margin-top: 10rem;
   padding: 0;
 
@@ -73,7 +73,8 @@ body, html {
     display: flex;
     flex-wrap: wrap;
     gap: 60px; /* Thay đổi khoảng cách giữa các blog-item */
-    width: 100%;
+    width: 90%;
+    margin: auto;
     justify-content: center;
     padding: 0 20px;
   }
@@ -91,6 +92,7 @@ body, html {
     .blog-image {
       width: 100%;
       height: 500px;
+      cursor: pointer;
       object-fit: cover;
       border-radius: 0;
     }
@@ -119,6 +121,7 @@ body, html {
       h2 {
         margin: 0 0 10px;
         font-size: 1.5em;
+        cursor: pointer;
         color: #333;
         transition: color 0.3s ease;
 
