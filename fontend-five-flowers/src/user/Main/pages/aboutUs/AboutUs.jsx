@@ -4,12 +4,14 @@ import "./AboutUs.scss";
 const AboutUs = () => {
   return (
     <div className="aboutus-container">
-      <header className="aboutus-header">
-        <h1>ABOUT US</h1>
-        <nav>
-          <a href="/">Home</a> / <span>About Us</span>
-        </nav>
-      </header>
+      <div className="aboutus-header-container">
+        <header className="aboutus-header">
+          <h1>ABOUT US</h1>
+          <nav>
+            <a href="/">Home</a> <span>/</span> <span>About Us</span>
+          </nav>
+        </header>
+      </div>
 
       <section className="aboutus-images">
         <div className="aboutus-section-container">
@@ -63,7 +65,13 @@ const AboutUs = () => {
       </section>
 
       <section className="aboutus-components">
+      <div className="aboutus-section-container-subh2">
+            <p>SUSPENSION</p>
+          </div>
         <div className="aboutus-section-container">
+          <div className="aboutus-section-container-subh2">
+            <p>SUSPENSION</p>
+          </div>
           <h2>Suspension Components</h2>
           <div className="aboutus-component-list">
             <div className="aboutus-component">
