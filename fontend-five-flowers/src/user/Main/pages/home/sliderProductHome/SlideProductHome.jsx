@@ -5,7 +5,8 @@ import { IoIosSearch } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Navigation } from "swiper/modules";
+import "swiper/css/autoplay"; // Import autoplay styles
+import { Navigation, Autoplay } from "swiper/modules"; // Import Autoplay module
 import { Swiper, SwiperSlide } from "swiper/react";
 import "./slideProductHome.scss";
 
@@ -42,7 +43,8 @@ const SlideProductHome = () => {
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
           }}
-          modules={[Navigation]}
+          autoplay={{ delay: 2000 }} // Add autoplay configuration
+          modules={[Navigation, Autoplay]} // Include Autoplay module
           breakpoints={{
             320: {
               slidesPerView: 1,
