@@ -19,8 +19,9 @@ const Footer = () => {
         </div>
         <h2 className="subscribe-title">Subscribe Our Newsletter</h2>
         <div className="subscribe-form">
-          <input type="email" placeholder="Your email address" />
-          <button>SIGN UP</button>
+         <div className='subscribe-group'> 
+          <input type="email" placeholder="Your email address"/>
+         <button>SIGN UP</button></div>
         </div>
         <div className="social-links">
           <a
