@@ -1,17 +1,19 @@
 import axios from 'axios';
 import { motion } from "framer-motion";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
 import "swiper/css";
+import "swiper/css/autoplay";
 import "swiper/css/navigation";
-import "swiper/css/autoplay"; // Import autoplay styles
-import { Navigation, Autoplay } from "swiper/modules"; // Import Autoplay module
+import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
+import { CartContext } from '../../../header/components/cart/cartContext/CartProvider';
 import "./slideProductHome.scss";
 
 const SlideProductHome = () => {
   const [products, setProducts] = useState([]);
+  const { addToCart, isLoggedIn } = useContext(CartContext); // Use CartContext
 
   useEffect(() => {
     axios.get('http://localhost:8080/api/v1/products/all', {
@@ -26,6 +28,15 @@ const SlideProductHome = () => {
       })
       .catch(error => console.error('Error fetching products:', error));
   }, []);
+
+  const handleAddToCart = (product) => {
+    if (isLoggedIn) {
+      addToCart(product);
+      alert("Product added to cart!");
+    } else {
+      alert("Please log in to add products to your cart.");
+    }
+  };
 
   return (
     <div className="slide-product-home-container">
@@ -43,8 +54,8 @@ const SlideProductHome = () => {
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
           }}
-          autoplay={{ delay: 2000 }} // Add autoplay configuration
-          modules={[Navigation, Autoplay]} // Include Autoplay module
+          autoplay={{ delay: 2000 }}
+          modules={[Navigation, Autoplay]}
           breakpoints={{
             320: {
               slidesPerView: 1,
@@ -105,7 +116,7 @@ const SlideProductHome = () => {
                     }}
                     transition={{ duration: 0.5 }}
                   >
-                    <div className="icon-slide-product">
+                    <div className="icon-slide-product" onClick={() => handleAddToCart(product)}>
                       <IoCartOutline className="icon" />
                     </div>
                     <div className="icon-slide-product">

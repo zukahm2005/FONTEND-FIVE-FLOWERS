@@ -4,7 +4,7 @@ import "./component.scss";
 import IconContextCart from "./iconContextCart/IconContextCart";
 import IconContextProfile from "./iconContextProfile/iconContextProfile";
 import Profile from "./profile/Profile";
-const Component = ({ showDrawer }) => {
+const Component = ({ showDrawer, cart }) => {
   return (
     <div className="component-container">
       <div
@@ -17,7 +17,7 @@ const Component = ({ showDrawer }) => {
       </div>
       <div
         className="cart-component-container"
-        onClick={() => showDrawer(<Cart />)}
+        onClick={() => showDrawer(<Cart  cart={cart}  />)}
       >
         <p>
           {" "}

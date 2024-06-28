@@ -4,7 +4,7 @@ import Login from './login/Login';
 import './profile.scss';
 import Register from './register/Register';
 
-const Profile = () => {
+const Profile = ({cart}) => {
   const [isLogin, setIsLogin] = useState(true);
 
   const switchToRegister = () => {

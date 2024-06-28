@@ -5,7 +5,7 @@ import "./header.scss";
 import Logo from "./logo/Logo";
 import NavBar from "./navBar/NavBar";
 
-const Header = () => {
+const Header = ({cart}) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [drawerContent, setDrawerContent] = useState(null);
 
@@ -28,7 +28,7 @@ const Header = () => {
           <NavBar />
         </div>
         <div className="header-components">
-          <Component showDrawer={showDrawer} />
+          <Component showDrawer={showDrawer}  cart={cart}  />
         </div>
       </div>
       <Drawer

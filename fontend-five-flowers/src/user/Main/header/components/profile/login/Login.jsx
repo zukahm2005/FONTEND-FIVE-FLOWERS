@@ -1,6 +1,8 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../cart/cartContext/CartProvider";
+import { jwtDecode } from "jwt-decode"; // Correct named import
 import "./login.scss";
 
 const Login = ({ switchToRegister }) => {
@@ -8,7 +10,9 @@ const Login = ({ switchToRegister }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const [userInfo, setUserInfo] = useState(null); // State to store user info
   const navigate = useNavigate();
+  const { setIsLoggedIn } = useContext(CartContext); // Use CartContext
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -19,40 +23,31 @@ const Login = ({ switchToRegister }) => {
     }
 
     try {
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/user/login",
-        {
-          userName,
-          password,
-        }
-      );
-
-      if (response.data.token) {
-        const token = response.data.token;
+      const response = await axios.post("http://localhost:8080/api/v1/user/login", { userName, password });
+      const token = response.data.token;
+      if (token) {
         localStorage.setItem("token", token);
-        const decodedToken = JSON.parse(atob(token.split(".")[1]));
+        const decodedToken = jwtDecode(token); // Decode the token
+        console.log("Decoded Token:", decodedToken); // Debug log
+
+        // Extract user information from the token payload
         const roles = decodedToken.roles.split(",");
+        const userId = decodedToken.userId; // Extract userId
+        const userName = decodedToken.userName; // Extract userName
 
         setSuccess("Login successful");
         setError("");
-
-        // Clear input fields
-        setUserName("");
-        setPassword("");
+        setIsLoggedIn(true); // Set login status
+        setUserInfo({ userId, userName }); // Store user info
 
         setTimeout(() => {
-          if (roles.includes("ROLE_ADMIN")) {
-            navigate("/admin");
-          } else {
-            navigate("/home");
-          }
-        }, 2000); // Đợi 2 giây trước khi chuyển trang
+          navigate(roles.includes("ROLE_ADMIN") ? "/admin" : "/home");
+        }, 2000);
       } else {
         setError("Invalid username or password");
         setSuccess("");
       }
     } catch (error) {
-      console.error("Invalid login credentials", error);
       setError("Invalid username or password");
       setSuccess("");
     }
@@ -109,6 +104,12 @@ const Login = ({ switchToRegister }) => {
           {success && <p style={{ color: "green" }}>{success}</p>}
         </form>
       </div>
+      {userInfo && (
+        <div className="user-info">
+          <p>Welcome, {userInfo.userName}</p>
+          <p>User ID: {userInfo.userId}</p>
+        </div>
+      )}
     </div>
   );
 };

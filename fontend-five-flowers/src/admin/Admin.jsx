@@ -7,6 +7,8 @@ import BlogAdmin from "./mainAdmin/contentAdmin/blogAdmin/BlogAdmin";
 import BrandAdmin from "./mainAdmin/contentAdmin/brandAdmin/BrandAdmin";
 import CategoryAdmin from "./mainAdmin/contentAdmin/categoryAdmin/CategoryAdmin";
 import HomeAdmin from "./mainAdmin/contentAdmin/homeAdmin/HomeAdmin";
+import OrderAdmin from "./mainAdmin/contentAdmin/orderAdmin/OrderAdmin";
+import OrderDetails from "./mainAdmin/contentAdmin/orderAdmin/getAllOrderAdmin/orderListAdminDetails/OrderListAdminDetails";
 import ProductAdmin from "./mainAdmin/contentAdmin/productAdmin/ProductAdmin";
 import SideBarAdmin from "./mainAdmin/sideBarAdmin/SideBarAdmin";
 
@@ -36,6 +38,8 @@ const Admin = () => {
             <Route path="product/*" element={<ProductAdmin />} />
             <Route path="brand/*" element={<BrandAdmin />} />
             <Route path="category/*" element={<CategoryAdmin />} />
+            <Route path="orders/*" element={<OrderAdmin />} />
+            <Route path="orders/:id" element={<OrderDetails />} />
           </Routes>
         </div>
       </div>
