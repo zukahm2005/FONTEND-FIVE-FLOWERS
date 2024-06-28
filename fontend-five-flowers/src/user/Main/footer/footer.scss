@@ -1,6 +1,6 @@
 .footer {
-  background-color: #f9ece9;
-  padding: 150px 50px; 
+  background-color: #f5e1dc;
+  padding: 25px 10px; 
   text-align: center;
 
   .footer-content {
@@ -22,35 +22,42 @@
       justify-content: center;
       align-items: center;
       margin-bottom: 30px; 
-
-      input[type="email"] {
-        padding: 30px 40px; 
-        border: none;
-        outline: none;
-        width: 350px; 
-        border-radius: 40px 0 0 40px;
-        font-size: 18px; 
-        background-color: #fff;
-        border: 1px solid #ddd;
-      }
-
-      button {
-        padding: 30px 40px;
-        background: linear-gradient(45deg, #f46b45, #eea849);
-        border: none;
-        border-radius: 0 30px 30px 0;
-        color: white;
-        cursor: pointer;
-        font-size: 18px; 
+    
+      .subscribe-group {
+        display: flex;
+        background: white;
+        border-radius: 30px;
+        overflow: hidden; 
+    
+        input[type="email"] {
+          padding: 15px 25px; 
+          border: none;
+          outline: none;
+          width: 350px; 
+          font-size: 18px; 
+          border-radius: 30px;
+        }
+    
+        button {
+          padding: 15px 25px;
+          background: linear-gradient(45deg, #f46b45, #eea849);
+          border: none;
+          border-radius: 30px;
+          color: white;
+          cursor: pointer;
+          font-size: 18px; 
+        }
       }
     }
+    
+    
 
     .social-links {
       margin: 30px 0; 
 
       a {
         margin: 0 30px; 
-        font-size: 30px; 
+        font-size: 20px; 
         color: #333;
         text-decoration: none;
 
@@ -62,7 +69,7 @@
 
     .footer-links {
       font-weight: 600;
-      font-size: 23px; 
+      font-size: 18px; 
       margin-bottom: 30px; 
 
       a {
@@ -84,13 +91,14 @@
     }
 
     .horizontal-line {
-      border-top: 3px solid #ddd;
+      border-top: 1px solid #de5115;
       margin: 30px 0; 
     }
 
     .copyright {
-      font-size: 18px; 
+      font-size: 15px; 
       color: #292828;
+
     }
   }
 }
