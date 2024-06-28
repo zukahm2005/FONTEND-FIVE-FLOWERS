@@ -65,9 +65,6 @@ const AboutUs = () => {
       </section>
 
       <section className="aboutus-components">
-      <div className="aboutus-section-container-subh2">
-            <p>SUSPENSION</p>
-          </div>
         <div className="aboutus-section-container">
           <div className="aboutus-section-container-subh2">
             <p>SUSPENSION</p>

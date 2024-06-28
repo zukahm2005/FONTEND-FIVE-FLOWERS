@@ -68,6 +68,7 @@
             justify-content: center;
             opacity: 0;
             transition: opacity 0.3s ease;
+            
             h4 {
               font-size: 30px;
               padding-bottom: 1rem;
@@ -112,6 +113,7 @@
         left: 50%;
         transform: translate(-50%, -80%);
         z-index: 0;
+        padding-bottom: 2rem;
         p {
           font-size: 15rem;
           color: rgba(250, 250, 250, 0.9);
