@@ -1,0 +1,60 @@
+.sidebar-container-admin{
+    max-width: 80%;
+    margin: 2em auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .side-bar-admin-link{
+        max-width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+        cursor: pointer;
+        align-items: center;
+        padding: 0.5rem;
+
+        &.active {
+            background-color: #fafafa;
+
+            .side-bar-admin-icon p,
+            .side-bar-admin-page p {
+                font-weight: bold;
+            }
+        }
+
+        &:hover {
+            background-color: #fafafa;
+
+            .side-bar-admin-icon p,
+            .side-bar-admin-page p {
+                font-weight: bold;
+            }
+        }
+
+        .side-bar-admin-icon{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.1rem 0.3rem;
+            
+
+            p{
+                font-size: 1.4rem;
+            }
+        }
+        .side-bar-admin-page{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0rem 0.3rem;
+
+            p{
+                font-size: 1.1rem;
+                font-weight: 500;
+            }
+        }
+    }
+}

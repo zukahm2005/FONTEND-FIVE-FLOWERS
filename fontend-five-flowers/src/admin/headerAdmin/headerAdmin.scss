@@ -3,7 +3,7 @@
     height: 50px; // Chiều cao 100% chiều cao của cửa sổ trình duyệt
     display: flex;
     flex-direction: column;
-
+    background-color: black;
     .header-main-admin {
         display: flex;
         flex-direction: row;
@@ -13,10 +13,13 @@
        
 
         .logo-header-admin {
-            padding-left: 1rem;     
+            padding-left: 4rem;     
         }
         .profile-header-admin {
-            padding-right: 1rem;
+            padding-right: 3rem;
+            p{
+                color: white;
+            }
         }
     }
 }

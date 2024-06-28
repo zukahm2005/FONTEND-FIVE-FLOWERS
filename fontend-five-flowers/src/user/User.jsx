@@ -32,7 +32,6 @@ const User = () => {
           <Route path="/aboutUs" element={<AboutUs />} />
           <Route path="/product/:id" element={<ProductDetail />} />
           <Route path="/profile" element={<Profile />} />
-          
         </Routes>
       </div>
       <Footer />
