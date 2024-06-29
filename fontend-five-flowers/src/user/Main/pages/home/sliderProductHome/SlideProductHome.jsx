@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
+import { notification } from 'antd';
 import "swiper/css";
 import "swiper/css/autoplay";
 import "swiper/css/navigation";
@@ -32,9 +33,15 @@ const SlideProductHome = () => {
   const handleAddToCart = (product) => {
     if (isLoggedIn) {
       addToCart(product);
-      alert("Product added to cart!");
+      notification.success({
+        message: 'Added to Cart',
+        description: `${product.name} has been added to your cart.`,
+      });
     } else {
-      alert("Please log in to add products to your cart.");
+      notification.error({
+        message: 'Login Required',
+        description: 'Please log in to add products to your cart.',
+      });
     }
   };
 

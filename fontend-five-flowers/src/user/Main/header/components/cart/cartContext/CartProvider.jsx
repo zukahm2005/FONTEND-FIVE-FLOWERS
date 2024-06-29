@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import axios from "axios";
+import { notification } from 'antd';
 
 export const CartContext = createContext();
 
@@ -38,7 +39,10 @@ const CartProvider = ({ children }) => {
   const handleCheckout = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Please log in to proceed with checkout.");
+      notification.error({
+        message: 'Login Required',
+        description: 'Please log in to proceed with checkout.',
+      });
       return;
     }
 
@@ -60,11 +64,17 @@ const CartProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      alert("Order placed successfully!");
+      notification.success({
+        message: 'Order Placed',
+        description: 'Your order has been placed successfully!',
+      });
       setCart([]);
     } catch (error) {
       console.error("Error placing order:", error);
-      alert("Unable to place order.");
+      notification.error({
+        message: 'Order Error',
+        description: 'Unable to place your order. Please try again.',
+      });
     }
   };
 
