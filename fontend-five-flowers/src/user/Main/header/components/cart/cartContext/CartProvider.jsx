@@ -78,13 +78,18 @@ const CartProvider = ({ children }) => {
     }
   };
 
-  const totalPrice = cart.reduce((total, product) => total + product.totalPrice, 0);
+  const removeFromCart = (productId) => {
+  setCart((prevCart) => prevCart.filter((item) => item.productId !== productId));
+};
 
-  return (
-    <CartContext.Provider value={{ cart, addToCart, updateQuantity, handleCheckout, isLoggedIn, setIsLoggedIn, totalPrice }}>
-      {children}
-    </CartContext.Provider>
-  );
+const totalPrice = cart.reduce((total, product) => total + product.totalPrice, 0);
+
+return (
+  <CartContext.Provider value={{ cart, addToCart, updateQuantity, handleCheckout, removeFromCart, isLoggedIn, setIsLoggedIn, totalPrice }}>
+    {children}
+  </CartContext.Provider>
+);
+
 };
 
 export default CartProvider;

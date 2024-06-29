@@ -1,9 +1,10 @@
+import { motion } from "framer-motion";
 import React, { useContext } from "react";
 import "./cart.scss";
 import { CartContext } from "./cartContext/CartProvider";
 
 const Cart = () => {
-  const { cart, updateQuantity, handleCheckout, totalPrice } =
+  const { cart, updateQuantity, handleCheckout, totalPrice, removeFromCart } =
     useContext(CartContext);
 
   const handleQuantityChange = (productId, quantity) => {
@@ -21,12 +22,18 @@ const Cart = () => {
         {cart.length > 0 ? (
           <div>
             {cart.map((item, index) => (
-              <div
-                className="content-main-cart-container"
-                key={index}
-                
-              >
-                <div className="details-content-cart-container">
+              <div className="content-main-cart-container" key={index}>
+                <motion.div
+                  className="details-content-cart-container"
+                >
+                  <motion.div
+                    className="delete-button"
+                    initial={{ right: "-30px" }}
+                    whileHover={{ right: "10px" }}
+                    onClick={() => removeFromCart(item.productId)}
+                  >
+                    X
+                  </motion.div>
                   <div className="top-content-cart">
                     <div className="image-cart-container">
                       {item.productImages[0]?.imageUrl && (
@@ -88,7 +95,7 @@ const Cart = () => {
                       </div>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               </div>
             ))}
           </div>
