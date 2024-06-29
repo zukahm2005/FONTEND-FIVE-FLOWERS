@@ -7,6 +7,7 @@ import Profile from "./Main/header/components/profile/Profile";
 import AboutUs from "./Main/pages/aboutUs/AboutUs";
 import Home from "./Main/pages/home/Home";
 import News from "./Main/pages/news/News";
+import BlogDetail from "./Main/pages/news/Blog/BlogDetail";
 import Shop from "./Main/pages/shop/Shop";
 import ProductDetail from "./Main/pages/shop/productDetails/ProductDetails";
 import "./user.scss";
@@ -35,6 +36,7 @@ const User = () => {
               element={<Home setCart={setCart} cart={cart} />}
             />
             <Route path="/news" element={<News />} />
+            <Route path="/news/:blogId" element={<BlogDetail/>}/>
             <Route path="/shop" element={<Shop />} />
             <Route path="/aboutUs" element={<AboutUs />} />
             <Route path="/product/:id" element={<ProductDetail />} />

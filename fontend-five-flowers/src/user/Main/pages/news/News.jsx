@@ -1,18 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { FaCalendarAlt } from 'react-icons/fa'; // Import các biểu tượng bạn cần
-import { FaArrowLeft, FaArrowRight } from 'react-icons/fa'; // Import các biểu tượng mũi tên
-import './news.scss'; // Đường dẫn đến file SCSS của bạn
+import { FaCalendarAlt, FaArrowLeft, FaArrowRight } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import './news.scss';
 
 const News = () => {
     const [blogs, setBlogs] = useState([]);
     const [currentPage, setCurrentPage] = useState(1);
-    const blogsPerPage = 4; // Số bài blog mỗi trang
+    const blogsPerPage = 4;
 
     useEffect(() => {
         const fetchBlogs = async () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                console.error('No token found');
+                return;
+            }
+
             try {
-                const response = await axios.get('http://localhost:8080/api/v1/blogs/all');
+                const response = await axios.get('http://localhost:8080/api/v1/blogs/all', {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 setBlogs(response.data.content);
             } catch (error) {
                 console.error(error);
@@ -22,7 +32,6 @@ const News = () => {
         fetchBlogs();
     }, []);
 
-    // Logic phân trang
     const indexOfLastBlog = currentPage * blogsPerPage;
     const indexOfFirstBlog = indexOfLastBlog - blogsPerPage;
     const currentBlogs = blogs.slice(indexOfFirstBlog, indexOfLastBlog);
@@ -65,7 +74,7 @@ const News = () => {
                             </div>
                             <h2>{blog.title}</h2>
                             <p>{blog.content.substring(0, 200)}...</p>
-                            <a href={`/blog/${blog.blogId}`} className="read-more-btn">READ MORE</a>
+                            <Link to={`/news/${blog.blogId}`} className="read-more-btn">READ MORE</Link>
                         </div>
                     </div>
                 ))}
