@@ -1,0 +1,50 @@
+.media-list {
+    width: 90%;
+    padding-left: 30rem;
+}
+
+.media-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.media-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.media-table th, .media-table td {
+    border: 1px solid #ccc;
+    padding: 10px;
+    text-align: left;
+}
+
+.media-table th {
+    background-color: #f4f4f4;
+}
+
+.media-table td img {
+    cursor: pointer;
+}
+
+.pagination {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+}
+
+.pagination button {
+    padding: 5px 10px;
+    margin: 0 5px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.pagination button:disabled {
+    background-color: #6c757d;
+}

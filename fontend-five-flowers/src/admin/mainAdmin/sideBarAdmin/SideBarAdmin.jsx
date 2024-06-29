@@ -140,6 +140,22 @@ const SideBarAdmin = () => {
           </div>
         </motion.div>
       </Link>
+      <Link to="media">
+        <motion.div
+          className={`side-bar-admin-link ${isActive("media") ? "active" : ""}`}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <div className="side-bar-admin-icon">
+            <p>
+              <BsCart2 />
+            </p>
+          </div>
+          <div className="side-bar-admin-page">
+            <p>Media</p>
+          </div>
+        </motion.div>
+      </Link>
     </div>
   );
 };
