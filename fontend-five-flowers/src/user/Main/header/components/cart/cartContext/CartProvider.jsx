@@ -15,13 +15,30 @@ const CartProvider = ({ children }) => {
   }, []);
 
   const addToCart = (product) => {
-    setCart((prevCart) => [...prevCart, product]);
+    setCart((prevCart) => {
+      const productInCart = prevCart.find((item) => item.productId === product.productId);
+      if (productInCart) {
+        return prevCart.map((item) =>
+          item.productId === product.productId ? { ...item, quantity: item.quantity + 1, totalPrice: (item.quantity + 1) * item.price } : item
+        );
+      } else {
+        return [...prevCart, { ...product, quantity: 1, totalPrice: product.price }];
+      }
+    });
+  };
+
+  const updateQuantity = (productId, quantity) => {
+    setCart((prevCart) =>
+      prevCart.map((item) =>
+        item.productId === productId ? { ...item, quantity, totalPrice: quantity * item.price } : item
+      )
+    );
   };
 
   const handleCheckout = async () => {
     const token = localStorage.getItem("token");
     if (!token) {
-      alert("Vui lòng đăng nhập để thanh toán.");
+      alert("Please log in to proceed with checkout.");
       return;
     }
 
@@ -30,8 +47,8 @@ const CartProvider = ({ children }) => {
       const userId = decodedToken.userId;
 
       const orderDetails = cart.map((product) => ({
-        product: { productId: product.productId },  // Sửa lại để chắc chắn rằng có productId
-        quantity: 1,
+        product: { productId: product.productId },
+        quantity: product.quantity,
         price: product.price,
       }));
 
@@ -43,16 +60,18 @@ const CartProvider = ({ children }) => {
           Authorization: `Bearer ${token}`,
         },
       });
-      alert("Đặt hàng thành công!");
+      alert("Order placed successfully!");
       setCart([]);
     } catch (error) {
-      console.error("Lỗi khi đặt hàng:", error);
-      alert("Không thể đặt hàng.");
+      console.error("Error placing order:", error);
+      alert("Unable to place order.");
     }
   };
 
+  const totalPrice = cart.reduce((total, product) => total + product.totalPrice, 0);
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, handleCheckout, isLoggedIn, setIsLoggedIn }}>
+    <CartContext.Provider value={{ cart, addToCart, updateQuantity, handleCheckout, isLoggedIn, setIsLoggedIn, totalPrice }}>
       {children}
     </CartContext.Provider>
   );
