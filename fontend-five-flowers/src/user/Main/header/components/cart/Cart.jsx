@@ -1,16 +1,22 @@
 import { motion } from "framer-motion";
 import React, { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import "./cart.scss";
 import { CartContext } from "./cartContext/CartProvider";
 
 const Cart = () => {
   const { cart, updateQuantity, handleCheckout, totalPrice, removeFromCart } =
     useContext(CartContext);
+  const navigate = useNavigate();
 
   const handleQuantityChange = (productId, quantity) => {
     if (quantity > 0) {
       updateQuantity(productId, quantity);
     }
+  };
+
+  const handleNavigateToProductDetails = (productId) => {
+    navigate(`/product/${productId}`);
   };
 
   return (
@@ -22,20 +28,23 @@ const Cart = () => {
         {cart.length > 0 ? (
           <div>
             {cart.map((item, index) => (
-              <div className="content-main-cart-container" key={index}>
-                <motion.div
-                  className="details-content-cart-container"
-                >
-                  <motion.div
-                    className="delete-button"
-                    initial={{ right: "-30px" }}
-                    whileHover={{ right: "10px" }}
-                    onClick={() => removeFromCart(item.productId)}
-                  >
-                    X
-                  </motion.div>
+              <motion.div
+                className="content-main-cart-container"
+                key={index}
+                whileHover="hover"
+              >
+                <motion.div className="details-content-cart-container">
                   <div className="top-content-cart">
-                    <div className="image-cart-container">
+                    <motion.div
+                      className="button-delete-cart"
+                      variants={{
+                        hover: { x: 10 }, // Chỉ áp dụng cho nút xóa
+                      }}
+                      onClick={() => removeFromCart(item.productId)}
+                    >
+                      <p>X</p>
+                    </motion.div>
+                    <div className="image-cart-container" onClick={() => handleNavigateToProductDetails(item.productId)}>
                       {item.productImages[0]?.imageUrl && (
                         <img
                           src={`http://localhost:8080/api/v1/images/${item.productImages[0].imageUrl}`}
@@ -44,7 +53,7 @@ const Cart = () => {
                       )}
                     </div>
                     <div className="details-content-cart">
-                      <div className="name-content-cart">
+                      <div className="name-content-cart" onClick={() => handleNavigateToProductDetails(item.productId)}>
                         <p>{item.name}</p>
                       </div>
                       <div className="desc-content-cart">
@@ -60,43 +69,34 @@ const Cart = () => {
                       </div>
                     </div>
                   </div>
-
                   <div className="cacul-container-content-cart">
                     <div className="total-each-product-cart">
                       <p>Rs. {item.totalPrice}</p>
                     </div>
                     <div className="cacul-cart">
-                      <div className="cacul-quantity-content-cart">
-                        <p
-                          onClick={() =>
-                            handleQuantityChange(
-                              item.productId,
-                              item.quantity - 1
-                            )
-                          }
-                        >
-                          -
-                        </p>
+                      <div
+                        className="cacul-quantity-content-cart"
+                        onClick={() =>
+                          handleQuantityChange(item.productId, item.quantity - 1)
+                        }
+                      >
+                        <p>-</p>
                       </div>
                       <div className="quantity-content-cart">
                         <p>{item.quantity}</p>
                       </div>
-                      <div className="cacul-quantity-content-cart">
-                        <p
-                          onClick={() =>
-                            handleQuantityChange(
-                              item.productId,
-                              item.quantity + 1
-                            )
-                          }
-                        >
-                          +
-                        </p>
+                      <div
+                        className="cacul-quantity-content-cart"
+                        onClick={() =>
+                          handleQuantityChange(item.productId, item.quantity + 1)
+                        }
+                      >
+                        <p>+</p>
                       </div>
                     </div>
                   </div>
                 </motion.div>
-              </div>
+              </motion.div>
             ))}
           </div>
         ) : (

@@ -20,10 +20,12 @@ const CartProvider = ({ children }) => {
       const productInCart = prevCart.find((item) => item.productId === product.productId);
       if (productInCart) {
         return prevCart.map((item) =>
-          item.productId === product.productId ? { ...item, quantity: item.quantity + 1, totalPrice: (item.quantity + 1) * item.price } : item
+          item.productId === product.productId 
+            ? { ...item, quantity: item.quantity + product.quantity, totalPrice: (item.quantity + product.quantity) * item.price } 
+            : item
         );
       } else {
-        return [...prevCart, { ...product, quantity: 1, totalPrice: product.price }];
+        return [...prevCart, { ...product, totalPrice: product.quantity * product.price }];
       }
     });
   };
@@ -79,17 +81,16 @@ const CartProvider = ({ children }) => {
   };
 
   const removeFromCart = (productId) => {
-  setCart((prevCart) => prevCart.filter((item) => item.productId !== productId));
-};
+    setCart((prevCart) => prevCart.filter((item) => item.productId !== productId));
+  };
 
-const totalPrice = cart.reduce((total, product) => total + product.totalPrice, 0);
+  const totalPrice = cart.reduce((total, product) => total + product.totalPrice, 0);
 
-return (
-  <CartContext.Provider value={{ cart, addToCart, updateQuantity, handleCheckout, removeFromCart, isLoggedIn, setIsLoggedIn, totalPrice }}>
-    {children}
-  </CartContext.Provider>
-);
-
+  return (
+    <CartContext.Provider value={{ cart, addToCart, updateQuantity, handleCheckout, removeFromCart, isLoggedIn, setIsLoggedIn, totalPrice }}>
+      {children}
+    </CartContext.Provider>
+  );
 };
 
 export default CartProvider;

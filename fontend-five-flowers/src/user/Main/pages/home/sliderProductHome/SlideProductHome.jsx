@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { IoIosSearch } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
 import { notification } from 'antd';
@@ -15,6 +16,7 @@ import "./slideProductHome.scss";
 const SlideProductHome = () => {
   const [products, setProducts] = useState([]);
   const { addToCart, isLoggedIn } = useContext(CartContext); // Use CartContext
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('http://localhost:8080/api/v1/products/all', {
@@ -30,7 +32,8 @@ const SlideProductHome = () => {
       .catch(error => console.error('Error fetching products:', error));
   }, []);
 
-  const handleAddToCart = (product) => {
+  const handleAddToCart = (e, product) => {
+    e.stopPropagation(); // Ngăn chặn sự kiện lan truyền
     if (isLoggedIn) {
       addToCart(product);
       notification.success({
@@ -43,6 +46,10 @@ const SlideProductHome = () => {
         description: 'Please log in to add products to your cart.',
       });
     }
+  };
+
+  const handleNavigateToProductDetails = (productId) => {
+    navigate(`/product/${productId}`);
   };
 
   return (
@@ -94,7 +101,7 @@ const SlideProductHome = () => {
                   rest: { scale: 1 },
                 }}
               >
-                <motion.div className="image-container">
+                <motion.div className="image-container" onClick={() => handleNavigateToProductDetails(product.productId)}>
                   {product.productImages && product.productImages[0] && (
                     <div className="image1-container">
                       <img
@@ -123,7 +130,7 @@ const SlideProductHome = () => {
                     }}
                     transition={{ duration: 0.5 }}
                   >
-                    <div className="icon-slide-product" onClick={() => handleAddToCart(product)}>
+                    <div className="icon-slide-product" onClick={(e) => handleAddToCart(e, product)}>
                       <IoCartOutline className="icon" />
                     </div>
                     <div className="icon-slide-product">

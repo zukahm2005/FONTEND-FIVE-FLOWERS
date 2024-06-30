@@ -65,6 +65,13 @@ const Register = ({ switchToLogin }) => {
       );
       setSuccess("User registered successfully");
       setError("");
+
+      // Clear input fields
+      setUserName("");
+      setPassword("");
+      setConfirmPassword("");
+      setEmail("");
+
       navigate("/");
     } catch (error) {
       console.error("Registration failed", error);

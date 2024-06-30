@@ -6,8 +6,8 @@ import CartProvider from "./Main/header/components/cart/cartContext/CartProvider
 import Profile from "./Main/header/components/profile/Profile";
 import AboutUs from "./Main/pages/aboutUs/AboutUs";
 import Home from "./Main/pages/home/Home";
-import News from "./Main/pages/news/News";
 import BlogDetail from "./Main/pages/news/Blog/BlogDetail";
+import News from "./Main/pages/news/News";
 import Shop from "./Main/pages/shop/Shop";
 import ProductDetail from "./Main/pages/shop/productDetails/ProductDetails";
 import "./user.scss";
@@ -41,6 +41,7 @@ const User = () => {
             <Route path="/aboutUs" element={<AboutUs />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/product-details" element={<ProductDetail/>}/>
           </Routes>
         </div>
         <Footer />

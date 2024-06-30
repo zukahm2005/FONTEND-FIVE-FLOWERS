@@ -1,8 +1,8 @@
 import axios from "axios";
+import {jwtDecode} from "jwt-decode"; // Correct named import
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../cart/cartContext/CartProvider";
-import { jwtDecode } from "jwt-decode"; // Correct named import
 import "./login.scss";
 
 const Login = ({ switchToRegister }) => {
@@ -39,6 +39,10 @@ const Login = ({ switchToRegister }) => {
         setError("");
         setIsLoggedIn(true); // Set login status
         setUserInfo({ userId, userName }); // Store user info
+
+        // Clear input fields
+        setUserName("");
+        setPassword("");
 
         setTimeout(() => {
           navigate(roles.includes("ROLE_ADMIN") ? "/admin" : "/home");
@@ -104,12 +108,6 @@ const Login = ({ switchToRegister }) => {
           {success && <p style={{ color: "green" }}>{success}</p>}
         </form>
       </div>
-      {userInfo && (
-        <div className="user-info">
-          <p>Welcome, {userInfo.userName}</p>
-          <p>User ID: {userInfo.userId}</p>
-        </div>
-      )}
     </div>
   );
 };

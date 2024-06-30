@@ -1,0 +1,44 @@
+.product-details-container{
+    background: url(https://bikex-club.myshopify.com/cdn/shop/files/blog_detail-4.jpg?v=1598503894);
+    object-fit: cover;
+    background-size: cover;
+    
+    max-width: 100%;
+    .content-product-details{
+        max-width: 100%;
+        margin-top: 5rem;
+
+        .container-text-center-product-details{
+            text-align: center;
+            padding-top: 3rem;
+            height: 175px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            background-color: rgba(92, 90, 92, 0.8);
+            .main-text-center{
+                
+                h1{
+                    font-size: 2.2rem;
+                    color: white;
+                }
+            }
+            .nav-main-text-center{
+                color: white;
+                .breadcrumb{
+                    a{  
+
+                        color: white;
+                        &:hover{
+                            color: #fa422d;
+                            transition: 0.3s all ease-in-out;
+                        }
+                    }
+                }
+            }
+        }
+        .shopify-section-template{
+            background-color: white;
+        }
+    }
+}
