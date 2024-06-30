@@ -11,6 +11,7 @@ import News from "./Main/pages/news/News";
 import Shop from "./Main/pages/shop/Shop";
 import ProductDetail from "./Main/pages/shop/productDetails/ProductDetails";
 import "./user.scss";
+import ProductDetails from "./Main/pages/shop/productDetails/ProductDetails";
 
 const User = () => {
   const [cart, setCart] = useState([]);
@@ -41,8 +42,8 @@ const User = () => {
             <Route path="/aboutUs" element={<AboutUs />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/product-details" element={<ProductDetail/>}/>
-          </Routes>
+            <Route path="/product/:productId" element={<ProductDetails />} />
+            </Routes>
         </div>
         <Footer />
       </div>

@@ -1,44 +1,183 @@
-.product-details-container{
-    background: url(https://bikex-club.myshopify.com/cdn/shop/files/blog_detail-4.jpg?v=1598503894);
-    object-fit: cover;
-    background-size: cover;
-    
-    max-width: 100%;
-    .content-product-details{
-        max-width: 100%;
-        margin-top: 5rem;
+.product-details-container {
+  background: url(https://bikex-club.myshopify.com/cdn/shop/files/blog_detail-4.jpg?v=1598503894);
+  object-fit: cover;
+  background-size: cover;
+  max-width: 100%;
 
-        .container-text-center-product-details{
-            text-align: center;
-            padding-top: 3rem;
-            height: 175px;
+  .content-product-details {
+    max-width: 100%;
+    margin: 5rem 0;
+
+    .container-text-center-product-details {
+      text-align: center;
+      padding-top: 3rem;
+      height: 175px;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      background-color: rgba(92, 90, 92, 0.7);
+
+      .main-text-center {
+        h1 {
+          font-size: 2.2rem;
+          color: white;
+        }
+      }
+
+      .nav-main-text-center {
+        color: white;
+
+        .breadcrumb {
+          a {
+            color: white;
+
+            &:hover {
+              color: #fa422d;
+              transition: 0.3s all ease-in-out;
+            }
+          }
+        }
+      }
+    }
+
+    .shopify-section-template {
+      background-color: white;
+    }
+
+    .content-container-details-product {
+      padding-top: 3rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background-color: white;
+    
+
+      .img-details-product {
+        text-align: right;
+        .main-slider,
+        .thumbnail-slider {
+          width: 550px;
+          margin-left: 40%;
+          
+        }
+
+        .slick-slider {
+          margin-bottom: 20px;
+        }
+
+        .slick-slide img {
+          width: 100%;
+          height: auto;
+        }
+
+        .thumbnail-slide.active img {
+          border: 2px solid #fa422d; /* Add border color when active */
+        }
+
+        .thumbnail-slide {
+          img {
+            width: 100px;
+            height: 100px;
+            cursor: pointer;
+            border: 2px solid transparent; /* Default border color */
+          }
+        }
+      }
+
+      .content-main-details-product {
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        margin-left: 10%;
+
+        .name-details-product {
+          font-size: 1.5rem;
+        }
+
+        .content-below-details {
+          display: flex;
+          flex-direction: row;
+          gap: 3rem;
+
+          .title-content-below-details1 {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            background-color: rgba(92, 90, 92, 0.8);
-            .main-text-center{
-                
-                h1{
-                    font-size: 2.2rem;
-                    color: white;
-                }
-            }
-            .nav-main-text-center{
-                color: white;
-                .breadcrumb{
-                    a{  
+            gap: 2.5rem;
 
-                        color: white;
-                        &:hover{
-                            color: #fa422d;
-                            transition: 0.3s all ease-in-out;
-                        }
-                    }
-                }
+            .title-content {
+              p {
+                font-size: 20px;
+                font-weight: 600;
+                color: #3c3a3b;
+              }
             }
+          }
+
+          .title-content-below-details2 {
+            display: flex;
+            flex-direction: column;
+            gap: 2.7rem;
+
+            .title1 {
+              p {
+                color: #fa422d;
+              }
+            }
+
+            .color-block {
+              width: 20px;
+              height: 20px;
+              border: 1px solid #ccc;
+              cursor: pointer;
+            }
+
+            .cacul-cart {
+              display: flex;
+              flex-direction: row;
+
+              .quantity-content-cart {
+                p {
+                  border: thin solid rgb(224, 224, 224);
+                  padding: 0 8px;
+                }
+              }
+
+              .cacul-quantity-content-cart1 {
+                p {
+                  border: thin solid rgb(231, 231, 231);
+                  padding: 0 8px;
+                  border-radius: 0.3rem 0rem 0rem 0.3rem;
+                  color: #fa422d;
+                  cursor: pointer;
+                }
+              }
+
+              .cacul-quantity-content-cart2 {
+                p {
+                  border: thin solid rgb(231, 231, 231);
+                  padding: 0 8px;
+                  border-radius: 0rem 0.3rem 0.3rem 0rem;
+                  color: #fa422d;
+                  cursor: pointer;
+                }
+              }
+            }
+
+            p {
+              font-size: 18px;
+            }
+          }
         }
-        .shopify-section-template{
-            background-color: white;
+
+        .add-to-cart-btn {
+          border-radius: 40px;
+
+          p {
+            font-size: 1rem;
+            color: white;
+            padding: 0.8rem 1.8rem;
+          }
         }
+      }
     }
+  }
 }
