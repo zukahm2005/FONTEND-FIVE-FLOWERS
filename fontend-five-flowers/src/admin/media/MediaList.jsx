@@ -1,10 +1,10 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import axios from 'axios';
 import './MediaList.scss';
 
 const MediaList = () => {
     const [mediaList, setMediaList] = useState([]);
-    const [selectedFile, setSelectedFile] = useState(null);
+    const [selectedFiles, setSelectedFiles] = useState([]);
     const [showEditModal, setShowEditModal] = useState(false);
     const [currentMedia, setCurrentMedia] = useState(null);
     const [newFileName, setNewFileName] = useState('');
@@ -24,14 +24,16 @@ const MediaList = () => {
     }, [fetchMedia]);
 
     const handleFileChange = (event) => {
-        setSelectedFile(event.target.files[0]);
+        setSelectedFiles(event.target.files);
     };
 
     const handleUpload = async () => {
-        if (!selectedFile) return;
+        if (selectedFiles.length === 0) return;
 
         const formData = new FormData();
-        formData.append('file', selectedFile);
+        for (let i = 0; i < selectedFiles.length; i++) {
+            formData.append('files', selectedFiles[i]);
+        }
 
         const token = localStorage.getItem('token');
 
@@ -44,15 +46,21 @@ const MediaList = () => {
             });
             console.log('Uploaded Media');
             fetchMedia(); // Fetch media again after upload
-            setSelectedFile(null);
+            setSelectedFiles([]);
         } catch (error) {
-            console.error('Error uploading file:', error);
+            console.error('Error uploading files:', error);
         }
     };
 
     const handleDelete = async (id) => {
+        const token = localStorage.getItem('token');
         try {
-            await axios.delete(`/api/v1/media/${id}`);
+            await axios.delete(`/api/v1/media/${id}`, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log('Deleted Media');
             fetchMedia(); // Fetch media again after delete
         } catch (error) {
             console.error('Error deleting media:', error);
@@ -66,8 +74,13 @@ const MediaList = () => {
     };
 
     const handleSave = async () => {
+        const token = localStorage.getItem('token');
         try {
-            await axios.put(`/api/v1/media/${currentMedia.id}`, { ...currentMedia, fileName: newFileName });
+            await axios.put(`/api/v1/media/${currentMedia.id}`, { ...currentMedia, fileName: newFileName }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
+                }
+            });
             fetchMedia(); // Fetch media again after save
             setShowEditModal(false);
         } catch (error) {
@@ -79,7 +92,7 @@ const MediaList = () => {
         <div className="media-list">
             <div className="media-header">
                 <h1>Media List</h1>
-                <input type="file" onChange={handleFileChange} />
+                <input type="file" multiple onChange={handleFileChange} />
                 <button onClick={handleUpload}>Upload</button>
                 <button onClick={fetchMedia}>Reload</button>
             </div>
@@ -99,9 +112,7 @@ const MediaList = () => {
                                 <img 
                                     src={`${process.env.PUBLIC_URL}${media.filePath}`} 
                                     alt={media.fileName} 
-                                    width="50" 
-                                    height="50" 
-                                    onError={(e) => e.target.src = `${process.env.PUBLIC_URL}/default-thumbnail.png`} // default image if error
+                                    className="thumbnail" // apply CSS class for thumbnail styling
                                 />
                             </td>
                             <td>{media.fileName}</td>
