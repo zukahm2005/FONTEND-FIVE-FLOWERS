@@ -1,49 +1,75 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import axios from 'axios';
-import EditMediaPopup from './EditMediaPopup';
-import UploadButton from './UploadButton';
 import './MediaList.scss';
 
 const MediaList = () => {
     const [mediaList, setMediaList] = useState([]);
-    const [page, setPage] = useState(0);
-    const [size] = useState(10); // Page size
-    const [totalPages, setTotalPages] = useState(1);
-    const [show, setShow] = useState(false);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [showEditModal, setShowEditModal] = useState(false);
     const [currentMedia, setCurrentMedia] = useState(null);
     const [newFileName, setNewFileName] = useState('');
 
-    useEffect(() => {
-        fetchMedia(page, size);
-    }, [page, size]);
-
-    const fetchMedia = async (page, size) => {
+    const fetchMedia = useCallback(async () => {
         try {
-            const response = await axios.get(`/api/v1/media/paged?page=${page}&size=${size}`);
-            setMediaList(response.data.content);
-            setTotalPages(response.data.totalPages);
+            const response = await axios.get(`${process.env.PUBLIC_URL}/media/mediaList.json`);
+            console.log('Media List:', response.data);
+            setMediaList(response.data);
         } catch (error) {
             console.error('Error fetching media:', error);
         }
+    }, []);
+
+    useEffect(() => {
+        fetchMedia();
+    }, [fetchMedia]);
+
+    const handleFileChange = (event) => {
+        setSelectedFile(event.target.files[0]);
     };
 
-    const handlePageChange = (newPage) => {
-        setPage(newPage);
+    const handleUpload = async () => {
+        if (!selectedFile) return;
+
+        const formData = new FormData();
+        formData.append('file', selectedFile);
+
+        const token = localStorage.getItem('token');
+
+        try {
+            await axios.post('/api/v1/media/upload', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    'Authorization': `Bearer ${token}`
+                }
+            });
+            console.log('Uploaded Media');
+            fetchMedia(); // Fetch media again after upload
+            setSelectedFile(null);
+        } catch (error) {
+            console.error('Error uploading file:', error);
+        }
     };
 
-    const handleShow = (media) => {
+    const handleDelete = async (id) => {
+        try {
+            await axios.delete(`/api/v1/media/${id}`);
+            fetchMedia(); // Fetch media again after delete
+        } catch (error) {
+            console.error('Error deleting media:', error);
+        }
+    };
+
+    const handleEdit = (media) => {
         setCurrentMedia(media);
         setNewFileName(media.fileName);
-        setShow(true);
+        setShowEditModal(true);
     };
-
-    const handleClose = () => setShow(false);
 
     const handleSave = async () => {
         try {
             await axios.put(`/api/v1/media/${currentMedia.id}`, { ...currentMedia, fileName: newFileName });
-            fetchMedia(page, size); // Refresh the media list
-            handleClose();
+            fetchMedia(); // Fetch media again after save
+            setShowEditModal(false);
         } catch (error) {
             console.error('Error updating media:', error);
         }
@@ -53,7 +79,9 @@ const MediaList = () => {
         <div className="media-list">
             <div className="media-header">
                 <h1>Media List</h1>
-                <UploadButton />
+                <input type="file" onChange={handleFileChange} />
+                <button onClick={handleUpload}>Upload</button>
+                <button onClick={fetchMedia}>Reload</button>
             </div>
             <table className="media-table">
                 <thead>
@@ -68,33 +96,39 @@ const MediaList = () => {
                     {mediaList.map((media) => (
                         <tr key={media.id}>
                             <td>
-                                <img src={media.filePath} alt={media.fileName} width="50" height="50" onClick={() => handleShow(media)} />
+                                <img 
+                                    src={`${process.env.PUBLIC_URL}${media.filePath}`} 
+                                    alt={media.fileName} 
+                                    width="50" 
+                                    height="50" 
+                                    onError={(e) => e.target.src = `${process.env.PUBLIC_URL}/default-thumbnail.png`} // default image if error
+                                />
                             </td>
                             <td>{media.fileName}</td>
                             <td>{new Date(media.createdAt).toLocaleDateString()}</td>
                             <td>
-                                <button onClick={() => handleShow(media)}>Edit</button>
+                                <button onClick={() => handleEdit(media)}>Edit</button>
+                                <button onClick={() => handleDelete(media.id)}>Delete</button>
                             </td>
                         </tr>
                     ))}
                 </tbody>
             </table>
-            <div className="pagination">
-                {[...Array(totalPages).keys()].map(number => (
-                    <button key={number} onClick={() => handlePageChange(number)} disabled={number === page}>
-                        {number + 1}
-                    </button>
-                ))}
-            </div>
 
-            <EditMediaPopup
-                show={show}
-                media={currentMedia}
-                newFileName={newFileName}
-                onClose={handleClose}
-                onSave={handleSave}
-                onFileNameChange={(e) => setNewFileName(e.target.value)}
-            />
+            {showEditModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h2>Edit Media</h2>
+                        <input
+                            type="text"
+                            value={newFileName}
+                            onChange={(e) => setNewFileName(e.target.value)}
+                        />
+                        <button onClick={handleSave}>Save</button>
+                        <button onClick={() => setShowEditModal(false)}>Cancel</button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 };

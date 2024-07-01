@@ -13,7 +13,7 @@ const EditMediaPopup = ({ show, media, newFileName, onClose, onSave, onFileNameC
                     value={newFileName}
                     onChange={onFileNameChange}
                 />
-                <button onClick={onSave}>Save Changes</button>
+                <button onClick={onSave}>Save</button>
                 <button onClick={onClose}>Close</button>
             </div>
         </div>
