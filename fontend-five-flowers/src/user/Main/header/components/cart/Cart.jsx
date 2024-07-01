@@ -1,22 +1,27 @@
+import { notification } from "antd";
+import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import "./cart.scss";
 import { CartContext } from "./cartContext/CartProvider";
 
 const Cart = () => {
   const { cart, updateQuantity, handleCheckout, totalPrice, removeFromCart } =
     useContext(CartContext);
-  const navigate = useNavigate();
 
-  const handleQuantityChange = (productId, quantity) => {
-    if (quantity > 0) {
+  const handleQuantityChange = async (productId, quantity) => {
+    const product = cart.find((item) => item.productId === productId);
+    const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
+    const availableQuantity = response.data.quantity;
+
+    if (quantity > 0 && quantity <= availableQuantity) {
       updateQuantity(productId, quantity);
+    } else if (quantity > availableQuantity) {
+      notification.error({
+        message: "Out of Stock",
+        description: `Only ${availableQuantity} items left in stock.`,
+      });
     }
-  };
-
-  const handleNavigateToProductDetails = (productId) => {
-    navigate(`/product/${productId}`);
   };
 
   return (
@@ -38,13 +43,13 @@ const Cart = () => {
                     <motion.div
                       className="button-delete-cart"
                       variants={{
-                        hover: { x: 10 }, // Chỉ áp dụng cho nút xóa
+                        hover: { x: 10 },
                       }}
                       onClick={() => removeFromCart(item.productId)}
                     >
                       <p>X</p>
                     </motion.div>
-                    <div className="image-cart-container" onClick={() => handleNavigateToProductDetails(item.productId)}>
+                    <div className="image-cart-container">
                       {item.productImages[0]?.imageUrl && (
                         <img
                           src={`http://localhost:8080/api/v1/images/${item.productImages[0].imageUrl}`}
@@ -53,7 +58,7 @@ const Cart = () => {
                       )}
                     </div>
                     <div className="details-content-cart">
-                      <div className="name-content-cart" onClick={() => handleNavigateToProductDetails(item.productId)}>
+                      <div className="name-content-cart">
                         <p>{item.name}</p>
                       </div>
                       <div className="desc-content-cart">
@@ -116,7 +121,7 @@ const Cart = () => {
       </div>
       <div className="button-checkout-cart">
         <button onClick={handleCheckout}>
-          <p>VIEW CART</p>
+          <p>CHECKOUT</p>
         </button>
       </div>
     </div>

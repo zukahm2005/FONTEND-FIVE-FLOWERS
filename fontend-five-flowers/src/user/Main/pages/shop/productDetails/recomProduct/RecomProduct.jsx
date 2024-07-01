@@ -10,40 +10,41 @@ import "swiper/css/autoplay";
 import "swiper/css/navigation";
 import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { CartContext } from '../../../header/components/cart/cartContext/CartProvider';
-import "./slideProductHome.scss";
+import { CartContext } from '../../../../header/components/cart/cartContext/CartProvider';
+import "./recomProduct.scss";
 
-const SlideProductHome = () => {
+const RecommentProduct = () => {
   const [products, setProducts] = useState([]);
   const { addToCart, isLoggedIn } = useContext(CartContext);
   const navigate = useNavigate();
   const swiperRef = useRef(null);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/products/all', {
-      params: { page: 0, size: 10 }
-    })
-      .then(response => {
+    const fetchProducts = async () => {
+      try {
+        const token = localStorage.getItem('token'); // Adjust this according to where you store your token
+        const response = await axios.get('http://localhost:8080/api/v1/products/all', {
+          params: { page: 0, size: 10 },
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+
         const productsWithDefaultPrice = response.data.content.map(product => ({
           ...product,
-          originalPrice: product.originalPrice || 1000.00,
-          isOnSale: true // Mock the isOnSale property for testing
+          originalPrice: product.originalPrice || 1000.00
         }));
         setProducts(productsWithDefaultPrice);
-      })
-      .catch(error => console.error('Error fetching products:', error));
+      } catch (error) {
+        console.error('Error fetching products:', error);
+      }
+    };
+
+    fetchProducts();
   }, []);
 
   const handleAddToCart = async (e, product) => {
     e.stopPropagation(); // Ngăn chặn sự kiện lan truyền
-    if (!isLoggedIn) {
-      notification.error({
-        message: 'Login Required',
-        description: 'Please log in to add products to your cart.',
-      });
-      return;
-    }
-
     try {
       const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
       const availableQuantity = response.data.quantity;
@@ -56,11 +57,18 @@ const SlideProductHome = () => {
         return;
       }
 
-      await addToCart(product, 1);
-      notification.success({
-        message: 'Added to Cart',
-        description: `${product.name} has been added to your cart.`,
-      });
+      if (isLoggedIn) {
+        await addToCart(product, 1);
+        notification.success({
+          message: 'Added to Cart',
+          description: `${product.name} has been added to your cart.`,
+        });
+      } else {
+        notification.error({
+          message: 'Login Required',
+          description: 'Please log in to add products to your cart.',
+        });
+      }
     } catch (error) {
       notification.error({
         message: 'Out of Stock',
@@ -104,14 +112,14 @@ const SlideProductHome = () => {
   const shouldLoop = products.length > 3; // Adjust this value based on your slidesPerView
 
   return (
-    <div className="slide-product-home-container">
-      <div className="slide-product-home-title-main">
-        <div className="slide-product-title">
-          <h1>Let's Go Shopping</h1>
+    <div className="recommend-product-container">
+      <div className="recommend-product-title-main">
+        <div className="recommend-product-title">
+          <h1>Recommended Products</h1>
         </div>
       </div>
 
-      <div className="slide-product-home-content">
+      <div className="recommend-product-content">
         <Swiper
           ref={swiperRef}
           spaceBetween={30}
@@ -153,12 +161,11 @@ const SlideProductHome = () => {
                 initial="rest"
                 animate="rest"
                 variants={{
-                  hover: { scale: 1.05 },
+                  hover: { scale: 1.02 },
                   rest: { scale: 1 },
                 }}
-                onClick={() => handleNavigateToProductDetails(product.productId)}
               >
-                <motion.div className="image-container">
+                <motion.div className="image-container" onClick={() => handleNavigateToProductDetails(product.productId)}>
                   {product.productImages && product.productImages[0] && (
                     <div className="image1-container">
                       <img
@@ -166,7 +173,7 @@ const SlideProductHome = () => {
                         alt={product.name}
                         className="main-image"
                       />
-                      {product.isOnSale && <span className="sale-badge">Sale</span>}
+                      <span className="sale-badge">Sale</span>
                     </div>
                   )}
                   {product.productImages && product.productImages.length > 1 && (
@@ -205,7 +212,6 @@ const SlideProductHome = () => {
                       Rs. {product.originalPrice}
                     </span>
                   </div>
-                  {product.quantity === 0 && <span className="out-of-stock">Out of Stock</span>}
                 </div>
               </motion.div>
             </SwiperSlide>
@@ -220,4 +226,4 @@ const SlideProductHome = () => {
   );
 };
 
-export default SlideProductHome;
+export default RecommentProduct;

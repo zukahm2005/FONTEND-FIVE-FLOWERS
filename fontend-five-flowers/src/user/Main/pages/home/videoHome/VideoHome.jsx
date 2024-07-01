@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 import React, { useState } from "react";
-import { FaPlay } from "react-icons/fa";
+import { CiPlay1 } from "react-icons/ci";
 import { IoMdClose } from "react-icons/io";
 import ReactModal from "react-modal";
 import "./videoHome.scss";
@@ -31,10 +31,10 @@ const VideoHome = () => {
           <div className="video-icon" onClick={openModal}>
             <motion.div
               className="icon-overlay"
-              animate={{ scale: [0.8, 1, 0.8] }}
+              animate={{ scale: [0.8, 1.2, 0.8] }}
               transition={{ duration: 3, repeat: Infinity }}
             />
-            <FaPlay className="icon-video-play" />
+            <CiPlay1 className="icon-video-play" />
           </div>
           <div className="video-title">
             <p>Watch Video</p>

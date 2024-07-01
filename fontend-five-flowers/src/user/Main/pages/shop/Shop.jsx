@@ -1,43 +1,27 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-
+import React from "react";
+import { Link } from "react-router-dom";
+import "./shop.scss";
 const Shop = () => {
-    const [products, setProducts] = useState([]);
-
-    useEffect(() => {
-        axios.get('http://localhost:8080/api/v1/products/all')
-            .then(response => {
-                setProducts(response.data.content);
-            })
-            .catch(error => {
-                console.error(error);
-            });
-    }, []);
-
-    return (
-        <div>
-            <h1>Danh sách sản phẩm</h1>
-            <ul>
-                {products.map(product => (
-                    <li key={product.productId}>
-                        <Link to={`/product/${product.productId}`}>
-                            {product.productImages && product.productImages.length > 0 ? (
-                                <img 
-                                    src={`http://localhost:8080/api/v1/images/${product.productImages[0].imageUrl}`} 
-                                    alt={product.name} 
-                                    style={{ width: '100px', height: '100px' }}
-                                />
-                            ) : (
-                                <p>No Image</p>
-                            )}
-                            <p>{product.name}</p>
-                        </Link>
-                    </li>
-                ))}
-            </ul>
+  return (
+    <div className="shop-container">
+      <div className="top-shop-container">
+        <div className="name-top-shop-container">
+          <h1>COLLECTION</h1>
         </div>
-    );
+        <div className="name-bottom-shop-container">
+          <div className="home-name-bsc">
+            <Link to="/"><p>Home</p></Link>
+          </div>
+          <span className="breadcrumb__sep"><p>/</p></span>
+          <p>Products</p>
+        </div>
+      </div>
+      <div className="background-bot-shop-container">
+        <div className="bot-shop-container">
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default Shop;

@@ -1,19 +1,21 @@
-import { Tooltip } from 'antd';
+import { Tooltip, notification } from "antd";
 import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { CartContext } from "../../../header/components/cart/cartContext/CartProvider";
 import "./productDetails.scss";
+import RecommentProduct from "./recomProduct/RecomProduct";
 
 const ProductDetail = () => {
   const { id } = useParams();
+  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
-  const { addToCart } = useContext(CartContext);
+  const { addToCart, isLoggedIn } = useContext(CartContext);
   const [activeSlide, setActiveSlide] = useState(0);
   const mainSlider = useRef(null);
   const thumbnailSlider = useRef(null);
@@ -34,13 +36,55 @@ const ProductDetail = () => {
   }
 
   const handleQuantityChange = (value) => {
-    if (value >= 1) {
+    if (value >= 1 && value <= product.quantity) {
       setQuantity(value);
+    } else if (value > product.quantity) {
+      notification.error({
+        message: "Out of Stock",
+        description: `Only ${product.quantity} items left in stock.`,
+      });
     }
   };
 
-  const handleAddToCart = () => {
-    addToCart({ ...product, quantity });
+  const handleAddToCart = async () => {
+    if (!isLoggedIn) {
+      notification.error({
+        message: 'Login Required',
+        description: 'Please log in to add products to your cart.',
+      });
+      return;
+    }
+
+    try {
+      const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
+      const availableQuantity = response.data.quantity;
+
+      if (availableQuantity === 0) {
+        notification.error({
+          message: "Out of Stock",
+          description: `${product.name} is out of stock.`,
+        });
+        return;
+      }
+
+      if (quantity <= availableQuantity) {
+        await addToCart(product, quantity);
+        notification.success({
+          message: 'Added to Cart',
+          description: `${product.name} has been added to your cart.`,
+        });
+      } else {
+        notification.error({
+          message: 'Out of Stock',
+          description: `Only ${availableQuantity} items left in stock.`,
+        });
+      }
+    } catch (error) {
+      notification.error({
+        message: 'Error',
+        description: 'Failed to add product to cart. Please try again.',
+      });
+    }
   };
 
   const mainSliderSettings = {
@@ -53,15 +97,15 @@ const ProductDetail = () => {
   };
 
   const thumbnailSliderSettings = {
-    slidesToShow: 4, // Display 4 thumbnails
+    slidesToShow: 4,
     slidesToScroll: 1,
     infinite: true,
     asNavFor: mainSlider.current,
     focusOnSelect: true,
     ref: thumbnailSlider,
     beforeChange: (current, next) => setActiveSlide(next),
-    swipe: false, // Disable swiping to change slides
-    draggable: false, // Disable dragging to change slides
+    swipe: false,
+    draggable: false,
   };
 
   return (
@@ -74,7 +118,10 @@ const ProductDetail = () => {
           <div className="nav-main-text-center">
             <div className="breadcrumb">
               <a href="/">Home </a>
-              <span aria-hidden="true" className="breadcrumb__sep">/</span>
+              <span aria-hidden="true" className="breadcrumb__sep">
+                {" "}
+                /{" "}
+              </span>
               <span>{product.name}</span>
             </div>
           </div>
@@ -94,16 +141,20 @@ const ProductDetail = () => {
                     </div>
                   ))}
                 </Slider>
-                <Slider {...thumbnailSliderSettings} className="thumbnail-slider">
+                <Slider
+                  {...thumbnailSliderSettings}
+                  className="thumbnail-slider"
+                >
                   {product.productImages.map((image, index) => (
                     <motion.div
                       key={image.productImageId}
-                      className={`thumbnail-slide ${activeSlide === index ? 'active' : ''}`}
+                      className={`thumbnail-slide ${
+                        activeSlide === index ? "active" : ""
+                      }`}
                     >
                       <img
                         src={`http://localhost:8080/api/v1/images/${image.imageUrl}`}
                         alt={product.name}
-                        style={{ width: "100px", height: "100px", cursor: "pointer" }}
                       />
                     </motion.div>
                   ))}
@@ -140,12 +191,18 @@ const ProductDetail = () => {
                   <p>Rs. {product.price}</p>
                 </div>
                 <div className="title">
-                  <Tooltip 
-                    title={product.color} 
-                    overlayInnerStyle={{ backgroundColor: 'white', color: '#fa422d' }}
+                  <Tooltip
+                    title={product.color}
+                    overlayInnerStyle={{
+                      backgroundColor: "white",
+                      color: "#fa422d",
+                    }}
                     color="white"
                   >
-                    <div className="color-block" style={{ backgroundColor: product.color }}></div>
+                    <div
+                      className="color-block"
+                      style={{ backgroundColor: product.color }}
+                    ></div>
                   </Tooltip>
                 </div>
                 <div className="title">
@@ -173,17 +230,35 @@ const ProductDetail = () => {
                 </div>
               </div>
             </div>
+            <div className="availability">
+              <h6>Availability:</h6>
+              <p className={product.quantity > 0 ? "in-stock" : "out-of-stock"}>
+                {product.quantity > 0 ? "In stock!" : "Out of stock!"}
+              </p>
+            </div>
             <div className="title-content-button">
-              <button className="add-to-cart-btn" onClick={handleAddToCart}>
+              <button
+                className="add-to-cart-btn"
+                onClick={handleAddToCart}
+                disabled={product.quantity === 0}
+              >
                 <p>ADD TO CART</p>
               </button>
             </div>
           </div>
         </div>
         <div className="desc-container-product-details">
-          <p>{product.description}</p>
+          <div className="title-desc-product-details">
+            <button>
+              <p>PRODUCT DESCRIPTION</p>
+            </button>
+          </div>
+          <div className="content-desc-product-details">
+            <p>{product.description}</p>
+          </div>
         </div>
       </div>
+      <RecommentProduct />
     </div>
   );
 };

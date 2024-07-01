@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Route, Routes, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Route, Routes } from "react-router-dom";
 import Footer from "./Main/footer/Footer";
 import Header from "./Main/header/Header";
 import CartProvider from "./Main/header/components/cart/cartContext/CartProvider";
@@ -11,19 +11,9 @@ import News from "./Main/pages/news/News";
 import Shop from "./Main/pages/shop/Shop";
 import ProductDetail from "./Main/pages/shop/productDetails/ProductDetails";
 import "./user.scss";
-import ProductDetails from "./Main/pages/shop/productDetails/ProductDetails";
 
 const User = () => {
   const [cart, setCart] = useState([]);
-
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      navigate("/");
-    }
-  }, [navigate]);
 
   return (
     <CartProvider>
@@ -42,8 +32,7 @@ const User = () => {
             <Route path="/aboutUs" element={<AboutUs />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/product/:productId" element={<ProductDetails />} />
-            </Routes>
+          </Routes>
         </div>
         <Footer />
       </div>
