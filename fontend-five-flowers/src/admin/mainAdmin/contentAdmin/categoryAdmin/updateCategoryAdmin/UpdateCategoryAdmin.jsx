@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './AddCategoryAdmin.scss';
+import './UpdateCategoryAdmin.scss';
 
-const AddCategoryAdmin = () => {
+const UpdateCategoryAdmin = () => {
     const [category, setCategory] = useState({
+        id: '',
         name: '',
         description: ''
     });
@@ -22,26 +23,37 @@ const AddCategoryAdmin = () => {
             description: category.description
         };
         
-        axios.post('http://localhost:8080/api/v1/categories/add', categoryData, {
+        axios.put(`http://localhost:8080/api/v1/categories/update/${category.id}`, categoryData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
         })
             .then(response => {
                 console.log(response.data);
-                setMessage('Category added successfully!');
-                setCategory({ name: '', description: '' });
+                setMessage('Category updated successfully!');
+                setCategory({ id: '', name: '', description: '' });
             })
             .catch(error => {
                 console.error(error);
-                setMessage('Failed to add category. Please try again.');
+                setMessage('Failed to update category. Please try again.');
             });
     };
 
     return (
-        <div className="add-category-admin">
-            <h2>Add Category</h2>
+        <div className="update-category-admin">
+            <h2>Update Category</h2>
             <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>Category ID:</label>
+                    <input
+                        type="text"
+                        name="id"
+                        value={category.id}
+                        onChange={handleInputChange}
+                        placeholder="Enter the Category ID to update"
+                        required
+                    />
+                </div>
                 <div className="form-group">
                     <label>Name:</label>
                     <input
@@ -64,11 +76,11 @@ const AddCategoryAdmin = () => {
                         required
                     />
                 </div>
-                <button type="submit" className="submit-button">Add Category</button>
+                <button type="submit" className="submit-button">Update Category</button>
             </form>
             {message && <p className="message">{message}</p>}
         </div>
     );
 };
 
-export default AddCategoryAdmin;
+export default UpdateCategoryAdmin;
