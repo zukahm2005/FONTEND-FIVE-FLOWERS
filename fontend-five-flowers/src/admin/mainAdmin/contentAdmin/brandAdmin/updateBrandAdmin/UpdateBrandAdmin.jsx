@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import './AddBrandAdmin.scss';
+import './UpdateBrandAdmin.scss';
 
-const AddBrandAdmin = () => {
+const UpdateBrandAdmin = () => {
     const [brand, setBrand] = useState({
+        id: '',
         name: '',
         description: ''
     });
@@ -22,26 +23,36 @@ const AddBrandAdmin = () => {
             description: brand.description
         };
         
-        axios.post('http://localhost:8080/api/v1/brands/add', brandData, {
+        axios.put(`http://localhost:8080/api/v1/brands/update/${brand.id}`, brandData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
         })
             .then(response => {
-                console.log(response.data);
-                setMessage('Brand added successfully!');
-                setBrand({ name: '', description: '' });
+                setMessage('Brand updated successfully!');
+                setBrand({ id: '', name: '', description: '' });
             })
             .catch(error => {
                 console.error(error);
-                setMessage('Failed to add brand. Please try again.');
+                setMessage('Failed to update brand. Please try again.');
             });
     };
 
     return (
-        <div className="add-brand-admin">
-            <h2>Add Brand</h2>
+        <div className="update-brand-admin">
+            <h2>Update Brand</h2>
             <form onSubmit={handleSubmit}>
+                <div className="form-group">
+                    <label>Brand ID:</label>
+                    <input
+                        type="text"
+                        name="id"
+                        value={brand.id}
+                        onChange={handleInputChange}
+                        placeholder="Enter the Brand ID to update"
+                        required
+                    />
+                </div>
                 <div className="form-group">
                     <label>Name:</label>
                     <input
@@ -64,11 +75,11 @@ const AddBrandAdmin = () => {
                         required
                     />
                 </div>
-                <button type="submit" className="submit-button">Add Brand</button>
+                <button type="submit" className="submit-button">Update Brand</button>
             </form>
             {message && <p className="message">{message}</p>}
         </div>
     );
 };
 
-export default AddBrandAdmin;
+export default UpdateBrandAdmin;
