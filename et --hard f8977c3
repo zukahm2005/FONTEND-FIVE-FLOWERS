@@ -1,0 +1,53 @@
+[33m83ebc86[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m)[m HEAD@{0}: commit: .
+[33mfd0a2b3[m HEAD@{1}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33mf8977c3[m HEAD@{2}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m94df9fa[m HEAD@{3}: commit: 1
+[33mfd7e880[m HEAD@{4}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33md1affb1[m HEAD@{5}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m402c8f6[m HEAD@{6}: commit: .
+[33mba9a551[m HEAD@{7}: commit: .
+[33mb5199f9[m HEAD@{8}: commit: .
+[33mfdf8657[m HEAD@{9}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m27f95c6[m HEAD@{10}: pull --ff --recurse-submodules --progress origin: Merge made by the 'ort' strategy.
+[33m7d345a3[m HEAD@{11}: commit: .
+[33m0a8997f[m HEAD@{12}: commit: .
+[33m7e20a35[m HEAD@{13}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m480223c[m HEAD@{14}: pull --ff --recurse-submodules --progress origin: Merge made by the 'ort' strategy.
+[33mcf88724[m HEAD@{15}: commit: .
+[33m06e2ac6[m HEAD@{16}: commit: a
+[33m1b9171b[m HEAD@{17}: pull --ff --recurse-submodules --progress origin: Merge made by the 'ort' strategy.
+[33m9e1e6b7[m HEAD@{18}: commit: .
+[33m235be96[m HEAD@{19}: commit: .
+[33meb16393[m HEAD@{20}: commit: .
+[33m28f8c87[m HEAD@{21}: commit: .
+[33me5c255d[m HEAD@{22}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m1b6a7b7[m HEAD@{23}: pull --ff --recurse-submodules --progress origin: Merge made by the 'ort' strategy.
+[33mb2cf142[m HEAD@{24}: commit: .
+[33m3f85de1[m HEAD@{25}: commit: .
+[33mdc77dd3[m HEAD@{26}: commit: .
+[33m76dbb5e[m HEAD@{27}: commit: .
+[33m7749114[m HEAD@{28}: pull --ff --recurse-submodules --progress origin: Merge made by the 'ort' strategy.
+[33md31e260[m HEAD@{29}: commit: /
+[33m4639593[m HEAD@{30}: commit: .
+[33m2098220[m HEAD@{31}: commit: .
+[33m1ab5bce[m HEAD@{32}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m3efcc8c[m HEAD@{33}: commit: .
+[33mdbf7d90[m HEAD@{34}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33mda57a6a[m HEAD@{35}: commit: a
+[33m1a2d2e7[m HEAD@{36}: commit: .
+[33md315c86[m HEAD@{37}: commit: .
+[33ma4ee77f[m HEAD@{38}: commit: quân push
+[33m7264a93[m HEAD@{39}: commit: .
+[33m69da0f9[m HEAD@{40}: commit: .
+[33m1e9ec98[m HEAD@{41}: pull --ff --recurse-submodules --progress origin: Fast-forward
+[33m774ac41[m HEAD@{42}: reset: moving to HEAD
+[33m774ac41[m HEAD@{43}: commit: .
+[33m15ee4ef[m HEAD@{44}: commit: ,
+[33me6db7d0[m HEAD@{45}: commit: .
+[33maf5b714[m HEAD@{46}: commit: .
+[33m1c86ff4[m HEAD@{47}: commit: address done
+[33m17123b5[m HEAD@{48}: pull --ff --recurse-submodules --progress origin: Merge made by the 'ort' strategy.
+[33m5c64040[m HEAD@{49}: commit: .
+[33m896ec2f[m HEAD@{50}: commit: .
+[33mfed2a14[m HEAD@{51}: commit: s
+[33m97c2a90[m HEAD@{52}: clone: from https://github.com/zukahm2005/FONTEND-FIVE-FLOWERS.git

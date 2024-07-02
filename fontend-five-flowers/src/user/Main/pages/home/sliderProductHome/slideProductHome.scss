@@ -1,78 +1,67 @@
-.recommend-product-container {
-  object-fit: cover;
-  background-size: cover;
-  max-width: 70%;
-  margin: 0 auto;
+.slide-product-home-container {
+  max-width: 100%;
+  margin-bottom: 5rem;
 
-  .recommend-product-title-main {
+  .slide-product-home-title-main {
+    margin: 10rem;
     text-align: center;
-    margin-bottom: 2rem;
+    max-width: 100%;
 
-    .recommend-product-title {
+    .slide-product-title {
       h1 {
-        font-size: 2.2rem;
-        color: #333;
+        font-size: 3rem;
+        color: #3c3a3b;
+        &::before {
+          content: "";
+          display: block;
+          width: 3%;
+          height: 3px;
+          background-color: #f96733;
+          margin-bottom: 1rem;
+          margin-left: 48%;
+        }
       }
     }
   }
 
-  .recommend-product-content {
-    max-width: 100%;
+  .swiper-container {
+    max-width: 80%;
+  }
+
+  .slide-product-home-content {
+    max-width: 85%;
     margin: 0 auto;
 
-    .swiper-button-container {
-      display: flex;
-      justify-content: space-between;
-      padding: 0 1rem;
-
-      .swiper-button-prev,
-      .swiper-button-next {
-        color: #333;
-        font-size: 2rem;
-      }
-    }
-
     .product-card {
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 1rem;
-      background: #fff;
-      border-radius: 8px;
-      transition: transform 0.3s ease-in-out;
-
-      &:hover {
-        transform: translateY(-5px);
-      }
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+      background-color: white;
+      transition: background-color 0.3s ease-in-out;
 
       .image-container {
         position: relative;
-        cursor: pointer;
+        width: 100%;
+        padding-top: 56.25%; /* 16:9 aspect ratio */
         overflow: hidden;
+        cursor: pointer;
 
-        .main-image {
-          width: 100%;
-          height: auto;
-          transition: opacity 0.3s ease-in-out;
-        }
-
-        .hover-image {
-          display: block;
+        img {
           position: absolute;
           top: 0;
           left: 0;
           width: 100%;
-          height: auto;
-          opacity: 0;
+          height: 100%;
+          object-fit: cover; /* This will keep the aspect ratio */
           transition: opacity 0.3s ease-in-out;
+        }
+
+        .hover-image {
+          opacity: 0;
         }
 
         &:hover .hover-image {
           opacity: 1;
-        }
-
-        &:hover .main-image {
-          opacity: 0;
         }
 
         .sale-badge {
@@ -115,71 +104,68 @@
       }
 
       .product-info {
-        text-align: center;
-        margin-top: 1rem;
-
+        padding: 10px 15px;
+        .out-of-stock{
+          p{
+            color: #fa3e2c;
+          }
+        }
         h3 {
           font-size: 1.2rem;
-          color: #333;
+          margin: 10px 0;
         }
 
         .price {
           display: flex;
           justify-content: center;
-          gap: 10px;
-          margin-top: 0.5rem;
+          align-items: center;
 
           .current-price {
-            color: #fa422d;
-            font-weight: bold;
+            font-size: 1.2rem;
+            color: #e74c3c;
+            margin-right: 10px;
           }
 
           .original-price {
-            color: #777;
+            font-size: 1rem;
+            color: #999;
             text-decoration: line-through;
-          }
-        }
-
-        .out-of-stock {
-          p {
-            color: #fa3e2c;
           }
         }
       }
     }
+  }
 
-    .swiper-button-container {
-      margin-bottom: 5rem;
+  .swiper-button-container {
+    margin-bottom: 5rem;
+    .swiper-button-prev,
+    .swiper-button-next {
+      margin-bottom: 10rem;
+      position: absolute;
+      top: 100%;
+      transform: translateY(-50%);
+      width: 40px;
+      height: 40px;
+      background: #fa3e2c;
+      color: #fff;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      cursor: pointer;
+      z-index: 10;
 
-      .swiper-button-prev,
-      .swiper-button-next {
-        margin-bottom: 10rem;
-        position: absolute;
-        top: 100%;
-        transform: translateY(-50%);
-        width: 40px;
-        height: 40px;
-        background: #fa3e2c;
-        color: #fff;
-        border-radius: 50%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        cursor: pointer;
-        z-index: 10;
-
-        &::after {
-          font-size: 16px;
-        }
+      &::after {
+        font-size: 16px;
       }
+    }
 
-      .swiper-button-prev {
-        left: 46%;
-      }
+    .swiper-button-prev {
+      left: 47%;
+    }
 
-      .swiper-button-next {
-        right: 46%;
-      }
+    .swiper-button-next {
+      right: 47%;
     }
   }
 }
