@@ -39,7 +39,24 @@
     }
     .background-bot-shop-container{
         background-color: white;
+        max-width: 100%;
+        height: 20rem;
 
+        .bot-shop-container{
+            padding-top: 5rem;
+            max-width: 90%;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 5fr;
+            gap: 1rem;
+
+            .collection-grid-container{
+                display: flex;
+                flex-direction: column;
+                gap: 32px;
+                background-color: blue;
+            }
+        }
         
     }
 }

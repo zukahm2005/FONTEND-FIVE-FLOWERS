@@ -1,5 +1,5 @@
-import { notification } from 'antd';
-import axios from 'axios';
+import { notification } from "antd";
+import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
@@ -10,7 +10,7 @@ import "swiper/css/autoplay";
 import "swiper/css/navigation";
 import { Autoplay, Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { CartContext } from '../../../header/components/cart/cartContext/CartProvider';
+import { CartContext } from "../../../header/components/cart/cartContext/CartProvider";
 import "./slideProductHome.scss";
 
 const SlideProductHome = () => {
@@ -20,32 +20,37 @@ const SlideProductHome = () => {
   const swiperRef = useRef(null);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/api/v1/products/all', {
-      params: { page: 0, size: 10 }
-    })
-      .then(response => {
-        const productsWithDefaultPrice = response.data.content.map(product => ({
-          ...product,
-          originalPrice: product.originalPrice || 1000.00,
-          isOnSale: true // Mock the isOnSale property for testing
-        }));
+    axios
+      .get("http://localhost:8080/api/v1/products/all", {
+        params: { page: 0, size: 10 },
+      })
+      .then((response) => {
+        const productsWithDefaultPrice = response.data.content.map(
+          (product) => ({
+            ...product,
+            originalPrice: product.originalPrice || 1000.0,
+            isOnSale: true, // Mock the isOnSale property for testing
+          })
+        );
         setProducts(productsWithDefaultPrice);
       })
-      .catch(error => console.error('Error fetching products:', error));
+      .catch((error) => console.error("Error fetching products:", error));
   }, []);
 
   const handleAddToCart = async (e, product) => {
     e.stopPropagation(); // Ngăn chặn sự kiện lan truyền
     if (!isLoggedIn) {
       notification.error({
-        message: 'Login Required',
-        description: 'Please log in to add products to your cart.',
+        message: "Login Required",
+        description: "Please log in to add products to your cart.",
       });
       return;
     }
 
     try {
-      const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
+      const response = await axios.get(
+        `http://localhost:8080/api/v1/products/get/${product.productId}`
+      );
       const availableQuantity = response.data.quantity;
 
       if (availableQuantity === 0) {
@@ -58,12 +63,12 @@ const SlideProductHome = () => {
 
       await addToCart(product, 1);
       notification.success({
-        message: 'Added to Cart',
+        message: "Added to Cart",
         description: `${product.name} has been added to your cart.`,
       });
     } catch (error) {
       notification.error({
-        message: 'Out of Stock',
+        message: "Out of Stock",
         description: `Only ${product.quantity} items left in stock.`,
       });
     }
@@ -90,13 +95,13 @@ const SlideProductHome = () => {
       }
     };
 
-    swiperInstance.el.addEventListener('mouseenter', handleMouseEnter);
-    swiperInstance.el.addEventListener('mouseleave', handleMouseLeave);
+    swiperInstance.el.addEventListener("mouseenter", handleMouseEnter);
+    swiperInstance.el.addEventListener("mouseleave", handleMouseLeave);
 
     return () => {
       if (swiperInstance.el) {
-        swiperInstance.el.removeEventListener('mouseenter', handleMouseEnter);
-        swiperInstance.el.removeEventListener('mouseleave', handleMouseLeave);
+        swiperInstance.el.removeEventListener("mouseenter", handleMouseEnter);
+        swiperInstance.el.removeEventListener("mouseleave", handleMouseLeave);
       }
     };
   }, []);
@@ -121,7 +126,7 @@ const SlideProductHome = () => {
             nextEl: ".swiper-button-next",
             prevEl: ".swiper-button-prev",
           }}
-          autoplay={{ 
+          autoplay={{
             delay: 2000,
             disableOnInteraction: false,
           }}
@@ -156,7 +161,9 @@ const SlideProductHome = () => {
                   hover: { scale: 1.05 },
                   rest: { scale: 1 },
                 }}
-                onClick={() => handleNavigateToProductDetails(product.productId)}
+                onClick={() =>
+                  handleNavigateToProductDetails(product.productId)
+                }
               >
                 <motion.div className="image-container">
                   {product.productImages && product.productImages[0] && (
@@ -166,18 +173,21 @@ const SlideProductHome = () => {
                         alt={product.name}
                         className="main-image"
                       />
-                      {product.isOnSale && <span className="sale-badge">Sale</span>}
+                      {product.isOnSale && (
+                        <span className="sale-badge">Sale</span>
+                      )}
                     </div>
                   )}
-                  {product.productImages && product.productImages.length > 1 && (
-                    <div className="image2-container">
-                      <img
-                        src={`http://localhost:8080/api/v1/images/${product.productImages[1].imageUrl}`}
-                        alt={product.name}
-                        className="hover-image"
-                      />
-                    </div>
-                  )}
+                  {product.productImages &&
+                    product.productImages.length > 1 && (
+                      <div className="image2-container">
+                        <img
+                          src={`http://localhost:8080/api/v1/images/${product.productImages[1].imageUrl}`}
+                          alt={product.name}
+                          className="hover-image"
+                        />
+                      </div>
+                    )}
 
                   <motion.div
                     className="icon-slide-product-home"
@@ -187,7 +197,10 @@ const SlideProductHome = () => {
                     }}
                     transition={{ duration: 0.5 }}
                   >
-                    <div className="icon-slide-product" onClick={(e) => handleAddToCart(e, product)}>
+                    <div
+                      className="icon-slide-product"
+                      onClick={(e) => handleAddToCart(e, product)}
+                    >
                       <IoCartOutline className="icon" />
                     </div>
                     <div className="icon-slide-product">
@@ -198,14 +211,16 @@ const SlideProductHome = () => {
                 <div className="product-info">
                   <h3>{product.name}</h3>
                   <div className="price">
-                    <span className="current-price">
-                      Rs. {product.price}
-                    </span>
+                    <span className="current-price">Rs. {product.price}</span>
                     <span className="original-price">
                       Rs. {product.originalPrice}
                     </span>
                   </div>
-                  {product.quantity === 0 && <span className="out-of-stock">Out of Stock</span>}
+                  {product.quantity === 0 && (
+                    <span className="out-of-stock">
+                      <p>Out of Stock</p>
+                    </span>
+                  )}
                 </div>
               </motion.div>
             </SwiperSlide>

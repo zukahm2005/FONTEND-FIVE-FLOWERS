@@ -212,6 +212,11 @@ const RecommentProduct = () => {
                       Rs. {product.originalPrice}
                     </span>
                   </div>
+                  {product.quantity === 0 && (
+                    <span className="out-of-stock">
+                      <p>Out of Stock</p>
+                    </span>
+                  )}
                 </div>
               </motion.div>
             </SwiperSlide>
