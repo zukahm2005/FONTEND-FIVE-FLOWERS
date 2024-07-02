@@ -1,7 +1,10 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import './AddProductAdmin.scss'; // Import file SCSS
 
-const AddProduct = () => {
+const AddProductAdmin = () => {
     const [brands, setBrands] = useState([]);
     const [categories, setCategories] = useState([]);
     const [product, setProduct] = useState({
@@ -47,7 +50,6 @@ const AddProduct = () => {
         e.preventDefault();
     
         try {
-            // First, add the product
             const productResponse = await axios.post('http://localhost:8080/api/v1/products/add', {
                 name: product.name,
                 description: product.description,
@@ -62,14 +64,13 @@ const AddProduct = () => {
                 }
             }, {
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`, // Kiểm tra dòng này
+                    Authorization: `Bearer ${localStorage.getItem('token')}`,
                     'Content-Type': 'application/json'
                 }
             });
     
             const productId = productResponse.data.productId;
     
-            // If product is added successfully, add images
             if (productId && images.length > 0) {
                 const formData = new FormData();
                 for (let i = 0; i < images.length; i++) {
@@ -95,33 +96,43 @@ const AddProduct = () => {
     
 
     return (
-        <form onSubmit={handleSubmit}>
-            <input type="text" name="name" placeholder="Product Name" value={product.name} onChange={handleInputChange} required />
-            <textarea name="description" placeholder="Description" value={product.description} onChange={handleInputChange} required />
-            <input type="number" name="price" placeholder="Price" value={product.price} onChange={handleInputChange} required />
-            <input type="number" name="quantity" placeholder="Quantity" value={product.quantity} onChange={handleInputChange} required />
-            <input type="text" name="color" placeholder="Color" value={product.color} onChange={handleInputChange} required />
+        <div className="admin-product-add-container">
+            <h1>Add New Product</h1>
+            <form onSubmit={handleSubmit}>
+                <input type="text" name="name" placeholder="Product Name" value={product.name} onChange={handleInputChange} required />
+                <CKEditor
+                    editor={ClassicEditor}
+                    data={product.description}
+                    onChange={(event, editor) => {
+                        const data = editor.getData();
+                        setProduct({ ...product, description: data });
+                    }}
+                />
+                <input type="number" name="price" placeholder="Price" value={product.price} onChange={handleInputChange} required />
+                <input type="number" name="quantity" placeholder="Quantity" value={product.quantity} onChange={handleInputChange} required />
+                <input type="text" name="color" placeholder="Color" value={product.color} onChange={handleInputChange} required />
 
-            <select name="brandId" value={product.brandId} onChange={handleInputChange} required>
-                <option value="">Select Brand</option>
-                {brands.map((brand) => (
-                    <option key={brand.brandId} value={brand.brandId}>{brand.name}</option>
-                ))}
-            </select>
+                <select name="brandId" value={product.brandId} onChange={handleInputChange} required>
+                    <option value="">Select Brand</option>
+                    {brands.map((brand) => (
+                        <option key={brand.brandId} value={brand.brandId}>{brand.name}</option>
+                    ))}
+                </select>
 
-            <select name="categoryId" value={product.categoryId} onChange={handleInputChange} required>
-                <option value="">Select Category</option>
-                {categories.map((category) => (
-                    <option key={category.categoryId} value={category.categoryId}>{category.name}</option>
-                ))}
-            </select>
+                <select name="categoryId" value={product.categoryId} onChange={handleInputChange} required>
+                    <option value="">Select Category</option>
+                    {categories.map((category) => (
+                        <option key={category.categoryId} value={category.categoryId}>{category.name}</option>
+                    ))}
+                </select>
 
-            <input type="file" multiple onChange={handleFileChange} />
+                <input type="file" multiple onChange={handleFileChange} />
 
-            <button type="submit">Add Product</button>
-            {message && <p>{message}</p>}
-        </form>
+                <button type="submit">Add Product</button>
+                {message && <p>{message}</p>}
+            </form>
+        </div>
     );
 };
 
-export default AddProduct;
+export default AddProductAdmin;

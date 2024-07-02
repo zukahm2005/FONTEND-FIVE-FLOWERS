@@ -11,14 +11,7 @@ import OrderAdmin from "./mainAdmin/contentAdmin/orderAdmin/OrderAdmin";
 import OrderDetails from "./mainAdmin/contentAdmin/orderAdmin/getAllOrderAdmin/orderListAdminDetails/OrderListAdminDetails";
 import ProductAdmin from "./mainAdmin/contentAdmin/productAdmin/ProductAdmin";
 import SideBarAdmin from "./mainAdmin/sideBarAdmin/SideBarAdmin";
-
-
-
-
-
-
-
-
+import AddProductAdmin from "./mainAdmin/contentAdmin/productAdmin/AddProductAdmin";
 import MediaList from "./media/MediaList";
 
 const Admin = () => {
@@ -44,44 +37,12 @@ const Admin = () => {
             <Route path="home" element={<HomeAdmin />} />
             <Route path="address/*" element={<AddressAdmin />} />
             <Route path="blog/*" element={<BlogAdmin />} />
+            <Route path="addproducadmin" element={<AddProductAdmin />} />
             <Route path="product/*" element={<ProductAdmin />} />
             <Route path="brand/*" element={<BrandAdmin />} />
             <Route path="category/*" element={<CategoryAdmin />} />
             <Route path="orders/*" element={<OrderAdmin />} />
             <Route path="orders/:id" element={<OrderDetails />} />
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
             <Route path="media" element={<MediaList />} />
           </Routes>
         </div>
