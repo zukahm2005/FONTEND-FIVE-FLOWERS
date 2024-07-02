@@ -15,6 +15,7 @@ const Shop = () => {
   const [initialMaxPrice, setInitialMaxPrice] = useState(1000); // Store initial max price
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
+  const [displayType, setDisplayType] = useState("grid"); // Thêm trạng thái cho kiểu hiển thị
 
   useEffect(() => {
     axios
@@ -61,6 +62,10 @@ const Shop = () => {
   const handleAvailabilityFilterChange = (availability) => {
     console.log("Availability filter changed:", availability); // Kiểm tra availability filter change
     setSelectedAvailability(availability);
+  };
+
+  const handleDisplayChange = (type) => {
+    setDisplayType(type);
   };
 
   const filterProducts = () => {
@@ -127,10 +132,10 @@ const Shop = () => {
           </div>
           <div className="collection-grid-container">
             <div className="header-collection-grid-container">
-              <CollectionHeader />
+              <CollectionHeader onDisplayChange={handleDisplayChange} />
             </div>
             <div className="bottom-collection-grid-container">
-              <CollectionGrid products={filteredProducts} />
+              <CollectionGrid products={filteredProducts} displayType={displayType} />
             </div>
           </div>
         </div>
