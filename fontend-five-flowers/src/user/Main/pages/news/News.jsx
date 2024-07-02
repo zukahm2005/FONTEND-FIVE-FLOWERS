@@ -11,21 +11,12 @@ const News = () => {
 
     useEffect(() => {
         const fetchBlogs = async () => {
-            const token = localStorage.getItem('token');
-            if (!token) {
-                console.error('No token found');
-                return;
-            }
-
             try {
-                const response = await axios.get('http://localhost:8080/api/v1/blogs/all', {
-                    headers: {
-                        Authorization: `Bearer ${token}`
-                    }
-                });
+                const response = await axios.get('http://localhost:8080/api/v1/blogs/all');
+                console.log('Response data:', response.data.content); // Kiểm tra dữ liệu từ API
                 setBlogs(response.data.content);
             } catch (error) {
-                console.error(error);
+                console.error('Error fetching blogs:', error);
             }
         };
 
@@ -52,6 +43,14 @@ const News = () => {
         }
     };
 
+    const formatDate = (dateArray) => {
+        if (Array.isArray(dateArray)) {
+            const [year, month, day] = dateArray;
+            return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+        }
+        return 'Invalid Date';
+    };
+
     return (
         <div className='news-container'>
             <div className="header-container">
@@ -69,7 +68,7 @@ const News = () => {
                         <div className="blog-content">
                             <div className="blog-meta">
                                 <span className="blog-date">
-                                    <FaCalendarAlt /> {new Date(blog.createdAt).toLocaleDateString()}
+                                    <FaCalendarAlt /> {formatDate(blog.createdAt)}
                                 </span>
                             </div>
                             <h2>{blog.title}</h2>
