@@ -1,13 +1,14 @@
-import { notification } from "antd";
-import axios from "axios";
-import { motion } from "framer-motion";
-import React, { useContext } from "react";
+import { notification } from 'antd';
+import axios from 'axios';
+import { motion } from 'framer-motion';
+import React, { useContext } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import "./cart.scss";
 import { CartContext } from "./cartContext/CartProvider";
 
 const Cart = () => {
-  const { cart, updateQuantity, handleCheckout, totalPrice, removeFromCart } =
-    useContext(CartContext);
+  const { cart, updateQuantity, totalPrice, removeFromCart } = useContext(CartContext);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   const handleQuantityChange = async (productId, quantity) => {
     const product = cart.find((item) => item.productId === productId);
@@ -22,6 +23,14 @@ const Cart = () => {
         description: `Only ${availableQuantity} items left in stock.`,
       });
     }
+  };
+
+  const handleViewCart = () => {
+    navigate("/shopping-cart", { state: { cart } }); // Navigate to ShoppingCart with cart state
+  };
+
+  const handleNavigateToProductDetails = (productId) => {
+    navigate(`/product/${productId}`);
   };
 
   return (
@@ -49,7 +58,7 @@ const Cart = () => {
                     >
                       <p>X</p>
                     </motion.div>
-                    <div className="image-cart-container">
+                    <div className="image-cart-container" onClick={() => handleNavigateToProductDetails(item.productId)}>
                       {item.productImages[0]?.imageUrl && (
                         <img
                           src={`http://localhost:8080/api/v1/images/${item.productImages[0].imageUrl}`}
@@ -58,7 +67,7 @@ const Cart = () => {
                       )}
                     </div>
                     <div className="details-content-cart">
-                      <div className="name-content-cart">
+                      <div className="name-content-cart" onClick={() => handleNavigateToProductDetails(item.productId)}>
                         <p>{item.name}</p>
                       </div>
                       <div className="desc-content-cart">
@@ -120,8 +129,8 @@ const Cart = () => {
         </div>
       </div>
       <div className="button-checkout-cart">
-        <button onClick={handleCheckout}>
-          <p>CHECKOUT</p>
+        <button onClick={handleViewCart}>
+          <p>VIEW CART</p>
         </button>
       </div>
     </div>

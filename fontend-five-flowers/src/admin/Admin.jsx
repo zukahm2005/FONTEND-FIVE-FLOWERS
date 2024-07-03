@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import Error from "../error/Error";
 import "./admin.scss";
 import HeaderAdmin from "./headerAdmin/HeaderAdmin";
 import AddressAdmin from "./mainAdmin/contentAdmin/addressAdmin/AddressAdmin";
@@ -9,9 +10,9 @@ import CategoryAdmin from "./mainAdmin/contentAdmin/categoryAdmin/CategoryAdmin"
 import HomeAdmin from "./mainAdmin/contentAdmin/homeAdmin/HomeAdmin";
 import OrderAdmin from "./mainAdmin/contentAdmin/orderAdmin/OrderAdmin";
 import OrderDetails from "./mainAdmin/contentAdmin/orderAdmin/getAllOrderAdmin/orderListAdminDetails/OrderListAdminDetails";
+import AddProductAdmin from "./mainAdmin/contentAdmin/productAdmin/AddProductAdmin";
 import ProductAdmin from "./mainAdmin/contentAdmin/productAdmin/ProductAdmin";
 import SideBarAdmin from "./mainAdmin/sideBarAdmin/SideBarAdmin";
-import AddProductAdmin from "./mainAdmin/contentAdmin/productAdmin/AddProductAdmin";
 import MediaList from "./media/MediaList";
 
 const Admin = () => {
@@ -44,6 +45,7 @@ const Admin = () => {
             <Route path="orders/*" element={<OrderAdmin />} />
             <Route path="orders/:id" element={<OrderDetails />} />
             <Route path="media" element={<MediaList />} />
+            <Route path="*" element={<Error />} />
           </Routes>
         </div>
       </div>

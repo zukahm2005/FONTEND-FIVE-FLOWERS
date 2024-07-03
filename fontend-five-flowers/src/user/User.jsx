@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Route, Routes } from "react-router-dom";
+import Error from "../error/Error";
 import Footer from "./Main/footer/Footer";
 import Header from "./Main/header/Header";
 import CartProvider from "./Main/header/components/cart/cartContext/CartProvider";
+import ShoppingCart from "./Main/header/components/cart/shoppingCart/ShoppingCart";
 import Profile from "./Main/header/components/profile/Profile";
 import AboutUs from "./Main/pages/aboutUs/AboutUs";
 import Home from "./Main/pages/home/Home";
@@ -32,6 +34,8 @@ const User = () => {
             <Route path="/aboutUs" element={<AboutUs />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/shopping-cart" element={<ShoppingCart/>}/>
+            <Route path="*" element={<Error/>}/>
           </Routes>
         </div>
         <Footer />
