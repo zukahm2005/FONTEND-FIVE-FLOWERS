@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import { FaCalendarAlt, FaComment } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
 import './blogNewHome.scss'
 
 const BlogNew = () => {
@@ -33,7 +34,7 @@ const BlogNew = () => {
             <div className='blog-list'>
                 {blogs.slice(0, 3).map(blog => (  // Chỉ lấy 3 bài blog đầu tiên
                     <div key={blog.blogId} className='blog-item'>
-                        <img src={`http://localhost:8080/api/v1/images/${blog.imageUrl}`} alt={blog.title} className='blog-image' />
+                        <img src={`http://localhost:8080/api/v1/images/${blog.imageUrl}`} alt={blog.title} className='blog-image-home' />
                         <div className='blog-meta'>
                             <span className='blog-date'>
                                 <FaCalendarAlt /> {formatDate(blog.createdAt)}
@@ -41,7 +42,7 @@ const BlogNew = () => {
                         </div>
                         <h3>{blog.title}</h3>
                         <p>{blog.content.substring(0, 100)}...</p>
-                        <a href={`/news/${blog.blogId}`} className='read-more-btn'>READ MORE</a>
+                        <Link to={`/news/${blog.blogId}`} className="read-more-btn">READ MORE</Link>
                     </div>
                 ))}
             </div>
