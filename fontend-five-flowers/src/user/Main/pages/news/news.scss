@@ -19,6 +19,7 @@ body, html {
   padding: 0;
 
   .header-container {
+    margin-top: -80px;
     position: relative;
     text-align: center;
     color: white;
@@ -31,6 +32,8 @@ body, html {
     justify-content: center;
     align-items: center;
     overflow: hidden;
+    z-index: 1; // Đảm bảo header có z-index thấp hơn menu
+
 
     .header-content {
       background: rgba(0, 0, 0, 0.7);
