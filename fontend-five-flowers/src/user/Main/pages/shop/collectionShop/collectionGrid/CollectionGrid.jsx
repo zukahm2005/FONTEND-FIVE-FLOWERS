@@ -1,12 +1,12 @@
-import { notification } from 'antd';
-import axios from 'axios';
-import { motion } from 'framer-motion';
-import React, { useContext } from 'react';
-import { IoIosSearch } from 'react-icons/io';
-import { IoCartOutline } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
-import { CartContext } from '../../../../header/components/cart/cartContext/CartProvider';
-import './collectionGrid.scss';
+import { notification } from "antd";
+import axios from "axios";
+import { motion } from "framer-motion";
+import React, { useContext } from "react";
+import { IoIosSearch } from "react-icons/io";
+import { IoCartOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { CartContext } from "../../../../header/components/cart/cartContext/CartProvider";
+import "./collectionGrid.scss";
 
 const CollectionGrid = ({ products, displayType }) => {
   const { addToCart, isLoggedIn } = useContext(CartContext);
@@ -60,17 +60,16 @@ const CollectionGrid = ({ products, displayType }) => {
           <p>No product in stock!</p>
         </div>
       ) : (
-        products.map(product => (
-          <div key={product.productId} className={`product-item ${displayType}-item`}>
+        products.map((product) => (
+          <div
+            key={product.productId}
+            className={`product-item ${displayType}-item`}
+          >
             <motion.div
               className="product-card"
               whileHover="hover"
               initial="rest"
               animate="rest"
-              variants={{
-                hover: { scale: 1.05 },
-                rest: { scale: 1 },
-              }}
               onClick={() => handleNavigateToProductDetails(product.productId)}
             >
               <motion.div className="image-container">
