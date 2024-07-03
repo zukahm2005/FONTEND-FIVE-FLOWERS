@@ -16,6 +16,7 @@ const Shop = () => {
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [displayType, setDisplayType] = useState("grid"); // Thêm trạng thái cho kiểu hiển thị
+  const [searchTerm, setSearchTerm] = useState(""); // Thêm trạng thái tìm kiếm
 
   useEffect(() => {
     axios
@@ -41,7 +42,7 @@ const Shop = () => {
 
   useEffect(() => {
     filterProducts();
-  }, [selectedCategory, selectedBrand, selectedAvailability, minPrice, maxPrice, products]);
+  }, [selectedCategory, selectedBrand, selectedAvailability, minPrice, maxPrice, products, searchTerm]);
 
   const handleCategoryFilterChange = (category) => {
     console.log("Category filter changed:", category); // Kiểm tra category filter change
@@ -66,6 +67,10 @@ const Shop = () => {
 
   const handleDisplayChange = (type) => {
     setDisplayType(type);
+  };
+
+  const handleSearchTermChange = (term) => {
+    setSearchTerm(term);
   };
 
   const filterProducts = () => {
@@ -95,6 +100,10 @@ const Shop = () => {
     filtered = filtered.filter(product => {
       return product.price >= minPrice && product.price <= maxPrice;
     });
+
+    if (searchTerm) {
+      filtered = filtered.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()));
+    }
 
     console.log("Filtered products:", filtered); // Kiểm tra kết quả sau khi lọc
     setFilteredProducts(filtered);
@@ -132,7 +141,7 @@ const Shop = () => {
           </div>
           <div className="collection-grid-container">
             <div className="header-collection-grid-container">
-              <CollectionHeader onDisplayChange={handleDisplayChange} />
+              <CollectionHeader onDisplayChange={handleDisplayChange} onSearchTermChange={handleSearchTermChange} />
             </div>
             <div className="bottom-collection-grid-container">
               <CollectionGrid products={filteredProducts} displayType={displayType} />

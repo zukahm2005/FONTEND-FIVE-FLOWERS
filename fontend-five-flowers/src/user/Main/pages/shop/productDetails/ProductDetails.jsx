@@ -2,7 +2,7 @@ import { Tooltip, notification } from "antd";
 import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
@@ -12,7 +12,6 @@ import RecommentProduct from "./recomProduct/RecomProduct";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const navigate = useNavigate();
   const [product, setProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const { addToCart, isLoggedIn } = useContext(CartContext);

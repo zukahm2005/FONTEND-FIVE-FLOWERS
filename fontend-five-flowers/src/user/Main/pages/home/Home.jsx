@@ -1,4 +1,6 @@
 import React from "react";
+import BigSaleHome from "./bigSaleHome/BigSaleHome";
+import BlogNewsHome from "./blogNews/BlogNewsHome";
 import "./home.scss";
 import InnovatingHome from "./innovatingHome/InnovatingHome";
 import SlideProductHome from "./sliderProductHome/SlideProductHome";
@@ -23,6 +25,12 @@ const Home = ({ cart, setCart }) => {
       </div>
       <div className="home-slider-product-main">
         <SlideProductHome setCart={setCart} cart={cart} />
+      </div>
+      <div className="home-big-sale-main">
+        <BigSaleHome />
+      </div>
+      <div className="home-blog-news-main">
+        <BlogNewsHome />
       </div>
     </div>
   );

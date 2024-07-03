@@ -1,0 +1,29 @@
+.search-container {
+    max-width: 100%;
+  
+    .input-search {
+      max-width: 100%;
+      position: relative;
+  
+      input {
+        width: 100%;
+        padding: 0.7rem;
+        border: thin solid rgb(227, 227, 227);
+        outline: none;
+        border-radius: 35px;
+        padding-left: 2rem;
+      }
+  
+      .icon-search {
+        position: absolute;
+        top: 20%;
+        left: 1%;
+  
+        p {
+          font-size: 1.5rem;
+          color: rgb(164, 164, 164);
+        }
+      }
+    }
+  }
+  

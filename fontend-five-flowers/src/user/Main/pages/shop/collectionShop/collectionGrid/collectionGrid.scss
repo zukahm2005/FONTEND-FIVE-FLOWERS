@@ -1,82 +1,35 @@
 .collection-grid {
   &.grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
-    gap: 1rem;
+    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
   }
 
   &.list {
+    max-width: 40rem;
     display: flex;
     flex-direction: column;
-
-    .product-info {
-      
-      h3 {
-        font-size: 1.2rem;
-        color: #333;
-      }
-
-      .price {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        gap: 10px;
-        margin-top: 0.5rem;
-
-        .current-price {
-          color: #fa422d;
-          font-weight: bold;
-        }
-
-        .original-price {
-          color: #777;
-          text-decoration: line-through;
-        }
-      }
-
-      .out-of-stock {
-        p {
-          color: #fa3e2c;
-          font-weight: bold;
-          margin-top: 0.5rem;
-        }
-      }
-    }
+    gap: 1rem;
   }
 
   .product-item {
     &.grid-item {
-      flex: 1 1 calc(33.333% - 20px);
-      margin-bottom: 20px;
+      width: 25rem;
     }
 
     &.list-item {
       display: flex;
-      align-items: center;
-      max-width: 100%; // Đảm bảo chiều rộng tối đa là 25rem
-      
+      max-width: 100%;
       .product-card {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-
-        .image-container {
-          flex: 1;
-        }
-
+        max-width: 100%;
         .product-info {
-          flex: 2;
-          margin-left: 20px;
-          text-align: left;
         }
       }
     }
 
     .product-card {
-      max-width: 100%;
+      width: 28rem;
       display: flex;
       flex-direction: column;
-      padding: 1rem;
       transition: transform 0.3s ease-in-out;
 
       &:hover {

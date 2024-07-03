@@ -1,0 +1,28 @@
+.display-container {
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  cursor: pointer;
+
+  .display-grid,
+  .display-list {
+    max-width: 100%;
+    background-color: white;
+
+    p {
+      padding: 0.3rem;
+      padding-top: 0.5rem;
+      border: thin solid rgb(206, 206, 206);
+      margin: 0;
+    }
+
+    .icon {
+      color: black;
+      transition: color 0.3s;
+    }
+
+    &.active .icon {
+      color: white;
+    }
+  }
+}
