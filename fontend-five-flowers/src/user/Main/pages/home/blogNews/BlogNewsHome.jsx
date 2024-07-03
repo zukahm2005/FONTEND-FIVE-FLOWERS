@@ -19,10 +19,13 @@ const BlogNew = () => {
         fetchBlogs();
     }, []);
 
-    const formatDate = (dateString) => {
-        const options = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    };
+    const formatDate = (dateArray) => {
+      if (Array.isArray(dateArray)) {
+          const [year, month, day] = dateArray;
+          return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+      }
+      return 'Invalid Date';
+  };
 
     return (
         <div className='blog-new-container'>
@@ -34,9 +37,6 @@ const BlogNew = () => {
                         <div className='blog-meta'>
                             <span className='blog-date'>
                                 <FaCalendarAlt /> {formatDate(blog.createdAt)}
-                            </span>
-                            <span className='blog-comments'>
-                                <FaComment /> {blog.commentsCount} Comment{blog.commentsCount !== 1 ? 's' : ''}
                             </span>
                         </div>
                         <h3>{blog.title}</h3>
