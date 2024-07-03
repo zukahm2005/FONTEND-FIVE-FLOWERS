@@ -4,7 +4,7 @@ import DisplayCollectionHeader from "./displayCollectionHeader/DisplayCollection
 import SearchCollection from "./searchCollection/SearchCollection";
 import SortCollectionHeader from "./sortCollectionHeader/SortCollectionHeader";
 
-const CollectionHeader = ({ onDisplayChange, onSearchTermChange }) => {
+const CollectionHeader = ({ onDisplayChange, onSearchTermChange, onSortChange }) => {
   return (
     <div className="collection-header-container">
       <div className="display-container-collect-header">
@@ -14,7 +14,7 @@ const CollectionHeader = ({ onDisplayChange, onSearchTermChange }) => {
         <SearchCollection onSearchTermChange={onSearchTermChange} />
       </div>
       <div className="sort-container-collection-header">
-        <SortCollectionHeader />
+        <SortCollectionHeader onSortChange={onSortChange} />
       </div>
     </div>
   );

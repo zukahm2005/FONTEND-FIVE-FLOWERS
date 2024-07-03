@@ -31,7 +31,7 @@ const CollectionGrid = ({ products, displayType }) => {
       if (availableQuantity === 0) {
         notification.error({
           message: "Out of Stock",
-          description: `${product.productName} is out of stock.`,
+          description: `${product.name} is out of stock.`,
         });
         return;
       }
@@ -39,7 +39,7 @@ const CollectionGrid = ({ products, displayType }) => {
       await addToCart(product, 1);
       notification.success({
         message: "Added to Cart",
-        description: `${product.productName} has been added to your cart.`,
+        description: `${product.name} has been added to your cart.`,
       });
     } catch (error) {
       notification.error({

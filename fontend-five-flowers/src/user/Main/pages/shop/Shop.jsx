@@ -17,6 +17,7 @@ const Shop = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [displayType, setDisplayType] = useState("grid"); // Thêm trạng thái cho kiểu hiển thị
   const [searchTerm, setSearchTerm] = useState(""); // Thêm trạng thái tìm kiếm
+  const [sortType, setSortType] = useState("featured"); // Thêm trạng thái sắp xếp
 
   useEffect(() => {
     axios
@@ -31,9 +32,10 @@ const Shop = () => {
             isOnSale: true, // Mock the isOnSale property for testing
           })
         );
-        console.log("Fetched products:", productsWithDefaultPrice); // Kiểm tra dữ liệu sản phẩm
         setProducts(productsWithDefaultPrice);
-        const maxPriceValue = Math.max(...productsWithDefaultPrice.map(product => product.price));
+        const maxPriceValue = Math.max(
+          ...productsWithDefaultPrice.map((product) => product.price)
+        );
         setMaxPrice(maxPriceValue);
         setInitialMaxPrice(maxPriceValue); // Set the initial max price
       })
@@ -42,26 +44,31 @@ const Shop = () => {
 
   useEffect(() => {
     filterProducts();
-  }, [selectedCategory, selectedBrand, selectedAvailability, minPrice, maxPrice, products, searchTerm]);
+  }, [
+    selectedCategory,
+    selectedBrand,
+    selectedAvailability,
+    minPrice,
+    maxPrice,
+    products,
+    searchTerm,
+    sortType,
+  ]);
 
   const handleCategoryFilterChange = (category) => {
-    console.log("Category filter changed:", category); // Kiểm tra category filter change
     setSelectedCategory(category);
   };
 
   const handleBrandFilterChange = (brand) => {
-    console.log("Brand filter changed:", brand); // Kiểm tra brand filter change
     setSelectedBrand(brand);
   };
 
   const handlePriceFilterChange = (min, max) => {
-    console.log("Price filter changed: min =", min, "max =", max); // Kiểm tra price filter change
     setMinPrice(min);
     setMaxPrice(max);
   };
 
   const handleAvailabilityFilterChange = (availability) => {
-    console.log("Availability filter changed:", availability); // Kiểm tra availability filter change
     setSelectedAvailability(availability);
   };
 
@@ -73,39 +80,73 @@ const Shop = () => {
     setSearchTerm(term);
   };
 
+  const handleSortChange = (sort) => {
+    setSortType(sort);
+  };
+
   const filterProducts = () => {
     let filtered = products;
 
     if (selectedCategory) {
-      filtered = filtered.filter(product => {
-        console.log("Filtering by categoryId:", product.category.categoryId, "selectedCategory:", selectedCategory);
+      filtered = filtered.filter((product) => {
+        console.log(
+          "Filtering by categoryId:",
+          product.category.categoryId,
+          "selectedCategory:",
+          selectedCategory
+        );
         return product.category.categoryId === selectedCategory;
       });
     }
 
     if (selectedBrand) {
-      filtered = filtered.filter(product => {
-        console.log("Filtering by brandId:", product.brand.brandId, "selectedBrand:", selectedBrand);
+      filtered = filtered.filter((product) => {
+        console.log(
+          "Filtering by brandId:",
+          product.brand.brandId,
+          "selectedBrand:",
+          selectedBrand
+        );
         return product.brand.brandId === selectedBrand;
       });
     }
 
     if (selectedAvailability) {
-      filtered = filtered.filter(product => {
+      filtered = filtered.filter((product) => {
         console.log("Filtering by availability:", selectedAvailability);
-        return selectedAvailability === "inStock" ? product.quantity > 0 : product.quantity === 0;
+        return selectedAvailability === "inStock"
+          ? product.quantity > 0
+          : product.quantity === 0;
       });
     }
 
-    filtered = filtered.filter(product => {
+    filtered = filtered.filter((product) => {
       return product.price >= minPrice && product.price <= maxPrice;
     });
 
     if (searchTerm) {
-      filtered = filtered.filter(product => product.name.toLowerCase().includes(searchTerm.toLowerCase()));
+      filtered = filtered.filter((product) =>
+        product.name.toLowerCase().includes(searchTerm.toLowerCase())
+      );
     }
 
-    console.log("Filtered products:", filtered); // Kiểm tra kết quả sau khi lọc
+    switch (sortType) {
+      case "az":
+        filtered = filtered.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case "za":
+        filtered = filtered.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+      case "price-minmax":
+        filtered = filtered.sort((a, b) => a.price - b.price);
+        break;
+      case "price-maxmin":
+        filtered = filtered.sort((a, b) => b.price - a.price);
+        break;
+      default:
+        break;
+    }
+
     setFilteredProducts(filtered);
   };
 
@@ -141,10 +182,17 @@ const Shop = () => {
           </div>
           <div className="collection-grid-container">
             <div className="header-collection-grid-container">
-              <CollectionHeader onDisplayChange={handleDisplayChange} onSearchTermChange={handleSearchTermChange} />
+              <CollectionHeader
+                onDisplayChange={handleDisplayChange}
+                onSearchTermChange={handleSearchTermChange}
+                onSortChange={handleSortChange}
+              />
             </div>
             <div className="bottom-collection-grid-container">
-              <CollectionGrid products={filteredProducts} displayType={displayType} />
+              <CollectionGrid
+                products={filteredProducts}
+                displayType={displayType}
+              />
             </div>
           </div>
         </div>

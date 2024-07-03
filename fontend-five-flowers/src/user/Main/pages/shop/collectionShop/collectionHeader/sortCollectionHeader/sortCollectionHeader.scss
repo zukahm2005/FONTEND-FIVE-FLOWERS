@@ -1,0 +1,44 @@
+.sort-collect-container {
+    max-width: 100%;
+    text-align: right;
+
+    .sort-collect-header {
+        padding: 1rem;
+        width: 100%;
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        gap: 0.5rem;
+
+        .title-sort {
+            padding-top: 0.2rem;
+            p {
+                font-size: 1rem;
+                color: rgb(0, 0, 0); /* Màu đen cho văn bản "Sort by" */
+            }
+        }
+
+        .select-sort {
+            position: relative;
+            display: flex;
+            align-items: center;
+
+            select {
+                cursor: pointer;
+                background-color: #fa422d;
+                padding: 0.3rem;
+                outline: none;
+                border-radius: 5px;
+                border: none;
+                color: white; /* Màu trắng cho văn bản trong select */
+                font-size: 0.8rem;
+                width: 100%;
+
+                option {
+                    background-color: #fa422d;
+                    color: white;
+                    cursor: pointer; /* Thêm cursor pointer cho option */
+                }
+            }
+        }
+    }
+}

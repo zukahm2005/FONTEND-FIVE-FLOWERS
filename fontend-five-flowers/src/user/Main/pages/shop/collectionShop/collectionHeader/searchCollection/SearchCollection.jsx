@@ -5,12 +5,9 @@ import "./searchCollection.scss";
 
 const SearchCollection = ({ onSearchTermChange }) => {
   const [isFocused, setIsFocused] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
 
-  const handleInputChange = (e) => {
-    const term = e.target.value;
-    setSearchTerm(term);
-    onSearchTermChange(term);
+  const handleSearchChange = (event) => {
+    onSearchTermChange(event.target.value);
   };
 
   return (
@@ -19,13 +16,12 @@ const SearchCollection = ({ onSearchTermChange }) => {
         <motion.input
           type="text"
           placeholder="Search something..."
-          value={searchTerm}
-          onChange={handleInputChange}
           initial={{ borderColor: "rgb(227, 227, 227)" }}
           animate={{ borderColor: isFocused ? "#fa422a" : "rgb(227, 227, 227)" }}
           transition={{ duration: 0.3 }}
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
+          onChange={handleSearchChange}
         />
         <div className="icon-search">
           <p>
