@@ -10,9 +10,11 @@ const BrandShop = ({ onBrandFilterChange, selectedBrand }) => {
     const fetchBrandsAndProducts = async () => {
       try {
         // Fetch brands
-        const brandResponse = await axios.get(
-          "http://localhost:8080/api/v1/brands/all"
-        );
+        const brandResponse = await axios.get("http://localhost:8080/api/v1/brands/all", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
         console.log("Fetched brands:", brandResponse.data.content); // Kiểm tra dữ liệu trả về
         setBrands(
           Array.isArray(brandResponse.data.content) ? brandResponse.data.content : []
@@ -23,8 +25,12 @@ const BrandShop = ({ onBrandFilterChange, selectedBrand }) => {
           params: {
             page: 0,
             size: 1000, // Lấy đủ số lượng sản phẩm để tính toán
+          },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         });
+        console.log("Fetched products:", productResponse.data.content); // Kiểm tra dữ liệu products
         const products = productResponse.data.content; // Giả sử API trả về `content`
 
         // Tính toán số lượng sản phẩm cho mỗi brand

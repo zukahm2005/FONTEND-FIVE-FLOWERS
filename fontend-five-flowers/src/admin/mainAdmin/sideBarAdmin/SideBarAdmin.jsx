@@ -8,6 +8,7 @@ import { RiBloggerLine } from "react-icons/ri";
 import { TbAddressBook, TbBrandAirbnb } from "react-icons/tb";
 import { Link, useLocation } from "react-router-dom";
 import "./sideBarAdmin.scss"; // Đảm bảo rằng bạn có file CSS cho thành phần này
+import { MdPayment } from "react-icons/md";
 
 const SideBarAdmin = () => {
   const location = useLocation();
@@ -140,19 +141,19 @@ const SideBarAdmin = () => {
           </div>
         </motion.div>
       </Link>
-      <Link to="media">
+      <Link to="payment">
         <motion.div
-          className={`side-bar-admin-link ${isActive("media") ? "active" : ""}`}
+          className={`side-bar-admin-link ${isActive("payment") ? "active" : ""}`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
           <div className="side-bar-admin-icon">
             <p>
-              <BsCart2 />
+            <MdPayment />
             </p>
           </div>
           <div className="side-bar-admin-page">
-            <p>Media</p>
+            <p>Payment</p>
           </div>
         </motion.div>
       </Link>

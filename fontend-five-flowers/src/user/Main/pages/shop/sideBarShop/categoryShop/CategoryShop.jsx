@@ -19,6 +19,9 @@ const CategoryShop = ({ onFilterChange }) => {
               size: 10,
               sortBy: "categoryId",
             },
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
           }
         );
         console.log("Fetched categories:", categoryResponse.data.content); // Kiểm tra dữ liệu categories
@@ -29,11 +32,13 @@ const CategoryShop = ({ onFilterChange }) => {
           params: {
             page: 0,
             size: 1000, // Lấy đủ số lượng sản phẩm để tính toán
+          },
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
           }
         });
+        console.log("Fetched products:", productResponse.data.content); // Kiểm tra dữ liệu products
         const products = productResponse.data.content; // Giả sử API trả về `content`
-
-        ;
 
         // Tính toán số lượng sản phẩm cho mỗi category
         const counts = products.reduce((acc, product) => {

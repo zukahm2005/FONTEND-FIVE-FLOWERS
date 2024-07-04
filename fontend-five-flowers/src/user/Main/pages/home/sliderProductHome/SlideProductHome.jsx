@@ -20,9 +20,11 @@ const SlideProductHome = () => {
   const swiperRef = useRef(null);
 
   useEffect(() => {
+    const token = localStorage.getItem("token");
     axios
       .get("http://localhost:8080/api/v1/products/all", {
         params: { page: 0, size: 10 },
+        headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
         const productsWithDefaultPrice = response.data.content.map(
@@ -48,8 +50,12 @@ const SlideProductHome = () => {
     }
 
     try {
+      const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:8080/api/v1/products/get/${product.productId}`
+        `http://localhost:8080/api/v1/products/get/${product.productId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
       );
       const availableQuantity = response.data.quantity;
 
