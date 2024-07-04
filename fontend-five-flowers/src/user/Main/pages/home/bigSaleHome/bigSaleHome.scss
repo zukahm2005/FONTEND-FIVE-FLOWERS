@@ -1,71 +1,48 @@
-.dt-sc-section-wrapper {
-  width: 100%;
-  float: left;
+.big-sale-container {
+  background-image: url("https://bikex-club.myshopify.com/cdn/shop/files/img-4.jpg?v=1614291618");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 50rem;
+  max-width: 100%;
+  margin: 10rem 0;
+
   position: relative;
-  z-index: 1;
-  background-position: center !important;
-  background-attachment: scroll !important;
-  background-size: cover;
-  margin-top: 0px;
-  margin-bottom: 0px;
-  padding-top: 220px;
-  padding-bottom: 350px;
-  background-attachment: fixed;
-  background-repeat: repeat;
-  background-position: 50% 941.82px;
-  background-size: cover;
-}
+  .info-big-sale-container {
+    max-width: 100%;
+    position: absolute;
+    top: 30%;
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    left: 20%;
 
-.container {
-  width: 100%;
-  margin-right: auto;
-  margin-left: auto;
-  padding-right: 15px;
-  padding-left: 15px;
-}
-
-
-
-.dt-sc-deal-banner-section {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-}
-
-.dt-sc-deal-banner-content {
-  text-align: left;
-}
-
-.dt-sc-main-title {
-  font-size: 3rem;
-  color: #e9573f;
-
-  span {
-    color: #fa3e2c;
-  }
-}
-
-.dt-sc-sub-title {
-  font-size: 1.5rem;
-  color: #333;
-  margin: 1rem 0;
-}
-
-.dt-sc-btn {
-  background: linear-gradient(90deg, #ff7e5f, #feb47b);
-  border: none;
-  color: white;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  cursor: pointer;
-  border-radius: 5px;
-  transition: background 0.3s;
-  text-decoration: none;
-  display: inline-block;
-  text-align: center;
-
-  &:hover {
-    background: linear-gradient(90deg, #feb47b, #ff7e5f);
+    .name-big-sale {
+      max-width: 100%;
+      p {
+        font-size: 110px;
+        font-weight: bold;
+        color: #fa422d;
+      }
+    }
+    .title-big-sale {
+      max-width: 100%;
+      p {
+        font-size: 36px;
+        font-weight: lighter;
+        color: rgb(56, 56, 56);
+      }
+    }
+    .button-big-sale {
+      max-width: 100%;
+      button {
+        border-radius: 40px;
+        p {
+          padding: 1.4rem 3rem;
+          font-weight: 600;
+          font-size: 1rem;
+          color: white;
+        }
+      }
+    }
   }
 }
