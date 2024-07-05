@@ -1,14 +1,13 @@
 import { notification } from "antd";
 import axios from "axios";
 import React, { useContext } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../cartContext/CartProvider";
 import "./shoppingCart.scss";
 
 const ShoppingCart = () => {
   const { cart, updateQuantity, removeFromCart, totalPrice } = useContext(CartContext);
-  const location = useLocation();
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleQuantityChange = async (productId, quantity) => {
     const product = cart.find((item) => item.productId === productId);
@@ -27,6 +26,10 @@ const ShoppingCart = () => {
 
   const handleNavigateToProductDetails = (productId) => {
     navigate(`/product/${productId}`);
+  };
+
+  const handleProceedToCheckout = () => {
+    navigate("/checkout", { state: { cart, totalPrice } });
   };
 
   return (
@@ -127,7 +130,7 @@ const ShoppingCart = () => {
                 </i>
               </div>
               <div className="button-checkout">
-                <button>
+                <button onClick={handleProceedToCheckout}>
                   <p>PROCEED TO CHECKOUT</p>
                 </button>
               </div>

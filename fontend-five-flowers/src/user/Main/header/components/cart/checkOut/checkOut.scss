@@ -1,0 +1,98 @@
+.checkout-big-container {
+    margin-top: 5rem;
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    //adress + payment
+    .checkout-address-container {
+        max-width: 100%;
+        background-color: rgb(255, 255, 255);
+
+        .info-address-container {
+            
+        }
+    }
+    //order
+    .info-order-container {
+        max-width: 100%;
+        background-color: #f5f5f5;
+        .checkout-details {
+            max-width: 100%;
+            padding: 3rem;
+            max-width: 50%;
+            .checkout-item {
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+                align-items: center;
+                margin-bottom: 2rem;
+                justify-content: space-between;
+                .info-details-checkout {
+                    display: flex;
+                    flex-direction: row;
+                    gap: 1rem;
+                    align-items: center;
+                    .image-checkout-container {
+                        max-width: 20%;
+                        border: thin solid #d6d6d6;
+                        padding: 0.5rem 0 0.3rem 0;
+                        border-radius: 10px;
+                        .item-image {
+                            position: relative;
+                            max-width: 100%;
+                            img {
+                                width: 100%;
+                            }
+                            .quantity-item-checkout {
+                                position: absolute;
+                                top: -30%;
+                                right: -10%;
+                                border-radius: 50%;
+                                background-color: #666666;
+                                p {
+                                    color: white;
+                                    padding: 0.1rem 0.4rem;
+                                }
+                            }
+                        }
+                    }
+                    .item-details {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 0.3rem;
+                        max-width: 100%;
+                        padding-top: 1rem;
+                        .name-item-details {
+                            p {
+                                font-size: 14px;
+                            }
+                        }
+                        .title-item-details {
+                            p {
+                                color: #878787;
+                                font-size: 12px;
+                            }
+                        }
+                    }
+                }
+
+                .total-price {
+                    display: flex;
+                    gap: 0.1rem;
+                    p{
+                        font-size: 14px;
+
+                    }
+                }
+            }
+            .total-price-check-out{
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                font-size: 22px;
+                font-weight: bold;
+            }
+        }
+    }
+}

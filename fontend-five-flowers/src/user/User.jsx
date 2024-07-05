@@ -4,6 +4,7 @@ import Error from "../error/Error";
 import Footer from "./Main/footer/Footer";
 import Header from "./Main/header/Header";
 import CartProvider from "./Main/header/components/cart/cartContext/CartProvider";
+import CheckOut from "./Main/header/components/cart/checkOut/CheckOut";
 import ShoppingCart from "./Main/header/components/cart/shoppingCart/ShoppingCart";
 import Profile from "./Main/header/components/profile/Profile";
 import AboutUs from "./Main/pages/aboutUs/AboutUs";
@@ -35,6 +36,7 @@ const User = () => {
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/shopping-cart" element={<ShoppingCart/>}/>
+            <Route path="/checkout" element={<CheckOut/>}/>
             <Route path="*" element={<Error/>}/>
           </Routes>
         </div>

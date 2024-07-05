@@ -1,7 +1,9 @@
 .collection-grid {
+  height: auto;
+
   &.grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
   }
 
   &.list {
@@ -19,15 +21,17 @@
     &.list-item {
       display: flex;
       max-width: 100%;
+
       .product-card {
         max-width: 100%;
+
         .product-info {
         }
       }
     }
 
     .product-card {
-      width: 28rem;
+      width: 22rem;
       display: flex;
       flex-direction: column;
       transition: transform 0.3s ease-in-out;
@@ -149,6 +153,82 @@
     p {
       font-size: 1.5rem;
       color: #fa3e2c;
+    }
+  }
+
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    list-style: none;
+    padding-left: 145%;
+    li {
+      margin: 0 0.3rem;
+      cursor: pointer;
+
+      &.active a {
+        background-color: #fa3e2c; // Màu đậm cho trang hiện tại
+        color: #fff;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+      }
+
+      &.page a {
+        background-color: #f66153; // Màu nhạt cho các trang khác
+        color: #fff;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0.7;
+      }
+
+      &.disabled a {
+        background-color: #f6a6a0;
+        color: #fff;
+        border-radius: 50%;
+        width: 2rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: not-allowed;
+      }
+
+      a {
+        display: block;
+        padding: 0.5rem 1rem;
+        color: #ffffff;
+        text-decoration: none;
+      }
+    }
+
+    .prev,
+    .next {
+      background-color: #f66153;
+      color: #fff;
+      border-radius: 50%;
+      width: 2rem;
+      height: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      &:hover {
+        background-color: #fa3e2c;
+        border-radius: 50%;
+      }
+
+      &.disabled {
+        cursor: not-allowed;
+      }
     }
   }
 }

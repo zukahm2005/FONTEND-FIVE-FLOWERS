@@ -9,35 +9,33 @@ import SideBarShop from "./sideBarShop/SideBarShop";
 const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedBrand, setSelectedBrand] = useState(null);
-  const [selectedAvailability, setSelectedAvailability] = useState(null); // Thêm trạng thái cho availability
+  const [selectedAvailability, setSelectedAvailability] = useState(null);
   const [minPrice, setMinPrice] = useState(0);
-  const [maxPrice, setMaxPrice] = useState(1000); // Assuming 1000 as default max price
-  const [initialMaxPrice, setInitialMaxPrice] = useState(1000); // Store initial max price
+  const [maxPrice, setMaxPrice] = useState(1000);
+  const [initialMaxPrice, setInitialMaxPrice] = useState(1000);
   const [products, setProducts] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const [displayType, setDisplayType] = useState("grid"); // Thêm trạng thái cho kiểu hiển thị
-  const [searchTerm, setSearchTerm] = useState(""); // Thêm trạng thái tìm kiếm
-  const [sortType, setSortType] = useState("featured"); // Thêm trạng thái sắp xếp
+  const [displayType, setDisplayType] = useState("grid");
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortType, setSortType] = useState("featured");
 
   useEffect(() => {
     axios
       .get("http://localhost:8080/api/v1/products/all", {
-        params: { page: 0, size: 10 },
+        params: { page: 0, size: 1000 },
       })
       .then((response) => {
-        const productsWithDefaultPrice = response.data.content.map(
-          (product) => ({
-            ...product,
-            originalPrice: product.originalPrice || 1000.0,
-            isOnSale: true, // Mock the isOnSale property for testing
-          })
-        );
+        const productsWithDefaultPrice = response.data.content.map((product) => ({
+          ...product,
+          originalPrice: product.originalPrice || 1000.0,
+          isOnSale: true,
+        }));
         setProducts(productsWithDefaultPrice);
         const maxPriceValue = Math.max(
           ...productsWithDefaultPrice.map((product) => product.price)
         );
         setMaxPrice(maxPriceValue);
-        setInitialMaxPrice(maxPriceValue); // Set the initial max price
+        setInitialMaxPrice(maxPriceValue);
       })
       .catch((error) => console.error("Error fetching products:", error));
   }, []);
@@ -89,31 +87,18 @@ const Shop = () => {
 
     if (selectedCategory) {
       filtered = filtered.filter((product) => {
-        console.log(
-          "Filtering by categoryId:",
-          product.category.categoryId,
-          "selectedCategory:",
-          selectedCategory
-        );
         return product.category.categoryId === selectedCategory;
       });
     }
 
     if (selectedBrand) {
       filtered = filtered.filter((product) => {
-        console.log(
-          "Filtering by brandId:",
-          product.brand.brandId,
-          "selectedBrand:",
-          selectedBrand
-        );
         return product.brand.brandId === selectedBrand;
       });
     }
 
     if (selectedAvailability) {
       filtered = filtered.filter((product) => {
-        console.log("Filtering by availability:", selectedAvailability);
         return selectedAvailability === "inStock"
           ? product.quantity > 0
           : product.quantity === 0;
@@ -176,8 +161,8 @@ const Shop = () => {
               onBrandFilterChange={handleBrandFilterChange}
               selectedBrand={selectedBrand}
               onPriceFilterChange={handlePriceFilterChange}
-              maxPrice={initialMaxPrice} // Pass initial max price
-              onAvailabilityFilterChange={handleAvailabilityFilterChange} // Truyền hàm xử lý availability
+              maxPrice={initialMaxPrice}
+              onAvailabilityFilterChange={handleAvailabilityFilterChange}
             />
           </div>
           <div className="collection-grid-container">
