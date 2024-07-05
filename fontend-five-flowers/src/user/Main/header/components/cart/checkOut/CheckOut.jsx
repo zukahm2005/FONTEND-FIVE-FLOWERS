@@ -1,83 +1,342 @@
-import React from "react";
-import { useLocation } from "react-router-dom";
+import { notification } from "antd";
+import axios from "axios";
+import React, { useContext, useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { CartContext } from "../cartContext/CartProvider";
 import "./checkOut.scss";
 
 const CheckOut = () => {
   const location = useLocation();
-  const { cart, totalPrice } = location.state || { cart: [], totalPrice: 0 };
+  const navigate = useNavigate();
+  const { cart, totalPrice, setCart } = useContext(CartContext);
+
+  const [formFields, setFormFields] = useState({
+    country: "",
+    firstName: "",
+    lastName: "",
+    address: "",
+    apartment: "",
+    phone: "",
+    city: "",
+    postalCode: "",
+    paymentMethod: "",
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormFields({
+      ...formFields,
+      [name]: value,
+    });
+
+    // Remove error message for the field being updated
+    if (errors[name]) {
+      setErrors({
+        ...errors,
+        [name]: "",
+      });
+    }
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!formFields.country) newErrors.country = "Country is required";
+    if (!formFields.firstName) newErrors.firstName = "First name is required";
+    if (!formFields.lastName) newErrors.lastName = "Last name is required";
+    if (!formFields.address) newErrors.address = "Address is required";
+    if (!formFields.city) newErrors.city = "City is required";
+    if (!formFields.postalCode)
+      newErrors.postalCode = "Postal code is required";
+    if (!formFields.phone) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^\d+$/.test(formFields.phone)) {
+      newErrors.phone = "Phone number must be digits only";
+    }
+    if (!formFields.paymentMethod)
+      newErrors.paymentMethod = "Payment method is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        notification.error({
+          message: "Login Required",
+          description: "Please log in to proceed with checkout.",
+        });
+        return;
+      }
+
+      try {
+        const decodedToken = JSON.parse(atob(token.split(".")[1]));
+        const userId = decodedToken.userId;
+
+        const addressResponse = await axios.post(
+          "http://localhost:8080/api/v1/addresses/add",
+          {
+            country: formFields.country,
+            firstName: formFields.firstName,
+            lastName: formFields.lastName,
+            address: formFields.address,
+            apartment: formFields.apartment,
+            phone: formFields.phone,
+            city: formFields.city,
+            postalCode: formFields.postalCode,
+            user: { id: userId },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("Address response:", addressResponse.data);
+
+        const addressId = addressResponse.data.addressId;
+
+        const orderDetails = cart.map((product) => ({
+          product: { productId: product.productId },
+          quantity: product.quantity,
+          price: product.price,
+        }));
+
+        const payment = {
+          paymentMethod: formFields.paymentMethod,
+          // Add other payment details if necessary
+        };
+
+        const orderResponse = await axios.post(
+          "http://localhost:8080/api/v1/orders/add",
+          {
+            user: { id: userId },
+            orderDetails: orderDetails,
+            address: { addressId: addressId },
+            payment: payment,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        console.log("Order response:", orderResponse.data);
+
+        notification.success({
+          message: "Order Placed",
+          description: "Your order has been placed successfully!",
+        });
+        setCart([]);
+        navigate("/home");
+      } catch (error) {
+        console.error("Error placing order:", error);
+        notification.error({
+          message: "Order Error",
+          description: "Unable to place your order. Please try again.",
+        });
+      }
+    }
+  };
 
   return (
-    <div className="checkout-big-container">
-      <div className="checkout-address-container">
-        <div className="info-address-container">
-          <div className="title-address">
-            <p>Delivery</p>
+    <div className="container">
+      <div className="top-shopping-container">
+        <div className="name-top-shopping-container">
+          <h1>YOUR CHECK OUT</h1>
+        </div>
+        <div className="name-bottom-shopping-container">
+          <div className="home-name-bsc">
+            <Link to="/">
+              <p>Home</p>
+            </Link>
           </div>
-          <div className="input-country-address">
-            <input type="text" name="" id="" />
-          </div>
-          <div className="input-name-address">
-            <div className="input-fn-address">
-              <input type="text" name="" id="" placeholder="First name" />
-            </div>
-            <div className="input-ln-address">
-              <input type="text" name="" id="" placeholder="last name" />
-            </div>
-          </div>
-          <div className="input-address-address">
-            <input type="text" name="" id="" placeholder="Address" />
-          </div>
-
-        
-          <p>Address: 123 Main St, City, State, Zip</p>
+          <span className="breadcrumb__sep">
+            <p>/</p>
+          </span>
+          <p>Your Check Out</p>
         </div>
       </div>
-      <div className="info-order-container">
-        <div className="checkout-details">
-          {cart.length > 0 ? (
-            cart.map((item, index) => (
-              <div key={index} className="checkout-item">
-                <div className="info-details-checkout">
-                  <div className="image-checkout-container">
-                    <div className="item-image">
-                      {item.productImages[0]?.imageUrl && (
-                        <img
-                          src={`http://localhost:8080/api/v1/images/${item.productImages[0].imageUrl}`}
-                          alt={item.name}
-                        />
-                      )}{" "}
-                      <div className="quantity-item-checkout">
-                        <p>{item.quantity}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="item-details">
-                    <div className="name-item-details">
-                      <p>{item.name}</p>
-                    </div>
-                    <div className="title-item-details">
-                      <p>
-                        {item.category.name} / {item.brand.name}
-                      </p>
-                    </div>
-                  </div>{" "}
+      <form onSubmit={handleSubmit}>
+        <div className="checkout-big-container">
+          <div className="checkout-address-container">
+            <div className="info-address-container">
+              <div className="title-address">
+                <p>Delivery</p>
+              </div>
+              <div className="input-country-address">
+                <input
+                  type="text"
+                  name="country"
+                  placeholder="Country"
+                  value={formFields.country}
+                  onChange={handleInputChange}
+                />
+                {errors.country && <p className="error">{errors.country}</p>}
+              </div>
+              <div className="input-name-address">
+                <div className="input-fn-address">
+                  <input
+                    type="text"
+                    name="firstName"
+                    placeholder="First name"
+                    value={formFields.firstName}
+                    onChange={handleInputChange}
+                  />
+                  {errors.firstName && (
+                    <p className="error">{errors.firstName}</p>
+                  )}
                 </div>
-
-                <div className="total-price">
-                  <p>₹</p>
-                  <p> {item.price * item.quantity}</p>
+                <div className="input-ln-address">
+                  <input
+                    type="text"
+                    name="lastName"
+                    placeholder="Last name"
+                    value={formFields.lastName}
+                    onChange={handleInputChange}
+                  />
+                  {errors.lastName && (
+                    <p className="error">{errors.lastName}</p>
+                  )}
                 </div>
               </div>
-            ))
-          ) : (
-            <p>No items in cart</p>
-          )}
-          <div className="total-price-check-out">
-            <p>Total</p>
-            <p>₹{totalPrice}</p>
+              <div className="input-address-address">
+                <input
+                  type="text"
+                  name="address"
+                  placeholder="Address"
+                  value={formFields.address}
+                  onChange={handleInputChange}
+                />
+                {errors.address && <p className="error">{errors.address}</p>}
+              </div>
+              <div className="apartment-phone-address">
+                <div className="input-apartment-address">
+                  <input
+                    type="text"
+                    name="apartment"
+                    placeholder="Apartment/Suite, etc."
+                    value={formFields.apartment}
+                    onChange={handleInputChange}
+                  />
+                </div>
+                <div className="input-phone-address">
+                  <input
+                    type="text"
+                    name="phone"
+                    placeholder="Phone"
+                    value={formFields.phone}
+                    onChange={handleInputChange}
+                  />
+                  {errors.phone && <p className="error">{errors.phone}</p>}
+                </div>
+              </div>
+              <div className="input-city-code-address">
+                <div className="input-city-address">
+                  <input
+                    type="text"
+                    name="city"
+                    placeholder="City"
+                    value={formFields.city}
+                    onChange={handleInputChange}
+                  />
+                  {errors.city && <p className="error">{errors.city}</p>}
+                </div>
+                <div className="input-postal-code">
+                  <input
+                    type="text"
+                    name="postalCode"
+                    placeholder="Postal Code"
+                    value={formFields.postalCode}
+                    onChange={handleInputChange}
+                  />
+                  {errors.postalCode && (
+                    <p className="error">{errors.postalCode}</p>
+                  )}
+                </div>
+              </div>
+              <div className="payment-methob-container">
+                <div className="title-payment">
+                  <p>Payment</p>
+                </div>
+                <div className="all-transactions">
+                  <p>All transactions are secure and encrypted.</p>
+                </div>
+                <div className="info-payment">
+                  <select
+                    name="paymentMethod"
+                    value={formFields.paymentMethod}
+                    onChange={handleInputChange}
+                  >
+                    <option value="">Select Payment Method</option>
+                    <option value="creditCard">Credit Card</option>
+                    <option value="paypal">PayPal</option>
+                    <option value="bankTransfer">Bank Transfer</option>
+                  </select>
+                  {errors.paymentMethod && (
+                    <p className="error">{errors.paymentMethod}</p>
+                  )}
+                </div>
+                <div className="order-now">
+                  <button type="submit">
+                    <p>ORDER NOW</p>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="info-order-container">
+            <div className="checkout-details">
+              {cart.length > 0 ? (
+                cart.map((item, index) => (
+                  <div key={index} className="checkout-item">
+                    <div className="info-details-checkout">
+                      <div className="image-checkout-container">
+                        <div className="item-image">
+                          {item.productImages[0]?.imageUrl && (
+                            <img
+                              src={`http://localhost:8080/api/v1/images/${item.productImages[0].imageUrl}`}
+                              alt={item.name}
+                            />
+                          )}
+                          <div className="quantity-item-checkout">
+                            <p>{item.quantity}</p>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="item-details">
+                        <div className="name-item-details">
+                          <p>{item.name}</p>
+                        </div>
+                        <div className="title-item-details">
+                          <p>
+                            {item.category.name} / {item.brand.name}
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="total-price">
+                      <p>₹</p>
+                      <p>{item.price * item.quantity}</p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <p>No items in cart</p>
+              )}
+              <div className="total-price-check-out">
+                <p>Total</p>
+                <p>₹{totalPrice}</p>
+              </div>
+            </div>
           </div>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

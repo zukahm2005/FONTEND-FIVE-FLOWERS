@@ -59,16 +59,16 @@ const OrderDetails = () => {
                 <p>Remaining Quantity: {detail.product ? detail.product.quantity : "null"}</p>
                 <h5>Product Images:</h5>
                 <div className="product-images">
-                  {detail.product && detail.product.productImages
-                    ? detail.product.productImages.map((image) => (
-                        <img
-                          key={image.productImageId}
-                          src={`http://localhost:8080/api/v1/images/${image.imageUrl}`}
-                          alt={detail.product.name}
-                          className="product-image"
-                        />
-                      ))
-                    : "null"}
+                  {detail.product && detail.product.productImages.length > 0
+                    ? (
+                      <img
+                        key={detail.product.productImages[0].productImageId}
+                        src={`http://localhost:8080/api/v1/images/${detail.product.productImages[0].imageUrl}`}
+                        alt={detail.product.name}
+                        className="product-image"
+                      />
+                    )
+                    : "No image available"}
                 </div>
                 <h4>Brand Information</h4>
                 <p>Brand: {detail.product && detail.product.brand ? detail.product.brand.name : "null"}</p>

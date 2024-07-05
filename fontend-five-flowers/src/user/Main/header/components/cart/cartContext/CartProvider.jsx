@@ -158,6 +158,7 @@ const CartProvider = ({ children }) => {
         removeFromCart,
         isLoggedIn,
         setIsLoggedIn,
+        setCart, // Ensure setCart is passed here
         totalPrice,
         distinctProductCount,
       }}
