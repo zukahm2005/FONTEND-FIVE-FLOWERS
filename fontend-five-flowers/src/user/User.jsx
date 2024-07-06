@@ -4,6 +4,7 @@ import Error from "../error/Error";
 import Footer from "./Main/footer/Footer";
 import Header from "./Main/header/Header";
 import CartProvider from "./Main/header/components/cart/cartContext/CartProvider";
+import CartUser from "./Main/header/components/cart/cartUser/CartUser";
 import CheckOut from "./Main/header/components/cart/checkOut/CheckOut";
 import ShoppingCart from "./Main/header/components/cart/shoppingCart/ShoppingCart";
 import Profile from "./Main/header/components/profile/Profile";
@@ -25,19 +26,17 @@ const User = () => {
         <div>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route
-              path="/home"
-              element={<Home setCart={setCart} cart={cart} />}
-            />
+            <Route path="/home" element={<Home setCart={setCart} cart={cart} />} />
             <Route path="/news" element={<News />} />
             <Route path="/news/:blogId" element={<BlogDetail />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/aboutUs" element={<AboutUs />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/shopping-cart" element={<ShoppingCart/>}/>
-            <Route path="/checkout" element={<CheckOut/>}/>
-            <Route path="*" element={<Error/>}/>
+            <Route path="/shopping-cart" element={<ShoppingCart />} />
+            <Route path="/checkout" element={<CheckOut />} />
+            <Route path="/cart-user" element={<CartUser />} />
+            <Route path="*" element={<Error />} />
           </Routes>
         </div>
         <Footer />

@@ -47,6 +47,7 @@ const OrderListAdmin = () => {
             <th>Người đặt</th>
             <th>Tổng giá</th>
             <th>Địa chỉ</th>
+            <th>Phương thức thanh toán</th>
             <th>Chi tiết</th>
           </tr>
         </thead>
@@ -61,6 +62,7 @@ const OrderListAdmin = () => {
                   ? `${order.address.firstName} ${order.address.lastName}, ${order.address.address}, ${order.address.city}, ${order.address.country}, ${order.address.postalCode}`
                   : "No address"}
               </td>
+              <td>{order.payment ? order.payment.paymentMethod : "No payment method"}</td>
               <td>
                 <button onClick={() => viewOrderDetails(order.orderId)}>
                   Xem chi tiết

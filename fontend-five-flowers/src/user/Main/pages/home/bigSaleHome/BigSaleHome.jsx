@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./bigSaleHome.scss";
 
 const BigSaleHome = () => {
@@ -13,7 +14,7 @@ const BigSaleHome = () => {
         </div>
         <div className="button-big-sale">
           <button>
-            <p>BUY NOW</p>
+          <Link to="/shop"><p>BUY NOW</p></Link>
           </button>
         </div>
       </div>

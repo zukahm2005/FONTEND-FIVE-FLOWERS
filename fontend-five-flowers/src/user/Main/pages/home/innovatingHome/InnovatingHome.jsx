@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import "./innovatingHome.scss";
 
 const InnovatingHome = () => {
@@ -26,7 +27,8 @@ const InnovatingHome = () => {
         </div>
         <div className="innova-button">
           <button>
-            <p>BUY NOW</p>
+          <Link to="/shop"><p>BUY NOW</p></Link>
+
           </button>
         </div>
       </div>

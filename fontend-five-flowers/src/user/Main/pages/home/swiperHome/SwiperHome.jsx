@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { motion } from "framer-motion";
 import ApiSwiperHome from "./apiSwiperHome/ApiSwiperHome";
 import "./swiperHome.scss";
 
@@ -43,7 +44,7 @@ const SwiperHome = () => {
           </div>
           <div className="button-swiper-details">
             <button className="button-swiper">
-              <p>BUY NOW</p>
+              <Link to="/shop"><p>BUY NOW</p></Link>
             </button>
           </div>
         </div>

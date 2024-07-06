@@ -1,11 +1,15 @@
 import { AnimatePresence, motion } from 'framer-motion';
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { CartContext } from '../cart/cartContext/CartProvider';
 import Login from './login/Login';
 import './profile.scss';
 import Register from './register/Register';
 
-const Profile = ({cart}) => {
+const Profile = () => {
   const [isLogin, setIsLogin] = useState(true);
+  const { isLoggedIn, logout } = useContext(CartContext); // Use logout function from CartContext
+  const navigate = useNavigate();
 
   const switchToRegister = () => {
     setIsLogin(false);
@@ -13,6 +17,11 @@ const Profile = ({cart}) => {
 
   const switchToLogin = () => {
     setIsLogin(true);
+  };
+
+  const handleLogout = () => {
+    logout();
+    navigate("/home"); // Redirect to login page after logout
   };
 
   return (
@@ -40,6 +49,7 @@ const Profile = ({cart}) => {
           </motion.div>
         )}
       </AnimatePresence>
+     
     </div>
   );
 };

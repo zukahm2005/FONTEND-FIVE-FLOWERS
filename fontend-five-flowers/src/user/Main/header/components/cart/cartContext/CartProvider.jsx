@@ -1,6 +1,7 @@
-import React, { createContext, useState, useEffect } from "react";
-import axios from "axios";
 import { notification } from "antd";
+import axios from "axios";
+import { jwtDecode } from "jwt-decode"; // Correct named import
+import React, { createContext, useEffect, useState } from "react";
 
 export const CartContext = createContext();
 
@@ -12,19 +13,62 @@ const CartProvider = ({ children }) => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
+      fetchOrders(token);
     }
   }, []);
+
+  const fetchOrders = async (token) => {
+    try {
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.userId;
+
+      const response = await axios.get(
+        `http://localhost:8080/api/v1/orders/user/${userId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      const orders = response.data;
+      console.log("Orders fetched:", orders); // Log orders
+      const cartItems = orders.flatMap((order) =>
+        order.orderDetails.map((detail) => ({
+          ...detail.product,
+          quantity: detail.quantity,
+          totalPrice: detail.quantity * detail.price,
+        }))
+      );
+      console.log("Cart items mapped:", cartItems); // Log cart items
+      setCart(cartItems);
+    } catch (error) {
+      console.error("Failed to fetch orders:", error);
+    }
+  };
+
+  const login = async (token) => {
+    setIsLoggedIn(true);
+    localStorage.setItem("token", token);
+    await fetchOrders(token); // Ensure orders are fetched before continuing
+  };
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    setIsLoggedIn(false);
+    setCart([]);
+  };
 
   const addToCart = async (product, quantity = 1) => {
     if (!isLoggedIn) {
       notification.error({
-        message: 'Login Required',
-        description: 'Please log in to add products to your cart.',
+        message: "Login Required",
+        description: "Please log in to add products to your cart.",
       });
       return;
     }
 
-    const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
+    const response = await axios.get(
+      `http://localhost:8080/api/v1/products/get/${product.productId}`
+    );
     const availableQuantity = response.data.quantity;
 
     setCart((prevCart) => {
@@ -87,7 +131,7 @@ const CartProvider = ({ children }) => {
     }
 
     try {
-      const decodedToken = JSON.parse(atob(token.split(".")[1]));
+      const decodedToken = jwtDecode(token);
       const userId = decodedToken.userId;
 
       const orderDetails = cart.map((product) => ({
@@ -158,9 +202,11 @@ const CartProvider = ({ children }) => {
         removeFromCart,
         isLoggedIn,
         setIsLoggedIn,
-        setCart, // Ensure setCart is passed here
+        setCart,
         totalPrice,
         distinctProductCount,
+        logout,
+        login,
       }}
     >
       {children}
