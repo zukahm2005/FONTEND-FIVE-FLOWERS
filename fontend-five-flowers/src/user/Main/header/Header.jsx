@@ -2,9 +2,8 @@ import { Drawer } from 'antd';
 import React, { useState } from "react";
 import Component from "./components/Component";
 import "./header.scss";
-import Logo from "./logo/Logo";
 import NavBar from "./navBar/NavBar";
-
+import Logo from "./navBar/logo/Logo";
 const Header = ({ cart }) => {
   const [drawerVisible, setDrawerVisible] = useState(false);
   const [drawerContent, setDrawerContent] = useState(null);
