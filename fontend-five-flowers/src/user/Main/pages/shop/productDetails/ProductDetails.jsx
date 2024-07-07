@@ -1,14 +1,17 @@
-import { Tooltip, notification } from "antd";
+import { Tooltip, notification, Rate, Input, Button, Space } from "antd";
 import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { CartContext } from "../../../header/components/cart/cartContext/CartProvider";
 import "./productDetails.scss";
 import RecommentProduct from "./recomProduct/RecomProduct";
+import Review from "../review/Review";
+
+const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -243,6 +246,8 @@ const ProductDetail = () => {
               >
                 <p>ADD TO CART</p>
               </button>
+                          <Review productId={product.productId} />
+
             </div>
           </div>
         </div>
@@ -250,6 +255,9 @@ const ProductDetail = () => {
           <div className="title-desc-product-details">
             <button>
               <p>PRODUCT DESCRIPTION</p>
+            </button>
+            <button>
+              <p>REVIEW</p>
             </button>
           </div>
           <div className="content-desc-product-details">

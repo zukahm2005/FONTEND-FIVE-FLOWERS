@@ -1,0 +1,27 @@
+:root {
+    --button-bg-color: #fa3e2c;
+    --button-bg-hover-color: #f97c37;
+  }
+  .review-container{
+    margin-top: 50px;
+  }
+  .submit-review-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 15px 35px;
+    background: linear-gradient(to right, var(--button-bg-hover-color), var(--button-bg-color), var(--button-bg-hover-color), var(--button-bg-color));
+    background-size: 200% auto;
+    color: white;
+    text-transform: uppercase;
+    border-radius: 30px;
+    text-decoration: none;
+    transition: background-position 0.3s ease, transform 0.3s;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+  
+    &:hover {
+      background-position: right center;
+    }
+  }
+  
