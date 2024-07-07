@@ -3,7 +3,7 @@ import "./cartUserDetails.scss";
 
 const CartUserDetails = ({ order }) => {
   const totalOrderDetailsPrice = order.orderDetails.reduce(
-    (total, detail) => total + detail.price * detail.quantity,
+    (total, detail) => total + detail.product.price * detail.quantity,
     0
   );
 
@@ -18,6 +18,7 @@ const CartUserDetails = ({ order }) => {
             <th>Price</th>
             <th>Qty</th>
             <th>Total</th>
+            <th>Status</th>
           </tr>
         </thead>
         <tbody>
@@ -38,18 +39,36 @@ const CartUserDetails = ({ order }) => {
                 )}
               </td>
               <td>{detail.product.name}</td>
-              <td>₹{parseInt(detail.price)}</td>
+              <td>₹{parseInt(detail.product.price)}</td> {/* Hiển thị giá gốc */}
               <td>x {detail.quantity}</td>
-              <td>₹{parseInt(detail.price * detail.quantity)}</td>
+              <td>₹{parseInt(detail.product.price * detail.quantity)}</td>
+              <td className={getStatusClassName(detail.status)}>
+                <strong>{detail.status}</strong>
+              </td>
             </tr>
           ))}
         </tbody>
       </table>
       <div className="order-summary">
-        <p>Total: ₹{parseInt(totalOrderDetailsPrice + 2)}</p>
+        <p>
+          <strong> Total:</strong> ₹{parseInt(totalOrderDetailsPrice + 2)}
+        </p>
       </div>
     </div>
   );
+};
+
+const getStatusClassName = (status) => {
+  switch (status) {
+    case "Pending":
+      return "status-pending";
+    case "Completed":
+      return "status-completed";
+    case "Canceled":
+      return "status-canceled";
+    default:
+      return "";
+  }
 };
 
 export default CartUserDetails;

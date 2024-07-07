@@ -60,13 +60,13 @@ const CartUser = () => {
   const applyFilters = (status, dates) => {
     let filtered = [...orders];
     if (status) {
-      filtered = filtered.filter(order => order.status === status);
+      filtered = filtered.filter((order) => order.status === status);
     }
     if (dates && dates.length === 2) {
       const [start, end] = dates;
-      filtered = filtered.filter(order => {
+      filtered = filtered.filter((order) => {
         const orderDate = moment(order.createdAt);
-        return orderDate.isBetween(start, end, 'days', '[]');
+        return orderDate.isBetween(start, end, "days", "[]");
       });
     }
     setFilteredOrders(filtered);
@@ -92,51 +92,63 @@ const CartUser = () => {
           <p>Orders</p>
         </div>
         <div className="filters-cart-user">
-          <Select 
-            defaultValue="Status: All" 
-            style={{ width: 200 }} 
+          <Select
+            defaultValue="Status: All"
+            style={{ width: 200 }}
             onChange={handleStatusFilterChange}
           >
-            <Option value="">Status: All</Option>
-            <Option value="Pending">Pending</Option>
-            <Option value="Completed">Completed</Option>
-            <Option value="Canceled">Canceled</Option>
+            <Option value="" className="all">Status: All</Option>
+            <Option value="Pending" className="pending">Pending</Option>
+            <Option value="Completed" className="completed">Completed</Option>
+            <Option value="Canceled" className="canceled">Canceled</Option>
           </Select>
-          <RangePicker 
-            onChange={handleDateRangeChange} 
-          />
+          <RangePicker onChange={handleDateRangeChange} />
         </div>
       </div>
 
-      <Collapse accordion>
-        {filteredOrders.length > 0 ? (
-          filteredOrders.map((order, index) => (
-            <Panel
-              header={
-                <div className="order-summary">
-                  <span>{index + 1}</span>
-                  <span>Total: ₹{order.price}</span>
-                  <span>
-                    {order.address
-                      ? `${order.address.address}, ${order.address.city}, ${order.address.country}`
-                      : "No address"}
-                  </span>
-                  <span>
-                    {order.payment ? order.payment.paymentMethod : "No payment method"}
-                  </span>
-                  <span>{formatTimeAgo(order.createdAt)}</span>
-                  <span className={getStatusClassName(order.status)}>{order.status}</span>
-                </div>
-              }
-              key={order.orderId}
-            >
-              <CartUserDetails order={order} />
-            </Panel>
-          ))
-        ) : (
-          <Panel header="No orders" key="0"></Panel>
-        )}
-      </Collapse>
+      <table className="orders-table">
+        <tbody>
+          {filteredOrders.length > 0 ? (
+            filteredOrders.map((order, index) => (
+              <tr key={order.orderId}>
+                <td colSpan="6">
+                  <Collapse accordion>
+                    <Panel
+                      header={
+                        <div className="order-summary">
+                          <span>{index + 1}</span>
+                          <span>Total: ₹{order.price}</span>
+                          <span>
+                            {order.address
+                              ? `${order.address.address}, ${order.address.city}, ${order.address.country}`
+                              : "No address"}
+                          </span>
+                          <span>
+                            {order.payment
+                              ? order.payment.paymentMethod
+                              : "No payment method"}
+                          </span>
+                          <span>{formatTimeAgo(order.createdAt)}</span>
+                          <span className={getStatusClassName(order.status)}>
+                            <strong>{order.status}</strong>
+                          </span>
+                        </div>
+                      }
+                      key={order.orderId}
+                    >
+                      <CartUserDetails order={order} />
+                    </Panel>
+                  </Collapse>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6">No orders</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };
