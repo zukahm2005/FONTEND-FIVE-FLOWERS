@@ -2,13 +2,13 @@ import { notification } from 'antd';
 import axios from 'axios';
 import { motion } from 'framer-motion';
 import React, { useContext } from 'react';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import "./cart.scss";
 import { CartContext } from "./cartContext/CartProvider";
 
 const Cart = () => {
   const { cart, updateQuantity, totalPrice, removeFromCart } = useContext(CartContext);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   const handleQuantityChange = async (productId, quantity) => {
     const product = cart.find((item) => item.productId === productId);
@@ -26,7 +26,7 @@ const Cart = () => {
   };
 
   const handleViewCart = () => {
-    navigate("/shopping-cart", { state: { cart } }); // Navigate to ShoppingCart with cart state
+    navigate("/shopping-cart", { state: { cart } });
   };
 
   const handleNavigateToProductDetails = (productId) => {
@@ -85,7 +85,7 @@ const Cart = () => {
                   </div>
                   <div className="cacul-container-content-cart">
                     <div className="total-each-product-cart">
-                      <p>Rs. {item.totalPrice}</p>
+                      <p>₹{item.totalPrice}</p>
                     </div>
                     <div className="cacul-cart">
                       <div
@@ -124,7 +124,7 @@ const Cart = () => {
             <p>Total Price</p>
           </div>
           <div className="total-money-cart">
-            <p>Rs. {totalPrice}</p>
+            <p>₹{totalPrice}</p>
           </div>
         </div>
       </div>

@@ -10,9 +10,8 @@ const Login = ({ switchToRegister }) => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const [userInfo, setUserInfo] = useState(null); // State to store user info
   const navigate = useNavigate();
-  const { setIsLoggedIn } = useContext(CartContext); // Use CartContext
+  const { login } = useContext(CartContext); // Use CartContext
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -26,25 +25,20 @@ const Login = ({ switchToRegister }) => {
       const response = await axios.post("http://localhost:8080/api/v1/user/login", { userName, password });
       const token = response.data.token;
       if (token) {
-        localStorage.setItem("token", token);
-        const decodedToken = jwtDecode(token); // Decode the token
-        console.log("Decoded Token:", decodedToken); // Debug log
-
-        // Extract user information from the token payload
-        const roles = decodedToken.roles.split(",");
-        const userId = decodedToken.userId; // Extract userId
-        const userName = decodedToken.userName; // Extract userName
+        await login(token); // Call the login method with the token
 
         setSuccess("Login successful");
         setError("");
-        setIsLoggedIn(true); // Set login status
-        setUserInfo({ userId, userName }); // Store user info
 
         // Clear input fields
         setUserName("");
         setPassword("");
 
+        const decodedToken = jwtDecode(token); // Decode the token
+        const roles = decodedToken.roles.split(",");
+
         setTimeout(() => {
+          setSuccess("");
           navigate(roles.includes("ROLE_ADMIN") ? "/admin" : "/home");
         }, 2000);
       } else {

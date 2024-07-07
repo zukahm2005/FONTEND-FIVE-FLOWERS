@@ -19,9 +19,9 @@ const OrderListAdmin = () => {
             },
           }
         );
-        setOrders(response.data.content); // Assuming paginated response
+        setOrders(response.data.content); // Assuming the response.data is the orders array
       } catch (error) {
-        console.error("Lỗi khi lấy danh sách đơn hàng:", error);
+        console.error("Error fetching orders:", error);
       }
     };
 
@@ -29,11 +29,6 @@ const OrderListAdmin = () => {
   }, []);
 
   const viewOrderDetails = (orderId) => {
-    if (!orderId) {
-      console.error("Order ID is undefined");
-      return;
-    }
-    console.log("Navigating to order details with ID:", orderId); // Debug log
     navigate(`/admin/orders/${orderId}`);
   };
 
@@ -47,27 +42,35 @@ const OrderListAdmin = () => {
             <th>Người đặt</th>
             <th>Tổng giá</th>
             <th>Địa chỉ</th>
+            <th>Phương thức thanh toán</th>
             <th>Chi tiết</th>
           </tr>
         </thead>
         <tbody>
-          {orders.map((order) => (
-            <tr key={order.orderId}>
-              <td>{order.orderId}</td>
-              <td>{order.user ? order.user.userName : "null"}</td>
-              <td>{order.price}</td>
-              <td>
-                {order.address
-                  ? `${order.address.firstName} ${order.address.lastName}, ${order.address.address}, ${order.address.city}, ${order.address.country}, ${order.address.postalCode}`
-                  : "No address"}
-              </td>
-              <td>
-                <button onClick={() => viewOrderDetails(order.orderId)}>
-                  Xem chi tiết
-                </button>
-              </td>
+          {orders.length > 0 ? (
+            orders.map((order) => (
+              <tr key={order.orderId}>
+                <td>{order.orderId}</td>
+                <td>{order.user ? order.user.userName : "null"}</td>
+                <td>{order.price}</td>
+                <td>
+                  {order.address
+                    ? `${order.address.firstName} ${order.address.lastName}, ${order.address.address}, ${order.address.city}, ${order.address.country}, ${order.address.postalCode}`
+                    : "No address"}
+                </td>
+                <td>{order.payment ? order.payment.paymentMethod : "No payment method"}</td>
+                <td>
+                  <button onClick={() => viewOrderDetails(order.orderId)}>
+                    Xem chi tiết
+                  </button>
+                </td>
+              </tr>
+            ))
+          ) : (
+            <tr>
+              <td colSpan="6">Không có đơn hàng nào</td>
             </tr>
-          ))}
+          )}
         </tbody>
       </table>
     </div>

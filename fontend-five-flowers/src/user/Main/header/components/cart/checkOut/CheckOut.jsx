@@ -1,12 +1,11 @@
 import { notification } from "antd";
 import axios from "axios";
 import React, { useContext, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../cartContext/CartProvider";
 import "./checkOut.scss";
 
 const CheckOut = () => {
-  const location = useLocation();
   const navigate = useNavigate();
   const { cart, totalPrice, setCart } = useContext(CartContext);
 
@@ -47,15 +46,13 @@ const CheckOut = () => {
     if (!formFields.lastName) newErrors.lastName = "Last name is required";
     if (!formFields.address) newErrors.address = "Address is required";
     if (!formFields.city) newErrors.city = "City is required";
-    if (!formFields.postalCode)
-      newErrors.postalCode = "Postal code is required";
+    if (!formFields.postalCode) newErrors.postalCode = "Postal code is required";
     if (!formFields.phone) {
       newErrors.phone = "Phone number is required";
     } else if (!/^\d+$/.test(formFields.phone)) {
       newErrors.phone = "Phone number must be digits only";
     }
-    if (!formFields.paymentMethod)
-      newErrors.paymentMethod = "Payment method is required";
+    if (!formFields.paymentMethod) newErrors.paymentMethod = "Payment method is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -108,7 +105,6 @@ const CheckOut = () => {
 
         const payment = {
           paymentMethod: formFields.paymentMethod,
-          // Add other payment details if necessary
         };
 
         const orderResponse = await axios.post(
@@ -188,9 +184,7 @@ const CheckOut = () => {
                     value={formFields.firstName}
                     onChange={handleInputChange}
                   />
-                  {errors.firstName && (
-                    <p className="error">{errors.firstName}</p>
-                  )}
+                  {errors.firstName && <p className="error">{errors.firstName}</p>}
                 </div>
                 <div className="input-ln-address">
                   <input
@@ -200,9 +194,7 @@ const CheckOut = () => {
                     value={formFields.lastName}
                     onChange={handleInputChange}
                   />
-                  {errors.lastName && (
-                    <p className="error">{errors.lastName}</p>
-                  )}
+                  {errors.lastName && <p className="error">{errors.lastName}</p>}
                 </div>
               </div>
               <div className="input-address-address">
@@ -255,12 +247,10 @@ const CheckOut = () => {
                     value={formFields.postalCode}
                     onChange={handleInputChange}
                   />
-                  {errors.postalCode && (
-                    <p className="error">{errors.postalCode}</p>
-                  )}
+                  {errors.postalCode && <p className="error">{errors.postalCode}</p>}
                 </div>
               </div>
-              <div className="payment-methob-container">
+              <div className="payment-method-container">
                 <div className="title-payment">
                   <p>Payment</p>
                 </div>
@@ -278,9 +268,7 @@ const CheckOut = () => {
                     <option value="paypal">PayPal</option>
                     <option value="bankTransfer">Bank Transfer</option>
                   </select>
-                  {errors.paymentMethod && (
-                    <p className="error">{errors.paymentMethod}</p>
-                  )}
+                  {errors.paymentMethod && <p className="error">{errors.paymentMethod}</p>}
                 </div>
                 <div className="order-now">
                   <button type="submit">
