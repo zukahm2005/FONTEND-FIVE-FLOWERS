@@ -1,268 +1,269 @@
 .container {
+  max-width: 100%;
+  margin: 5rem 0 0 0;
+  background-image: url(https://bikex-club.myshopify.com/cdn/shop/files/blog_detail-4.jpg?v=1598503894);
+  background-size: 100% 100%;
+  height: auto;
+
+  .top-shopping-container {
     max-width: 100%;
-    margin: 5rem 0 0 0;
-    background-image: url(https://bikex-club.myshopify.com/cdn/shop/files/blog_detail-4.jpg?v=1598503894);
-    background-size: 100% 100%;
-    height: auto;
-  
-    .top-shopping-container {
+    background-color: rgba(55, 55, 55, 0.8);
+    height: 175px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+
+    .name-top-shopping-container {
       max-width: 100%;
-      background-color: rgba(55, 55, 55, 0.8);
-      height: 175px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 1rem;
-  
-      .name-top-shopping-container {
-        max-width: 100%;
-  
-        h1 {
-          font-size: 2rem;
-          color: white;
-        }
-      }
-  
-      .name-bottom-shopping-container {
-        max-width: 100%;
-        display: flex;
-        flex-direction: row;
-        gap: 0.3rem;
-  
-        p {
-          color: white;
-        }
-  
-        .home-name-bsc {
-          &:hover {
-            p {
-              color: #fa422d;
-            }
-          }
-        }
+
+      h1 {
+        font-size: 2rem;
+        color: white;
       }
     }
-  
-    .checkout-big-container {
+
+    .name-bottom-shopping-container {
       max-width: 100%;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-  
-      //address + payment
-      .checkout-address-container {
-        max-width: 100%;
-        background-color: rgb(255, 255, 255);
-        border-right: thin solid #dddddd;
-  
-        .info-address-container {
-          max-width: 100%;
-          padding: 3rem;
-          margin-left: 30%;
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-  
-          input {
-            width: 100%;
-            padding: 1rem;
-            border: thin solid #dedede;
-            border-radius: 5px;
-            outline: none;
-          }
-  
-          .title-address {
-            max-width: 100%;
-  
-            p {
-              font-size: 1.4rem;
-              font-weight: 600;
-            }
-          }
-  
-          .input-country-address {
-            max-width: 100%;
-          }
-  
-          .input-name-address {
-            max-width: 100%;
-            display: grid;
-            grid-template-columns: auto auto;
-            gap: 1rem;
-          }
-  
-          .apartment-phone-address {
-            max-width: 100%;
-            display: grid;
-            grid-template-columns: auto auto;
-            gap: 1rem;
-          }
-  
-          .input-city-code-address {
-            max-width: 100%;
-            display: grid;
-            grid-template-columns: auto auto;
-            gap: 1rem;
-          }
-  
-          .payment-methob-container {
-            display: flex;
-            flex-direction: column;
-            gap: 1rem;
-  
-            .title-payment {
-              p {
-                font-size: 24px;
-                font-weight: 700;
-              }
-            }
-  
-            .all-transactions {
-              p {
-                font-size: 12px;
-                color: #9a9b9a;
-              }
-            }
-  
-            .info-payment {
-              max-width: 100%;
-  
-              select {
-                cursor: pointer;
-                width: 100%;
-                padding: 1rem;
-                font-size: 20px;
-                outline: none;
-                border: thin solid rgb(219, 219, 219);
-                color: #9a9b9a;
-  
-                option {
-                  cursor: pointer;
-                  font-size: 20px;
-                  color: #9a9b9a;
-                }
-              }
-            }
-  
-            .order-now {
-              max-width: 100%;
-              text-align: center;
-              button {
-                border-radius: 40px;
-                p {
-                  padding: 1rem 2rem;
-                  color: white;
-                }
-              }
-            }
-          }
-  
-          .error {
-            color: red;
-            font-size: 12px;
-          }
-        }
+      display: flex;
+      flex-direction: row;
+      gap: 0.3rem;
+
+      p {
+        color: white;
       }
-  
-      //order
-      .info-order-container {
-        max-width: 100%;
-        background-color: #f5f5f5;
-        height: auto;
-        padding-bottom: 20rem;
-  
-        .checkout-details {
-          max-width: 100%;
-          padding: 3rem;
-          max-width: 50%;
-  
-          .checkout-item {
-            display: flex;
-            flex-direction: row;
-            gap: 1rem;
-            align-items: center;
-            margin-bottom: 2rem;
-            justify-content: space-between;
-  
-            .info-details-checkout {
-              display: flex;
-              flex-direction: row;
-              gap: 1rem;
-              align-items: center;
-  
-              .image-checkout-container {
-                max-width: 22%;
-                border: thin solid #d6d6d6;
-                padding: 0.5rem 0 0.3rem 0;
-                border-radius: 10px;
-  
-                .item-image {
-                  position: relative;
-                  max-width: 100%;
-  
-                  img {
-                    width: 100%;
-                  }
-  
-                  .quantity-item-checkout {
-                    position: absolute;
-                    top: -30%;
-                    right: -10%;
-                    border-radius: 50%;
-                    background-color: #ee4e4e;
-  
-                    p {
-                      color: white;
-                      padding: 0.1rem 0.4rem;
-                    }
-                  }
-                }
-              }
-  
-              .item-details {
-                display: flex;
-                flex-direction: column;
-                gap: 0.3rem;
-                max-width: 100%;
-                padding-top: 1rem;
-  
-                .name-item-details {
-                  p {
-                    font-size: 14px;
-                  }
-                }
-  
-                .title-item-details {
-                  p {
-                    color: #878787;
-                    font-size: 12px;
-                  }
-                }
-              }
-            }
-  
-            .total-price {
-              display: flex;
-              gap: 0.1rem;
-  
-              p {
-                font-size: 14px;
-              }
-            }
-          }
-  
-          .total-price-check-out {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            font-size: 22px;
-            font-weight: bold;
-            p {
-              color: #ee4e4e;
-            }
+
+      .home-name-bsc {
+        &:hover {
+          p {
+            color: #fa422d;
           }
         }
       }
     }
   }
-  
+
+  .checkout-big-container {
+    max-width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    //address + payment
+    .checkout-address-container {
+      max-width: 100%;
+      background-color: rgb(255, 255, 255);
+      border-right: thin solid #dddddd;
+
+      .info-address-container {
+        max-width: 100%;
+        padding: 3rem;
+        margin-left: 30%;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+
+        input {
+          width: 100%;
+          padding: 1rem;
+          border: thin solid #dedede;
+          border-radius: 5px;
+          outline: none;
+        }
+
+        .title-address {
+          max-width: 100%;
+
+          p {
+            font-size: 1.4rem;
+            font-weight: 600;
+          }
+        }
+
+        .input-country-address {
+          max-width: 100%;
+        }
+
+        .input-name-address {
+          max-width: 100%;
+          display: grid;
+          grid-template-columns: auto auto;
+          gap: 1rem;
+        }
+
+        .apartment-phone-address {
+          max-width: 100%;
+          display: grid;
+          grid-template-columns: auto auto;
+          gap: 1rem;
+        }
+
+        .input-city-code-address {
+          max-width: 100%;
+          display: grid;
+          grid-template-columns: auto auto;
+          gap: 1rem;
+        }
+
+        .payment-method-container {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+
+          .title-payment {
+            p {
+              font-size: 24px;
+              font-weight: 700;
+            }
+          }
+
+          .all-transactions {
+            p {
+              font-size: 12px;
+              color: #9a9b9a;
+            }
+          }
+
+          .info-payment {
+            max-width: 100%;
+
+            select {
+              cursor: pointer;
+              width: 100%;
+              padding: 1rem;
+              font-size: 14px;
+              outline: none;
+              border: thin solid rgb(219, 219, 219);
+              color: #9a9b9a;
+
+              option {
+                cursor: pointer;
+                font-size: 14px;
+                color: #9a9b9a;
+              }
+            }
+          }
+
+          .order-now {
+            max-width: 100%;
+            text-align: center;
+
+            button {
+              border-radius: 40px;
+              background-color: #fa422d; // Thêm màu nền cho nút nếu cần
+              p {
+                padding: 1rem 2rem;
+                color: white;
+              }
+            }
+          }
+        }
+
+        .error {
+          color: red;
+          font-size: 12px;
+        }
+      }
+    }
+
+    //order
+    .info-order-container {
+      max-width: 100%;
+      background-color: #f5f5f5;
+      height: auto;
+      padding-bottom: 20rem;
+
+      .checkout-details {
+        max-width: 100%;
+        padding: 3rem;
+        max-width: 50%;
+
+        .checkout-item {
+          display: flex;
+          flex-direction: row;
+          gap: 1rem;
+          align-items: center;
+          margin-bottom: 2rem;
+          justify-content: space-between;
+
+          .info-details-checkout {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            align-items: center;
+
+            .image-checkout-container {
+              max-width: 22%;
+              border: thin solid #d6d6d6;
+              padding: 0.5rem 0 0.3rem 0;
+              border-radius: 10px;
+
+              .item-image {
+                position: relative;
+                max-width: 100%;
+
+                img {
+                  width: 100%;
+                }
+
+                .quantity-item-checkout {
+                  position: absolute;
+                  top: -30%;
+                  right: -10%;
+                  border-radius: 50%;
+                  background-color: #ee4e4e;
+
+                  p {
+                    color: white;
+                    padding: 0.1rem 0.4rem;
+                  }
+                }
+              }
+            }
+
+            .item-details {
+              display: flex;
+              flex-direction: column;
+              gap: 0.3rem;
+              max-width: 100%;
+              padding-top: 1rem;
+
+              .name-item-details {
+                p {
+                  font-size: 14px;
+                }
+              }
+
+              .title-item-details {
+                p {
+                  color: #878787;
+                  font-size: 12px;
+                }
+              }
+            }
+          }
+
+          .total-price {
+            display: flex;
+            gap: 0.1rem;
+
+            p {
+              font-size: 14px;
+            }
+          }
+        }
+
+        .total-price-check-out {
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          font-size: 22px;
+          font-weight: bold;
+          p {
+            color: #ee4e4e;
+          }
+        }
+      }
+    }
+  }
+}

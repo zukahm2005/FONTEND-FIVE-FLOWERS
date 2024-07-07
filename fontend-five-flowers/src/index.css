@@ -40,3 +40,7 @@ button:hover {
   background-position: right center;
   cursor: pointer;
 }
+select{
+  border: none;
+  outline: none;
+}

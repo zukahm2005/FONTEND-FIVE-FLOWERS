@@ -46,13 +46,15 @@ const CheckOut = () => {
     if (!formFields.lastName) newErrors.lastName = "Last name is required";
     if (!formFields.address) newErrors.address = "Address is required";
     if (!formFields.city) newErrors.city = "City is required";
-    if (!formFields.postalCode) newErrors.postalCode = "Postal code is required";
+    if (!formFields.postalCode)
+      newErrors.postalCode = "Postal code is required";
     if (!formFields.phone) {
       newErrors.phone = "Phone number is required";
     } else if (!/^\d+$/.test(formFields.phone)) {
       newErrors.phone = "Phone number must be digits only";
     }
-    if (!formFields.paymentMethod) newErrors.paymentMethod = "Payment method is required";
+    if (!formFields.paymentMethod)
+      newErrors.paymentMethod = "Payment method is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -93,8 +95,6 @@ const CheckOut = () => {
           }
         );
 
-        console.log("Address response:", addressResponse.data);
-
         const addressId = addressResponse.data.addressId;
 
         const orderDetails = cart.map((product) => ({
@@ -122,14 +122,21 @@ const CheckOut = () => {
           }
         );
 
-        console.log("Order response:", orderResponse.data);
+        const orderData = {
+          orderId: orderResponse.data.orderId,
+          orderDate: new Date().toLocaleDateString(),
+          total: totalPrice,
+          paymentMethod: formFields.paymentMethod,
+          orderDetails: orderResponse.data.orderDetails, // Đảm bảo orderDetails chính xác từ phản hồi API
+        };
 
         notification.success({
           message: "Order Placed",
           description: "Your order has been placed successfully!",
         });
+
         setCart([]);
-        navigate("/home");
+        navigate("/order-receive", { state: { order: orderData } });
       } catch (error) {
         console.error("Error placing order:", error);
         notification.error({
@@ -184,7 +191,9 @@ const CheckOut = () => {
                     value={formFields.firstName}
                     onChange={handleInputChange}
                   />
-                  {errors.firstName && <p className="error">{errors.firstName}</p>}
+                  {errors.firstName && (
+                    <p className="error">{errors.firstName}</p>
+                  )}
                 </div>
                 <div className="input-ln-address">
                   <input
@@ -194,7 +203,9 @@ const CheckOut = () => {
                     value={formFields.lastName}
                     onChange={handleInputChange}
                   />
-                  {errors.lastName && <p className="error">{errors.lastName}</p>}
+                  {errors.lastName && (
+                    <p className="error">{errors.lastName}</p>
+                  )}
                 </div>
               </div>
               <div className="input-address-address">
@@ -247,7 +258,9 @@ const CheckOut = () => {
                     value={formFields.postalCode}
                     onChange={handleInputChange}
                   />
-                  {errors.postalCode && <p className="error">{errors.postalCode}</p>}
+                  {errors.postalCode && (
+                    <p className="error">{errors.postalCode}</p>
+                  )}
                 </div>
               </div>
               <div className="payment-method-container">
@@ -268,7 +281,9 @@ const CheckOut = () => {
                     <option value="paypal">PayPal</option>
                     <option value="bankTransfer">Bank Transfer</option>
                   </select>
-                  {errors.paymentMethod && <p className="error">{errors.paymentMethod}</p>}
+                  {errors.paymentMethod && (
+                    <p className="error">{errors.paymentMethod}</p>
+                  )}
                 </div>
                 <div className="order-now">
                   <button type="submit">
