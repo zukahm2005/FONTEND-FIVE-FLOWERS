@@ -23,9 +23,23 @@ const GetAllBlogAdmin = () => {
     navigate('/admin/blog/add');
   };
 
+  const handleFetchNews = async () => {
+    try {
+      const response = await axios.post('http://localhost:8080/api/v1/blogs/fetch-news', {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`
+        }
+      });
+      setBlogs(response.data);
+    } catch (error) {
+      console.error('Error fetching news:', error);
+    }
+  };
+
   return (
     <div className='news-container'>
       <button onClick={handleAddBlog}>Create Blog Post</button>
+      <button onClick={handleFetchNews}>Fetch Bicycle News</button>
       <div className='blog-list-container'>
         {blogs.map((blog) => (
           <div key={blog.blogId} className="blog-item">

@@ -9,8 +9,6 @@ const AddBlogAdmin = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [imageFile, setImageFile] = useState(null);
-    const [query, setQuery] = useState('');
-    const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -75,66 +73,40 @@ const AddBlogAdmin = () => {
         }
     };
 
-    const handleSearch = async () => {
-        setLoading(true);
-        try {
-            const response = await axios.get(`http://localhost:8080/api/v1/blogs/search?query=${encodeURIComponent(query)}`);
-            alert(response.data);
-        } catch (error) {
-            console.error(error);
-            alert('Error during search');
-        }
-        setLoading(false);
-    };
-
     return (
-        <div>
-            <form onSubmit={handleSubmit} className="add-blog-form">
-                <div className="form-group">
-                    <label>Title</label>
-                    <input
-                        type="text"
-                        placeholder="e.g. Blog about your latest products or deals"
-                        value={title}
-                        onChange={(e) => setTitle(e.target.value)}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Content</label>
-                    <CKEditor
-                        editor={ClassicEditor}
-                        data={content}
-                        config={{
-                            extraPlugins: [MyCustomUploadAdapterPlugin],
-                        }}
-                        onChange={(event, editor) => {
-                            const data = editor.getData();
-                            setContent(data);
-                        }}
-                    />
-                </div>
-                <div className="form-group">
-                    <label>Image File</label>
-                    <input
-                        type="file"
-                        onChange={(e) => setImageFile(e.target.files[0])}
-                    />
-                </div>
-                <button type="submit">Publish Blog</button>
-            </form>
-            <div className="search-news">
-                <h2>Search News</h2>
+        <form onSubmit={handleSubmit} className="add-blog-form">
+            <div className="form-group">
+                <label>Title</label>
                 <input
                     type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Enter search query"
+                    placeholder="e.g. Blog about your latest products or deals"
+                    value={title}
+                    onChange={(e) => setTitle(e.target.value)}
                 />
-                <button onClick={handleSearch} disabled={loading}>
-                    {loading ? 'Searching...' : 'Search'}
-                </button>
             </div>
-        </div>
+            <div className="form-group">
+                <label>Content</label>
+                <CKEditor
+                    editor={ClassicEditor}
+                    data={content}
+                    config={{
+                        extraPlugins: [MyCustomUploadAdapterPlugin],
+                    }}
+                    onChange={(event, editor) => {
+                        const data = editor.getData();
+                        setContent(data);
+                    }}
+                />
+            </div>
+            <div className="form-group">
+                <label>Image File</label>
+                <input
+                    type="file"
+                    onChange={(e) => setImageFile(e.target.files[0])}
+                />
+            </div>
+            <button type="submit">Post Blog</button>
+        </form>
     );
 };
 
