@@ -6,10 +6,10 @@ import { CartContext } from '../../../header/components/cart/cartContext/CartPro
 
 const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
 
-const Review = ({ productId }) => {
+const Review = ({ productId, onReviewSubmitted }) => {
   const [reviewValue, setReviewValue] = useState(3);
   const [comment, setComment] = useState('');
-  const { isLoggedIn, login } = useContext(CartContext);
+  const { isLoggedIn } = useContext(CartContext);
 
   const handleReviewSubmit = async () => {
     const token = localStorage.getItem('token');
@@ -31,7 +31,7 @@ const Review = ({ productId }) => {
         {
           comment,
           rating: reviewValue,
-          product: { productId: productId },
+          product: { productId },
           user: { id: userId },
         },
         {
@@ -48,6 +48,7 @@ const Review = ({ productId }) => {
         });
         setComment('');
         setReviewValue(3);
+        onReviewSubmitted(); // Gọi callback để cập nhật danh sách đánh giá
       }
     } catch (error) {
       notification.error({

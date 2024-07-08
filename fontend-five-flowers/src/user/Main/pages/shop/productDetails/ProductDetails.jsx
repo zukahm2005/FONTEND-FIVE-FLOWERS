@@ -1,8 +1,8 @@
-import { Tooltip, notification, Rate, Input, Button, Space } from "antd";
+import { Tooltip, notification } from "antd";
 import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useRef, useState } from "react";
-import { useParams, Link } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
@@ -10,9 +10,7 @@ import { CartContext } from "../../../header/components/cart/cartContext/CartPro
 import "./productDetails.scss";
 import RecommentProduct from "./recomProduct/RecomProduct";
 import Review from "../review/Review";
-
-const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
-
+import ReviewsList from "../review/reviewList/ReviewList";
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -21,6 +19,8 @@ const ProductDetail = () => {
   const [activeSlide, setActiveSlide] = useState(0);
   const mainSlider = useRef(null);
   const thumbnailSlider = useRef(null);
+  const [showReviews, setShowReviews] = useState(false); // State để kiểm soát hiển thị danh sách đánh giá
+  const [reviews, setReviews] = useState([]); // State để lưu trữ danh sách đánh giá
 
   useEffect(() => {
     axios
@@ -31,7 +31,26 @@ const ProductDetail = () => {
       .catch((error) => {
         console.error(error);
       });
+
+    loadReviews(); // Tải đánh giá khi component được mount
   }, [id]);
+
+  const loadReviews = () => {
+    axios
+      .get(`/api/v1/reviews/product/${id}`) // Sử dụng endpoint mới
+      .then((response) => {
+        const reviewData = response.data.map(review => ({
+            ...review,
+            userName: review.user.userName,
+            productName: review.product.productName,
+            createdAt: review.createdAt
+        }));
+        setReviews(reviewData);
+      })
+      .catch((error) => {
+        console.error("There was an error fetching the reviews!", error);
+      });
+  };
 
   if (!product) {
     return <div>Loading...</div>;
@@ -246,22 +265,25 @@ const ProductDetail = () => {
               >
                 <p>ADD TO CART</p>
               </button>
-                          <Review productId={product.productId} />
-
+              <Review productId={product.productId} onReviewSubmitted={loadReviews} /> {/* Truyền callback vào Review */}
             </div>
           </div>
         </div>
         <div className="desc-container-product-details">
           <div className="title-desc-product-details">
-            <button>
+            <button onClick={() => setShowReviews(false)}>
               <p>PRODUCT DESCRIPTION</p>
             </button>
-            <button>
+            <button onClick={() => setShowReviews(true)}>
               <p>REVIEW</p>
             </button>
           </div>
           <div className="content-desc-product-details">
-            <p>{product.description}</p>
+            {!showReviews ? (
+              <p>{product.description}</p>
+            ) : (
+              <ReviewsList productId={id} reviews={reviews} /> // Truyền productId vào ReviewsList
+            )}
           </div>
         </div>
       </div>

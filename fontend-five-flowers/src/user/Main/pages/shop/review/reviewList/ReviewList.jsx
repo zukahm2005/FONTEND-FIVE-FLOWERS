@@ -1,70 +1,67 @@
-import React, { useState, useContext } from 'react';
-import { Rate, Input, Button, Space, notification } from 'antd';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import './Review.scss'; // Import file SCSS
-import { AuthContext } from '../../context/AuthContext'; // Import context xác thực
+import './ReviewsList.scss'; // Import CSS
 
-const desc = ['terrible', 'bad', 'normal', 'good', 'wonderful'];
+const defaultAvatarUrl = "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-image-182145777.jpg"; // URL của hình ảnh mặc định
 
-const Review = ({ productId }) => {
-  const { token } = useContext(AuthContext); // Lấy token từ context xác thực
-  const [reviewValue, setReviewValue] = useState(3);
-  const [comment, setComment] = useState('');
+const ReviewsList = ({ productId }) => {
+    const [reviews, setReviews] = useState([]);
 
-  const handleReviewSubmit = async () => {
-    try {
-      const response = await axios.post(
-        'http://localhost:8080/api/v1/reviews/add',
-        {
-          productId,
-          rating: reviewValue,
-          comment,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`, // Gửi token trong header
-          },
+    useEffect(() => {
+        if (productId) {
+            axios.get(`/api/v1/reviews/product/${productId}`)
+                .then(response => {
+                    const reviewData = response.data.map(review => ({
+                        ...review,
+                        userName: review.user.userName,
+                        productName: review.product.productName,
+                        createdAt: review.createdAt
+                    }));
+                    setReviews(reviewData);
+                })
+                .catch(error => {
+                    console.error("There was an error fetching the reviews!", error);
+                });
         }
-      );
-      if (response.status === 200) {
-        notification.success({
-          message: 'Review Submitted',
-          description: 'Your review has been submitted successfully.',
-        });
-        setComment('');
-        setReviewValue(3);
+    }, [productId]);
+
+    const formatDate = (dateArray) => {
+      if (Array.isArray(dateArray)) {
+          const [year, month, day] = dateArray;
+          return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
       }
-    } catch (error) {
-      notification.error({
-        message: 'Submission Error',
-        description: 'There was an error submitting your review. Please try again.',
-      });
-      console.error('Error submitting review:', error);
-    }
+      return 'Invalid Date';
   };
 
-  return (
-    <div className="review-container">
-      <h2>Leave a Review</h2>
-      <Space direction="vertical" size="middle" style={{ width: '100%' }}>
-        <Rate
-          allowHalf
-          tooltips={desc}
-          onChange={setReviewValue}
-          value={reviewValue}
-        />
-        {reviewValue ? <span>{desc[Math.ceil(reviewValue) - 1]}</span> : null}
-        <Input.TextArea 
-          placeholder="Write your review here..." 
-          value={comment} 
-          onChange={(e) => setComment(e.target.value)} 
-        />
-        <button className="submit-review-btn" onClick={handleReviewSubmit}>
-          Submit Review
-        </button>
-      </Space>
-    </div>
-  );
+    const ReviewItem = ({ review }) => {
+        return (
+            <div className="review-item">
+                <div className="review-header">
+                    <div className="review-user">
+                        <img src={defaultAvatarUrl} alt="User Avatar" className="review-avatar" />
+                        <div className="review-user-info">
+                            <span className="review-username">{review.userName}</span>
+                            <span className="review-date">{formatDate(review.createdAt)}</span>
+                        </div>
+                    </div>
+                    <div className="review-rating">
+                        <span className="stars">{'★'.repeat(review.rating)}{'☆'.repeat(5 - review.rating)}</span>
+                    </div>
+                </div>
+                <div className="review-content">
+                    <p>{review.comment}</p>
+                </div>
+            </div>
+        );
+    };
+
+    return (
+        <div className="reviews-list">
+            {reviews.map(review => (
+                <ReviewItem key={review.reviewId} review={review} />
+            ))}
+        </div>
+    );
 };
 
-export default Review;
+export default ReviewsList;
