@@ -67,7 +67,7 @@ const SideBarAdmin = () => {
             </p>
           </div>
           <div className="side-bar-admin-page">
-            <p>Address</p>
+            <p>Custommer</p>
           </div>
         </motion.div>
       </Link>
