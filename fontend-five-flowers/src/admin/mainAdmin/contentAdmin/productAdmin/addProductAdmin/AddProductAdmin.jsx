@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-
+import "./AddProductAdmin.scss";
 const AddProduct = () => {
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -98,80 +98,82 @@ const AddProduct = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        name="name"
-        placeholder="Product Name"
-        value={product.name}
-        onChange={handleInputChange}
-        required
-      />
-      <textarea
-        name="description"
-        placeholder="Description"
-        value={product.description}
-        onChange={handleInputChange}
-        required
-      />
-      <input
-        type="number"
-        name="price"
-        placeholder="Price"
-        value={product.price}
-        onChange={handleInputChange}
-        required
-      />
-      <input
-        type="number"
-        name="quantity"
-        placeholder="Quantity"
-        value={product.quantity}
-        onChange={handleInputChange}
-        required
-      />
-      <input
-        type="text"
-        name="color"
-        placeholder="Color"
-        value={product.color}
-        onChange={handleInputChange}
-        required
-      />
+    <div className="add-proadmin-container">
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="name"
+          placeholder="Product Name"
+          value={product.name}
+          onChange={handleInputChange}
+          required
+        />
+        <textarea
+          name="description"
+          placeholder="Description"
+          value={product.description}
+          onChange={handleInputChange}
+          required
+        />
+        <input
+          type="number"
+          name="price"
+          placeholder="Price"
+          value={product.price}
+          onChange={handleInputChange}
+          required
+        />
+        <input
+          type="number"
+          name="quantity"
+          placeholder="Quantity"
+          value={product.quantity}
+          onChange={handleInputChange}
+          required
+        />
+        <input
+          type="text"
+          name="color"
+          placeholder="Color"
+          value={product.color}
+          onChange={handleInputChange}
+          required
+        />
 
-      <select
-        name="brandId"
-        value={product.brandId}
-        onChange={handleInputChange}
-        required
-      >
-        <option value="">Select Brand</option>
-        {brands.map((brand) => (
-          <option key={brand.brandId} value={brand.brandId}>
-            {brand.name}
-          </option>
-        ))}
-      </select>
+        <select
+          name="brandId"
+          value={product.brandId}
+          onChange={handleInputChange}
+          required
+        >
+          <option value="">Select Brand</option>
+          {brands.map((brand) => (
+            <option key={brand.brandId} value={brand.brandId}>
+              {brand.name}
+            </option>
+          ))}
+        </select>
 
-      <select
-        name="categoryId"
-        value={product.categoryId}
-        onChange={handleInputChange}
-        required
-      >
-        <option value="">Select Category</option>
-        {categories.map((category) => (
-          <option key={category.categoryId} value={category.categoryId}>
-            {category.name}
-          </option>
-        ))}
-      </select>
+        <select
+          name="categoryId"
+          value={product.categoryId}
+          onChange={handleInputChange}
+          required
+        >
+          <option value="">Select Category</option>
+          {categories.map((category) => (
+            <option key={category.categoryId} value={category.categoryId}>
+              {category.name}
+            </option>
+          ))}
+        </select>
 
-      <input type="file" multiple onChange={handleFileChange} />
+        <input type="file" multiple onChange={handleFileChange} />
 
-      <button type="submit">Add Product</button>
-      {message && <p>{message}</p>}
-    </form>
+        <button type="submit">Add Product</button>
+        {message && <p>{message}</p>}
+      </form>
+    </div>
   );
 };
 

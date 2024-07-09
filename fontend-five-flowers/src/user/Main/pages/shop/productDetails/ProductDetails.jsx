@@ -7,10 +7,11 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick-theme.css";
 import "slick-carousel/slick/slick.css";
 import { CartContext } from "../../../header/components/cart/cartContext/CartProvider";
-import "./productDetails.scss";
-import RecommentProduct from "./recomProduct/RecomProduct";
 import Review from "../review/Review";
 import ReviewsList from "../review/reviewList/ReviewList";
+import "./productDetails.scss";
+import RecommentProduct from "./recomProduct/RecomProduct";
+
 const ProductDetail = () => {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
@@ -40,10 +41,10 @@ const ProductDetail = () => {
       .get(`/api/v1/reviews/product/${id}`) // Sử dụng endpoint mới
       .then((response) => {
         const reviewData = response.data.map(review => ({
-            ...review,
-            userName: review.user.userName,
-            productName: review.product.productName,
-            createdAt: review.createdAt
+          ...review,
+          userName: review.user.userName,
+          productName: review.product.productName,
+          createdAt: review.createdAt
         }));
         setReviews(reviewData);
       })
@@ -111,10 +112,11 @@ const ProductDetail = () => {
   const mainSliderSettings = {
     slidesToShow: 1,
     slidesToScroll: 1,
-    arrows: true,
     fade: true,
     asNavFor: thumbnailSlider.current,
     ref: mainSlider,
+    prevArrow: <div className="slick-prev" />,
+    nextArrow: <div className="slick-next" />,
   };
 
   const thumbnailSliderSettings = {
@@ -124,9 +126,10 @@ const ProductDetail = () => {
     asNavFor: mainSlider.current,
     focusOnSelect: true,
     ref: thumbnailSlider,
-    beforeChange: (current, next) => setActiveSlide(next),
     swipe: false,
     draggable: false,
+    prevArrow: <div className="slick-prev" />,
+    nextArrow: <div className="slick-next" />,
   };
 
   return (

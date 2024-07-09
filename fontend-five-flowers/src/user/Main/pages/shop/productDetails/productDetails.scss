@@ -244,3 +244,25 @@
     }
   }
 }
+.slick-prev,
+.slick-next {
+  z-index: 1;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+ 
+}
+
+.slick-prev:before,
+.slick-next:before {
+  color: rgb(118, 118, 118);
+  font-size: 20px;
+}
+
+.slick-prev {
+  left: -50px; // Điều chỉnh vị trí nút prev
+}
+
+.slick-next {
+  right: -50px; // Điều chỉnh vị trí nút next
+}
