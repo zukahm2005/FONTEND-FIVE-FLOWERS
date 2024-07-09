@@ -83,18 +83,9 @@ const AddBlogAdmin = () => {
         }
     };
 
-    const handleSelectArticle = async (article) => {
-        try {
-            await axios.post('http://localhost:8080/api/v1/blogs/process-article', article, {
-                headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            });
-            alert('Article processed and saved successfully');
-        } catch (error) {
-            console.error('Error processing article:', error);
-            alert('Failed to process article');
-        }
+    const handleSelectArticle = (article) => {
+        setTitle(article.title);
+        setContent(article.content);
     };
 
     return (
@@ -144,6 +135,7 @@ const AddBlogAdmin = () => {
                     <div key={index} className="search-result-item">
                         <h3>{article.title}</h3>
                         <p>{article.description}</p>
+                        <img src={article.urlToImage} alt={article.title} />
                         <button type="button" onClick={() => handleSelectArticle(article)}>Select</button>
                     </div>
                 ))}
