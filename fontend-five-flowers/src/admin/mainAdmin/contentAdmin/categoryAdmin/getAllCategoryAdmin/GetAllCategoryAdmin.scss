@@ -1,58 +1,57 @@
-.get-all-category {
-    width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+.page-category-admin-full-width-container {
+  width: 100%;
+  padding: 20px;
+}
 
-    h2 {
-        text-align: left;
-        margin-bottom: 20px;
-    }
+.header-category-admin-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
 
-    .collections-header {
-        display: flex;
-        justify-content: flex-end;
-        margin-bottom: 20px;
+.title-category-admin p {
+  font-size: 24px;
+  font-weight: bold;
+}
 
-        .create-collection-button {
-            padding: 10px 20px;
-            border: none;
-            border-radius: 4px;
-            background-color: #007bff;
-            color: #fff;
-            font-size: 16px;
-            cursor: pointer;
-            transition: background-color 0.3s;
+.menu-category-admin-container {
+  display: flex;
+  gap: 10px;
+}
 
-            &:hover {
-                background-color: #0056b3;
-            }
-        }
-    }
+.search-category-admin-container input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
 
-    .collections-table {
-        width: 100%;
-        border-collapse: collapse;
+.button-create-category-admin p {
+  padding: 10px 20px;
+  background-color: #1890ff;
+  color: white;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
 
-        th, td {
-            border: 1px solid #ddd;
-            padding: 8px;
-        }
+.button-create-category-admin p:hover {
+  background-color: #40a9ff;
+}
 
-        th {
-            background-color: #f2f2f2;
-            text-align: left;
-        }
+.bottom-category-admin-container {
+  margin-top: 20px;
+}
 
-        tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+.read-more {
+  color: #1890ff;
+  cursor: pointer;
+  display: inline;
+}
 
-        tr:hover {
-            background-color: #f1f1f1;
-        }
-    }
+.custom-pagination-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
 }
