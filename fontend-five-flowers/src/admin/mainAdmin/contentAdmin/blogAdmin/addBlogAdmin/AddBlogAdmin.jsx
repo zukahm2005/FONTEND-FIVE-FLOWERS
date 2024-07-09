@@ -9,6 +9,8 @@ const AddBlogAdmin = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
     const [imageFile, setImageFile] = useState(null);
+    const [searchKeyword, setSearchKeyword] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -60,16 +62,38 @@ const AddBlogAdmin = () => {
         const blog = { title, content, imageUrl };
 
         try {
-            const response = await axios.post('http://localhost:8080/api/v1/blogs/add', blog, {
+            await axios.post('http://localhost:8080/api/v1/blogs/add', blog, {
                 headers: {
                     Authorization: `Bearer ${localStorage.getItem('token')}`
                 }
             });
-            console.log(response.data);
             alert('Blog added successfully');
         } catch (error) {
             console.error(error);
             alert('Failed to add blog');
+        }
+    };
+
+    const handleSearch = async () => {
+        try {
+            const response = await axios.get(`http://localhost:8080/api/v1/blogs/search?keyword=${searchKeyword}`);
+            setSearchResults(response.data.articles.slice(0, 10)); // Lấy 10 bài viết đầu tiên
+        } catch (error) {
+            console.error('Error searching articles:', error);
+        }
+    };
+
+    const handleSelectArticle = async (article) => {
+        try {
+            await axios.post('http://localhost:8080/api/v1/blogs/process-article', article, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            alert('Article processed and saved successfully');
+        } catch (error) {
+            console.error('Error processing article:', error);
+            alert('Failed to process article');
         }
     };
 
@@ -104,6 +128,25 @@ const AddBlogAdmin = () => {
                     type="file"
                     onChange={(e) => setImageFile(e.target.files[0])}
                 />
+            </div>
+            <div className="form-group">
+                <label>Search Keyword</label>
+                <input
+                    type="text"
+                    placeholder="Enter keyword to search articles"
+                    value={searchKeyword}
+                    onChange={(e) => setSearchKeyword(e.target.value)}
+                />
+                <button type="button" onClick={handleSearch}>Search</button>
+            </div>
+            <div className="search-results">
+                {searchResults.map((article, index) => (
+                    <div key={index} className="search-result-item">
+                        <h3>{article.title}</h3>
+                        <p>{article.description}</p>
+                        <button type="button" onClick={() => handleSelectArticle(article)}>Select</button>
+                    </div>
+                ))}
             </div>
             <button type="submit">Post Blog</button>
         </form>
