@@ -1,16 +1,13 @@
 import React from "react";
-import { Link, Route, Routes } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
+import GetAllPaymentAdmin from "./getAllPayment/GetAllPaymentAdmin";
 import AddPaymentAdmin from "./addPaymentAdmin/AddPaymentAdmin";
-import GetAllPayment from "./getAllPayment/GetAllPayment";
-import "./paymentAdmin.scss";
 
 const PaymentAdmin = () => {
   return (
-    <div className="payment-admin-container">
-      <h1>Payment Admin</h1>
-      <Link to="add">add payment</Link>
+    <div className="payment-admin-main-container">
       <Routes>
-        <Route index element={<GetAllPayment />} />
+        <Route index element={<GetAllPaymentAdmin />} />
         <Route path="add" element={<AddPaymentAdmin />} />
       </Routes>
     </div>
