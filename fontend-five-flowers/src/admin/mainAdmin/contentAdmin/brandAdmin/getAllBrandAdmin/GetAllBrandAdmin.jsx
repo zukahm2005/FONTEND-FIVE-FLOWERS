@@ -9,9 +9,6 @@ const GetAllBrandAdmin = () => {
 
     useEffect(() => {
         axios.get('http://localhost:8080/api/v1/brands/all', {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            },
             params: {
                 page: 0,
                 size: 10,

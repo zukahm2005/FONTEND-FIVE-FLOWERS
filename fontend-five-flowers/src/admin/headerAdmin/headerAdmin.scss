@@ -4,6 +4,8 @@
     display: flex;
     flex-direction: column;
     background-color: black;
+    position: fixed;
+    z-index: 10;
     .header-main-admin {
         display: flex;
         flex-direction: row;

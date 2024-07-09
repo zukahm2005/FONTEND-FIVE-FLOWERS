@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './GetAllCategoryAdmin.scss';
 
@@ -9,9 +9,6 @@ const GetAllCategory = () => {
 
     useEffect(() => {
         axios.get('http://localhost:8080/api/v1/categories/all', {
-            headers: {
-                Authorization: `Bearer ${localStorage.getItem('token')}`
-            },
             params: {
                 page: 0,
                 size: 10,

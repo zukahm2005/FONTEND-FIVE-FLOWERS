@@ -1,17 +1,31 @@
-.bottom-container-admin{
+.bottom-container-admin {
     max-width: 100%;
     background-color: #f1f1f1;
-    .side-bar-container-admin{
+    .side-bar-container-admin {
         min-width: 17em;
         position: fixed;
         z-index: 2;
         background-color: #ebebeb;
         height: 100%;
     }
-    .content-container-admin{
+    .content-container-admin {
         max-width: 100%;
         text-align: center;
 
         justify-content: center;
     }
+}
+
+button {
+    background-color: #333;
+    color: white;
+    padding: 5px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow:
+        0 4px 6px rgba(0, 0, 0, 0.1),
+        0 1px 3px rgba(0, 0, 0, 0.08);
+    transition: all 0.3s ease;
 }

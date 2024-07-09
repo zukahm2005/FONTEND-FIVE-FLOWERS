@@ -62,8 +62,10 @@ const GetAllAddressAdmin = () => {
     }
   };
 
-  const filteredAddresses = addresses.filter((address) =>
-    address.user.userName.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredAddresses = addresses.filter(
+    (address) =>
+      address.user &&
+      address.user.userName.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   return (
@@ -78,15 +80,19 @@ const GetAllAddressAdmin = () => {
       <ul>
         {filteredAddresses.map((address) => (
           <li key={address.addressId}>
-            <p>User: {address.user.userName}</p>
+            <p>User: {address.user ? address.user.userName : "No user"}</p>
             <p>Address Line 1: {address.addressLine1}</p>
             <p>Address Line 2: {address.addressLine2}</p>
             <p>City: {address.city}</p>
             <p>State: {address.state}</p>
             <p>Postal Code: {address.postalCode}</p>
             <p>Country: {address.country}</p>
-            <Link to={`/admin/update-address/${address.addressId}`}>Update</Link>
-            <button onClick={() => handleDelete(address.addressId)}>Delete</button>
+            <Link to={`/admin/update-address/${address.addressId}`}>
+              Update
+            </Link>
+            <button onClick={() => handleDelete(address.addressId)}>
+              Delete
+            </button>
           </li>
         ))}
       </ul>

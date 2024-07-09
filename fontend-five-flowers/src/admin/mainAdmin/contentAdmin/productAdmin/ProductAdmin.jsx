@@ -1,12 +1,17 @@
-import React from 'react'
-import AddProductAdmin from './addProductAdmin/AddProductAdmin'
+import React from "react";
+import { Routes, Route } from "react-router-dom";
+import AddProductAdmin from "./addProductAdmin/AddProductAdmin";
+import GetAllProductAdmin from "./getAllProductAdmin/GetAllProductAdmin";
 
 const ProductAdmin = () => {
   return (
-    <div>
-        <AddProductAdmin/>
+    <div className="product-admin-main-container">
+      <Routes>
+        <Route index element={<GetAllProductAdmin />} />
+        <Route path="add" element={<AddProductAdmin />} />
+      </Routes>
     </div>
-  )
-}
+  );
+};
 
-export default ProductAdmin
+export default ProductAdmin;

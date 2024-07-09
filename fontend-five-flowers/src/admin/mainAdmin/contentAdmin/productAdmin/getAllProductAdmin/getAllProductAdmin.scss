@@ -1,0 +1,74 @@
+.page-product-admin-full-width-container {
+    max-width: 70%;
+    margin: 0 auto;
+    margin-left: 25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    height: 150rem;
+    padding-top: 5rem;
+    .header-product-admin-box {
+        max-width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem;
+        .title-proadmin {
+            p {
+                font-size: 30px;
+                font-weight: bold;
+            }
+        }
+        .menu-proadmin-container {
+            max-width: 100%;
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+            select {
+                background-color: #e3e3e3;
+                padding: 0.3rem;
+                border-radius: 10px;
+                text-align: center;
+            }
+
+            .button-create-proadmin {
+                max-width: 100%;
+                p {
+                    background-color: #000000;
+                    color: rgb(255, 255, 255);
+                    padding: 5px 20px;
+                    border: none;
+                    border-radius: 5px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    box-shadow:
+                        0 4px 6px rgba(0, 0, 0, 0.1),
+                        0 1px 3px rgba(0, 0, 0, 0.08);
+                    transition: all 0.3s ease;
+                }
+            }
+            .search-proadmin-container{
+                max-width: 100%;
+                input{
+                    padding: 0.35rem;
+                    outline: none;
+                    border: none;
+                    border-radius: 10px;
+                }
+            }
+        }
+    }
+    .bottom-proadmin-container{
+    }
+}
+
+
+
+.custom-pagination-button{
+    cursor: pointer;
+}
+.read-more {
+    color: blue;
+    cursor: pointer;
+}
