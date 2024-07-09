@@ -1,3 +1,5 @@
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Checkbox, Modal, Upload } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
@@ -19,6 +21,9 @@ const AddProduct = () => {
   });
   const [images, setImages] = useState([]);
   const [message, setMessage] = useState("");
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [existingImages, setExistingImages] = useState([]);
+  const [selectedImages, setSelectedImages] = useState([]);
 
   useEffect(() => {
     axios
@@ -30,6 +35,15 @@ const AddProduct = () => {
       .get("http://localhost:8080/api/v1/categories/all")
       .then((response) => setCategories(response.data.content))
       .catch((error) => console.error("Error fetching categories:", error));
+
+    // Fetch existing images
+    axios
+      .get("http://localhost:8080/api/v1/product_images/all")
+      .then((response) => {
+        const images = response.data;
+        setExistingImages(images);
+      })
+      .catch((error) => console.error("Error fetching images:", error));
   }, []);
 
   const handleInputChange = (e) => {
@@ -41,8 +55,19 @@ const AddProduct = () => {
     setProduct({ ...product, description: data });
   };
 
-  const handleFileChange = (e) => {
-    setImages(e.target.files);
+  const handleFileChange = (info) => {
+    const fileList = info.fileList.map((file) => file.originFileObj);
+    setImages(fileList);
+  };
+
+  const handleImageSelect = (image) => {
+    setSelectedImages((prev) => {
+      if (prev.includes(image)) {
+        return prev.filter((img) => img !== image);
+      } else {
+        return [...prev, image];
+      }
+    });
   };
 
   const handleSubmit = async (e) => {
@@ -74,22 +99,37 @@ const AddProduct = () => {
 
       const productId = productResponse.data.productId;
 
-      if (productId && images.length > 0) {
+      if (productId) {
         const formData = new FormData();
         for (let i = 0; i < images.length; i++) {
           formData.append("files", images[i]);
         }
 
-        await axios.post(
-          `http://localhost:8080/api/v1/products/add/images/${productId}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
+        if (images.length > 0) {
+          await axios.post(
+            `http://localhost:8080/api/v1/products/add/images/${productId}`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+        }
+
+        if (selectedImages.length > 0) {
+          await axios.post(
+            `http://localhost:8080/api/v1/products/add/existing-images/${productId}`,
+            selectedImages,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+        }
 
         setMessage("Product and images added successfully");
       } else {
@@ -99,6 +139,18 @@ const AddProduct = () => {
       console.error(error);
       setMessage("Failed to add product. Please try again.");
     }
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
   };
 
   return (
@@ -171,14 +223,13 @@ const AddProduct = () => {
                     onChange={handleInputChange}
                   />
                 </div>
-              </div>{" "}
-              <div className="media-image-cotainer">
+              </div>
+              <div className="media-image-container" onClick={showModal}>
                 <label>
                   <p>Media: </p>
                 </label>
-
                 <div className="upload-image-container">
-                  <input type="file" multiple onChange={handleFileChange} />
+                  <p>Click to upload images</p>
                 </div>
               </div>
               <div className="info-button-container">
@@ -219,6 +270,37 @@ const AddProduct = () => {
           {message && <p>{message}</p>}
         </form>
       </div>
+      <Modal
+        title="Upload or Select Images"
+        visible={isModalVisible}
+        onOk={handleOk}
+        onCancel={handleCancel}
+      >
+        <Upload
+          listType="picture"
+          multiple={true}
+          beforeUpload={() => false} // Prevent automatic upload
+          onChange={handleFileChange}
+        >
+          <Button icon={<UploadOutlined />}>Select Images to Upload</Button>
+        </Upload>
+        <div className="existing-images">
+          {existingImages.map((image, index) => (
+            <div key={index}>
+              <Checkbox
+                checked={selectedImages.includes(image.imageUrl)}
+                onChange={() => handleImageSelect(image.imageUrl)}
+              >
+                <img
+                  src={`http://localhost:8080/api/v1/images/${image.imageUrl}`}
+                  alt="product"
+                  style={{ width: "100px", height: "100px", objectFit: "cover" }}
+                />
+              </Checkbox>
+            </div>
+          ))}
+        </div>
+      </Modal>
     </div>
   );
 };
