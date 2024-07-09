@@ -5,110 +5,121 @@
     margin-left: 350px; // Điều chỉnh giá trị này để căn chỉnh đúng với menu bên trái
   
     .getalladdress-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 20px;
-        background-color: white;
-        padding: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      background-color: white;
+      padding: 10px;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+      h2 {
+        margin: 0;
+      }
+  
+      input {
+        padding: 5px 10px;
+        border: 1px solid #ccc;
         border-radius: 4px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    
-        h2 {
-          margin: 0;
-        }
-    
-        input {
-          padding: 5px 10px;
+      }
+  
+      .sort-menu {
+        display: flex;
+        align-items: center;
+  
+        .sort-select {
+          padding: 5px;
           border: 1px solid #ccc;
           border-radius: 4px;
         }
       }
-    
-      .bottom-proadmin-container {
-        background-color: white;
-        padding: 20px;
+    }
+  
+    .bottom-proadmin-container {
+      background-color: white;
+      padding: 20px;
+      border-radius: 4px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  
+      .ant-table {
+        border: 1px solid #f0f0f0;
         border-radius: 4px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-    
-        .ant-table {
-          border: 1px solid #f0f0f0;
-          border-radius: 4px;
-          overflow: hidden;
-        }
-    
-        .ant-table-thead > tr > th {
-          background: #fafafa;
-        }
-    
-        .ant-table-tbody > tr > td {
-          vertical-align: top;
-        }
-    
-        .ant-table-pagination {
-          margin-right: 20px;
+        overflow: hidden;
+      }
+  
+      .ant-table-thead > tr > th {
+        background: #fafafa;
+      }
+  
+      .ant-table-tbody > tr > td {
+        vertical-align: top;
+      }
+  
+      .ant-table-pagination {
+        margin-right: 20px;
+        display: flex;
+        justify-content: center;
+  
+        .custom-pagination-button {
+          background-color: transparent;
+          border: none;
+          color: black;
           display: flex;
+          align-items: center;
           justify-content: center;
-    
-          .custom-pagination-button {
-            background-color: transparent;
-            border: none;
-            color: black;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+          width: 30px;
+          height: 30px;
+          margin: 0 5px;
+          border-radius: 50%;
+          cursor: pointer;
+          transition: color 0.3s;
+  
+          &:hover {
+            color: #1890ff;
+          }
+  
+          &.active {
+            border: 1px solid #1890ff;
+            border-radius: 50%;
             width: 30px;
             height: 30px;
-            margin: 0 5px;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: color 0.3s;
-    
-            &:hover {
-              color: #1890ff;
-            }
-    
-            &.active {
-              border: 1px solid #1890ff;
-              border-radius: 50%;
-              width: 30px;
-              height: 30px;
-            }
-          }
-        }
-    
-        .ant-space-item {
-          button {
-            color: #000;
-    
-            &:hover {
-              color: #000;
-            }
-          }
-    
-          div {
-            color: #000;
-            cursor: pointer;
-    
-            &:hover {
-              color: #000;
-            }
-          }
-        }
-    
-        .address-horizontal {
-          display: flex;
-          flex-direction: row;
-          gap: 20px;
-    
-          p {
-            margin: 0;
           }
         }
       }
-    
-      p {
-        margin: 0;
-        padding: 0;
+  
+      .ant-space-item {
+        button {
+          color: #000;
+  
+          &:hover {
+            color: #000;
+          }
+        }
+  
+        div {
+          color: #000;
+          cursor: pointer;
+  
+          &:hover {
+            color: #000;
+          }
+        }
+      }
+  
+      .address-horizontal {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+  
+        p {
+          margin: 0;
+        }
       }
     }
+  
+    p {
+      margin: 0;
+      padding: 0;
+    }
+  }

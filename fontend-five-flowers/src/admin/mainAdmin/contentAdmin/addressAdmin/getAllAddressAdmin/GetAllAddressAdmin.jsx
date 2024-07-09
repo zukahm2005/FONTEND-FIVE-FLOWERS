@@ -3,7 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { MdDelete, MdEdit } from "react-icons/md";
+import { MdEdit } from "react-icons/md";
 import './GetAllAddressAdmin.scss';
 
 const GetAllAddressAdmin = () => {
@@ -16,6 +16,10 @@ const GetAllAddressAdmin = () => {
     total: 0,
   });
   const [searchTerm, setSearchTerm] = useState("");
+  const [filter, setFilter] = useState({
+    sort: "all",
+    search: "",
+  });
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
 
@@ -42,6 +46,7 @@ const GetAllAddressAdmin = () => {
           },
         }
       );
+      console.log(response.data.content); // Log data to check
       setAddresses(response.data.content || response.data); // Adjust if using pagination or not
       setPagination({
         current: page,
@@ -60,12 +65,13 @@ const GetAllAddressAdmin = () => {
   }, [pagination.current, pagination.pageSize]);
 
   useEffect(() => {
-    handleSearch();
-  }, [searchTerm, addresses]);
+    handleFilterAndSort();
+  }, [filter, addresses]);
 
-  const handleSearch = () => {
+  const handleFilterAndSort = () => {
     let filtered = [...addresses];
 
+    // Handle search filter
     if (searchTerm) {
       filtered = filtered.filter((address) =>
         address.user &&
@@ -73,47 +79,29 @@ const GetAllAddressAdmin = () => {
       );
     }
 
+    // Handle sort
+    switch (filter.sort) {
+      case "newest":
+        filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        break;
+      case "oldest":
+        filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        break;
+      case "a-to-z":
+        filtered.sort((a, b) => a.user.userName.localeCompare(b.user.userName));
+        break;
+      case "z-to-a":
+        filtered.sort((a, b) => b.user.userName.localeCompare(a.user.userName));
+        break;
+      default:
+        break;
+    }
+
     setFilteredAddresses(filtered);
   };
 
   const handleTableChange = (pagination) => {
     setPagination(pagination);
-  };
-
-  const confirmDelete = (id) => {
-    Modal.confirm({
-      title: "Are you sure you want to delete this address?",
-      content: "This action cannot be undone",
-      onOk: () => handleDelete(id),
-      onCancel: () => {},
-    });
-  };
-
-  const handleDelete = async (id) => {
-    const token = localStorage.getItem("token");
-    if (!token) {
-      console.error("You need to be logged in to delete address");
-      return;
-    }
-
-    try {
-      await axios.delete(
-        `http://localhost:8080/api/v1/addresses/delete/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-
-      setSuccess("Address deleted successfully");
-      setError("");
-      fetchAddresses(pagination.current, pagination.pageSize); // Refresh the addresses list after deletion
-    } catch (error) {
-      console.error("Error deleting address", error);
-      setError("Error deleting address");
-      setSuccess("");
-    }
   };
 
   const columns = [
@@ -125,7 +113,7 @@ const GetAllAddressAdmin = () => {
     },
     {
       title: "Phone",
-      dataIndex: ["user", "phone"],
+      dataIndex: "phone",
       key: "phone",
       render: (text) => (text ? text : "No phone"),
     },
@@ -153,12 +141,9 @@ const GetAllAddressAdmin = () => {
       key: "action",
       render: (text, record) => (
         <Space size="middle">
-          <Link to={`/admin/update-address/${record.addressId}`}>
+          <Link to={`/admin/address/update/${record.addressId}`}>
             <MdEdit />
           </Link>
-          <div onClick={() => confirmDelete(record.addressId)}>
-            <MdDelete style={{ cursor: "pointer" }} />
-          </div>
         </Space>
       ),
     },
@@ -195,6 +180,22 @@ const GetAllAddressAdmin = () => {
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
         />
+        <div className="sort-menu">
+          <select
+            className="sort-select"
+            value={filter.sort}
+            onChange={(e) => {
+              console.log("Sort filter changed:", e.target.value);
+              setFilter({ ...filter, sort: e.target.value });
+            }}
+          >
+            <option value="all">All</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+            <option value="a-to-z">A to Z</option>
+            <option value="z-to-a">Z to A</option>
+          </select>
+        </div>
       </div>
       <div className="bottom-proadmin-container">
         <Table

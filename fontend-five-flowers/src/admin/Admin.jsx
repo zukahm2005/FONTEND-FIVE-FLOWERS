@@ -13,7 +13,7 @@ import OrderDetails from "./mainAdmin/contentAdmin/orderAdmin/getAllOrderAdmin/o
 import PaymentAdmin from "./mainAdmin/contentAdmin/paymentAdmin/PaymentAdmin";
 import ProductAdmin from "./mainAdmin/contentAdmin/productAdmin/ProductAdmin";
 import SideBarAdmin from "./mainAdmin/sideBarAdmin/SideBarAdmin";
-
+import UpdateAddressAdmin from "./mainAdmin/contentAdmin/addressAdmin/updateAddressAdmin/UpdateAddressAdmin";
 const Admin = () => {
   const navigate = useNavigate();
 
@@ -36,6 +36,7 @@ const Admin = () => {
             <Route index element={<HomeAdmin />} />
             <Route path="home" element={<HomeAdmin />} />
             <Route path="address/*" element={<AddressAdmin />} />
+            <Route path="address/update/:id" element={<UpdateAddressAdmin />} /> {/* Thêm route cho UpdateAddressAdmin */}
             <Route path="blog/*" element={<BlogAdmin />} />
             <Route path="product/*" element={<ProductAdmin />} />
             <Route path="brand/*" element={<BrandAdmin />} />
