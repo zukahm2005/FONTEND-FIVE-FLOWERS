@@ -1,14 +1,13 @@
 import { motion } from "framer-motion";
 import React from "react";
-import { AiOutlineProduct } from "react-icons/ai";
+import { AiOutlineProduct, AiOutlineComment } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
 import { BsCart2 } from "react-icons/bs";
-import { MdOutlineHome } from "react-icons/md";
+import { MdOutlineHome, MdPayment } from "react-icons/md";
 import { RiBloggerLine } from "react-icons/ri";
 import { TbAddressBook, TbBrandAirbnb } from "react-icons/tb";
 import { Link, useLocation } from "react-router-dom";
 import "./sideBarAdmin.scss"; // Đảm bảo rằng bạn có file CSS cho thành phần này
-import { MdPayment } from "react-icons/md";
 
 const SideBarAdmin = () => {
   const location = useLocation();
@@ -67,7 +66,7 @@ const SideBarAdmin = () => {
             </p>
           </div>
           <div className="side-bar-admin-page">
-            <p>Custommer</p>
+            <p>Customer</p>
           </div>
         </motion.div>
       </Link>
@@ -125,6 +124,8 @@ const SideBarAdmin = () => {
           </div>
         </motion.div>
       </Link>
+
+      {/* ==== orders ======= */}
       <Link to="orders">
         <motion.div
           className={`side-bar-admin-link ${isActive("orders") ? "active" : ""}`}
@@ -133,7 +134,7 @@ const SideBarAdmin = () => {
         >
           <div className="side-bar-admin-icon">
             <p>
-            <BsCart2 />
+              <BsCart2 />
             </p>
           </div>
           <div className="side-bar-admin-page">
@@ -141,6 +142,8 @@ const SideBarAdmin = () => {
           </div>
         </motion.div>
       </Link>
+
+      {/* ==== payment ======= */}
       <Link to="payment">
         <motion.div
           className={`side-bar-admin-link ${isActive("payment") ? "active" : ""}`}
@@ -149,11 +152,29 @@ const SideBarAdmin = () => {
         >
           <div className="side-bar-admin-icon">
             <p>
-            <MdPayment />
+              <MdPayment />
             </p>
           </div>
           <div className="side-bar-admin-page">
             <p>Payment</p>
+          </div>
+        </motion.div>
+      </Link>
+
+      {/* ==== comment review ======= */}
+      <Link to="comment">
+        <motion.div
+          className={`side-bar-admin-link ${isActive("comment") ? "active" : ""}`}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <div className="side-bar-admin-icon">
+            <p>
+              <AiOutlineComment />
+            </p>
+          </div>
+          <div className="side-bar-admin-page">
+            <p>Comment Review</p>
           </div>
         </motion.div>
       </Link>

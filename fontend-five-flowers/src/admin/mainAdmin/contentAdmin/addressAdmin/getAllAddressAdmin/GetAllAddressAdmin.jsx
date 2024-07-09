@@ -15,7 +15,6 @@ const GetAllAddressAdmin = () => {
     pageSize: 10,
     total: 0,
   });
-  const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState({
     sort: "all",
     search: "",
@@ -72,10 +71,10 @@ const GetAllAddressAdmin = () => {
     let filtered = [...addresses];
 
     // Handle search filter
-    if (searchTerm) {
+    if (filter.search) {
       filtered = filtered.filter((address) =>
         address.user &&
-        address.user.userName.toLowerCase().includes(searchTerm.toLowerCase())
+        address.user.userName.toLowerCase().includes(filter.search.toLowerCase())
       );
     }
 
@@ -174,27 +173,33 @@ const GetAllAddressAdmin = () => {
     <div className="getalladdress-admin">
       <div className="getalladdress-header">
         <h2>All Customers</h2>
-        <input
-          type="text"
-          placeholder="Search by user name"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-        />
-        <div className="sort-menu">
-          <select
-            className="sort-select"
-            value={filter.sort}
-            onChange={(e) => {
-              console.log("Sort filter changed:", e.target.value);
-              setFilter({ ...filter, sort: e.target.value });
-            }}
-          >
-            <option value="all">All</option>
-            <option value="newest">Newest</option>
-            <option value="oldest">Oldest</option>
-            <option value="a-to-z">A to Z</option>
-            <option value="z-to-a">Z to A</option>
-          </select>
+        <div className="menu-custommer-container">
+          <div className="sort-menu">
+            <select
+              className="sort-select"
+              value={filter.sort}
+              onChange={(e) => {
+                console.log("Sort filter changed:", e.target.value);
+                setFilter({ ...filter, sort: e.target.value });
+              }}
+            >
+              <option value="all">All</option>
+              <option value="newest">Newest</option>
+              <option value="oldest">Oldest</option>
+              <option value="a-to-z">A to Z</option>
+              <option value="z-to-a">Z to A</option>
+            </select>
+          </div>
+          <div className="search-proadmin-container">
+            <input
+              type="text"
+              placeholder="Search customer..."
+              value={filter.search}
+              onChange={(e) => {
+                setFilter({ ...filter, search: e.target.value });
+              }}
+            />
+          </div>
         </div>
       </div>
       <div className="bottom-proadmin-container">

@@ -1,0 +1,51 @@
+.page-comment-review-full-width-container {
+    padding: 20px;
+    width: 80%;
+    margin-left: 300px;  
+    .header-comment-review-box {
+        margin-top: 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+  
+      .title-comment-review {
+        font-size: 24px;
+        font-weight: bold;
+      }
+    }
+  
+    .bottom-comment-review-container {
+      .ant-table {
+        background: #fff;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  
+        .ant-table-thead > tr > th {
+          background-color: #fafafa;
+          font-weight: bold;
+        }
+  
+        .ant-table-tbody > tr > td {
+          border-bottom: 1px solid #f0f0f0;
+        }
+      }
+    }
+  
+    .read-more {
+      color: blue;
+      cursor: pointer;
+      text-decoration: underline;
+    }
+  
+    .custom-pagination-button {
+      display: inline-block;
+      padding: 0 10px;
+      margin: 0 5px;
+      cursor: pointer;
+    }
+    .content-container-admin{
+        margin-top: 3rem;
+    }
+  }
+  

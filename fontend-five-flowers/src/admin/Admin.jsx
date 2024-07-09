@@ -14,6 +14,10 @@ import PaymentAdmin from "./mainAdmin/contentAdmin/paymentAdmin/PaymentAdmin";
 import ProductAdmin from "./mainAdmin/contentAdmin/productAdmin/ProductAdmin";
 import SideBarAdmin from "./mainAdmin/sideBarAdmin/SideBarAdmin";
 import UpdateAddressAdmin from "./mainAdmin/contentAdmin/addressAdmin/updateAddressAdmin/UpdateAddressAdmin";
+import GetAllReviewedProducts from "./mainAdmin/contentAdmin/commentReview/getAllProductReview/GetAllReviewedProducts";
+import GetAllCommentReview from "./mainAdmin/contentAdmin/commentReview/getAllComentReview/GetAllComentReview";
+import CommentReviewAdmin from "./mainAdmin/contentAdmin/commentReview/CommentReviewAdmin";
+
 const Admin = () => {
   const navigate = useNavigate();
 
@@ -36,7 +40,7 @@ const Admin = () => {
             <Route index element={<HomeAdmin />} />
             <Route path="home" element={<HomeAdmin />} />
             <Route path="address/*" element={<AddressAdmin />} />
-            <Route path="address/update/:id" element={<UpdateAddressAdmin />} /> {/* Thêm route cho UpdateAddressAdmin */}
+            <Route path="address/update/:id" element={<UpdateAddressAdmin />} />
             <Route path="blog/*" element={<BlogAdmin />} />
             <Route path="product/*" element={<ProductAdmin />} />
             <Route path="brand/*" element={<BrandAdmin />} />
@@ -44,6 +48,7 @@ const Admin = () => {
             <Route path="orders/*" element={<OrderAdmin />} />
             <Route path="orders/:id" element={<OrderDetails />} />
             <Route path="payment/*" element={<PaymentAdmin />} />
+            <Route path="comment/*" element={<CommentReviewAdmin />} />
             <Route path="*" element={<Error />} />
           </Routes>
         </div>

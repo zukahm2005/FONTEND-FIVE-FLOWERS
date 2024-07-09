@@ -1,0 +1,75 @@
+.page-product-admin-full-width-container {
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+  .header-product-admin-box {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .title-proadmin {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .menu-custommer-container {
+      display: flex;
+      align-items: center;
+
+      .sort-menu {
+        margin-right: 10px; // Adjust the space between sort menu and search input
+
+        .sort-select {
+          padding: 5px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+      }
+
+      .search-custommeradmin-container {
+        display: flex;
+        align-items: center;
+
+        input {
+          padding: 5px 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+        }
+      }
+    }
+  }
+
+  .bottom-proadmin-container {
+    .ant-table {
+      background: #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+
+      .ant-table-thead > tr > th {
+        background-color: #fafafa;
+        font-weight: bold;
+      }
+
+      .ant-table-tbody > tr > td {
+        border-bottom: 1px solid #f0f0f0;
+      }
+    }
+  }
+
+  .read-more {
+    color: blue;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+
+  .custom-pagination-button {
+    display: inline-block;
+    padding: 0 10px;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+}
