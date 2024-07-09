@@ -1,57 +1,77 @@
 .page-category-admin-full-width-container {
-  width: 100%;
-  padding: 20px;
-}
-
-.header-category-admin-box {
+  max-width: 70%;
+  margin: 0 auto;
+  margin-left: 25rem;
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-}
+  flex-direction: column;
+  gap: 2rem;
+  height: 150rem;
+  padding-top: 5rem;
 
-.title-category-admin p {
-  font-size: 24px;
-  font-weight: bold;
-}
+  .header-category-admin-box {
+    max-width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
 
-.menu-category-admin-container {
-  display: flex;
-  gap: 10px;
-}
+    .title-category-admin {
+      p {
+        font-size: 30px;
+        font-weight: bold;
+      }
+    }
 
-.search-category-admin-container input {
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
+    .menu-category-admin-container {
+      max-width: 100%;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
 
-.button-create-category-admin p {
-  padding: 10px 20px;
-  background-color: #1890ff;
-  color: white;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s;
-}
+      select {
+        background-color: #e3e3e3;
+        padding: 0.3rem;
+        border-radius: 10px;
+        text-align: center;
+      }
 
-.button-create-category-admin p:hover {
-  background-color: #40a9ff;
-}
+      .button-create-category-admin {
+        max-width: 100%;
+        p {
+          background-color: #000000;
+          color: rgb(255, 255, 255);
+          padding: 5px 20px;
+          border: none;
+          border-radius: 5px;
+          font-size: 16px;
+          cursor: pointer;
+          box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+          transition: all 0.3s ease;
+        }
+      }
 
-.bottom-category-admin-container {
-  margin-top: 20px;
-}
+      .search-category-admin-container {
+        max-width: 100%;
+        input {
+          padding: 0.35rem;
+          outline: none;
+          border: none;
+          border-radius: 10px;
+        }
+      }
+    }
+  }
 
-.read-more {
-  color: #1890ff;
-  cursor: pointer;
-  display: inline;
+  .bottom-category-admin-container {
+  }
 }
 
 .custom-pagination-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  cursor: pointer;
+}
+
+.read-more {
+  color: blue;
   cursor: pointer;
 }

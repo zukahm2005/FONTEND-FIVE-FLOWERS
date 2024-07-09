@@ -59,7 +59,6 @@ const GetAllBrandAdmin = () => {
   const handleFilterAndSort = () => {
     let filtered = [...brands];
 
-    // Handle search filter
     if (filter.search) {
       filtered = filtered.filter((brand) =>
         brand.name.toLowerCase().includes(filter.search.toLowerCase())

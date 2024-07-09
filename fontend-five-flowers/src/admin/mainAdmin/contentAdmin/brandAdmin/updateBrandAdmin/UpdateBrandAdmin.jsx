@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './UpdateBrandAdmin.scss';
 
@@ -11,6 +11,28 @@ const UpdateBrandAdmin = () => {
 
     const [message, setMessage] = useState('');
 
+    useEffect(() => {
+        if (brand.id) {
+            fetchBrandDetails(brand.id);
+        }
+    }, [brand.id]);
+
+    const fetchBrandDetails = (id) => {
+        axios.get(`http://localhost:8080/api/v1/brands/get/${id}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem('token')}`
+            }
+        })
+        .then(response => {
+            const { name, description } = response.data;
+            setBrand(prevState => ({ ...prevState, name, description }));
+        })
+        .catch(error => {
+            console.error('Error fetching brand details:', error);
+            setMessage('Failed to fetch brand details. Please try again.');
+        });
+    };
+
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setBrand({ ...brand, [name]: value });
@@ -22,20 +44,20 @@ const UpdateBrandAdmin = () => {
             name: brand.name,
             description: brand.description
         };
-        
+
         axios.put(`http://localhost:8080/api/v1/brands/update/${brand.id}`, brandData, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem('token')}`
             }
         })
-            .then(response => {
-                setMessage('Brand updated successfully!');
-                setBrand({ id: '', name: '', description: '' });
-            })
-            .catch(error => {
-                console.error(error);
-                setMessage('Failed to update brand. Please try again.');
-            });
+        .then(response => {
+            setMessage('Brand updated successfully!');
+            setBrand({ id: '', name: '', description: '' });
+        })
+        .catch(error => {
+            console.error(error);
+            setMessage('Failed to update brand. Please try again.');
+        });
     };
 
     return (
