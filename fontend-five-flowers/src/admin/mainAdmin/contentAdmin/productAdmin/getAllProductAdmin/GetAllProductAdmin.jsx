@@ -62,14 +62,12 @@ const GetAllProductAdmin = () => {
   const handleFilterAndSort = () => {
     let filtered = [...products];
 
-    // Handle search filter
     if (filter.search) {
       filtered = filtered.filter((product) =>
         product.name.toLowerCase().includes(filter.search.toLowerCase())
       );
     }
 
-    // Handle sort
     switch (filter.sort) {
       case "highest-price":
         filtered.sort((a, b) => b.price - a.price);
@@ -129,7 +127,7 @@ const GetAllProductAdmin = () => {
       key: "name",
     },
     {
-      title: " Image",
+      title: "Image",
       dataIndex: "productImages",
       key: "productImages",
       render: (productImages, record) => (
@@ -286,7 +284,7 @@ const GetAllProductAdmin = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            {selectedProduct?.description}
+            <div dangerouslySetInnerHTML={{ __html: selectedProduct?.description }} />
           </motion.div>
         </AnimatePresence>
       </Modal>

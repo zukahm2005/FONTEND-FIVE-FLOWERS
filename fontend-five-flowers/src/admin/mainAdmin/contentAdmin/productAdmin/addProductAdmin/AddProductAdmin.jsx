@@ -51,8 +51,11 @@ const AddProduct = () => {
     setProduct({ ...product, [name]: value });
   };
 
-  const handleDescriptionChange = (data) => {
-    setProduct({ ...product, description: data });
+  const handleDescriptionChange = (event, editor) => {
+    const data = editor.getData();
+    const plainText = data.replace(/<\/?[^>]+(>|$)/g, ""); // Loại bỏ thẻ HTML
+    console.log('Description:', plainText);  // Thêm dòng log này để kiểm tra giá trị của description
+    setProduct({ ...product, description: plainText });
   };
 
   const handleFileChange = (info) => {
@@ -73,12 +76,14 @@ const AddProduct = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    console.log('Submitting product:', product);  // Thêm dòng log này để kiểm tra giá trị của product
+
     try {
       const productResponse = await axios.post(
         "http://localhost:8080/api/v1/products/add",
         {
           name: product.name,
-          description: product.description,
+          description: product.description, // Đảm bảo mô tả được gửi đúng cách
           price: product.price,
           quantity: product.quantity,
           color: product.color,
