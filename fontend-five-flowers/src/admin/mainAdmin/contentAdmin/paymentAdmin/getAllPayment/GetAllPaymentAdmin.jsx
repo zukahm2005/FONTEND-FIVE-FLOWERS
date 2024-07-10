@@ -26,7 +26,7 @@ const GetAllPaymentAdmin = () => {
   const fetchPayments = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:8080/api/v1/payments/all", {
+      const response = await axios.get("http://localhost:8080/api/v1/payments/admin-created", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -135,8 +135,8 @@ const GetAllPaymentAdmin = () => {
       title: "Payment Date",
       dataIndex: "paymentDate",
       key: "paymentDate",
-      render: (text) => {
-        return formatDate(text);
+      render: (dateArray) => {
+        return formatDate(dateArray);
       },
     },
     {
