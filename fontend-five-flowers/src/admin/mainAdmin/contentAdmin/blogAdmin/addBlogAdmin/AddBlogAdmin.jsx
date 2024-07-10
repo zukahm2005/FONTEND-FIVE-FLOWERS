@@ -8,7 +8,6 @@ import { useNavigate } from 'react-router-dom';
 const AddBlogAdmin = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [imageFile, setImageFile] = useState(null);
     const [searchKeyword, setSearchKeyword] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
@@ -35,31 +34,10 @@ const AddBlogAdmin = () => {
         checkTokenExpiry();
     }, [navigate]);
 
-    const handleImageUpload = async () => {
-        const formData = new FormData();
-        formData.append('file', imageFile);
-
-        try {
-            const response = await axios.post('http://localhost:8080/api/v1/blogs/upload', formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                    Authorization: `Bearer ${localStorage.getItem('token')}`
-                }
-            });
-            return response.data;
-        } catch (error) {
-            console.error('Error uploading file:', error);
-            alert('Failed to upload image');
-            return null;
-        }
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const imageUrl = await handleImageUpload();
-        if (!imageUrl) return;
 
-        const blog = { title, content, imageUrl };
+        const blog = { title, content };
 
         try {
             await axios.post('http://localhost:8080/api/v1/blogs/add', blog, {
@@ -83,9 +61,19 @@ const AddBlogAdmin = () => {
         }
     };
 
-    const handleSelectArticle = (article) => {
-        setTitle(article.title);
-        setContent(article.content);
+    const handleSelectArticle = async (article) => {
+        try {
+            const response = await axios.post('http://localhost:8080/api/v1/blogs/process-article', article, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            const fullArticle = response.data;
+            setTitle(fullArticle.title);
+            setContent(fullArticle.content);
+        } catch (error) {
+            console.error('Error processing article:', error);
+        }
     };
 
     return (
@@ -111,13 +99,6 @@ const AddBlogAdmin = () => {
                         const data = editor.getData();
                         setContent(data);
                     }}
-                />
-            </div>
-            <div className="form-group">
-                <label>Image File</label>
-                <input
-                    type="file"
-                    onChange={(e) => setImageFile(e.target.files[0])}
                 />
             </div>
             <div className="form-group">
