@@ -1,13 +1,15 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Modal, Upload } from "antd";
+import { Button, Checkbox, Image, Modal, Pagination, Upload, message as antMessage } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import CustomCKEditor from "../../CKEditorComponent/CKEditorComponent";
 import "./AddProductAdmin.scss";
 
-const AddProduct = () => {
+const AddProductAdmin = () => {
+  const { id } = useParams(); // Lấy id từ URL nếu có
+  const navigate = useNavigate();
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
   const [product, setProduct] = useState({
@@ -24,38 +26,69 @@ const AddProduct = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [existingImages, setExistingImages] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [errors, setErrors] = useState({});
+  const imagesPerPage = 20;
 
   useEffect(() => {
-    axios
-      .get("http://localhost:8080/api/v1/brands/all")
-      .then((response) => setBrands(response.data.content))
-      .catch((error) => console.error("Error fetching brands:", error));
+    const fetchProduct = async () => {
+      if (id) {
+        try {
+          console.log("Fetching product with id:", id);
+          const response = await axios.get(`http://localhost:8080/api/v1/products/get/${id}`);
+          const productData = response.data;
+          console.log("Fetched product data:", productData);
+          setProduct({
+            name: productData.name || "",
+            description: productData.description || "",
+            price: productData.price || 0,
+            quantity: productData.quantity || 0,
+            color: productData.color || "",
+            brandId: productData.brand?.brandId || "",
+            categoryId: productData.category?.categoryId || "",
+          });
+          setSelectedImages(productData.productImages.map(img => img.imageUrl));
+        } catch (error) {
+          console.error("Error fetching product:", error);
+        }
+      }
+    };
 
-    axios
-      .get("http://localhost:8080/api/v1/categories/all")
-      .then((response) => setCategories(response.data.content))
-      .catch((error) => console.error("Error fetching categories:", error));
+    const fetchBrandsAndCategories = async () => {
+      try {
+        const [brandsResponse, categoriesResponse, imagesResponse] = await Promise.all([
+          axios.get("http://localhost:8080/api/v1/brands/all"),
+          axios.get("http://localhost:8080/api/v1/categories/all"),
+          axios.get("http://localhost:8080/api/v1/product_images/all")
+        ]);
 
-    // Fetch existing images
-    axios
-      .get("http://localhost:8080/api/v1/product_images/all")
-      .then((response) => {
-        const images = response.data;
-        setExistingImages(images);
-      })
-      .catch((error) => console.error("Error fetching images:", error));
-  }, []);
+        setBrands(brandsResponse.data.content);
+        setCategories(categoriesResponse.data.content);
+        setExistingImages(imagesResponse.data);
+      } catch (error) {
+        console.error("Error fetching brands, categories or images:", error);
+      }
+    };
+
+    fetchProduct();
+    fetchBrandsAndCategories();
+  }, [id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProduct({ ...product, [name]: value });
+    setProduct((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   const handleDescriptionChange = (event, editor) => {
     const data = editor.getData();
     const plainText = data.replace(/<\/?[^>]+(>|$)/g, ""); // Loại bỏ thẻ HTML
-    console.log('Description:', plainText);  // Thêm dòng log này để kiểm tra giá trị của description
-    setProduct({ ...product, description: plainText });
+    setProduct((prevState) => ({
+      ...prevState,
+      description: plainText,
+    }));
   };
 
   const handleFileChange = (info) => {
@@ -73,76 +106,134 @@ const AddProduct = () => {
     });
   };
 
+  const handleRemoveImage = (imageUrl, e) => {
+    e.stopPropagation(); // Ngăn không cho mở popup khi nhấn nút X
+    setSelectedImages(selectedImages.filter((img) => img !== imageUrl));
+  };
+
+  const validateForm = () => {
+    const newErrors = {};
+    if (!product.name) newErrors.name = "Product name is required";
+    if (!product.description) newErrors.description = "Description is required";
+    if (product.price <= 0) newErrors.price = "Price must be greater than 0";
+    if (product.quantity <= 0) newErrors.quantity = "Quantity must be greater than 0";
+    if (!product.color) newErrors.color = "Color is required";
+    if (!product.brandId) newErrors.brandId = "Brand is required";
+    if (!product.categoryId) newErrors.categoryId = "Category is required";
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log('Submitting product:', product);  // Thêm dòng log này để kiểm tra giá trị của product
+    if (!validateForm()) {
+      antMessage.error("Please correct the errors in the form");
+      return;
+    }
 
     try {
-      const productResponse = await axios.post(
-        "http://localhost:8080/api/v1/products/add",
-        {
-          name: product.name,
-          description: product.description, // Đảm bảo mô tả được gửi đúng cách
-          price: product.price,
-          quantity: product.quantity,
-          color: product.color,
-          brand: {
-            brandId: product.brandId,
+      if (id) {
+        console.log("Updating product with id:", id);
+        console.log("Product data to update:", product);
+        // Cập nhật sản phẩm
+        await axios.put(
+          `http://localhost:8080/api/v1/products/update/${id}`,
+          {
+            name: product.name,
+            description: product.description, // Đảm bảo mô tả được gửi đúng cách
+            price: product.price,
+            quantity: product.quantity,
+            color: product.color,
+            brand: {
+              brandId: product.brandId,
+            },
+            category: {
+              categoryId: product.categoryId,
+            },
           },
-          category: {
-            categoryId: product.categoryId,
-          },
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      const productId = productResponse.data.productId;
-
-      if (productId) {
-        const formData = new FormData();
-        for (let i = 0; i < images.length; i++) {
-          formData.append("files", images[i]);
-        }
-
-        if (images.length > 0) {
-          await axios.post(
-            `http://localhost:8080/api/v1/products/add/images/${productId}`,
-            formData,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "multipart/form-data",
-              },
-            }
-          );
-        }
-
-        if (selectedImages.length > 0) {
-          await axios.post(
-            `http://localhost:8080/api/v1/products/add/existing-images/${productId}`,
-            selectedImages,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "application/json",
-              },
-            }
-          );
-        }
-
-        setMessage("Product and images added successfully");
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setMessage("Product updated successfully");
+        // Navigate to another page to trigger re-render
+        navigate("/admin/product");
       } else {
-        setMessage("Product added but no images to upload");
+        console.log("Adding new product:", product);
+        // Thêm mới sản phẩm
+        const productResponse = await axios.post(
+          "http://localhost:8080/api/v1/products/add",
+          {
+            name: product.name,
+            description: product.description, // Đảm bảo mô tả được gửi đúng cách
+            price: product.price,
+            quantity: product.quantity,
+            color: product.color,
+            brand: {
+              brandId: product.brandId,
+            },
+            category: {
+              categoryId: product.categoryId,
+            },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        const productId = productResponse.data.productId;
+
+        if (productId) {
+          const formData = new FormData();
+          for (let i = 0; i < images.length; i++) {
+            formData.append("files", images[i]);
+          }
+
+          if (images.length > 0) {
+            console.log("Uploading images for product with id:", productId);
+            await axios.post(
+              `http://localhost:8080/api/v1/products/add/images/${productId}`,
+              formData,
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                  "Content-Type": "multipart/form-data",
+                },
+              }
+            );
+          }
+
+          if (selectedImages.length > 0) {
+            console.log("Adding existing images for product with id:", productId);
+            await axios.post(
+              `http://localhost:8080/api/v1/products/add/existing-images/${productId}`,
+              selectedImages,
+              {
+                headers: {
+                  Authorization: `Bearer ${localStorage.getItem("token")}`,
+                  "Content-Type": "application/json",
+                },
+              }
+            );
+          }
+
+          setMessage("Product and images added successfully");
+          // Navigate to another page to trigger re-render
+          navigate("/admin/product");
+        } else {
+          setMessage("Product added but no images to upload");
+        }
       }
     } catch (error) {
-      console.error(error);
-      setMessage("Failed to add product. Please try again.");
+      console.error("Error in add/update product:", error);
+      setMessage("Failed to add/update product. Please try again.");
     }
   };
 
@@ -158,6 +249,13 @@ const AddProduct = () => {
     setIsModalVisible(false);
   };
 
+  // Logic for displaying current images
+  const indexOfLastImage = currentPage * imagesPerPage;
+  const indexOfFirstImage = indexOfLastImage - imagesPerPage;
+  const currentImages = existingImages.slice(indexOfFirstImage, indexOfLastImage);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
   return (
     <div className="add-proadmin-container">
       <div className="layout-proadmin-container">
@@ -165,7 +263,7 @@ const AddProduct = () => {
           <Link to="/admin/product">
             <FaArrowLeft />
           </Link>
-          <p>Add Product</p>
+          <p>{id ? "Edit Product" : "Add Product"}</p>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="bottom-proadmin-add-container">
@@ -181,6 +279,7 @@ const AddProduct = () => {
                   value={product.name}
                   onChange={handleInputChange}
                 />
+                {errors.name && <span className="error">{errors.name}</span>}
               </div>
               <div className="desc-container-proadmin">
                 <label>
@@ -190,6 +289,9 @@ const AddProduct = () => {
                   data={product.description}
                   onChange={handleDescriptionChange}
                 />
+                {errors.description && (
+                  <span className="error">{errors.description}</span>
+                )}
               </div>
               <div className="info-proadmin-container">
                 <div className="info-price-container">
@@ -203,6 +305,7 @@ const AddProduct = () => {
                     value={product.price}
                     onChange={handleInputChange}
                   />
+                  {errors.price && <span className="error">{errors.price}</span>}
                 </div>
                 <div className="info-quantity-container">
                   <label>
@@ -215,6 +318,9 @@ const AddProduct = () => {
                     value={product.quantity}
                     onChange={handleInputChange}
                   />
+                  {errors.quantity && (
+                    <span className="error">{errors.quantity}</span>
+                  )}
                 </div>
                 <div className="info-color-container">
                   <label>
@@ -227,6 +333,7 @@ const AddProduct = () => {
                     value={product.color}
                     onChange={handleInputChange}
                   />
+                  {errors.color && <span className="error">{errors.color}</span>}
                 </div>
               </div>
               <div className="media-image-container" onClick={showModal}>
@@ -234,7 +341,25 @@ const AddProduct = () => {
                   <p>Media: </p>
                 </label>
                 <div className="upload-image-container">
-                  <p>Click to upload images</p>
+                  {selectedImages.length === 0 ? (
+                    <p>Select Images to Upload</p>
+                  ) : (
+                    selectedImages.map((image, index) => (
+                      <div key={index} className="selected-image">
+                        <Image
+                          width={100}
+                          src={`http://localhost:8080/api/v1/images/${image}`}
+                        />
+                        <Button
+                          type="text"
+                          onClick={(e) => handleRemoveImage(image, e)}
+                          className="button-delete-image"
+                        >
+                          X
+                        </Button>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
               <div className="info-button-container">
@@ -244,32 +369,49 @@ const AddProduct = () => {
               </div>
             </div>
             <div className="right-proadmin-main">
-              <select
-                name="brandId"
-                value={product.brandId}
-                onChange={handleInputChange}
-              >
-                <option value="">Select Brand</option>
-                {brands.map((brand) => (
-                  <option key={brand.brandId} value={brand.brandId}>
-                    {brand.name}
-                  </option>
-                ))}
-              </select>
-
-              <select
-                name="categoryId"
-                value={product.categoryId}
-                onChange={handleInputChange}
-                required
-              >
-                <option value="">Select Category</option>
-                {categories.map((category) => (
-                  <option key={category.categoryId} value={category.categoryId}>
-                    {category.name}
-                  </option>
-                ))}
-              </select>
+              <div className="proadmin-components">
+                <label>
+                  <p>Brand: </p>
+                </label>
+                <select
+                  name="brandId"
+                  value={product.brandId}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select Brand</option>
+                  {brands.map((brand) => (
+                    <option key={brand.brandId} value={brand.brandId}>
+                      {brand.name}
+                    </option>
+                  ))}
+                </select>
+                {errors.brandId && (
+                  <span className="error">{errors.brandId}</span>
+                )}
+              </div>
+              <div className="proadmin-components">
+                <label>
+                  <p>Category: </p>
+                </label>
+                <select
+                  name="categoryId"
+                  value={product.categoryId}
+                  onChange={handleInputChange}
+                >
+                  <option value="">Select Category</option>
+                  {categories.map((category) => (
+                    <option
+                      key={category.categoryId}
+                      value={category.categoryId}
+                    >
+                      {category.name}
+                    </option>
+                  ))}
+                </select>
+                {errors.categoryId && (
+                  <span className="error">{errors.categoryId}</span>
+                )}
+              </div>
             </div>
           </div>
           {message && <p>{message}</p>}
@@ -277,7 +419,7 @@ const AddProduct = () => {
       </div>
       <Modal
         title="Upload or Select Images"
-        visible={isModalVisible}
+        open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
       >
@@ -289,9 +431,9 @@ const AddProduct = () => {
         >
           <Button icon={<UploadOutlined />}>Select Images to Upload</Button>
         </Upload>
-        <div className="existing-images">
-          {existingImages.map((image, index) => (
-            <div key={index}>
+        <div className="existing-images-container">
+          {currentImages.map((image, index) => (
+            <div key={index} className="existing-images">
               <Checkbox
                 checked={selectedImages.includes(image.imageUrl)}
                 onChange={() => handleImageSelect(image.imageUrl)}
@@ -299,15 +441,21 @@ const AddProduct = () => {
                 <img
                   src={`http://localhost:8080/api/v1/images/${image.imageUrl}`}
                   alt="product"
-                  style={{ width: "100px", height: "100px", objectFit: "cover" }}
                 />
               </Checkbox>
             </div>
           ))}
         </div>
+        <Pagination
+          current={currentPage}
+          pageSize={imagesPerPage}
+          total={existingImages.length}
+          onChange={paginate}
+          showSizeChanger={false} // Ẩn phần lựa chọn số lượng mục trên mỗi trang
+        />
       </Modal>
     </div>
   );
 };
 
-export default AddProduct;
+export default AddProductAdmin;

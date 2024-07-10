@@ -9,6 +9,7 @@ const ProductAdmin = () => {
       <Routes>
         <Route index element={<GetAllProductAdmin />} />
         <Route path="add" element={<AddProductAdmin />} />
+        <Route path="edit/:id" element={<AddProductAdmin />} /> {/* Thêm route này */}
       </Routes>
     </div>
   );

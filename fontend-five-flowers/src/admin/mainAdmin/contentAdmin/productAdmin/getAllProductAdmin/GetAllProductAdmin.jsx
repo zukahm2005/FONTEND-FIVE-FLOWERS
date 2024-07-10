@@ -106,6 +106,7 @@ const GetAllProductAdmin = () => {
     Modal.confirm({
       title: "Are you sure you want to delete this product?",
       content: "This action cannot be undone",
+      className: "delete-confirm-modal",
       onOk: () => handleDelete(id),
       onCancel: () => {},
     });
@@ -190,7 +191,7 @@ const GetAllProductAdmin = () => {
       key: "action",
       render: (text, record) => (
         <Space size="middle">
-          <Link to={`edit/${record.productId}`}>
+          <Link to={`/admin/product/edit/${record.productId}`}>
             <MdEdit />
           </Link>
           <div onClick={() => confirmDelete(record.productId)}>
@@ -284,7 +285,9 @@ const GetAllProductAdmin = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            <div dangerouslySetInnerHTML={{ __html: selectedProduct?.description }} />
+            <div
+              dangerouslySetInnerHTML={{ __html: selectedProduct?.description }}
+            />
           </motion.div>
         </AnimatePresence>
       </Modal>
