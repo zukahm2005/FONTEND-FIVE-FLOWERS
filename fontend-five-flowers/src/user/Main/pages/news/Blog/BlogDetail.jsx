@@ -31,9 +31,18 @@ const BlogDetail = () => {
         return 'Invalid Date';
     };
 
+    const extractFirstImageUrl = (htmlContent) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlContent, 'text/html');
+        const img = doc.querySelector('img');
+        return img ? img.src : null;
+    };
+
     if (!blog) {
         return <div>Loading...</div>;
     }
+
+    const firstImageUrl = extractFirstImageUrl(blog.content);
 
     return (
         <div className='blog-detail'>
@@ -46,7 +55,7 @@ const BlogDetail = () => {
                 </div>
             </div>
             <div className="blog-content">
-                <img className="blog-image" src={`http://localhost:8080/api/v1/images/${blog.imageUrl}`} alt={blog.title} />
+                {firstImageUrl && <img className="blog-image" src={firstImageUrl} alt={blog.title} />}
                 <div className="blog-meta">
                     <span className="blog-date">
                         <FaCalendarAlt /> {formatDate(blog.createdAt)}
@@ -55,11 +64,10 @@ const BlogDetail = () => {
                         <FaUser /> {blog.author.userName}
                     </span>
                 </div>
-                <div className="blog-text">
-                    {blog.content.split('\n').map((paragraph, index) => (
-                        <p key={index}>{paragraph}</p>
-                    ))}
-                </div>
+                <div
+                    className="blog-text"
+                    dangerouslySetInnerHTML={{ __html: blog.content }}
+                />
             </div>
         </div>
     );

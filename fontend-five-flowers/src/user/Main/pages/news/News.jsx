@@ -51,6 +51,13 @@ const News = () => {
         return 'Invalid Date';
     };
 
+    const extractFirstImageUrl = (htmlContent) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlContent, 'text/html');
+        const img = doc.querySelector('img');
+        return img ? img.src : null;
+    };
+
     return (
         <div className='news-container'>
             <div className="header-container">
@@ -64,7 +71,7 @@ const News = () => {
             <div className='blog-list-container'>
                 {currentBlogs.map((blog) => (
                     <div key={blog.blogId} className="blog-item">
-                        <img src={`http://localhost:8080/api/v1/images/${blog.imageUrl}`} alt={blog.title} className="blog-image" />
+                        <img src={extractFirstImageUrl(blog.content)} alt={blog.title} className="blog-image" />
                         <div className="blog-content">
                             <div className="blog-meta">
                                 <span className="blog-date">
