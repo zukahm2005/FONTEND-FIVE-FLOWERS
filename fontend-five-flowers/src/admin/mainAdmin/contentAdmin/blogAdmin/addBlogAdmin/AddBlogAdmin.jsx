@@ -2,13 +2,13 @@ import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import axios from 'axios';
 import React, { useState, useEffect } from 'react';
-import './AddBlogAdmin.scss';
+import { Table, Button } from 'antd';
 import { useNavigate } from 'react-router-dom';
+import './AddBlogAdmin.scss';
 
 const AddBlogAdmin = () => {
     const [title, setTitle] = useState('');
     const [content, setContent] = useState('');
-    const [searchKeyword, setSearchKeyword] = useState('');
     const [searchResults, setSearchResults] = useState([]);
     const navigate = useNavigate();
 
@@ -54,7 +54,7 @@ const AddBlogAdmin = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/v1/blogs/search?keyword=${searchKeyword}`);
+            const response = await axios.get(`http://localhost:8080/api/v1/blogs/search?keyword=bicycle`);
             setSearchResults(response.data.articles.slice(0, 10)); // Lấy 10 bài viết đầu tiên
         } catch (error) {
             console.error('Error searching articles:', error);
@@ -75,6 +75,34 @@ const AddBlogAdmin = () => {
             console.error('Error processing article:', error);
         }
     };
+
+    const columns = [
+        {
+            title: 'Avatar',
+            dataIndex: 'urlToImage',
+            key: 'urlToImage',
+            render: (text) => <img src={text} alt="avatar" style={{ width: 50, height: 50 }} />,
+        },
+        {
+            title: 'Title',
+            dataIndex: 'title',
+            key: 'title',
+        },
+        {
+            title: 'Description',
+            dataIndex: 'description',
+            key: 'description',
+        },
+        {
+            title: 'Action',
+            key: 'action',
+            render: (_, record) => (
+                <Button type="link" onClick={() => handleSelectArticle(record)}>
+                    Select
+                </Button>
+            ),
+        },
+    ];
 
     return (
         <form onSubmit={handleSubmit} className="add-blog-form">
@@ -102,24 +130,12 @@ const AddBlogAdmin = () => {
                 />
             </div>
             <div className="form-group">
-                <label>Search Keyword</label>
-                <input
-                    type="text"
-                    placeholder="Enter keyword to search articles"
-                    value={searchKeyword}
-                    onChange={(e) => setSearchKeyword(e.target.value)}
-                />
-                <button type="button" onClick={handleSearch}>Search</button>
+                <Button type="primary" onClick={handleSearch}>
+                    Search Latest Bicycle News
+                </Button>
             </div>
             <div className="search-results">
-                {searchResults.map((article, index) => (
-                    <div key={index} className="search-result-item">
-                        <h3>{article.title}</h3>
-                        <p>{article.description}</p>
-                        <img src={article.urlToImage} alt={article.title} />
-                        <button type="button" onClick={() => handleSelectArticle(article)}>Select</button>
-                    </div>
-                ))}
+                <Table columns={columns} dataSource={searchResults} rowKey="url" pagination={false} />
             </div>
             <button type="submit">Post Blog</button>
         </form>

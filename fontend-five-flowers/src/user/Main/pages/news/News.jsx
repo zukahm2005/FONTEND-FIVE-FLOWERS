@@ -58,6 +58,12 @@ const News = () => {
         return img ? img.src : null;
     };
 
+    const extractTextFromHtml = (htmlContent) => {
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlContent, 'text/html');
+        return doc.body.textContent || "";
+    };
+
     return (
         <div className='news-container'>
             <div className="header-container">
@@ -71,7 +77,7 @@ const News = () => {
             <div className='blog-list-container'>
                 {currentBlogs.map((blog) => (
                     <div key={blog.blogId} className="blog-item">
-                        <img src={extractFirstImageUrl(blog.content)} alt={blog.title} className="blog-image" />
+                        <img src={blog.imageUrl || extractFirstImageUrl(blog.content)} alt={blog.title} className="blog-image" />
                         <div className="blog-content">
                             <div className="blog-meta">
                                 <span className="blog-date">
@@ -79,7 +85,7 @@ const News = () => {
                                 </span>
                             </div>
                             <h2>{blog.title}</h2>
-                            <p>{blog.content.substring(0, 200)}...</p>
+                            <p>{extractTextFromHtml(blog.content).substring(0, 200)}...</p>
                             <Link to={`/news/${blog.blogId}`} className="read-more-btn">READ MORE</Link>
                         </div>
                     </div>
