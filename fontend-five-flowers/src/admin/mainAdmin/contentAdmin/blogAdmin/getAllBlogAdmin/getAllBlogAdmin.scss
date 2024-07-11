@@ -1,0 +1,54 @@
+.page-blog-admin-full-width-container {
+  padding: 20px;
+
+  .header-blog-admin-box {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+
+    .title-blogadmin {
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .menu-blogadmin-container {
+      display: flex;
+      gap: 10px;
+
+      button {
+        padding: 10px 20px;
+        border: none;
+        background-color: #1890ff;
+        color: white;
+        cursor: pointer;
+        transition: background-color 0.3s;
+
+        &:hover {
+          background-color: #40a9ff;
+        }
+      }
+    }
+  }
+
+  .bottom-blogadmin-container {
+    .ant-table {
+      width: 100%;
+    }
+
+    .image-container {
+      display: flex;
+      align-items: center;
+
+      .main-image {
+        border-radius: 5px;
+      }
+    }
+  }
+
+  .delete-confirm-modal {
+    .ant-modal-body {
+      padding: 20px;
+    }
+  }
+}

@@ -1,55 +1,134 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Modal, Space, Table } from "antd";
+import axios from "axios";
+import { MdDelete, MdEdit } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import "./getAllBlogAdmin.scss";
 
 const GetAllBlogAdmin = () => {
   const [blogs, setBlogs] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+    total: 0,
+  });
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await axios.get('http://localhost:8080/api/v1/blogs/all');
-        setBlogs(response.data.content);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    fetchBlogs();
-  }, []);
-
-  const handleAddBlog = () => {
-    navigate('/admin/blog/add');
-  };
-
-  const handleFetchNews = async () => {
+  const fetchBlogs = async (page = 1, pageSize = 10) => {
+    setLoading(true);
     try {
-      const response = await axios.post('http://localhost:8080/api/v1/blogs/fetch-news', {}, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`
+      const response = await axios.get(
+        "http://localhost:8080/api/v1/blogs/all",
+        {
+          params: {
+            page: page - 1,
+            size: pageSize,
+          },
         }
+      );
+      setBlogs(response.data.content);
+      setPagination({
+        current: page,
+        pageSize: pageSize,
+        total: response.data.totalElements,
       });
-      setBlogs(response.data);
+      setLoading(false);
     } catch (error) {
-      console.error('Error fetching news:', error);
+      console.error("There was an error fetching the blogs!", error);
+      setLoading(false);
     }
   };
 
-  return (
-    <div className='news-container'>
-      <button onClick={handleAddBlog}>Create Blog Post</button>
-      <button onClick={handleFetchNews}>Fetch Bicycle News</button>
-      <div className='blog-list-container'>
-        {blogs.map((blog) => (
-          <div key={blog.blogId} className="blog-item">
-            <img src={`http://localhost:8080/api/v1/images/${blog.imageUrl}`} alt={blog.title} className="blog-image" />
-            <div className="blog-content">
-              <h2>{blog.title}</h2>
-              <p>{blog.content.substring(0, 200)}...</p>
+  useEffect(() => {
+    fetchBlogs(pagination.current, pagination.pageSize);
+  }, [pagination.current, pagination.pageSize]);
+
+  const handleTableChange = (pagination) => {
+    setPagination(pagination);
+  };
+
+  const confirmDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this blog?",
+      content: "This action cannot be undone",
+      className: "delete-confirm-modal",
+      onOk: () => handleDelete(id),
+      onCancel: () => {},
+    });
+  };
+
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete(`http://localhost:8080/api/v1/blogs/delete/${id}`);
+      fetchBlogs(pagination.current, pagination.pageSize);
+    } catch (error) {
+      console.error("There was an error deleting the blog!", error);
+    }
+  };
+
+  const columns = [
+    {
+      title: "Image",
+      dataIndex: "imageUrl",
+      key: "imageUrl",
+      render: (imageUrl) => (
+        <Space size="middle">
+          {imageUrl && (
+            <div className="image-container">
+              <img
+                src={imageUrl}
+                alt="Blog"
+                style={{ width: 50, height: 50 }}
+                className="main-image"
+              />
             </div>
-          </div>
-        ))}
+          )}
+        </Space>
+      ),
+    },
+    {
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
+    },
+    {
+      title: "Actions",
+      key: "actions",
+      render: (text, record) => (
+        <Space size="middle">
+          <MdEdit
+            onClick={() => navigate(`/admin/blog/edit/${record.blogId}`)}
+            style={{ cursor: "pointer" }}
+          />
+          <MdDelete
+            onClick={() => confirmDelete(record.blogId)}
+            style={{ cursor: "pointer" }}
+          />
+        </Space>
+      ),
+    },
+  ];
+
+  return (
+    <div className="page-blog-admin-full-width-container">
+      <div className="header-blog-admin-box">
+        <div className="title-blogadmin">
+          <p>Blogs</p>
+        </div>
+        <div className="menu-blogadmin-container">
+          <button onClick={() => navigate('/admin/blog/add')}>Create Blog Post</button>
+        </div>
+      </div>
+      <div className="bottom-blogadmin-container">
+        <Table
+          columns={columns}
+          dataSource={blogs}
+          loading={loading}
+          pagination={pagination}
+          onChange={handleTableChange}
+          rowKey="blogId"
+        />
       </div>
     </div>
   );
