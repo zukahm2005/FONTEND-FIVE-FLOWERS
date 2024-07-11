@@ -98,19 +98,23 @@ const CheckOut = () => {
                 return;
             }
 
+            const addressPayload = {
+                country: formFields.country,
+                firstName: formFields.firstName,
+                lastName: formFields.lastName,
+                address: formFields.address,
+                apartment: formFields.apartment,
+                phone: formFields.phone,
+                city: formFields.city,
+                postalCode: formFields.postalCode,
+                user: { id: userId },
+            };
+
+            console.log("Address Payload:", addressPayload);
+
             const addressResponse = await axios.post(
                 "http://localhost:8080/api/v1/addresses/add",
-                {
-                    country: formFields.country,
-                    firstName: formFields.firstName,
-                    lastName: formFields.lastName,
-                    address: formFields.address,
-                    apartment: formFields.apartment,
-                    phone: formFields.phone,
-                    city: formFields.city,
-                    postalCode: formFields.postalCode,
-                    user: { id: userId },
-                },
+                addressPayload,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -126,14 +130,18 @@ const CheckOut = () => {
                 price: product.price,
             }));
 
+            const orderPayload = {
+                user: { id: userId },
+                orderDetails: orderDetails,
+                address: { addressId: addressId },
+                payment: { paymentId: formFields.paymentMethod },
+            };
+
+            console.log("Order Payload:", orderPayload);
+
             const orderResponse = await axios.post(
                 "http://localhost:8080/api/v1/orders/add",
-                {
-                    user: { id: userId },
-                    orderDetails: orderDetails,
-                    address: { addressId: addressId },
-                    payment: { paymentId: formFields.paymentMethod },
-                },
+                orderPayload,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -165,6 +173,10 @@ const CheckOut = () => {
         }
     }
 };
+
+
+
+
 
   return (
     <div className="container">
