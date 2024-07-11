@@ -1,14 +1,12 @@
-import { Collapse, DatePicker, Select } from "antd";
+import { DatePicker, Select, Table, Tag } from "antd";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
-import moment from "moment";
 import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../cart/cartContext/CartProvider";
 import "./cartUser.scss";
 import CartUserDetails from "./cartUserDetails/CartUserDetails";
 
 const { Option } = Select;
-const { Panel } = Collapse;
 const { RangePicker } = DatePicker;
 
 const CartUser = () => {
@@ -17,8 +15,7 @@ const CartUser = () => {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
   const [dateRange, setDateRange] = useState([]);
-  const [paymentMethods, setPaymentMethods] = useState([]);
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState("");
+  const [sortOrder, setSortOrder] = useState("");
 
   useEffect(() => {
     const fetchUserOrders = async () => {
@@ -35,6 +32,7 @@ const CartUser = () => {
             },
           }
         );
+        console.log(response.data); // Kiểm tra dữ liệu trả về từ API
         setOrders(response.data);
         setFilteredOrders(response.data);
       } catch (error) {
@@ -42,36 +40,25 @@ const CartUser = () => {
       }
     };
 
-    const fetchPaymentMethods = async () => {
-      try {
-        const response = await axios.get("http://localhost:8080/api/v1/payments/all");
-        setPaymentMethods(response.data);
-      } catch (error) {
-        console.error("Error fetching payment methods:", error);
-      }
-    };
-
     fetchUserOrders();
-    fetchPaymentMethods();
   }, [isLoggedIn]);
-
-  const formatTimeAgo = (date) => moment(date).fromNow();
 
   const handleStatusFilterChange = (value) => {
     setStatusFilter(value);
-    applyFilters(value, dateRange);
+    applyFilters(value, dateRange, sortOrder);
   };
 
   const handleDateRangeChange = (dates) => {
     setDateRange(dates);
-    applyFilters(statusFilter, dates);
+    applyFilters(statusFilter, dates, sortOrder);
   };
 
-  const handlePaymentMethodChange = (value) => {
-    setSelectedPaymentMethod(value);
+  const handleSortOrderChange = (value) => {
+    setSortOrder(value);
+    applyFilters(statusFilter, dateRange, value);
   };
 
-  const applyFilters = (status, dates) => {
+  const applyFilters = (status, dates, sort) => {
     let filtered = [...orders];
     if (status) {
       filtered = filtered.filter((order) => order.status === status);
@@ -79,33 +66,107 @@ const CartUser = () => {
     if (dates && dates.length === 2) {
       const [start, end] = dates;
       filtered = filtered.filter((order) => {
-        const orderDate = moment(order.createdAt);
-        return orderDate.isBetween(start, end, "days", "[]");
+        const orderDate = new Date(order.createdAt);
+        return orderDate >= start && orderDate <= end;
+      });
+    }
+    if (sort) {
+      filtered = filtered.sort((a, b) => {
+        const dateA = new Date(a.createdAt);
+        const dateB = new Date(b.createdAt);
+        if (sort === "oldest") {
+          return dateA - dateB;
+        } else if (sort === "newest") {
+          return dateB - dateA;
+        }
+        return 0;
       });
     }
     setFilteredOrders(filtered);
   };
 
-  const getStatusClassName = (status) => {
+  const getStatusTag = (status) => {
+    let color;
     switch (status) {
-      case "Pending Payment":
-        return "status-pending-payment";
+      case "Pending":
+        color = "orange";
+        break;
       case "Paid":
-        return "status-paid";
+        color = "green";
+        break;
       case "Packaging":
-        return "status-packaging";
+        color = "blue";
+        break;
       case "Shipping":
-        return "status-shipping";
+        color = "purple";
+        break;
       case "Delivered":
-        return "status-delivered";
+        color = "cyan";
+        break;
       case "Cancelled":
-        return "status-cancelled";
+        color = "red";
+        break;
       case "Refunded":
-        return "status-refunded";
+        color = "magenta";
+        break;
       default:
-        return "";
+        color = "default";
     }
+    return <Tag color={color}>{status}</Tag>;
   };
+
+  const formatDate = (dateArray) => {
+    if (!Array.isArray(dateArray) || dateArray.length !== 6) {
+      return "N/A"; // Giá trị mặc định khi dữ liệu không hợp lệ
+    }
+    const [year, month, day, hours, minutes, seconds] = dateArray;
+    const date = new Date(year, month - 1, day, hours, minutes, seconds); // Chú ý tháng bắt đầu từ 0 trong JavaScript
+    if (isNaN(date)) {
+      return "N/A"; // Giá trị mặc định khi dữ liệu không hợp lệ
+    }
+    const formattedDate = date.toISOString().slice(0, 19).replace('T', ' ');
+    return formattedDate;
+  };
+
+  const columns = [
+    {
+      title: "#",
+      dataIndex: "index",
+      key: "index",
+      render: (text, record, index) => index + 1,
+    },
+    {
+      title: "Total",
+      dataIndex: "price",
+      key: "price",
+      render: (price) => `₹${price}`,
+    },
+    {
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
+      render: (address) =>
+        address ? `${address.address}` : "No address",
+    },
+    {
+      title: "Payment Method",
+      dataIndex: "payment",
+      key: "payment",
+      render: (payment) => (payment ? payment.paymentMethod : "No payment method"),
+    },
+    {
+      title: "Order Date",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (createdAt) => formatDate(createdAt),
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => getStatusTag(status),
+    },
+  ];
 
   return (
     <div className="cart-user-container">
@@ -119,73 +180,36 @@ const CartUser = () => {
             style={{ width: 200 }}
             onChange={handleStatusFilterChange}
           >
-            <Option value="" className="all">Status: All</Option>
-            <Option value="Pending Payment" className="pending-payment">Pending Payment</Option>
-            <Option value="Paid" className="paid">Paid</Option>
-            <Option value="Packaging" className="packaging">Packaging</Option>
-            <Option value="Shipping" className="shipping">Shipping</Option>
-            <Option value="Delivered" className="delivered">Delivered</Option>
-            <Option value="Cancelled" className="cancelled">Cancelled</Option>
-            <Option value="Refunded" className="refunded">Refunded</Option>
+            <Option value="">Status: All</Option>
+            <Option value="Pending">Pending</Option>
+            <Option value="Paid">Paid</Option>
+            <Option value="Packaging">Packaging</Option>
+            <Option value="Shipping">Shipping</Option>
+            <Option value="Delivered">Delivered</Option>
+            <Option value="Cancelled">Cancelled</Option>
+            <Option value="Refunded">Refunded</Option>
           </Select>
-          <RangePicker onChange={handleDateRangeChange} />
           <Select
-            defaultValue="Select Payment Method"
+            defaultValue="Sort: None"
             style={{ width: 200 }}
-            onChange={handlePaymentMethodChange}
+            onChange={handleSortOrderChange}
           >
-            {paymentMethods.map((method) => (
-              <Option key={method.paymentId} value={method.paymentId}>
-                {method.paymentMethod}
-              </Option>
-            ))}
+            <Option value="">Sort: None</Option>
+            <Option value="newest">Newest to Oldest</Option>
+            <Option value="oldest">Oldest to Newest</Option>
           </Select>
+          <RangePicker onChange={handleDateRangeChange} showTime />
         </div>
       </div>
 
-      <table className="orders-table">
-        <tbody>
-          {filteredOrders.length > 0 ? (
-            filteredOrders.map((order, index) => (
-              <tr key={order.orderId}>
-                <td colSpan="6">
-                  <Collapse accordion>
-                    <Panel
-                      header={
-                        <div className="order-summary">
-                          <span>{index + 1}</span>
-                          <span>Total: ₹{order.price}</span>
-                          <span>
-                            {order.address
-                              ? `${order.address.address}, ${order.address.city}, ${order.address.country}`
-                              : "No address"}
-                          </span>
-                          <span>
-                            {order.payment
-                              ? order.payment.paymentMethod
-                              : "No payment method"}
-                          </span>
-                          <span>{formatTimeAgo(order.createdAt)}</span>
-                          <span className={getStatusClassName(order.status)}>
-                            <strong>{order.status}</strong>
-                          </span>
-                        </div>
-                      }
-                      key={order.orderId}
-                    >
-                      <CartUserDetails order={order} />
-                    </Panel>
-                  </Collapse>
-                </td>
-              </tr>
-            ))
-          ) : (
-            <tr>
-              <td colSpan="6">No orders</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+      <Table
+        dataSource={filteredOrders}
+        columns={columns}
+        rowKey="orderId"
+        expandable={{
+          expandedRowRender: (order) => <CartUserDetails order={order} />,
+        }}
+      />
     </div>
   );
 };

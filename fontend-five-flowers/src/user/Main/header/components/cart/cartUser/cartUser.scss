@@ -33,7 +33,6 @@
     td {
       padding: 10px;
       text-align: left;
-      
     }
 
     th {
@@ -57,16 +56,39 @@
     }
   }
 
-  .status-pending {
-    color: orange;
+  .status-pending-payment {
+    background-color: orange;
+    color: white;
   }
 
-  .status-completed {
-    color: green;
+  .status-paid {
+    background-color: green;
+    color: white;
   }
 
-  .status-canceled {
-    color: red;
+  .status-packaging {
+    background-color: blue;
+    color: white;
+  }
+
+  .status-shipping {
+    background-color: purple;
+    color: white;
+  }
+
+  .status-delivered {
+    background-color: cyan;
+    color: white;
+  }
+
+  .status-cancelled {
+    background-color: red;
+    color: white;
+  }
+
+  .status-refunded {
+    background-color: magenta;
+    color: white;
   }
 }
 

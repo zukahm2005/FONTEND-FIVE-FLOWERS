@@ -1,3 +1,4 @@
+import { Table, Tag } from "antd";
 import React from "react";
 import "./cartUserDetails.scss";
 
@@ -7,76 +8,106 @@ const CartUserDetails = ({ order }) => {
     0
   );
 
+  const getStatusTag = (status) => {
+    let color;
+    switch (status) {
+      case "Pending":
+        color = "orange";
+        break;
+      case "Paid":
+        color = "green";
+        break;
+      case "Packaging":
+        color = "blue";
+        break;
+      case "Shipping":
+        color = "purple";
+        break;
+      case "Delivered":
+        color = "cyan";
+        break;
+      case "Cancelled":
+        color = "red";
+        break;
+      case "Refunded":
+        color = "magenta";
+        break;
+      default:
+        color = "default";
+    }
+    return <Tag color={color}>{status}</Tag>;
+  };
+
+  const columns = [
+    {
+      title: "#",
+      dataIndex: "index",
+      key: "index",
+      render: (text, record, index) => index + 1,
+    },
+    {
+      title: "Image",
+      dataIndex: "product",
+      key: "product",
+      render: (product) =>
+        product.productImages && product.productImages.length > 0 ? (
+          <img
+            src={`http://localhost:8080/api/v1/images/${product.productImages[0].imageUrl}`}
+            alt={product.name}
+            width="50"
+            height="50"
+          />
+        ) : (
+          "No Image"
+        ),
+    },
+    {
+      title: "Name",
+      dataIndex: "product",
+      key: "productName",
+      render: (product) => product.name,
+    },
+    {
+      title: "Price",
+      dataIndex: "product",
+      key: "productPrice",
+      render: (product) => `₹${parseInt(product.price)}`,
+    },
+    {
+      title: "Qty",
+      dataIndex: "quantity",
+      key: "quantity",
+      render: (quantity) => `x ${quantity}`,
+    },
+    {
+      title: "Total",
+      dataIndex: "total",
+      key: "total",
+      render: (text, record) => `₹${parseInt(record.product.price * record.quantity)}`,
+    },
+    {
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status) => getStatusTag(status),
+    },
+  ];
+
   return (
     <div className="cart-user-details">
-      <table className="order-details-table">
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Image</th>
-            <th>Name</th>
-            <th>Price</th>
-            <th>Qty</th>
-            <th>Total</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {order.orderDetails.map((detail, index) => (
-            <tr key={detail.orderDetailId}>
-              <td>{index + 1}</td>
-              <td>
-                {detail.product.productImages &&
-                detail.product.productImages.length > 0 ? (
-                  <img
-                    src={`http://localhost:8080/api/v1/images/${detail.product.productImages[0].imageUrl}`}
-                    alt={detail.product.name}
-                    width="50"
-                    height="50"
-                  />
-                ) : (
-                  "No Image"
-                )}
-              </td>
-              <td>{detail.product.name}</td>
-              <td>₹{parseInt(detail.product.price)}</td> {/* Hiển thị giá gốc */}
-              <td>x {detail.quantity}</td>
-              <td>₹{parseInt(detail.product.price * detail.quantity)}</td>
-              <td className={getStatusClassName(detail.status)}>
-                <strong>{detail.status}</strong>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <Table
+        dataSource={order.orderDetails}
+        columns={columns}
+        rowKey="orderDetailId"
+        pagination={false}
+      />
       <div className="order-summary">
         <p>
-          <strong> Total:</strong> ₹{parseInt(totalOrderDetailsPrice + 2)}
+          <strong>Total:</strong> ₹{parseInt(totalOrderDetailsPrice + 2)}
         </p>
       </div>
     </div>
   );
-};
-
-const getStatusClassName = (status) => {
-  switch (status) {
-    case "Pending Payment":
-      return "status-pending-payment";
-    case "Paid":
-      return "status-paid";
-    case "Packaging":
-      return "status-packaging";
-    case "Shipping":
-      return "status-shipping";
-    case "Delivered":
-      return "status-delivered";
-    case "Cancelled":
-      return "status-cancelled";
-    case "Refunded":
-      return "status-refunded";
-    default:
-      return "";
-  }
 };
 
 export default CartUserDetails;

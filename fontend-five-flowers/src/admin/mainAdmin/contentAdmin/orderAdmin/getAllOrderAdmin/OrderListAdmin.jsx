@@ -93,6 +93,19 @@ const OrderListAdmin = () => {
     setFilteredOrders(sortedOrders);
   };
 
+  const formatDate = (dateArray) => {
+    if (!Array.isArray(dateArray) || dateArray.length !== 6) {
+      return "N/A"; // Giá trị mặc định khi dữ liệu không hợp lệ
+    }
+    const [year, month, day, hours, minutes, seconds] = dateArray;
+    const date = new Date(year, month - 1, day, hours, minutes, seconds); // Chú ý tháng bắt đầu từ 0 trong JavaScript
+    if (isNaN(date)) {
+      return "N/A"; // Giá trị mặc định khi dữ liệu không hợp lệ
+    }
+    const formattedDate = date.toISOString().slice(0, 19).replace('T', ' ');
+    return formattedDate;
+  };
+
   const columns = [
     {
       title: "ID",
@@ -130,8 +143,19 @@ const OrderListAdmin = () => {
       key: "address",
       render: (address) =>
         address
-          ? `${address.address}, ${address.city}, ${address.country}, ${address.postalCode}`
+          ? `${address.address}, ${address.postalCode}`
           : "No address",
+    },
+    {
+      title: "Postcode",
+      dataIndex: ["address", "postalCode"],
+      key: "postalCode",
+    },
+    {
+      title: "Order Date",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (createdAt) => formatDate(createdAt),
     },
     {
       title: "Payment Method",
