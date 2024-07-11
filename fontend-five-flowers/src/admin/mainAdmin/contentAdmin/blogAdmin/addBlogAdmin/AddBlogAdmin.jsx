@@ -123,7 +123,7 @@ const AddBlogAdmin = () => {
                 <label>Title</label>
                 <input
                     type="text"
-                    placeholder="e.g. Blog about your latest products or deals"
+                    placeholder="post title"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                 />
