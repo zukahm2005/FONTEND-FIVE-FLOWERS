@@ -60,12 +60,20 @@ const CartUserDetails = ({ order }) => {
 
 const getStatusClassName = (status) => {
   switch (status) {
-    case "Pending":
-      return "status-pending";
-    case "Completed":
-      return "status-completed";
-    case "Canceled":
-      return "status-canceled";
+    case "Pending Payment":
+      return "status-pending-payment";
+    case "Paid":
+      return "status-paid";
+    case "Packaging":
+      return "status-packaging";
+    case "Shipping":
+      return "status-shipping";
+    case "Delivered":
+      return "status-delivered";
+    case "Cancelled":
+      return "status-cancelled";
+    case "Refunded":
+      return "status-refunded";
     default:
       return "";
   }

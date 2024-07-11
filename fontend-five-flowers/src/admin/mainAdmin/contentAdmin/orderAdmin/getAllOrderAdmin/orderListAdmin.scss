@@ -1,5 +1,13 @@
-.order-list-admin-container{
-    text-align: center;
-    width: 50%;
+.orders-container{
+    max-width: 70%;
     margin: 0 auto;
+    padding-top: 7rem;
+    height: 100rem;
+    text-align: left;
+    margin-left: 25rem;
+
+    .ant-table-row:hover {
+        cursor: pointer;
+        background-color: #f0f0f0; /* Change this to your desired color */
+      }
 }

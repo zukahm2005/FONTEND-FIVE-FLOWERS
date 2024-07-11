@@ -1,6 +1,7 @@
 import { Modal, Space, Table } from "antd";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
+import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
@@ -26,7 +27,7 @@ const GetAllPaymentAdmin = () => {
   const fetchPayments = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:8080/api/v1/payments/admin-created", {
+      const response = await axios.get("http://localhost:8080/api/v1/payments/all", {
         headers: {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
@@ -117,12 +118,8 @@ const GetAllPaymentAdmin = () => {
     }
   };
 
-  const formatDate = (dateArray) => {
-    if (Array.isArray(dateArray)) {
-      const [year, month, day, hour, minute, second] = dateArray;
-      return `${year}-${String(month).padStart(2, '0')}-${String(day).padStart(2, '0')} ${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:${String(second).padStart(2, '0')}`;
-    }
-    return 'Invalid Date';
+  const formatDate = (dateString) => {
+    return moment(dateString).format("YYYY-MM-DD HH:mm:ss");
   };
 
   const columns = [
@@ -135,9 +132,7 @@ const GetAllPaymentAdmin = () => {
       title: "Payment Date",
       dataIndex: "paymentDate",
       key: "paymentDate",
-      render: (dateArray) => {
-        return formatDate(dateArray);
-      },
+      render: (text) => formatDate(text),
     },
     {
       title: "Action",

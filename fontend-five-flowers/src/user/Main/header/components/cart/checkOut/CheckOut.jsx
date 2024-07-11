@@ -1,6 +1,6 @@
 import { notification } from "antd";
 import axios from "axios";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../cartContext/CartProvider";
 import "./checkOut.scss";
@@ -22,6 +22,20 @@ const CheckOut = () => {
   });
 
   const [errors, setErrors] = useState({});
+  const [paymentMethods, setPaymentMethods] = useState([]);
+
+  useEffect(() => {
+    const fetchPaymentMethods = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/v1/payments/all");
+        setPaymentMethods(response.data);
+      } catch (error) {
+        console.error("Error fetching payment methods:", error);
+      }
+    };
+
+    fetchPaymentMethods();
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -30,7 +44,6 @@ const CheckOut = () => {
       [name]: value,
     });
 
-    // Remove error message for the field being updated
     if (errors[name]) {
       setErrors({
         ...errors,
@@ -46,15 +59,13 @@ const CheckOut = () => {
     if (!formFields.lastName) newErrors.lastName = "Last name is required";
     if (!formFields.address) newErrors.address = "Address is required";
     if (!formFields.city) newErrors.city = "City is required";
-    if (!formFields.postalCode)
-      newErrors.postalCode = "Postal code is required";
+    if (!formFields.postalCode) newErrors.postalCode = "Postal code is required";
     if (!formFields.phone) {
       newErrors.phone = "Phone number is required";
     } else if (!/^\d+$/.test(formFields.phone)) {
       newErrors.phone = "Phone number must be digits only";
     }
-    if (!formFields.paymentMethod)
-      newErrors.paymentMethod = "Payment method is required";
+    if (!formFields.paymentMethod) newErrors.paymentMethod = "Payment method is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -62,90 +73,98 @@ const CheckOut = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-      const token = localStorage.getItem("token");
-      if (!token) {
-        notification.error({
-          message: "Login Required",
-          description: "Please log in to proceed with checkout.",
-        });
-        return;
-      }
+        const token = localStorage.getItem("token");
+        if (!token) {
+            notification.error({
+                message: "Login Required",
+                description: "Please log in to proceed with checkout.",
+            });
+            return;
+        }
 
-      try {
-        const decodedToken = JSON.parse(atob(token.split(".")[1]));
-        const userId = decodedToken.userId;
+        try {
+            const decodedToken = JSON.parse(atob(token.split(".")[1]));
+            const userId = decodedToken.userId;
 
-        const addressResponse = await axios.post(
-          "http://localhost:8080/api/v1/addresses/add",
-          {
-            country: formFields.country,
-            firstName: formFields.firstName,
-            lastName: formFields.lastName,
-            address: formFields.address,
-            apartment: formFields.apartment,
-            phone: formFields.phone,
-            city: formFields.city,
-            postalCode: formFields.postalCode,
-            user: { id: userId },
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+            const selectedPaymentMethod = paymentMethods.find(
+                (method) => method.paymentId === parseInt(formFields.paymentMethod)
+            );
 
-        const addressId = addressResponse.data.addressId;
+            if (!selectedPaymentMethod) {
+                notification.error({
+                    message: "Payment Error",
+                    description: "Selected payment method is invalid.",
+                });
+                return;
+            }
 
-        const orderDetails = cart.map((product) => ({
-          product: { productId: product.productId },
-          quantity: product.quantity,
-          price: product.price,
-        }));
+            const addressResponse = await axios.post(
+                "http://localhost:8080/api/v1/addresses/add",
+                {
+                    country: formFields.country,
+                    firstName: formFields.firstName,
+                    lastName: formFields.lastName,
+                    address: formFields.address,
+                    apartment: formFields.apartment,
+                    phone: formFields.phone,
+                    city: formFields.city,
+                    postalCode: formFields.postalCode,
+                    user: { id: userId },
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-        const payment = {
-          paymentMethod: formFields.paymentMethod,
-        };
+            const addressId = addressResponse.data.addressId;
 
-        const orderResponse = await axios.post(
-          "http://localhost:8080/api/v1/orders/add",
-          {
-            user: { id: userId },
-            orderDetails: orderDetails,
-            address: { addressId: addressId },
-            payment: payment,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+            const orderDetails = cart.map((product) => ({
+                product: { productId: product.productId },
+                quantity: product.quantity,
+                price: product.price,
+            }));
 
-        const orderData = {
-          orderId: orderResponse.data.orderId,
-          orderDate: new Date().toLocaleDateString(),
-          total: totalPrice,
-          paymentMethod: formFields.paymentMethod,
-          orderDetails: orderResponse.data.orderDetails, // Đảm bảo orderDetails chính xác từ phản hồi API
-        };
+            const orderResponse = await axios.post(
+                "http://localhost:8080/api/v1/orders/add",
+                {
+                    user: { id: userId },
+                    orderDetails: orderDetails,
+                    address: { addressId: addressId },
+                    payment: { paymentId: formFields.paymentMethod },
+                },
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
 
-        notification.success({
-          message: "Order Placed",
-          description: "Your order has been placed successfully!",
-        });
+            const orderData = {
+                orderId: orderResponse.data.orderId,
+                orderDate: new Date().toLocaleDateString(),
+                total: totalPrice,
+                paymentMethod: selectedPaymentMethod.paymentMethod,
+                orderDetails: orderResponse.data.orderDetails,
+            };
 
-        setCart([]);
-        navigate("/order-receive", { state: { order: orderData } });
-      } catch (error) {
-        console.error("Error placing order:", error);
-        notification.error({
-          message: "Order Error",
-          description: "Unable to place your order. Please try again.",
-        });
-      }
+            notification.success({
+                message: "Order Placed",
+                description: "Your order has been placed successfully!",
+            });
+
+            setCart([]);
+            navigate("/order-receive", { state: { order: orderData } });
+        } catch (error) {
+            console.error("Error placing order:", error);
+            notification.error({
+                message: "Order Error",
+                description: "Unable to place your order. Please try again.",
+            });
+        }
     }
-  };
+};
 
   return (
     <div className="container">
@@ -191,9 +210,7 @@ const CheckOut = () => {
                     value={formFields.firstName}
                     onChange={handleInputChange}
                   />
-                  {errors.firstName && (
-                    <p className="error">{errors.firstName}</p>
-                  )}
+                  {errors.firstName && <p className="error">{errors.firstName}</p>}
                 </div>
                 <div className="input-ln-address">
                   <input
@@ -203,9 +220,7 @@ const CheckOut = () => {
                     value={formFields.lastName}
                     onChange={handleInputChange}
                   />
-                  {errors.lastName && (
-                    <p className="error">{errors.lastName}</p>
-                  )}
+                  {errors.lastName && <p className="error">{errors.lastName}</p>}
                 </div>
               </div>
               <div className="input-address-address">
@@ -258,9 +273,7 @@ const CheckOut = () => {
                     value={formFields.postalCode}
                     onChange={handleInputChange}
                   />
-                  {errors.postalCode && (
-                    <p className="error">{errors.postalCode}</p>
-                  )}
+                  {errors.postalCode && <p className="error">{errors.postalCode}</p>}
                 </div>
               </div>
               <div className="payment-method-container">
@@ -277,13 +290,13 @@ const CheckOut = () => {
                     onChange={handleInputChange}
                   >
                     <option value="">Select Payment Method</option>
-                    <option value="creditCard">Credit Card</option>
-                    <option value="paypal">PayPal</option>
-                    <option value="bankTransfer">Bank Transfer</option>
+                    {paymentMethods.map((method) => (
+                      <option key={method.paymentId} value={method.paymentId}>
+                        {method.paymentMethod}
+                      </option>
+                    ))}
                   </select>
-                  {errors.paymentMethod && (
-                    <p className="error">{errors.paymentMethod}</p>
-                  )}
+                  {errors.paymentMethod && <p className="error">{errors.paymentMethod}</p>}
                 </div>
                 <div className="order-now">
                   <button type="submit">

@@ -42,7 +42,7 @@ const AddPaymentAdmin = () => {
     <div className="add-payment-container">
       <div className="layout-payment-container">
         <div className="header-payment-add-container">
-          <Link to="/admin/payments">
+          <Link to="/admin/payment">
             <FaArrowLeft />
           </Link>
           <p>Add Payment</p>

@@ -15,7 +15,7 @@ const OrderReceive = () => {
       <div className="site-content">
         <div className="order-receive-header-container">
           <div className="home-or-header">
-            <Link>
+            <Link to="/">
               <p>Home </p>
             </Link>
           </div>
@@ -75,8 +75,7 @@ const OrderReceive = () => {
                     </div>
                     <div className="brand-category-pro-receive">
                       <p>
-                        {detail.product.brand.name} /
-                        {detail.product.category.name}
+                        {detail.product.brand.name} / {detail.product.category.name}
                       </p>
                     </div>
                   </div>
