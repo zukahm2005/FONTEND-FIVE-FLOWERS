@@ -30,10 +30,11 @@
     }
 
     button {
-        display: block;
-        width: 100%;
+        
+        width: fit-content;
         padding: 10px;
-        background-color: #007bff;
+        margin: 1rem;
+        background-color: #000000;
         color: white;
         border: none;
         border-radius: 4px;

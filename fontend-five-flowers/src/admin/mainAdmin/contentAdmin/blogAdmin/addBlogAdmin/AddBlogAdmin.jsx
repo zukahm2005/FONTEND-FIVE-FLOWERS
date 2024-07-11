@@ -54,10 +54,23 @@ const AddBlogAdmin = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get(`http://localhost:8080/api/v1/blogs/search?keyword=bicycle`);
+            const response = await axios.get('http://localhost:8080/api/v1/blogs/search?keyword=bicycle');
             setSearchResults(response.data.articles.slice(0, 10)); // Lấy 10 bài viết đầu tiên
         } catch (error) {
             console.error('Error searching articles:', error);
+        }
+    };
+
+    const handleAutoPost = async () => {
+        try {
+            await axios.post('http://localhost:8080/api/v1/blogs/auto-post', {}, {
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            alert('Auto post blog successfully');
+        } catch (error) {
+            console.error('Error auto posting blog:', error);
         }
     };
 
@@ -132,6 +145,9 @@ const AddBlogAdmin = () => {
             <div className="form-group">
                 <Button type="primary" onClick={handleSearch}>
                     Search Latest Bicycle News
+                </Button>
+                <Button type="default" onClick={handleAutoPost} style={{ marginLeft: '10px' }}>
+                    Auto Post Blog
                 </Button>
             </div>
             <div className="search-results">
