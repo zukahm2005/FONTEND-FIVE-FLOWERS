@@ -7,11 +7,11 @@ import UpdateBlogAdmin from './updateBlog/UpdateBlogAdmin';
 const BlogAdmin = () => {
   return (
     <div>
-      <h2>Add Blog Post</h2>
+      <h2>Blog Administration</h2>
       <Routes>
-        <Route path='add' element={<AddBlogAdmin />} />
+        <Route path="add" element={<AddBlogAdmin />} />
         <Route index element={<GetAllBlogAdmin />} />
-        <Route path='update' element={<UpdateBlogAdmin />} />
+        <Route path="edit/:id" element={<UpdateBlogAdmin />} />
       </Routes>
     </div>
   );
