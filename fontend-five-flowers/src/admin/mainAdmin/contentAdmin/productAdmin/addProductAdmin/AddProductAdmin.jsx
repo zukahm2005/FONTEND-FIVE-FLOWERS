@@ -134,8 +134,7 @@ const AddProductAdmin = () => {
 
     try {
       if (id) {
-        console.log("Updating product with id:", id);
-        console.log("Product data to update:", product);
+     
         // Cập nhật sản phẩm
         await axios.put(
           `http://localhost:8080/api/v1/products/update/${id}`,

@@ -1,5 +1,130 @@
-.order-list-details-admin-container{
-    text-align: center;
-    width: 50%;
+.ordtails-page-container {
+    max-width: 50%;
     margin: 0 auto;
+    padding-top: 8rem;
+    text-align: left;
+    height: 100rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+
+    .ordtails-page-box {
+        max-width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+
+        .page-box-header-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .arrow-id-order {
+                display: flex;
+                flex-direction: row;
+                gap: 0.2rem;
+                align-items: center;
+                .id-order {
+                    p {
+                        font-size: 1.4rem;
+                        font-weight: bold;
+                    }
+                }
+            }
+            .button-edit-print {
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+                .button {
+                    background-color: #e3e3e1;
+                    border-radius: 10px;
+                    cursor: pointer;
+                    p {
+                        padding: 0.2rem 1rem;
+                    }
+                }
+            }
+        }
+    }
+    .ordtails-layout-container {
+        max-width: 100%;
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        gap: 2rem;
+
+        .left-box-layout {
+            max-width: 100%;
+            background-color: white;
+            border-radius: 20px;
+            box-shadow:
+                0 1px 3px rgba(0, 0, 0, 0.1),
+                0 1px 2px rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+
+            .block-stack-ordtails {
+                max-width: 100%;
+
+                .info-ordtails-container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2rem;
+                    .product {
+                        border: thin solid #e7e7e7;
+                        border-radius: 15px;
+                        padding: 1rem;
+                        height: 10rem;
+
+                        .product-info {
+                            display: grid;
+                            grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
+                            gap: 2rem;
+
+                            .image-ordtails {
+                                max-width: 100%;
+
+                                img {
+                                    width: 100%;
+                                }
+                            }
+                        }
+
+                        .product-details {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 0.5rem;
+
+                            .color-info-ordtails {
+                                p {
+                                    color: rgb(169, 169, 169);
+                                }
+                            }
+                            .product-price {
+                                text-align: right;
+                            }
+                        }
+                    }
+                }
+            }
+            .total-price-ordtails {
+                padding-top: 1rem;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                .price-title {
+                    padding-right: 2rem;
+                }
+            }
+        }
+        .right-box-layout {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 15px;
+
+            .info-user-ordtails-container {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+    }
 }

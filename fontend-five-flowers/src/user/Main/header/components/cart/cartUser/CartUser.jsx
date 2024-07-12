@@ -15,74 +15,95 @@ const CartUser = () => {
   const [filteredOrders, setFilteredOrders] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
   const [dateRange, setDateRange] = useState([]);
-  const [sortOrder, setSortOrder] = useState("");
+  const [sortOrder, setSortOrder] = useState("status");
+
+  const fetchUserOrders = async () => {
+    if (!isLoggedIn) return;
+    try {
+      const token = localStorage.getItem("token");
+      const decodedToken = jwtDecode(token);
+      const userId = decodedToken.userId;
+      const response = await axios.get(
+        `http://localhost:8080/api/v1/orders/user/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setOrders(response.data);
+      applyFiltersAndSort(response.data, sortOrder, dateRange, statusFilter);
+    } catch (error) {
+      console.error("Error fetching user orders:", error);
+    }
+  };
 
   useEffect(() => {
-    const fetchUserOrders = async () => {
-      if (!isLoggedIn) return;
-      try {
-        const token = localStorage.getItem("token");
-        const decodedToken = jwtDecode(token);
-        const userId = decodedToken.userId;
-        const response = await axios.get(
-          `http://localhost:8080/api/v1/orders/user/${userId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        console.log(response.data); // Kiểm tra dữ liệu trả về từ API
-        setOrders(response.data);
-        setFilteredOrders(response.data);
-      } catch (error) {
-        console.error("Error fetching user orders:", error);
-      }
-    };
-
     fetchUserOrders();
   }, [isLoggedIn]);
 
   const handleStatusFilterChange = (value) => {
     setStatusFilter(value);
-    applyFilters(value, dateRange, sortOrder);
+    applyFiltersAndSort(orders, sortOrder, dateRange, value);
   };
 
   const handleDateRangeChange = (dates) => {
     setDateRange(dates);
-    applyFilters(statusFilter, dates, sortOrder);
+    applyFiltersAndSort(orders, sortOrder, dates, statusFilter);
   };
 
   const handleSortOrderChange = (value) => {
     setSortOrder(value);
-    applyFilters(statusFilter, dateRange, value);
+    applyFiltersAndSort(orders, value, dateRange, statusFilter);
   };
 
-  const applyFilters = (status, dates, sort) => {
-    let filtered = [...orders];
-    if (status) {
-      filtered = filtered.filter((order) => order.status === status);
-    }
-    if (dates && dates.length === 2) {
-      const [start, end] = dates;
-      filtered = filtered.filter((order) => {
-        const orderDate = new Date(order.createdAt);
-        return orderDate >= start && orderDate <= end;
+  const applyFiltersAndSort = (ordersList, sortOrder, dateRange, statusFilter) => {
+    let filteredOrders = [...ordersList];
+
+    if (dateRange && dateRange.length === 2) {
+      const [start, end] = dateRange;
+      const startDate = new Date(start).setHours(0, 0, 0, 0);
+      const endDate = new Date(end).setHours(23, 59, 59, 999);
+      filteredOrders = filteredOrders.filter((order) => {
+        const orderDateArray = order.createdAt;
+        const orderDate = new Date(
+          Date.UTC(
+            orderDateArray[0],
+            orderDateArray[1] - 1,
+            orderDateArray[2],
+            orderDateArray[3],
+            orderDateArray[4],
+            orderDateArray[5]
+          )
+        );
+        return orderDate >= startDate && orderDate <= endDate;
       });
     }
-    if (sort) {
-      filtered = filtered.sort((a, b) => {
-        const dateA = new Date(a.createdAt);
-        const dateB = new Date(b.createdAt);
-        if (sort === "oldest") {
-          return dateA - dateB;
-        } else if (sort === "newest") {
-          return dateB - dateA;
-        }
-        return 0;
-      });
+
+    if (statusFilter) {
+      filteredOrders = filteredOrders.filter((order) => order.status === statusFilter);
     }
-    setFilteredOrders(filtered);
+
+    switch (sortOrder) {
+      case "newest":
+        filteredOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        break;
+      case "oldest":
+        filteredOrders.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        break;
+      case "price-low":
+        filteredOrders.sort((a, b) => a.price - b.price);
+        break;
+      case "price-high":
+        filteredOrders.sort((a, b) => b.price - a.price);
+        break;
+      case "status":
+        // Implement status sorting logic if needed
+        break;
+      default:
+        break;
+    }
+    setFilteredOrders(filteredOrders);
   };
 
   const getStatusTag = (status) => {
@@ -117,14 +138,14 @@ const CartUser = () => {
 
   const formatDate = (dateArray) => {
     if (!Array.isArray(dateArray) || dateArray.length !== 6) {
-      return "N/A"; // Giá trị mặc định khi dữ liệu không hợp lệ
+      return "N/A"; // Default value when data is invalid
     }
     const [year, month, day, hours, minutes, seconds] = dateArray;
-    const date = new Date(year, month - 1, day, hours, minutes, seconds); // Chú ý tháng bắt đầu từ 0 trong JavaScript
+    const date = new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds)); // Note month starts from 0 in JavaScript
     if (isNaN(date)) {
-      return "N/A"; // Giá trị mặc định khi dữ liệu không hợp lệ
+      return "N/A"; // Default value when data is invalid
     }
-    const formattedDate = date.toISOString().slice(0, 19).replace('T', ' ');
+    const formattedDate = date.toISOString().slice(0, 19).replace("T", " ");
     return formattedDate;
   };
 
@@ -145,8 +166,7 @@ const CartUser = () => {
       title: "Address",
       dataIndex: "address",
       key: "address",
-      render: (address) =>
-        address ? `${address.address}` : "No address",
+      render: (address) => (address ? `${address.address}` : "No address"),
     },
     {
       title: "Payment Method",
@@ -176,11 +196,25 @@ const CartUser = () => {
         </div>
         <div className="filters-cart-user">
           <Select
-            defaultValue="Status: All"
+            style={{ width: 200 }}
+            onChange={handleSortOrderChange}
+            defaultValue="status"
+            placeholder="Sort by"
+          >
+            <Option value="newest">Newest</Option>
+            <Option value="oldest">Oldest</Option>
+            <Option value="price-low">Price, low to high</Option>
+            <Option value="price-high">Price, high to low</Option>
+            <Option value="status">Status</Option>
+          </Select>
+          <RangePicker onChange={handleDateRangeChange} />
+          <Select
             style={{ width: 200 }}
             onChange={handleStatusFilterChange}
+            defaultValue=""
+            placeholder="Filter by Status"
           >
-            <Option value="">Status: All</Option>
+            <Option value="">All</Option>
             <Option value="Pending">Pending</Option>
             <Option value="Paid">Paid</Option>
             <Option value="Packaging">Packaging</Option>
@@ -189,16 +223,6 @@ const CartUser = () => {
             <Option value="Cancelled">Cancelled</Option>
             <Option value="Refunded">Refunded</Option>
           </Select>
-          <Select
-            defaultValue="Sort: None"
-            style={{ width: 200 }}
-            onChange={handleSortOrderChange}
-          >
-            <Option value="">Sort: None</Option>
-            <Option value="newest">Newest to Oldest</Option>
-            <Option value="oldest">Oldest to Newest</Option>
-          </Select>
-          <RangePicker onChange={handleDateRangeChange} showTime />
         </div>
       </div>
 

@@ -1,13 +1,74 @@
-.orders-container{
-    max-width: 70%;
-    margin: 0 auto;
-    padding-top: 7rem;
-    height: 100rem;
-    text-align: left;
-    margin-left: 25rem;
+.orders-container {
+  max-width: 70%;
+  margin: 0 auto;
+  padding-top: 7rem;
+  height: 100rem;
+  text-align: left;
+  margin-left: 25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  .header-orders-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    .menu-orders-container {
+      .sort-orders-menu {
+        display: flex;
+        gap: 1rem;
 
-    .ant-table-row:hover {
-        cursor: pointer;
-        background-color: #f0f0f0; /* Change this to your desired color */
+        .button-create-orderadmin {
+          max-width: 100%;
+          p {
+            background-color: #000000;
+            color: rgb(255, 255, 255);
+            padding: 5px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow:
+              0 4px 6px rgba(0, 0, 0, 0.1),
+              0 1px 3px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+          }
+        }
       }
+    }
+  }
+  .ant-table-row:hover {
+    cursor: pointer;
+  }
+}
+
+.select-status .ant-select-selection-item {
+  color: inherit !important;
+}
+
+.option-pending {
+  color: gold !important;
+}
+
+.option-paid {
+  color: green !important;
+}
+
+.option-packaging {
+  color: blue !important;
+}
+
+.option-shipping {
+  color: cyan !important;
+}
+
+.option-delivered {
+  color: lime !important;
+}
+
+.option-cancelled {
+  color: red !important;
+}
+
+.option-refunded {
+  color: purple !important;
 }

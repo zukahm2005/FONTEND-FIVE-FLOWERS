@@ -1,0 +1,22 @@
+.select-status {
+    .ant-select-selection-item {
+      color: inherit !important;
+    }
+  
+    .ant-select-dropdown-menu-item {
+      color: inherit !important;
+    }
+  
+    .ant-select-item-option-active {
+      color: #fff !important;
+    }
+  }
+  
+  .option-pending { color: gold !important; }
+  .option-paid { color: green !important; }
+  .option-packaging { color: blue !important; }
+  .option-shipping { color: cyan !important; }
+  .option-delivered { color: lime !important; }
+  .option-cancelled { color: red !important; }
+  .option-refunded { color: purple !important; }
+  

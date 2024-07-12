@@ -258,7 +258,7 @@ const GetAllProductAdmin = () => {
           </div>
           <div className="button-create-proadmin">
             <Link to="add">
-              <p>Add Product</p>
+              <p>Create product</p>
             </Link>
           </div>
         </div>
