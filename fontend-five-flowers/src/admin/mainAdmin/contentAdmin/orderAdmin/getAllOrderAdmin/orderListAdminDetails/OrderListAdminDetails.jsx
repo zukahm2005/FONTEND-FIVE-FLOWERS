@@ -78,7 +78,9 @@ const OrderDetails = () => {
             : detail
         ),
       }));
-      console.log(`Updated status for orderDetail ${orderDetailId} to ${newStatus}`);
+      console.log(
+        `Updated status for orderDetail ${orderDetailId} to ${newStatus}`
+      );
     } catch (error) {
       console.error("Error updating status:", error);
     }
@@ -114,9 +116,6 @@ const OrderDetails = () => {
         <div className="below-page-box">
           <div className="time-order">
             <p>Placed at: {formatDateTime(order.createdAt)}</p>
-            {order.status === "Paid" && (
-              <p>Completed on: {formatDateTime(order.updatedAt)}</p>
-            )}
           </div>
         </div>
       </div>
