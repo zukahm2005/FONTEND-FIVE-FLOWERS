@@ -4,19 +4,16 @@ import Error from "../error/Error";
 import "./admin.scss";
 import HeaderAdmin from "./headerAdmin/HeaderAdmin";
 import AddressAdmin from "./mainAdmin/contentAdmin/addressAdmin/AddressAdmin";
+import UpdateAddressAdmin from "./mainAdmin/contentAdmin/addressAdmin/updateAddressAdmin/UpdateAddressAdmin";
 import BlogAdmin from "./mainAdmin/contentAdmin/blogAdmin/BlogAdmin";
 import BrandAdmin from "./mainAdmin/contentAdmin/brandAdmin/BrandAdmin";
 import CategoryAdmin from "./mainAdmin/contentAdmin/categoryAdmin/CategoryAdmin";
+import CommentReviewAdmin from "./mainAdmin/contentAdmin/commentReview/CommentReviewAdmin";
 import HomeAdmin from "./mainAdmin/contentAdmin/homeAdmin/HomeAdmin";
 import OrderAdmin from "./mainAdmin/contentAdmin/orderAdmin/OrderAdmin";
-import OrderDetails from "./mainAdmin/contentAdmin/orderAdmin/getAllOrderAdmin/orderListAdminDetails/OrderListAdminDetails";
 import PaymentAdmin from "./mainAdmin/contentAdmin/paymentAdmin/PaymentAdmin";
 import ProductAdmin from "./mainAdmin/contentAdmin/productAdmin/ProductAdmin";
 import SideBarAdmin from "./mainAdmin/sideBarAdmin/SideBarAdmin";
-import UpdateAddressAdmin from "./mainAdmin/contentAdmin/addressAdmin/updateAddressAdmin/UpdateAddressAdmin";
-import GetAllReviewedProducts from "./mainAdmin/contentAdmin/commentReview/getAllProductReview/GetAllReviewedProducts";
-import GetAllCommentReview from "./mainAdmin/contentAdmin/commentReview/getAllComentReview/GetAllComentReview";
-import CommentReviewAdmin from "./mainAdmin/contentAdmin/commentReview/CommentReviewAdmin";
 
 const Admin = () => {
   const navigate = useNavigate();
@@ -46,7 +43,6 @@ const Admin = () => {
             <Route path="brand/*" element={<BrandAdmin />} />
             <Route path="category/*" element={<CategoryAdmin />} />
             <Route path="orders/*" element={<OrderAdmin />} />
-            <Route path="orders/:id" element={<OrderDetails />} />
             <Route path="payment/*" element={<PaymentAdmin />} />
             <Route path="comment/*" element={<CommentReviewAdmin />} />
             <Route path="*" element={<Error />} />

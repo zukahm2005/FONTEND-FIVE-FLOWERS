@@ -1,8 +1,40 @@
+import { Select } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
+import styled from "styled-components";
 import "./orderListAdminDetails.scss";
+
+const { Option } = Select;
+
+const getStatusColor = (status) => {
+  switch (status) {
+    case "Pending":
+      return "gold";
+    case "Paid":
+      return "green";
+    case "Packaging":
+      return "blue";
+    case "Shipping":
+      return "cyan";
+    case "Delivered":
+      return "lime";
+    case "Cancelled":
+      return "red";
+    case "Refunded":
+      return "purple";
+    default:
+      return "default";
+  }
+};
+
+const StyledSelect = styled(Select)`
+  width: 110px !important;
+  .ant-select-selection-item {
+    color: ${(props) => getStatusColor(props.status)} !important;
+  }
+`;
 
 const OrderDetails = () => {
   const { id } = useParams();
@@ -13,7 +45,6 @@ const OrderDetails = () => {
     const fetchOrderDetails = async () => {
       try {
         const token = localStorage.getItem("token");
-        console.log("Fetching order details for ID:", id);
         const response = await axios.get(
           `http://localhost:8080/api/v1/orders/get/${id}`,
           {
@@ -22,7 +53,6 @@ const OrderDetails = () => {
             },
           }
         );
-        console.log("Order data:", response.data);
         setOrder(response.data);
       } catch (error) {
         console.error("Error fetching order details:", error);
@@ -33,8 +63,7 @@ const OrderDetails = () => {
   }, [id]);
 
   const handleEdit = () => {
-    // Implement edit functionality
-    console.log("Edit button clicked");
+    navigate(`/admin/orders/edit/${id}`);
   };
 
   const handlePrint = () => {
@@ -43,14 +72,14 @@ const OrderDetails = () => {
 
   const formatDateTime = (dateArray) => {
     if (!Array.isArray(dateArray) || dateArray.length !== 6) {
-      return "N/A"; // Default value when data is invalid
+      return "N/A";
     }
     const [year, month, day, hours, minutes, seconds] = dateArray;
     const date = new Date(
       Date.UTC(year, month - 1, day, hours, minutes, seconds)
-    ); // Note month starts from 0 in JavaScript
+    );
     if (isNaN(date)) {
-      return "N/A"; // Default value when data is invalid
+      return "N/A";
     }
     const formattedDate = date
       .toLocaleString("sv-SE", { timeZone: "UTC" })
@@ -62,7 +91,7 @@ const OrderDetails = () => {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:8080/api/v1/orderDetails/${orderDetailId}/status`,
+        `http://localhost:8080/api/v1/order-details/${orderDetailId}/status`,
         { status: newStatus },
         {
           headers: {
@@ -78,9 +107,6 @@ const OrderDetails = () => {
             : detail
         ),
       }));
-      console.log(
-        `Updated status for orderDetail ${orderDetailId} to ${newStatus}`
-      );
     } catch (error) {
       console.error("Error updating status:", error);
     }
@@ -158,20 +184,21 @@ const OrderDetails = () => {
                       </p>
                     </div>
                     <div className="status-ordtails">
-                      <select
+                      <StyledSelect
+                        status={detail.status}
                         value={detail.status}
-                        onChange={(e) =>
-                          updateStatus(detail.orderDetailId, e.target.value)
+                        onChange={(value) =>
+                          updateStatus(detail.orderDetailId, value)
                         }
                       >
-                        <option value="Pending">Pending</option>
-                        <option value="Paid">Paid</option>
-                        <option value="Packaging">Packaging</option>
-                        <option value="Shipping">Shipping</option>
-                        <option value="Delivered">Delivered</option>
-                        <option value="Cancelled">Cancelled</option>
-                        <option value="Refunded">Refunded</option>
-                      </select>
+                        <Option value="Pending">Pending</Option>
+                        <Option value="Paid">Paid</Option>
+                        <Option value="Packaging">Packaging</Option>
+                        <Option value="Shipping">Shipping</Option>
+                        <Option value="Delivered">Delivered</Option>
+                        <Option value="Cancelled">Cancelled</Option>
+                        <Option value="Refunded">Refunded</Option>
+                      </StyledSelect>
                     </div>
                     <div className="product-price">
                       <p>₹{detail.price * detail.quantity}</p>
@@ -186,7 +213,7 @@ const OrderDetails = () => {
               <h3>Total Price</h3>
             </div>
             <div className="price-title">
-              <h3> {order.price}</h3>
+              <h3> ₹{order.price}</h3>
             </div>
           </div>
         </div>
@@ -197,10 +224,23 @@ const OrderDetails = () => {
                 <p>Customer</p>
               </div>
               <div className="name-cus">
-                <p>User: {order.user ? order.user.userName : "null"}</p>
-                <p>First Name: {order.user ? order.user.firstName : "null"}</p>
-                <p>Last Name: {order.user ? order.user.lastName : "null"}</p>
-                <p>Email: {order.user ? order.user.email : "null"}</p>
+                <p>
+                  <span>User:</span> {order.user ? order.user.userName : "null"}
+                </p>
+                <p>
+                  <span>First Name: </span>
+                  {order.address ? order.address.firstName : "null"}
+                </p>
+                <p>
+                  <span>Last Name:</span>{" "}
+                  {order.address ? order.address.lastName : "null"}
+                </p>
+                <p>
+                  <span>Email:</span> {order.user ? order.user.email : "null"}
+                </p>
+                <p>
+                  <span>Phone:</span> {order.address ? order.address.phone : "null"}
+                </p>
               </div>
             </div>
             <div className="shipping-ordtails">

@@ -64,7 +64,7 @@ const AddPaymentAdmin = () => {
               </div>
               <div className="date-container-payment">
                 <label>
-                  <p>Payment Date:</p>
+                  <p>Payment Date: </p>
                 </label>
                 <input
                   type="datetime-local"
@@ -81,6 +81,7 @@ const AddPaymentAdmin = () => {
               </div>
             </div>
           </div>
+         
           {message && <p>{message}</p>}
         </form>
       </div>

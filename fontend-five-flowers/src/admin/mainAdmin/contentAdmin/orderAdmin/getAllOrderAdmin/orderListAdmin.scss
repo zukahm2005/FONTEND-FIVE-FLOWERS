@@ -12,6 +12,14 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    
+
+    .title-orders-container{
+      p{
+        font-size: 2rem;
+        font-weight: bold;
+      }
+    }
     .menu-orders-container {
       .sort-orders-menu {
         display: flex;

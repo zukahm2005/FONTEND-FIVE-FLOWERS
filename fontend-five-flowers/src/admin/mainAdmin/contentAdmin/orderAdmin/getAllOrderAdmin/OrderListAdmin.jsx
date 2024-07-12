@@ -3,10 +3,42 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import styled from "styled-components";
 import "./orderListAdmin.scss";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
+
+const getStatusColor = (status) => {
+  switch (status) {
+    case "Pending":
+      return "gold";
+    case "Paid":
+      return "green";
+    case "Packaging":
+      return "blue";
+    case "Shipping":
+      return "cyan";
+    case "Delivered":
+      return "lime";
+    case "Cancelled":
+      return "red";
+    case "Refunded":
+      return "purple";
+    default:
+      return "default";
+  }
+};
+
+const StyledSelect = styled(Select)`
+  width: 110px;
+  .ant-select-selection-item {
+    color: ${(props) => getStatusColor(props.status)} !important;
+  }
+  .ant-select-item-option-content {
+    color: ${(props) => getStatusColor(props.status)} !important;
+  }
+`;
 
 const OrderListAdmin = () => {
   const [orders, setOrders] = useState([]);
@@ -188,27 +220,6 @@ const OrderListAdmin = () => {
     }
   };
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "Pending":
-        return "gold";
-      case "Paid":
-        return "green";
-      case "Packaging":
-        return "blue";
-      case "Shipping":
-        return "cyan";
-      case "Delivered":
-        return "lime";
-      case "Cancelled":
-        return "red";
-      case "Refunded":
-        return "purple";
-      default:
-        return "default";
-    }
-  };
-
   const columns = [
     {
       title: "ID",
@@ -269,41 +280,20 @@ const OrderListAdmin = () => {
       dataIndex: "status",
       key: "status",
       render: (status, record) => (
-        <Select
+        <StyledSelect
+          status={status}
           value={status}
-          className={`select-status option-${status.toLowerCase()}`}
-          style={{
-            width: 120,
-            color:
-              getStatusColor(status) === "default"
-                ? "black"
-                : getStatusColor(status),
-          }}
           onChange={(value) => updateOrderStatus(record.orderId, value)}
           onClick={(e) => e.stopPropagation()} // prevent event propagation
         >
-          <Option value="Pending" className="option-pending">
-            Pending
-          </Option>
-          <Option value="Paid" className="option-paid">
-            Paid
-          </Option>
-          <Option value="Packaging" className="option-packaging">
-            Packaging
-          </Option>
-          <Option value="Shipping" className="option-shipping">
-            Shipping
-          </Option>
-          <Option value="Delivered" className="option-delivered">
-            Delivered
-          </Option>
-          <Option value="Cancelled" className="option-cancelled">
-            Cancelled
-          </Option>
-          <Option value="Refunded" className="option-refunded">
-            Refunded
-          </Option>
-        </Select>
+          <Option value="Pending">Pending</Option>
+          <Option value="Paid">Paid</Option>
+          <Option value="Packaging">Packaging</Option>
+          <Option value="Shipping">Shipping</Option>
+          <Option value="Delivered">Delivered</Option>
+          <Option value="Cancelled">Cancelled</Option>
+          <Option value="Refunded">Refunded</Option>
+        </StyledSelect>
       ),
     },
   ];
