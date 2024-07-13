@@ -43,7 +43,7 @@
             position: relative;
             .product-info {
                 display: grid;
-                grid-template-columns: 1fr 3fr 1fr 1fr 1fr;
+                grid-template-columns: 1fr 2fr 1fr 1fr 1fr;
                 gap: 2rem;
 
                 .image-ordtails {
@@ -73,6 +73,7 @@
                 position: absolute;
                 left: 1%;
                 top: 2%;
+                cursor: pointer;
                 p {
                     font-size: 1rem;
                     color: blue;

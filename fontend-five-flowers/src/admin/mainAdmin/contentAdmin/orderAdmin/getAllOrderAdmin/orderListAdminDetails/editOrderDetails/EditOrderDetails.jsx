@@ -1,7 +1,7 @@
-import { Button, Checkbox, Input, Modal, Select, Table } from "antd";
+import { Button, Checkbox, Input, InputNumber, Modal, Select, Table, notification } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaPen } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import "./editOrderDetails.scss";
@@ -44,6 +44,7 @@ const EditOrderDetails = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState([]);
   const [pagination, setPagination] = useState({ current: 1, pageSize: 5, total: 0 });
+  const [editableQuantityId, setEditableQuantityId] = useState(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -113,35 +114,43 @@ const EditOrderDetails = () => {
   };
 
   const handleUpdateOrder = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const updatedOrder = {
-      ...order,
-      orderDetails: order.orderDetails.map(detail => ({
-        orderDetailId: detail.orderDetailId,
-        product: { productId: detail.product.productId },
-        quantity: detail.quantity,
-        price: detail.price,
-        status: detail.status,
-      }))
-    };
+    try {
+      const token = localStorage.getItem("token");
+      const updatedOrder = {
+        ...order,
+        orderDetails: order.orderDetails.map(detail => ({
+          orderDetailId: detail.orderDetailId,
+          product: { productId: detail.product.productId },
+          quantity: detail.quantity,
+          price: detail.price,
+          status: detail.status,
+        }))
+      };
 
-    const response = await axios.put(
-      `http://localhost:8080/api/v1/orders/update/${id}`,
-      updatedOrder,
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
-    console.log("Order updated successfully:", response.data);
-  } catch (error) {
-    console.error("Error updating order:", error);
-  }
-};
+      await axios.put(
+        `http://localhost:8080/api/v1/orders/update/${id}`,
+        updatedOrder,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-  
+      notification.success({
+        message: "Order Updated",
+        description: "The order has been updated successfully.",
+      });
+
+      navigate(-1); // Go back to the previous page
+    } catch (error) {
+      console.error("Error updating order:", error);
+      notification.error({
+        message: "Update Failed",
+        description: "There was an error updating the order. Please try again.",
+      });
+    }
+  };
 
   const handleRemoveOrderDetail = async (orderDetailId) => {
     try {
@@ -189,6 +198,17 @@ const EditOrderDetails = () => {
       (total, detail) => total + detail.price * detail.quantity,
       0
     );
+  };
+
+  const handleQuantityChange = (orderDetailId, newQuantity) => {
+    setOrder((prevOrder) => ({
+      ...prevOrder,
+      orderDetails: prevOrder.orderDetails.map((detail) =>
+        detail.orderDetailId === orderDetailId
+          ? { ...detail, quantity: newQuantity }
+          : detail
+      ),
+    }));
   };
 
   const columns = [
@@ -297,7 +317,25 @@ const EditOrderDetails = () => {
               </div>
               <div className="price-info-ordtails">
                 <p>
-                  ₹{detail.price} x {detail.quantity}
+                  ₹{detail.price} x 
+                  {editableQuantityId === detail.orderDetailId ? (
+                    <InputNumber
+                      min={1}
+                      value={detail.quantity}
+                      onChange={(value) =>
+                        handleQuantityChange(detail.orderDetailId, value)
+                      }
+                      onBlur={() => setEditableQuantityId(null)}
+                    />
+                  ) : (
+                    <>
+                      {detail.quantity}{" "}
+                      <FaPen
+                        style={{ cursor: "pointer" }}
+                        onClick={() => setEditableQuantityId(detail.orderDetailId)}
+                      />
+                    </>
+                  )}
                 </p>
               </div>
               <div className="status-ordtails">

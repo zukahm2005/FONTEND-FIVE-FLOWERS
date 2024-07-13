@@ -1,7 +1,7 @@
-import { Select } from "antd";
+import { Input, InputNumber, Modal, Select } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaPen } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import "./orderListAdminDetails.scss";
@@ -39,6 +39,9 @@ const StyledSelect = styled(Select)`
 const OrderDetails = () => {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
+  const [editableQuantityId, setEditableQuantityId] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [editableFields, setEditableFields] = useState({});
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -54,6 +57,15 @@ const OrderDetails = () => {
           }
         );
         setOrder(response.data);
+        setEditableFields({
+          firstName: response.data.address.firstName,
+          lastName: response.data.address.lastName,
+          email: response.data.user.email,
+          phone: response.data.address.phone,
+          address: response.data.address.address,
+          city: response.data.address.city,
+          postalCode: response.data.address.postalCode,
+        });
       } catch (error) {
         console.error("Error fetching order details:", error);
       }
@@ -109,6 +121,53 @@ const OrderDetails = () => {
       }));
     } catch (error) {
       console.error("Error updating status:", error);
+    }
+  };
+
+  const handleQuantityChange = (orderDetailId, newQuantity) => {
+    setOrder((prevOrder) => ({
+      ...prevOrder,
+      orderDetails: prevOrder.orderDetails.map((detail) =>
+        detail.orderDetailId === orderDetailId
+          ? { ...detail, quantity: newQuantity }
+          : detail
+      ),
+    }));
+  };
+
+  const handleFieldChange = (field, value) => {
+    setEditableFields((prevFields) => ({
+      ...prevFields,
+      [field]: value,
+    }));
+  };
+
+  const showEditModal = () => {
+    setModalVisible(true);
+  };
+
+  const handleSave = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `http://localhost:8080/api/v1/addresses/update/${order.address.addressId}`,
+        {
+          ...editableFields,
+          user: { id: order.user.id },
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      setOrder((prevOrder) => ({
+        ...prevOrder,
+        address: { ...prevOrder.address, ...editableFields },
+      }));
+      setModalVisible(false);
+    } catch (error) {
+      console.error("Error saving changes:", error);
     }
   };
 
@@ -180,7 +239,27 @@ const OrderDetails = () => {
                     </div>
                     <div className="price-info-ordtails">
                       <p>
-                        ₹{detail.price} x {detail.quantity}
+                        ₹{detail.price} x{" "}
+                        {editableQuantityId === detail.orderDetailId ? (
+                          <InputNumber
+                            min={1}
+                            value={detail.quantity}
+                            onChange={(value) =>
+                              handleQuantityChange(detail.orderDetailId, value)
+                            }
+                            onBlur={() => setEditableQuantityId(null)}
+                          />
+                        ) : (
+                          <>
+                            {detail.quantity}
+                            <FaPen
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                setEditableQuantityId(detail.orderDetailId)
+                              }
+                            />
+                          </>
+                        )}
                       </p>
                     </div>
                     <div className="status-ordtails">
@@ -221,43 +300,120 @@ const OrderDetails = () => {
           <div className="info-user-ordtails-container">
             <div className="customer-ordtails">
               <div className="title-cus">
-                <p>Customer</p>
+                <div className="title">
+                  <p>Customer</p>{" "}
+                </div>
+
+                <div className="editable-field">
+                  <FaPen
+                    style={{ cursor: "pointer", marginLeft: "10px" }}
+                    onClick={showEditModal}
+                  />
+                </div>
               </div>
+
               <div className="name-cus">
-                <p>
-                  <span>User:</span> {order.user ? order.user.userName : "null"}
-                </p>
-                <p>
-                  <span>First Name: </span>
-                  {order.address ? order.address.firstName : "null"}
-                </p>
-                <p>
-                  <span>Last Name:</span>{" "}
-                  {order.address ? order.address.lastName : "null"}
-                </p>
-                <p>
-                  <span>Email:</span> {order.user ? order.user.email : "null"}
-                </p>
-                <p>
-                  <span>Phone:</span> {order.address ? order.address.phone : "null"}
-                </p>
+                <div className="editable-field">
+                  <p>
+                    <span>User: </span>
+                    {order.user.userName}
+                  </p>
+                </div>
+                <div className="editable-field">
+                  <p>
+                    <span>Email: </span>
+                    {editableFields.email}
+                  </p>
+                </div>
+                <div className="editable-field">
+                  <p>
+                    <span>First Name: </span>
+                    {editableFields.firstName}
+                  </p>
+                </div>
+                <div className="editable-field">
+                  <p>
+                    <span>Last Name: </span>
+                    {editableFields.lastName}
+                  </p>
+                </div>
+                <div className="editable-field">
+                  <p>
+                    <span>Phone: </span>
+                    {editableFields.phone}
+                  </p>
+                </div>
               </div>
             </div>
             <div className="shipping-ordtails">
               <div className="title-ship">
                 <p>Shipping address</p>
               </div>
-              <div className="address-ship">
+              <div className="editable-field">
                 <p>
-                  {order.address
-                    ? `${order.address.address}, ${order.address.city}, ${order.address.postalCode}`
-                    : "No address"}
+                  {`${editableFields.address}, ${editableFields.city}, ${editableFields.postalCode}`}
                 </p>
               </div>
             </div>
           </div>
         </div>
       </div>
+      <Modal
+        title="Edit Information"
+        visible={modalVisible}
+        onCancel={() => setModalVisible(false)}
+        onOk={handleSave}
+      >
+        <div>
+          <label>Email:</label>
+          <Input
+            value={editableFields.email}
+            onChange={(e) => handleFieldChange("email", e.target.value)}
+          />
+        </div>
+        <div>
+          <label>First Name:</label>
+          <Input
+            value={editableFields.firstName}
+            onChange={(e) => handleFieldChange("firstName", e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Last Name:</label>
+          <Input
+            value={editableFields.lastName}
+            onChange={(e) => handleFieldChange("lastName", e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Phone:</label>
+          <Input
+            value={editableFields.phone}
+            onChange={(e) => handleFieldChange("phone", e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Address:</label>
+          <Input
+            value={editableFields.address}
+            onChange={(e) => handleFieldChange("address", e.target.value)}
+          />
+        </div>
+        <div>
+          <label>City:</label>
+          <Input
+            value={editableFields.city}
+            onChange={(e) => handleFieldChange("city", e.target.value)}
+          />
+        </div>
+        <div>
+          <label>Postal Code:</label>
+          <Input
+            value={editableFields.postalCode}
+            onChange={(e) => handleFieldChange("postalCode", e.target.value)}
+          />
+        </div>
+      </Modal>
     </div>
   );
 };
