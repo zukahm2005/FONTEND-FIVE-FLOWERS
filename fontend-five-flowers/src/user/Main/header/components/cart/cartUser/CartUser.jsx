@@ -57,6 +57,16 @@ const CartUser = () => {
     applyFiltersAndSort(orders, value, dateRange, statusFilter);
   };
 
+  const statusPriority = {
+    Pending: 1,
+    Packaging: 2,
+    Shipping: 3,
+    Paid: 4,
+    Delivered: 5,
+    Cancelled: 6,
+    Refunded: 7,
+  };
+
   const applyFiltersAndSort = (ordersList, sortOrder, dateRange, statusFilter) => {
     let filteredOrders = [...ordersList];
 
@@ -98,7 +108,9 @@ const CartUser = () => {
         filteredOrders.sort((a, b) => b.price - a.price);
         break;
       case "status":
-        // Implement status sorting logic if needed
+        filteredOrders.sort(
+          (a, b) => statusPriority[a.status] - statusPriority[b.status]
+        );
         break;
       default:
         break;

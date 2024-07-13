@@ -73,110 +73,115 @@ const CheckOut = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (validateForm()) {
-        const token = localStorage.getItem("token");
-        if (!token) {
-            notification.error({
-                message: "Login Required",
-                description: "Please log in to proceed with checkout.",
-            });
-            return;
+      const token = localStorage.getItem("token");
+      if (!token) {
+        notification.error({
+          message: "Login Required",
+          description: "Please log in to proceed with checkout.",
+        });
+        return;
+      }
+
+      try {
+        const decodedToken = JSON.parse(atob(token.split(".")[1]));
+        const userId = decodedToken.userId;
+
+        const selectedPaymentMethod = paymentMethods.find(
+          (method) => method.paymentId === parseInt(formFields.paymentMethod)
+        );
+
+        if (!selectedPaymentMethod) {
+          notification.error({
+            message: "Payment Error",
+            description: "Selected payment method is invalid.",
+          });
+          return;
         }
 
-        try {
-            const decodedToken = JSON.parse(atob(token.split(".")[1]));
-            const userId = decodedToken.userId;
+        const addressPayload = {
+          country: formFields.country,
+          firstName: formFields.firstName,
+          lastName: formFields.lastName,
+          address: formFields.address,
+          apartment: formFields.apartment,
+          phone: formFields.phone,
+          city: formFields.city,
+          postalCode: formFields.postalCode,
+          user: { id: userId },
+        };
 
-            const selectedPaymentMethod = paymentMethods.find(
-                (method) => method.paymentId === parseInt(formFields.paymentMethod)
-            );
+        const addressResponse = await axios.post(
+          "http://localhost:8080/api/v1/addresses/add",
+          addressPayload,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-            if (!selectedPaymentMethod) {
-                notification.error({
-                    message: "Payment Error",
-                    description: "Selected payment method is invalid.",
-                });
-                return;
-            }
+        const addressId = addressResponse.data.addressId;
 
-            const addressPayload = {
-                country: formFields.country,
-                firstName: formFields.firstName,
-                lastName: formFields.lastName,
-                address: formFields.address,
-                apartment: formFields.apartment,
-                phone: formFields.phone,
-                city: formFields.city,
-                postalCode: formFields.postalCode,
-                user: { id: userId },
-            };
+        const orderDetails = cart.map((product) => ({
+          product: { productId: product.productId },
+          quantity: product.quantity,
+          price: product.price,
+        }));
 
-            console.log("Address Payload:", addressPayload);
+        const orderPayload = {
+          user: { id: userId },
+          orderDetails: orderDetails,
+          address: { addressId: addressId },
+          payment: { paymentId: formFields.paymentMethod },
+        };
 
-            const addressResponse = await axios.post(
-                "http://localhost:8080/api/v1/addresses/add",
-                addressPayload,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
+        const orderResponse = await axios.post(
+          "http://localhost:8080/api/v1/orders/add",
+          orderPayload,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
-            const addressId = addressResponse.data.addressId;
+        // Update the product quantities in the database
+        await Promise.all(
+          cart.map((product) =>
+            axios.put(
+              `http://localhost:8080/api/v1/products/reduceQuantity/${product.productId}`,
+              null,
+              {
+                params: { quantity: product.quantity },
+              }
+            )
+          )
+        );
 
-            const orderDetails = cart.map((product) => ({
-                product: { productId: product.productId },
-                quantity: product.quantity,
-                price: product.price,
-            }));
+        const orderData = {
+          orderId: orderResponse.data.orderId,
+          orderDate: new Date().toLocaleDateString(),
+          total: totalPrice,
+          paymentMethod: selectedPaymentMethod.paymentMethod,
+          orderDetails: orderResponse.data.orderDetails,
+        };
 
-            const orderPayload = {
-                user: { id: userId },
-                orderDetails: orderDetails,
-                address: { addressId: addressId },
-                payment: { paymentId: formFields.paymentMethod },
-            };
+        notification.success({
+          message: "Order Placed",
+          description: "Your order has been placed successfully!",
+        });
 
-            console.log("Order Payload:", orderPayload);
-
-            const orderResponse = await axios.post(
-                "http://localhost:8080/api/v1/orders/add",
-                orderPayload,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-
-            const orderData = {
-                orderId: orderResponse.data.orderId,
-                orderDate: new Date().toLocaleDateString(),
-                total: totalPrice,
-                paymentMethod: selectedPaymentMethod.paymentMethod,
-                orderDetails: orderResponse.data.orderDetails,
-            };
-
-            notification.success({
-                message: "Order Placed",
-                description: "Your order has been placed successfully!",
-            });
-
-            setCart([]);
-            navigate("/order-receive", { state: { order: orderData } });
-        } catch (error) {
-            console.error("Error placing order:", error);
-            notification.error({
-                message: "Order Error",
-                description: "Unable to place your order. Please try again.",
-            });
-        }
+        setCart([]);
+        navigate("/order-receive", { state: { order: orderData } });
+      } catch (error) {
+        console.error("Error placing order:", error);
+        notification.error({
+          message: "Order Error",
+          description: "Unable to place your order. Please try again.",
+        });
+      }
     }
-};
-
-
-
-
+  };
 
   return (
     <div className="container">

@@ -1,6 +1,6 @@
 import { notification } from "antd";
 import axios from "axios";
-import {jwtDecode} from "jwt-decode"; // Correct named import
+import { jwtDecode } from "jwt-decode"; // Correct named import
 import React, { createContext, useEffect, useState } from "react";
 
 export const CartContext = createContext();
