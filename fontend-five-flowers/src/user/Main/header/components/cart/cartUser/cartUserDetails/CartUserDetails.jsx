@@ -8,6 +8,17 @@ const CartUserDetails = ({ order }) => {
     0
   );
 
+  const statusPriority = {
+    Pending: 1,
+    Packaging: 2,
+    Shipping: 3,
+    Paid: 4,
+    Delivered: 5,
+    Cancelled: 6,
+    Refunded: 7,
+    Returned: 8,
+  };
+
   const getStatusTag = (status) => {
     let color;
     switch (status) {
@@ -31,6 +42,9 @@ const CartUserDetails = ({ order }) => {
         break;
       case "Refunded":
         color = "magenta";
+        break;
+      case "Returned":
+        color = "black";
         break;
       default:
         color = "default";
@@ -83,7 +97,8 @@ const CartUserDetails = ({ order }) => {
       title: "Total",
       dataIndex: "total",
       key: "total",
-      render: (text, record) => `₹${parseInt(record.product.price * record.quantity)}`,
+      render: (text, record) =>
+        `₹${parseInt(record.product.price * record.quantity)}`,
     },
     {
       title: "Status",
@@ -96,7 +111,9 @@ const CartUserDetails = ({ order }) => {
   return (
     <div className="cart-user-details">
       <Table
-        dataSource={order.orderDetails}
+        dataSource={order.orderDetails.sort(
+          (a, b) => statusPriority[a.status] - statusPriority[b.status]
+        )}
         columns={columns}
         rowKey="orderDetailId"
         pagination={false}

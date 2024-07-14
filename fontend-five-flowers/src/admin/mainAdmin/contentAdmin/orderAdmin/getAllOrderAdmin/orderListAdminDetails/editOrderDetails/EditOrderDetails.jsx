@@ -24,6 +24,8 @@ const getStatusColor = (status) => {
       return "red";
     case "Refunded":
       return "purple";
+    case "Returned":
+      return "black";
     default:
       return "default";
   }
@@ -351,6 +353,7 @@ const EditOrderDetails = () => {
                   <Option value="Packaging">Packaging</Option>
                   <Option value="Shipping">Shipping</Option>
                   <Option value="Delivered">Delivered</Option>
+                  <Option value="Returned">Returned</Option>
                   <Option value="Cancelled">Cancelled</Option>
                   <Option value="Refunded">Refunded</Option>
                 </StyledSelect>

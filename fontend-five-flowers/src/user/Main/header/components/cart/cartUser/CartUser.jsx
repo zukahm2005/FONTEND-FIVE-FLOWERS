@@ -65,9 +65,15 @@ const CartUser = () => {
     Delivered: 5,
     Cancelled: 6,
     Refunded: 7,
+    Returned: 8,
   };
 
-  const applyFiltersAndSort = (ordersList, sortOrder, dateRange, statusFilter) => {
+  const applyFiltersAndSort = (
+    ordersList,
+    sortOrder,
+    dateRange,
+    statusFilter
+  ) => {
     let filteredOrders = [...ordersList];
 
     if (dateRange && dateRange.length === 2) {
@@ -91,15 +97,21 @@ const CartUser = () => {
     }
 
     if (statusFilter) {
-      filteredOrders = filteredOrders.filter((order) => order.status === statusFilter);
+      filteredOrders = filteredOrders.filter(
+        (order) => order.status === statusFilter
+      );
     }
 
     switch (sortOrder) {
       case "newest":
-        filteredOrders.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        filteredOrders.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
         break;
       case "oldest":
-        filteredOrders.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        filteredOrders.sort(
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+        );
         break;
       case "price-low":
         filteredOrders.sort((a, b) => a.price - b.price);
@@ -142,6 +154,9 @@ const CartUser = () => {
       case "Refunded":
         color = "magenta";
         break;
+      case "Returned":
+        color = "black";
+        break;
       default:
         color = "default";
     }
@@ -153,7 +168,9 @@ const CartUser = () => {
       return "N/A"; // Default value when data is invalid
     }
     const [year, month, day, hours, minutes, seconds] = dateArray;
-    const date = new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds)); // Note month starts from 0 in JavaScript
+    const date = new Date(
+      Date.UTC(year, month - 1, day, hours, minutes, seconds)
+    ); // Note month starts from 0 in JavaScript
     if (isNaN(date)) {
       return "N/A"; // Default value when data is invalid
     }
@@ -184,7 +201,8 @@ const CartUser = () => {
       title: "Payment Method",
       dataIndex: "payment",
       key: "payment",
-      render: (payment) => (payment ? payment.paymentMethod : "No payment method"),
+      render: (payment) =>
+        payment ? payment.paymentMethod : "No payment method",
     },
     {
       title: "Order Date",
@@ -234,6 +252,7 @@ const CartUser = () => {
             <Option value="Delivered">Delivered</Option>
             <Option value="Cancelled">Cancelled</Option>
             <Option value="Refunded">Refunded</Option>
+            <Option value="Returned">Returned</Option>
           </Select>
         </div>
       </div>
