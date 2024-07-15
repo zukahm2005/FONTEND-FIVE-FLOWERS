@@ -66,14 +66,12 @@ const GetAllPaymentAdmin = () => {
   const handleFilterAndSort = () => {
     let filtered = [...payments];
 
-    // Xử lý bộ lọc tìm kiếm
     if (filter.search) {
       filtered = filtered.filter((payment) =>
         payment.paymentMethod.toLowerCase().includes(filter.search.toLowerCase())
       );
     }
 
-    // Xử lý sắp xếp
     switch (filter.sort) {
       case "newest":
         filtered.sort((a, b) => new Date(b.paymentDate) - new Date(a.paymentDate));
@@ -85,7 +83,6 @@ const GetAllPaymentAdmin = () => {
         break;
     }
 
-    // Xử lý phân trang
     const start = (pagination.current - 1) * pagination.pageSize;
     const end = start + pagination.pageSize;
     setFilteredPayments(filtered.slice(start, end));
@@ -232,13 +229,14 @@ const GetAllPaymentAdmin = () => {
               <p>Add Payment</p>
             </Link>
           </div>
-          <div className="sandbox-toggle">
-            <label>
-              Sandbox Mode
-              <Switch checked={sandboxMode} onChange={handleSandboxToggle} />
-            </label>
-          </div>
         </div>
+      </div>
+      <div className="sandbox-toggle">
+        <p>Sandbox Mode</p>
+        <Switch
+          checked={sandboxMode}
+          onChange={handleSandboxToggle}
+        />
       </div>
       <div className="bottom-paymentadmin-container">
         <Table
