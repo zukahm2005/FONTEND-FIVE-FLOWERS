@@ -37,6 +37,35 @@ const CheckOut = () => {
     fetchPaymentMethods();
   }, []);
 
+  useEffect(() => {
+    if (formFields.paymentMethod === "paypal") {
+      // Render PayPal button
+      window.paypal.Buttons({
+        createOrder: (data, actions) => {
+          return actions.order.create({
+            purchase_units: [{
+              amount: {
+                value: totalPrice.toString()
+              }
+            }]
+          });
+        },
+        onApprove: (data, actions) => {
+          return actions.order.capture().then(details => {
+            handleOrderCreation();
+          });
+        },
+        onError: (err) => {
+          console.error("PayPal Checkout Error: ", err);
+          notification.error({
+            message: "Payment Error",
+            description: "An error occurred during the PayPal checkout process."
+          });
+        }
+      }).render("#paypal-button-container");
+    }
+  }, [formFields.paymentMethod]);
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setFormFields({
@@ -70,115 +99,121 @@ const CheckOut = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (validateForm()) {
-      const token = localStorage.getItem("token");
-      if (!token) {
+  const handleOrderCreation = async () => {
+    const token = localStorage.getItem("token");
+    if (!token) {
+      notification.error({
+        message: "Login Required",
+        description: "Please log in to proceed with checkout.",
+      });
+      return;
+    }
+
+    try {
+      const decodedToken = JSON.parse(atob(token.split(".")[1]));
+      const userId = decodedToken.userId;
+
+      const selectedPaymentMethod = paymentMethods.find(
+        (method) => method.paymentId === parseInt(formFields.paymentMethod)
+      );
+
+      if (!selectedPaymentMethod) {
         notification.error({
-          message: "Login Required",
-          description: "Please log in to proceed with checkout.",
+          message: "Payment Error",
+          description: "Selected payment method is invalid.",
         });
         return;
       }
 
-      try {
-        const decodedToken = JSON.parse(atob(token.split(".")[1]));
-        const userId = decodedToken.userId;
+      const addressPayload = {
+        country: formFields.country,
+        firstName: formFields.firstName,
+        lastName: formFields.lastName,
+        address: formFields.address,
+        apartment: formFields.apartment,
+        phone: formFields.phone,
+        city: formFields.city,
+        postalCode: formFields.postalCode,
+        user: { id: userId },
+      };
 
-        const selectedPaymentMethod = paymentMethods.find(
-          (method) => method.paymentId === parseInt(formFields.paymentMethod)
-        );
-
-        if (!selectedPaymentMethod) {
-          notification.error({
-            message: "Payment Error",
-            description: "Selected payment method is invalid.",
-          });
-          return;
+      const addressResponse = await axios.post(
+        "http://localhost:8080/api/v1/addresses/add",
+        addressPayload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         }
+      );
 
-        const addressPayload = {
-          country: formFields.country,
-          firstName: formFields.firstName,
-          lastName: formFields.lastName,
-          address: formFields.address,
-          apartment: formFields.apartment,
-          phone: formFields.phone,
-          city: formFields.city,
-          postalCode: formFields.postalCode,
-          user: { id: userId },
-        };
+      const addressId = addressResponse.data.addressId;
 
-        const addressResponse = await axios.post(
-          "http://localhost:8080/api/v1/addresses/add",
-          addressPayload,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+      const orderDetails = cart.map((product) => ({
+        product: { productId: product.productId },
+        quantity: product.quantity,
+        price: product.price,
+      }));
 
-        const addressId = addressResponse.data.addressId;
+      const orderPayload = {
+        user: { id: userId },
+        orderDetails: orderDetails,
+        address: { addressId: addressId },
+        payment: { paymentId: formFields.paymentMethod },
+      };
 
-        const orderDetails = cart.map((product) => ({
-          product: { productId: product.productId },
-          quantity: product.quantity,
-          price: product.price,
-        }));
+      const orderResponse = await axios.post(
+        "http://localhost:8080/api/v1/orders/add",
+        orderPayload,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
-        const orderPayload = {
-          user: { id: userId },
-          orderDetails: orderDetails,
-          address: { addressId: addressId },
-          payment: { paymentId: formFields.paymentMethod },
-        };
-
-        const orderResponse = await axios.post(
-          "http://localhost:8080/api/v1/orders/add",
-          orderPayload,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-
-        // Update the product quantities in the database
-        await Promise.all(
-          cart.map((product) =>
-            axios.put(
-              `http://localhost:8080/api/v1/products/reduceQuantity/${product.productId}`,
-              null,
-              {
-                params: { quantity: product.quantity },
-              }
-            )
+      // Update the product quantities in the database
+      await Promise.all(
+        cart.map((product) =>
+          axios.put(
+            `http://localhost:8080/api/v1/products/reduceQuantity/${product.productId}`,
+            null,
+            {
+              params: { quantity: product.quantity },
+            }
           )
-        );
+        )
+      );
 
-        const orderData = {
-          orderId: orderResponse.data.orderId,
-          orderDate: new Date().toLocaleDateString(),
-          total: totalPrice,
-          paymentMethod: selectedPaymentMethod.paymentMethod,
-          orderDetails: orderResponse.data.orderDetails,
-        };
+      const orderData = {
+        orderId: orderResponse.data.orderId,
+        orderDate: new Date().toLocaleDateString(),
+        total: totalPrice,
+        paymentMethod: selectedPaymentMethod.paymentMethod,
+        orderDetails: orderResponse.data.orderDetails,
+      };
 
-        notification.success({
-          message: "Order Placed",
-          description: "Your order has been placed successfully!",
-        });
+      notification.success({
+        message: "Order Placed",
+        description: "Your order has been placed successfully!",
+      });
 
-        setCart([]);
-        navigate("/order-receive", { state: { order: orderData } });
-      } catch (error) {
-        console.error("Error placing order:", error);
-        notification.error({
-          message: "Order Error",
-          description: "Unable to place your order. Please try again.",
-        });
+      setCart([]);
+      navigate("/order-receive", { state: { order: orderData } });
+    } catch (error) {
+      console.error("Error placing order:", error);
+      notification.error({
+        message: "Order Error",
+        description: "Unable to place your order. Please try again.",
+      });
+    }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (validateForm()) {
+      if (formFields.paymentMethod !== "paypal") {
+        handleOrderCreation();
       }
     }
   };
@@ -312,14 +347,19 @@ const CheckOut = () => {
                         {method.paymentMethod}
                       </option>
                     ))}
+                    <option value="paypal">PayPal</option>
                   </select>
                   {errors.paymentMethod && <p className="error">{errors.paymentMethod}</p>}
                 </div>
-                <div className="order-now">
-                  <button type="submit">
-                    <p>ORDER NOW</p>
-                  </button>
-                </div>
+                {formFields.paymentMethod === "paypal" ? (
+                  <div id="paypal-button-container" className="paypal-button-container"></div>
+                ) : (
+                  <div className="order-now">
+                    <button type="submit">
+                      <p>ORDER NOW</p>
+                    </button>
+                  </div>
+                )}
               </div>
             </div>
           </div>

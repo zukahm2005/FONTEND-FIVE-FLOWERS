@@ -24,8 +24,6 @@ const getStatusColor = (status) => {
       return "red";
     case "Refunded":
       return "purple";
-    case "Returned":
-      return "gray";
     default:
       return "default";
   }
@@ -34,9 +32,6 @@ const getStatusColor = (status) => {
 const StyledSelect = styled(Select)`
   width: 110px !important;
   .ant-select-selection-item {
-    color: ${(props) => getStatusColor(props.status)} !important;
-  }
-  .ant-select-item-option-content {
     color: ${(props) => getStatusColor(props.status)} !important;
   }
 `;
@@ -104,41 +99,6 @@ const OrderDetails = () => {
     return formattedDate;
   };
 
-  const calculateOrderStatus = (orderDetails) => {
-    const statusPriority = {
-      "Pending": 1,
-      "Packaging": 2,
-      "Shipping": 3,
-      "Paid": 4,
-      "Delivered": 5,
-      "Cancelled": 6,
-      "Refunded": 7,
-      "Returned": 8,
-    };
-
-    if (orderDetails.some(detail => detail.status === "Pending")) {
-      return "Pending";
-    }
-
-    if (orderDetails.every(detail => detail.status === "Cancelled")) {
-      return "Cancelled";
-    }
-
-    let highestPriorityStatus = "Delivered";
-    for (let detail of orderDetails) {
-      if (statusPriority[detail.status] < statusPriority[highestPriorityStatus]) {
-        highestPriorityStatus = detail.status;
-      }
-    }
-
-    return highestPriorityStatus;
-  };
-
-  const isOrderEditable = (status) => {
-    const nonEditableStatuses = ["Delivered", "Cancelled", "Refunded", "Returned"];
-    return !nonEditableStatuses.includes(status);
-  };
-
   const updateStatus = async (orderDetailId, newStatus) => {
     try {
       const token = localStorage.getItem("token");
@@ -151,39 +111,16 @@ const OrderDetails = () => {
           },
         }
       );
-      setOrder((prevOrder) => {
-        const updatedOrderDetails = prevOrder.orderDetails.map((detail) =>
+      setOrder((prevOrder) => ({
+        ...prevOrder,
+        orderDetails: prevOrder.orderDetails.map((detail) =>
           detail.orderDetailId === orderDetailId
             ? { ...detail, status: newStatus }
             : detail
-        );
-        const updatedOrderStatus = calculateOrderStatus(updatedOrderDetails);
-        updateOrderStatus(prevOrder.orderId, updatedOrderStatus);
-        return {
-          ...prevOrder,
-          orderDetails: updatedOrderDetails,
-          status: updatedOrderStatus,
-        };
-      });
+        ),
+      }));
     } catch (error) {
       console.error("Error updating status:", error);
-    }
-  };
-
-  const updateOrderStatus = async (orderId, newStatus) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.put(
-        `http://localhost:8080/api/v1/orders/${orderId}/status`,
-        { status: newStatus },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-    } catch (error) {
-      console.error("Error updating order status:", error);
     }
   };
 
@@ -238,29 +175,6 @@ const OrderDetails = () => {
     return <div>Loading...</div>;
   }
 
-  const renderStatusSelect = (status, detail) => {
-    return (
-      <StyledSelect
-        status={status}
-        value={status}
-        onChange={(value) => updateStatus(detail.orderDetailId, value)}
-        onClick={(e) => e.stopPropagation()} // prevent event propagation
-        disabled={!isOrderEditable(status)}
-      >
-        <Option value="Pending">Pending</Option>
-        <Option value="Paid">Paid</Option>
-        <Option value="Packaging">Packaging</Option>
-        <Option value="Shipping">Shipping</Option>
-        <Option value="Delivered">Delivered</Option>
-        <Option value="Cancelled">Cancelled</Option>
-        <Option value="Refunded">Refunded</Option>
-        <Option value="Returned">Returned</Option>
-      </StyledSelect>
-    );
-  };
-
-  const orderEditable = isOrderEditable(order.status);
-
   return (
     <div className="ordtails-page-container">
       <div className="ordtails-page-box">
@@ -276,16 +190,12 @@ const OrderDetails = () => {
             </div>
           </div>
           <div className="button-edit-print">
-            {orderEditable && (
-              <>
-                <div className="button" onClick={handleEdit}>
-                  <p>Edit</p>
-                </div>
-                <div className="button" onClick={handlePrint}>
-                  <p>Print</p>
-                </div>
-              </>
-            )}
+            <div className="button" onClick={handleEdit}>
+              <p>Edit</p>
+            </div>
+            <div className="button" onClick={handlePrint}>
+              <p>Print</p>
+            </div>
           </div>
         </div>
         <div className="below-page-box">
@@ -330,7 +240,7 @@ const OrderDetails = () => {
                     <div className="price-info-ordtails">
                       <p>
                         ₹{detail.price} x{" "}
-                        {orderEditable && editableQuantityId === detail.orderDetailId ? (
+                        {editableQuantityId === detail.orderDetailId ? (
                           <InputNumber
                             min={1}
                             value={detail.quantity}
@@ -342,20 +252,32 @@ const OrderDetails = () => {
                         ) : (
                           <>
                             {detail.quantity}
-                            {orderEditable && (
-                              <FaPen
-                                style={{ cursor: "pointer" }}
-                                onClick={() =>
-                                  setEditableQuantityId(detail.orderDetailId)
-                                }
-                              />
-                            )}
+                            <FaPen
+                              style={{ cursor: "pointer" }}
+                              onClick={() =>
+                                setEditableQuantityId(detail.orderDetailId)
+                              }
+                            />
                           </>
                         )}
                       </p>
                     </div>
                     <div className="status-ordtails">
-                      {renderStatusSelect(detail.status, detail)}
+                      <StyledSelect
+                        status={detail.status}
+                        value={detail.status}
+                        onChange={(value) =>
+                          updateStatus(detail.orderDetailId, value)
+                        }
+                      >
+                        <Option value="Pending">Pending</Option>
+                        <Option value="Paid">Paid</Option>
+                        <Option value="Packaging">Packaging</Option>
+                        <Option value="Shipping">Shipping</Option>
+                        <Option value="Delivered">Delivered</Option>
+                        <Option value="Cancelled">Cancelled</Option>
+                        <Option value="Refunded">Refunded</Option>
+                      </StyledSelect>
                     </div>
                     <div className="product-price">
                       <p>₹{detail.price * detail.quantity}</p>
@@ -382,14 +304,12 @@ const OrderDetails = () => {
                   <p>Customer</p>{" "}
                 </div>
 
-                {orderEditable && (
-                  <div className="editable-field">
-                    <FaPen
-                      style={{ cursor: "pointer", marginLeft: "10px" }}
-                      onClick={showEditModal}
-                    />
-                  </div>
-                )}
+                <div className="editable-field">
+                  <FaPen
+                    style={{ cursor: "pointer", marginLeft: "10px" }}
+                    onClick={showEditModal}
+                  />
+                </div>
               </div>
 
               <div className="name-cus">
@@ -449,7 +369,6 @@ const OrderDetails = () => {
           <Input
             value={editableFields.email}
             onChange={(e) => handleFieldChange("email", e.target.value)}
-            disabled={!orderEditable}
           />
         </div>
         <div>
@@ -457,7 +376,6 @@ const OrderDetails = () => {
           <Input
             value={editableFields.firstName}
             onChange={(e) => handleFieldChange("firstName", e.target.value)}
-            disabled={!orderEditable}
           />
         </div>
         <div>
@@ -465,7 +383,6 @@ const OrderDetails = () => {
           <Input
             value={editableFields.lastName}
             onChange={(e) => handleFieldChange("lastName", e.target.value)}
-            disabled={!orderEditable}
           />
         </div>
         <div>
@@ -473,7 +390,6 @@ const OrderDetails = () => {
           <Input
             value={editableFields.phone}
             onChange={(e) => handleFieldChange("phone", e.target.value)}
-            disabled={!orderEditable}
           />
         </div>
         <div>
@@ -481,7 +397,6 @@ const OrderDetails = () => {
           <Input
             value={editableFields.address}
             onChange={(e) => handleFieldChange("address", e.target.value)}
-            disabled={!orderEditable}
           />
         </div>
         <div>
@@ -489,7 +404,6 @@ const OrderDetails = () => {
           <Input
             value={editableFields.city}
             onChange={(e) => handleFieldChange("city", e.target.value)}
-            disabled={!orderEditable}
           />
         </div>
         <div>
@@ -497,7 +411,6 @@ const OrderDetails = () => {
           <Input
             value={editableFields.postalCode}
             onChange={(e) => handleFieldChange("postalCode", e.target.value)}
-            disabled={!orderEditable}
           />
         </div>
       </Modal>
