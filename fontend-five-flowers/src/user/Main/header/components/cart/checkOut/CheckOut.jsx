@@ -30,7 +30,7 @@ const CheckOut = () => {
         const response = await axios.get("http://localhost:8080/api/v1/payments/all");
         setPaymentMethods(response.data);
       } catch (error) {
-        console.error("Error fetching payment methods:", error);
+        console.error("Lỗi khi lấy phương thức thanh toán:", error);
       }
     };
 
@@ -56,10 +56,10 @@ const CheckOut = () => {
           });
         },
         onError: (err) => {
-          console.error("PayPal Checkout Error: ", err);
+          console.error("Lỗi PayPal Checkout: ", err);
           notification.error({
-            message: "Payment Error",
-            description: "An error occurred during the PayPal checkout process."
+            message: "Lỗi Thanh Toán",
+            description: "Có lỗi xảy ra trong quá trình thanh toán bằng PayPal."
           });
         }
       }).render("#paypal-button-container");
@@ -212,7 +212,9 @@ const CheckOut = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (validateForm()) {
-      if (formFields.paymentMethod !== "paypal") {
+      if (formFields.paymentMethod === "paypal") {
+        // PayPal button will handle the order creation
+      } else {
         handleOrderCreation();
       }
     }
@@ -254,28 +256,24 @@ const CheckOut = () => {
                 {errors.country && <p className="error">{errors.country}</p>}
               </div>
               <div className="input-name-address">
-                <div className="input-fn-address">
-                  <input
-                    type="text"
-                    name="firstName"
-                    placeholder="First name"
-                    value={formFields.firstName}
-                    onChange={handleInputChange}
-                  />
-                  {errors.firstName && <p className="error">{errors.firstName}</p>}
-                </div>
-                <div className="input-ln-address">
-                  <input
-                    type="text"
-                    name="lastName"
-                    placeholder="Last name"
-                    value={formFields.lastName}
-                    onChange={handleInputChange}
-                  />
-                  {errors.lastName && <p className="error">{errors.lastName}</p>}
-                </div>
+                <input
+                  type="text"
+                  name="firstName"
+                  placeholder="First name"
+                  value={formFields.firstName}
+                  onChange={handleInputChange}
+                />
+                {errors.firstName && <p className="error">{errors.firstName}</p>}
+                <input
+                  type="text"
+                  name="lastName"
+                  placeholder="Last name"
+                  value={formFields.lastName}
+                  onChange={handleInputChange}
+                />
+                {errors.lastName && <p className="error">{errors.lastName}</p>}
               </div>
-              <div className="input-address-address">
+              <div className="input-country-address">
                 <input
                   type="text"
                   name="address"
@@ -286,47 +284,39 @@ const CheckOut = () => {
                 {errors.address && <p className="error">{errors.address}</p>}
               </div>
               <div className="apartment-phone-address">
-                <div className="input-apartment-address">
-                  <input
-                    type="text"
-                    name="apartment"
-                    placeholder="Apartment/Suite, etc."
-                    value={formFields.apartment}
-                    onChange={handleInputChange}
-                  />
-                </div>
-                <div className="input-phone-address">
-                  <input
-                    type="text"
-                    name="phone"
-                    placeholder="Phone"
-                    value={formFields.phone}
-                    onChange={handleInputChange}
-                  />
-                  {errors.phone && <p className="error">{errors.phone}</p>}
-                </div>
+                <input
+                  type="text"
+                  name="apartment"
+                  placeholder="Apartment/Suite, etc."
+                  value={formFields.apartment}
+                  onChange={handleInputChange}
+                />
+                <input
+                  type="text"
+                  name="phone"
+                  placeholder="Phone"
+                  value={formFields.phone}
+                  onChange={handleInputChange}
+                />
+                {errors.phone && <p className="error">{errors.phone}</p>}
               </div>
               <div className="input-city-code-address">
-                <div className="input-city-address">
-                  <input
-                    type="text"
-                    name="city"
-                    placeholder="City"
-                    value={formFields.city}
-                    onChange={handleInputChange}
-                  />
-                  {errors.city && <p className="error">{errors.city}</p>}
-                </div>
-                <div className="input-postal-code">
-                  <input
-                    type="text"
-                    name="postalCode"
-                    placeholder="Postal Code"
-                    value={formFields.postalCode}
-                    onChange={handleInputChange}
-                  />
-                  {errors.postalCode && <p className="error">{errors.postalCode}</p>}
-                </div>
+                <input
+                  type="text"
+                  name="city"
+                  placeholder="City"
+                  value={formFields.city}
+                  onChange={handleInputChange}
+                />
+                {errors.city && <p className="error">{errors.city}</p>}
+                <input
+                  type="text"
+                  name="postalCode"
+                  placeholder="Postal Code"
+                  value={formFields.postalCode}
+                  onChange={handleInputChange}
+                />
+                {errors.postalCode && <p className="error">{errors.postalCode}</p>}
               </div>
               <div className="payment-method-container">
                 <div className="title-payment">
@@ -349,7 +339,9 @@ const CheckOut = () => {
                     ))}
                     <option value="paypal">PayPal</option>
                   </select>
-                  {errors.paymentMethod && <p className="error">{errors.paymentMethod}</p>}
+                  {errors.paymentMethod && (
+                    <p className="error">{errors.paymentMethod}</p>
+                  )}
                 </div>
                 {formFields.paymentMethod === "paypal" ? (
                   <div id="paypal-button-container" className="paypal-button-container"></div>
@@ -365,43 +357,34 @@ const CheckOut = () => {
           </div>
           <div className="info-order-container">
             <div className="checkout-details">
-              {cart.length > 0 ? (
-                cart.map((item, index) => (
-                  <div key={index} className="checkout-item">
-                    <div className="info-details-checkout">
-                      <div className="image-checkout-container">
-                        <div className="item-image">
-                          {item.productImages[0]?.imageUrl && (
-                            <img
-                              src={`http://localhost:8080/api/v1/images/${item.productImages[0].imageUrl}`}
-                              alt={item.name}
-                            />
-                          )}
-                          <div className="quantity-item-checkout">
-                            <p>{item.quantity}</p>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="item-details">
-                        <div className="name-item-details">
-                          <p>{item.name}</p>
-                        </div>
-                        <div className="title-item-details">
-                          <p>
-                            {item.category.name} / {item.brand.name}
-                          </p>
+              {cart.map((item, index) => (
+                <div key={index} className="checkout-item">
+                  <div className="info-details-checkout">
+                    <div className="image-checkout-container">
+                      <div className="item-image">
+                        <img
+                          src={`http://localhost:8080/api/v1/images/${item.productImages[0].imageUrl}`}
+                          alt={item.name}
+                        />
+                        <div className="quantity-item-checkout">
+                          <p>{item.quantity}</p>
                         </div>
                       </div>
                     </div>
-                    <div className="total-price">
-                      <p>₹</p>
-                      <p>{item.price * item.quantity}</p>
+                    <div className="item-details">
+                      <div className="name-item-details">
+                        <p>{item.name}</p>
+                      </div>
+                      <div className="title-item-details">
+                        <p>{item.category.name} / {item.brand.name}</p>
+                      </div>
                     </div>
                   </div>
-                ))
-              ) : (
-                <p>No items in cart</p>
-              )}
+                  <div className="total-price">
+                    <p>₹{item.price * item.quantity}</p>
+                  </div>
+                </div>
+              ))}
               <div className="total-price-check-out">
                 <p>Total</p>
                 <p>₹{totalPrice}</p>
