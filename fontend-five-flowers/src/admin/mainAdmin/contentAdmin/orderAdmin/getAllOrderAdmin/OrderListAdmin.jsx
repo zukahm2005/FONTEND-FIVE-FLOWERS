@@ -25,6 +25,8 @@ const getStatusColor = (status) => {
       return "red";
     case "Refunded":
       return "purple";
+    case "Returned":
+      return "black";
     default:
       return "default";
   }
@@ -156,6 +158,7 @@ const OrderListAdmin = () => {
       Delivered: 5,
       Cancelled: 6,
       Refunded: 7,
+      Returned: 8,
     };
 
     switch (sortOrder) {
@@ -220,6 +223,50 @@ const OrderListAdmin = () => {
     }
   };
 
+  const renderStatusSelect = (status, record) => {
+    if (
+      status === "Delivered" ||
+      status === "Cancelled" ||
+      status === "Refunded" ||
+      status === "Returned"
+    ) {
+      return (
+        <StyledSelect
+          status={status}
+          value={status}
+          disabled
+        >
+          <Option value="Pending">Pending</Option>
+          <Option value="Paid">Paid</Option>
+          <Option value="Packaging">Packaging</Option>
+          <Option value="Shipping">Shipping</Option>
+          <Option value="Delivered">Delivered</Option>
+          <Option value="Returned">Returned</Option>
+          <Option value="Cancelled">Cancelled</Option>
+          <Option value="Refunded">Refunded</Option>
+        </StyledSelect>
+      );
+    }
+
+    return (
+      <StyledSelect
+        status={status}
+        value={status}
+        onChange={(value) => updateOrderStatus(record.orderId, value)}
+        onClick={(e) => e.stopPropagation()} // prevent event propagation
+      >
+        <Option value="Pending">Pending</Option>
+        <Option value="Paid">Paid</Option>
+        <Option value="Packaging">Packaging</Option>
+        <Option value="Shipping">Shipping</Option>
+        <Option value="Delivered">Delivered</Option>
+        <Option value="Returned">Returned</Option>
+        <Option value="Cancelled">Cancelled</Option>
+        <Option value="Refunded">Refunded</Option>
+      </StyledSelect>
+    );
+  };
+
   const columns = [
     {
       title: "ID",
@@ -279,22 +326,7 @@ const OrderListAdmin = () => {
       title: "Status",
       dataIndex: "status",
       key: "status",
-      render: (status, record) => (
-        <StyledSelect
-          status={status}
-          value={status}
-          onChange={(value) => updateOrderStatus(record.orderId, value)}
-          onClick={(e) => e.stopPropagation()} // prevent event propagation
-        >
-          <Option value="Pending">Pending</Option>
-          <Option value="Paid">Paid</Option>
-          <Option value="Packaging">Packaging</Option>
-          <Option value="Shipping">Shipping</Option>
-          <Option value="Delivered">Delivered</Option>
-          <Option value="Cancelled">Cancelled</Option>
-          <Option value="Refunded">Refunded</Option>
-        </StyledSelect>
-      ),
+      render: (status, record) => renderStatusSelect(status, record),
     },
   ];
 
@@ -340,14 +372,15 @@ const OrderListAdmin = () => {
               <Option value="Packaging">Packaging</Option>
               <Option value="Shipping">Shipping</Option>
               <Option value="Delivered">Delivered</Option>
+              <Option value="Returned">Returned</Option>
               <Option value="Cancelled">Cancelled</Option>
               <Option value="Refunded">Refunded</Option>
             </Select>
             <div className="button-create-orderadmin">
-            <Link to="add">
-              <p>Create order</p>
-            </Link>
-          </div>
+              <Link to="add">
+                <p>Create order</p>
+              </Link>
+            </div>
           </div>
         </div>
       </div>
