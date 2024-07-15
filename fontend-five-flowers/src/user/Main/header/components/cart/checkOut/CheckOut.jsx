@@ -23,6 +23,7 @@ const CheckOut = () => {
 
   const [errors, setErrors] = useState({});
   const [paymentMethods, setPaymentMethods] = useState([]);
+  const [sandboxMode, setSandboxMode] = useState(false);
 
   useEffect(() => {
     const fetchPaymentMethods = async () => {
@@ -38,9 +39,27 @@ const CheckOut = () => {
   }, []);
 
   useEffect(() => {
+    const fetchSandboxStatus = async () => {
+      try {
+        const response = await axios.get("http://localhost:8080/api/v1/payments/sandbox-status", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        setSandboxMode(response.data);
+      } catch (error) {
+        console.error('Error fetching sandbox status:', error);
+      }
+    };
+
+    fetchSandboxStatus();
+  }, []);
+
+  useEffect(() => {
     if (formFields.paymentMethod === "paypal") {
       // Render PayPal button
       window.paypal.Buttons({
+        env: sandboxMode ? 'sandbox' : 'production',
         createOrder: (data, actions) => {
           return actions.order.create({
             purchase_units: [{
@@ -64,7 +83,7 @@ const CheckOut = () => {
         }
       }).render("#paypal-button-container");
     }
-  }, [formFields.paymentMethod]);
+  }, [formFields.paymentMethod, sandboxMode]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -172,7 +191,6 @@ const CheckOut = () => {
         }
       );
 
-      // Update the product quantities in the database
       await Promise.all(
         cart.map((product) =>
           axios.put(
