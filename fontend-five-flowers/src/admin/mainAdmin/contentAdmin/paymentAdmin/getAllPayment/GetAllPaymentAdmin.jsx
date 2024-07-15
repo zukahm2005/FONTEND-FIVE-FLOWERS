@@ -12,7 +12,6 @@ const GetAllPaymentAdmin = () => {
   const [payments, setPayments] = useState([]);
   const [filteredPayments, setFilteredPayments] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [sandboxMode, setSandboxMode] = useState(false);
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
@@ -24,6 +23,7 @@ const GetAllPaymentAdmin = () => {
   });
   const [selectedPayment, setSelectedPayment] = useState(null);
   const [isModalVisible, setIsModalVisible] = useState(false);
+  const [sandboxMode, setSandboxMode] = useState(false);
 
   const fetchPayments = async () => {
     setLoading(true);
@@ -47,28 +47,10 @@ const GetAllPaymentAdmin = () => {
 
   const fetchSandboxStatus = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/v1/payments/sandbox-status", {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`
-        }
-      });
+      const response = await axios.get("http://localhost:8080/api/v1/payments/sandbox-status");
       setSandboxMode(response.data);
     } catch (error) {
       console.error("There was an error fetching the sandbox status!", error);
-    }
-  };
-
-  const handleSandboxToggle = async (checked) => {
-    try {
-      await axios.post("http://localhost:8080/api/v1/payments/sandbox-status", checked, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-          "Content-Type": "application/json"
-        }
-      });
-      setSandboxMode(checked);
-    } catch (error) {
-      console.error("There was an error updating the sandbox status!", error);
     }
   };
 
@@ -84,12 +66,14 @@ const GetAllPaymentAdmin = () => {
   const handleFilterAndSort = () => {
     let filtered = [...payments];
 
+    // Xử lý bộ lọc tìm kiếm
     if (filter.search) {
       filtered = filtered.filter((payment) =>
         payment.paymentMethod.toLowerCase().includes(filter.search.toLowerCase())
       );
     }
 
+    // Xử lý sắp xếp
     switch (filter.sort) {
       case "newest":
         filtered.sort((a, b) => new Date(b.paymentDate) - new Date(a.paymentDate));
@@ -101,6 +85,7 @@ const GetAllPaymentAdmin = () => {
         break;
     }
 
+    // Xử lý phân trang
     const start = (pagination.current - 1) * pagination.pageSize;
     const end = start + pagination.pageSize;
     setFilteredPayments(filtered.slice(start, end));
@@ -144,6 +129,23 @@ const GetAllPaymentAdmin = () => {
 
   const formatDate = (dateString) => {
     return moment(dateString).format("YYYY-MM-DD HH:mm:ss");
+  };
+
+  const handleSandboxToggle = async (checked) => {
+    try {
+      await axios.post("http://localhost:8080/api/v1/payments/sandbox-status", 
+        { sandboxStatus: checked },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            'Content-Type': 'application/json'
+          }
+        }
+      );
+      setSandboxMode(checked);
+    } catch (error) {
+      console.error("There was an error updating the sandbox status!", error);
+    }
   };
 
   const columns = [
@@ -230,9 +232,11 @@ const GetAllPaymentAdmin = () => {
               <p>Add Payment</p>
             </Link>
           </div>
-          <div className="sandbox-switch">
-            <label>Sandbox Mode: </label>
-            <Switch checked={sandboxMode} onChange={handleSandboxToggle} />
+          <div className="sandbox-toggle">
+            <label>
+              Sandbox Mode
+              <Switch checked={sandboxMode} onChange={handleSandboxToggle} />
+            </label>
           </div>
         </div>
       </div>

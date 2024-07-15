@@ -35,53 +35,49 @@ const CheckOut = () => {
       }
     };
 
-    fetchPaymentMethods();
-  }, []);
-
-  useEffect(() => {
     const fetchSandboxStatus = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/v1/payments/sandbox-status", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        });
+        const response = await axios.get("http://localhost:8080/api/v1/payments/sandbox-status");
         setSandboxMode(response.data);
       } catch (error) {
         console.error('Error fetching sandbox status:', error);
       }
     };
 
+    fetchPaymentMethods();
     fetchSandboxStatus();
   }, []);
 
   useEffect(() => {
     if (formFields.paymentMethod === "paypal") {
-      // Render PayPal button
-      window.paypal.Buttons({
-        env: sandboxMode ? 'sandbox' : 'production',
-        createOrder: (data, actions) => {
-          return actions.order.create({
-            purchase_units: [{
-              amount: {
-                value: totalPrice.toString()
-              }
-            }]
-          });
-        },
-        onApprove: (data, actions) => {
-          return actions.order.capture().then(details => {
-            handleOrderCreation();
-          });
-        },
-        onError: (err) => {
-          console.error("Lỗi PayPal Checkout: ", err);
-          notification.error({
-            message: "Lỗi Thanh Toán",
-            description: "Có lỗi xảy ra trong quá trình thanh toán bằng PayPal."
-          });
-        }
-      }).render("#paypal-button-container");
+      const paypalScript = document.createElement("script");
+      paypalScript.src = sandboxMode ? "https://www.paypal.com/sdk/js?client-id=ASoIba-pexbxQxYyFoU_YXosUuJm7ScuwQiYZOMnDYStlMgVN0WmPTPcMHyg3vWRmEJlbc00aCkfl2Io" : "https://www.paypal.com/sdk/js?client-id=ATo3jRufZEuEVkraAzCbW2wVlwRC-dR0m-MCNPTV-996EuzdV-hC8E9-npzl9oVqVL7WXBGAk8d7mQ4o";
+      paypalScript.addEventListener("load", () => {
+        window.paypal.Buttons({
+          createOrder: (data, actions) => {
+            return actions.order.create({
+              purchase_units: [{
+                amount: {
+                  value: totalPrice.toString()
+                }
+              }]
+            });
+          },
+          onApprove: (data, actions) => {
+            return actions.order.capture().then(details => {
+              handleOrderCreation();
+            });
+          },
+          onError: (err) => {
+            console.error("Lỗi PayPal Checkout: ", err);
+            notification.error({
+              message: "Lỗi Thanh Toán",
+              description: "Có lỗi xảy ra trong quá trình thanh toán bằng PayPal."
+            });
+          }
+        }).render("#paypal-button-container");
+      });
+      document.body.appendChild(paypalScript);
     }
   }, [formFields.paymentMethod, sandboxMode]);
 
@@ -191,6 +187,7 @@ const CheckOut = () => {
         }
       );
 
+      // Update the product quantities in the database
       await Promise.all(
         cart.map((product) =>
           axios.put(
