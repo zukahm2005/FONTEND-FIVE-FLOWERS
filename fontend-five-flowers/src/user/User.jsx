@@ -15,6 +15,7 @@ import BlogDetail from "./Main/pages/news/Blog/BlogDetail";
 import News from "./Main/pages/news/News";
 import Shop from "./Main/pages/shop/Shop";
 import ProductDetail from "./Main/pages/shop/productDetails/ProductDetails";
+import AnalyticsTrackVisit from "../admin/mainAdmin/contentAdmin/homeAdmin/analyticsadmin/AnalyticsTrackVisit";
 import "./user.scss";
 
 const User = () => {
@@ -24,6 +25,7 @@ const User = () => {
     <CartProvider>
       <div className="user-container">
         <Header cart={cart} setCart={setCart} />
+        <AnalyticsTrackVisit /> {/* Tích hợp component */}
         <div>
           <Routes>
             <Route path="/" element={<Home />} />
@@ -37,7 +39,7 @@ const User = () => {
             <Route path="/shopping-cart" element={<ShoppingCart />} />
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/cart-user" element={<CartUser />} />
-            <Route path="/order-receive" element={<OrderReceive/>}/>
+            <Route path="/order-receive" element={<OrderReceive />} />
             <Route path="*" element={<Error />} />
           </Routes>
         </div>
