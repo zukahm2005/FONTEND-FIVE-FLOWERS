@@ -97,10 +97,43 @@
 
 .video-wrapper {
   text-align: center;
-  width: 50rem;
+  width: 40rem;
   height: 30rem;
   iframe {
     width: 100%;
     height: 100%;
+  }
+}
+
+@media (max-width: 840px) {
+  .video-wrapper {
+    width: 30rem;
+    height: 22.5rem; // Adjust height to maintain aspect ratio 16:9
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+@media (max-width: 600px) {
+  .video-wrapper {
+    width: 20rem;
+    height: 16.875rem; // Adjust height to maintain aspect ratio 16:9
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+
+@media (max-width: 430px) {
+  .video-wrapper {
+    width: 15rem;
+    height: 11.25rem; // Adjust height to maintain aspect ratio 16:9
+    iframe {
+      width: 100%;
+      height: 100%;
+    }
   }
 }

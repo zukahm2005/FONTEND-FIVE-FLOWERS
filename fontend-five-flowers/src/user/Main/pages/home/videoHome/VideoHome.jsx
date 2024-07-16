@@ -52,8 +52,7 @@ const VideoHome = () => {
         </button>
         <div className="video-wrapper">
           <iframe
-            width="1000"
-            height="600"
+          
             src="https://www.youtube.com/embed/JJMPKgyCoSY"
             title="YouTube video player"
             frameBorder="0"

@@ -9,7 +9,7 @@ const InnovatingHome = () => {
         <div className="inova-img">
           <img
             src="https://bikex-club.myshopify.com/cdn/shop/files/img-1_95a20f74-3471-4d98-a190-e2a7cd3f7e26_1000X_1_1512x.jpg?v=1614290800"
-            alt=""
+            alt="Innovating to reimagine riding bicycle"
           />
         </div>
       </div>
@@ -27,8 +27,9 @@ const InnovatingHome = () => {
         </div>
         <div className="innova-button">
           <button>
-          <Link to="/shop"><p>BUY NOW</p></Link>
-
+            <Link to="/shop">
+              <p>BUY NOW</p>
+            </Link>
           </button>
         </div>
       </div>

@@ -1,4 +1,4 @@
-.header-container{
+.header-container {
     position: fixed;
     top: 0;
     z-index: 5;
@@ -6,16 +6,39 @@
     border-bottom: thin solid rgb(235, 235, 235);
     align-items: center;
     background-color: #fffbf7;
+
     .header-main {
         display: grid;
-        grid-template-columns:1fr 1fr 1fr;
-
+        grid-template-columns: 1fr 1fr 1fr ;
         max-width: 90%;
         margin: 0 auto;
         align-items: center;
         min-height: 5rem;
-
-        
     }
-    
+
+    .header-menu-icon {
+        display: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    @media (max-width: 900px) {
+        .header-pages {
+            display: none;
+        }
+
+        .header-menu-icon {
+            display: block;
+        }
+
+        .header-components {
+            display: flex;
+            align-items: center;
+            gap: 1rem; /* Giảm khoảng cách giữa các biểu tượng */
+        }
+
+        .header-main {
+            grid-template-columns: 1fr auto;
+        }
+    }
 }
