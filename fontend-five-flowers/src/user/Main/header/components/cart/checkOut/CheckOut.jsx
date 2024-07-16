@@ -51,7 +51,9 @@ const CheckOut = () => {
   useEffect(() => {
     if (formFields.paymentMethod === "paypal") {
       const paypalScript = document.createElement("script");
-      paypalScript.src = sandboxMode ? "https://www.paypal.com/sdk/js?client-id=ASoIba-pexbxQxYyFoU_YXosUuJm7ScuwQiYZOMnDYStlMgVN0WmPTPcMHyg3vWRmEJlbc00aCkfl2Io" : "https://www.paypal.com/sdk/js?client-id=ATo3jRufZEuEVkraAzCbW2wVlwRC-dR0m-MCNPTV-996EuzdV-hC8E9-npzl9oVqVL7WXBGAk8d7mQ4o";
+      paypalScript.src = sandboxMode 
+        ? "https://www.paypal.com/sdk/js?client-id=ASoIba-pexbxQxYyFoU_YXosUuJm7ScuwQiYZOMnDYStlMgVN0WmPTPcMHyg3vWRmEJlbc00aCkfl2Io"
+        : "https://www.paypal.com/sdk/js?client-id=AZI9cbp3UpTTl8BOM50Z3MXh9OqeE9sKNKdw2Ekj-e2gyaO9I2Cemn6iyxW6a2jX-uydpWUtw79Uzn1_";
       paypalScript.addEventListener("load", () => {
         window.paypal.Buttons({
           createOrder: (data, actions) => {
@@ -65,7 +67,7 @@ const CheckOut = () => {
           },
           onApprove: (data, actions) => {
             return actions.order.capture().then(details => {
-              handleOrderCreation();
+              handleOrderCreation(true);
             });
           },
           onError: (err) => {
@@ -114,7 +116,7 @@ const CheckOut = () => {
     return Object.keys(newErrors).length === 0;
   };
 
-  const handleOrderCreation = async () => {
+  const handleOrderCreation = async (paypalApproved = false) => {
     const token = localStorage.getItem("token");
     if (!token) {
       notification.error({
@@ -132,7 +134,7 @@ const CheckOut = () => {
         (method) => method.paymentId === parseInt(formFields.paymentMethod)
       );
 
-      if (!selectedPaymentMethod) {
+      if (!selectedPaymentMethod && !paypalApproved) {
         notification.error({
           message: "Payment Error",
           description: "Selected payment method is invalid.",
@@ -174,7 +176,7 @@ const CheckOut = () => {
         user: { id: userId },
         orderDetails: orderDetails,
         address: { addressId: addressId },
-        payment: { paymentId: formFields.paymentMethod },
+        payment: paypalApproved ? { paymentMethod: "PayPal" } : { paymentId: formFields.paymentMethod },
       };
 
       const orderResponse = await axios.post(
@@ -204,7 +206,7 @@ const CheckOut = () => {
         orderId: orderResponse.data.orderId,
         orderDate: new Date().toLocaleDateString(),
         total: totalPrice,
-        paymentMethod: selectedPaymentMethod.paymentMethod,
+        paymentMethod: paypalApproved ? "PayPal" : selectedPaymentMethod.paymentMethod,
         orderDetails: orderResponse.data.orderDetails,
       };
 
