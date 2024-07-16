@@ -8,6 +8,7 @@ export const CartContext = createContext();
 const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [productDetails, setProductDetails] = useState(null);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -23,6 +24,15 @@ const CartProvider = ({ children }) => {
       setCart(cartItems);
     } catch (error) {
       console.error("Failed to fetch cart items:", error);
+    }
+  };
+
+  const fetchProductDetails = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/v1/products/get/${id}`);
+      setProductDetails(response.data);
+    } catch (error) {
+      console.error("Failed to fetch product details:", error);
     }
   };
 
@@ -45,6 +55,8 @@ const CartProvider = ({ children }) => {
   };
 
   const addToCart = async (product, quantity = 1) => {
+    console.log("addToCart called with product:", product, "and quantity:", quantity);
+  
     if (!isLoggedIn) {
       notification.error({
         message: "Login Required",
@@ -52,45 +64,67 @@ const CartProvider = ({ children }) => {
       });
       return;
     }
-
-    const response = await axios.get(
-      `http://localhost:8080/api/v1/products/get/${product.productId}`
-    );
-    const availableQuantity = response.data.quantity;
-
-    const newCart = [...cart];
-    const productInCart = newCart.find(
-      (item) => item.productId === product.productId
-    );
-    if (productInCart) {
-      if (productInCart.quantity + quantity <= availableQuantity) {
-        productInCart.quantity += quantity;
-        productInCart.totalPrice = productInCart.quantity * productInCart.price;
-      } else {
+  
+    try {
+      const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
+      const availableQuantity = response.data.quantity;
+  
+      console.log(`Available quantity for product ${product.productId}: ${availableQuantity}`);
+  
+      if (availableQuantity === 0) {
+        console.log(`Product ${product.productId} is out of stock.`);
         notification.error({
           message: "Out of Stock",
-          description: `Only ${availableQuantity} items left in stock.`,
+          description: `${product.name} is out of stock.`,
         });
         return;
       }
-    } else {
-      if (quantity <= availableQuantity) {
-        newCart.push({
-          ...product,
-          quantity,
-          totalPrice: quantity * product.price,
-        });
+  
+      const newCart = [...cart];
+      const productInCart = newCart.find(item => item.productId === product.productId);
+      if (productInCart) {
+        if (productInCart.quantity + quantity <= availableQuantity) {
+          productInCart.quantity += quantity;
+          productInCart.totalPrice = productInCart.quantity * productInCart.price;
+        } else {
+          console.log(`Only ${availableQuantity} items left in stock for product ${product.productId}.`);
+          notification.error({
+            message: "Out of Stock",
+            description: `Only ${availableQuantity} items left in stock.`,
+          });
+          return;
+        }
       } else {
-        notification.error({
-          message: "Out of Stock",
-          description: `Only ${availableQuantity} items left in stock.`,
-        });
-        return;
+        if (quantity <= availableQuantity) {
+          newCart.push({
+            ...product,
+            quantity,
+            totalPrice: quantity * product.price,
+          });
+        } else {
+          console.log(`Only ${availableQuantity} items left in stock for product ${product.productId}.`);
+          notification.error({
+            message: "Out of Stock",
+            description: `Only ${availableQuantity} items left in stock.`,
+          });
+          return;
+        }
       }
+  
+      saveCartItems(newCart);
+      notification.success({
+        message: "Added to Cart",
+        description: `${product.name} has been added to your cart.`,
+      });
+    } catch (error) {
+      console.error("Failed to add product to cart:", error);
+      notification.error({
+        message: "Error",
+        description: "There was an error adding the product to the cart. Please try again.",
+      });
     }
-
-    saveCartItems(newCart);
   };
+  
 
   const updateQuantity = (productId, quantity) => {
     const newCart = cart.map((item) => {
@@ -189,6 +223,8 @@ const CartProvider = ({ children }) => {
         distinctProductCount,
         logout,
         login,
+        fetchProductDetails,
+        productDetails,
       }}
     >
       {children}

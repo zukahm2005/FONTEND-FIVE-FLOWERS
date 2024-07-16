@@ -1,5 +1,4 @@
 import { Tooltip, notification } from "antd";
-import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -11,12 +10,12 @@ import Review from "../review/Review";
 import ReviewsList from "../review/reviewList/ReviewList";
 import "./productDetails.scss";
 import RecommentProduct from "./recomProduct/RecomProduct";
+import axios from "axios";
 
 const ProductDetail = () => {
   const { id } = useParams();
-  const [product, setProduct] = useState(null);
+  const { fetchProductDetails, productDetails, addToCart, isLoggedIn } = useContext(CartContext);
   const [quantity, setQuantity] = useState(1);
-  const { addToCart, isLoggedIn } = useContext(CartContext);
   const [activeSlide, setActiveSlide] = useState(0);
   const mainSlider = useRef(null);
   const thumbnailSlider = useRef(null);
@@ -24,15 +23,7 @@ const ProductDetail = () => {
   const [reviews, setReviews] = useState([]); // State để lưu trữ danh sách đánh giá
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8080/api/v1/products/get/${id}`)
-      .then((response) => {
-        setProduct(response.data);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-
+    fetchProductDetails(id);
     loadReviews(); // Tải đánh giá khi component được mount
   }, [id]);
 
@@ -53,61 +44,26 @@ const ProductDetail = () => {
       });
   };
 
-  if (!product) {
+  if (!productDetails) {
     return <div>Loading...</div>;
   }
 
   const handleQuantityChange = (value) => {
-    if (value >= 1 && value <= product.quantity) {
+    if (value >= 1 && value <= productDetails.quantity) {
       setQuantity(value);
-    } else if (value > product.quantity) {
+    } else if ( value > productDetails.quantity) {
       notification.error({
         message: "Out of Stock",
-        description: `Only ${product.quantity} items left in stock.`,
+        description: `Only ${productDetails.quantity} items left in stock.`,
       });
     }
   };
 
   const handleAddToCart = async () => {
-    if (!isLoggedIn) {
-      notification.error({
-        message: 'Login Required',
-        description: 'Please log in to add products to your cart.',
-      });
-      return;
-    }
-
-    try {
-      const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
-      const availableQuantity = response.data.quantity;
-
-      if (availableQuantity === 0) {
-        notification.error({
-          message: "Out of Stock",
-          description: `${product.name} is out of stock.`,
-        });
-        return;
-      }
-
-      if (quantity <= availableQuantity) {
-        await addToCart(product, quantity);
-        notification.success({
-          message: 'Added to Cart',
-          description: `${product.name} has been added to your cart.`,
-        });
-      } else {
-        notification.error({
-          message: 'Out of Stock',
-          description: `Only ${availableQuantity} items left in stock.`,
-        });
-      }
-    } catch (error) {
-      notification.error({
-        message: 'Error',
-        description: 'Failed to add product to cart. Please try again.',
-      });
-    }
+    console.log("Button clicked, attempting to add to cart:", productDetails, quantity);
+    await addToCart(productDetails, quantity);
   };
+  
 
   const mainSliderSettings = {
     slidesToShow: 1,
@@ -146,20 +102,20 @@ const ProductDetail = () => {
                 {" "}
                 /{" "}
               </span>
-              <span>{product.name}</span>
+              <span>{productDetails.name}</span>
             </div>
           </div>
         </div>
         <div className="content-container-details-product">
           <div className="img-details-product">
-            {product.productImages && product.productImages.length > 0 ? (
+            {productDetails.productImages && productDetails.productImages.length > 0 ? (
               <>
                 <Slider {...mainSliderSettings} className="main-slider">
-                  {product.productImages.map((image, index) => (
+                  {productDetails.productImages.map((image, index) => (
                     <div key={image.productImageId}>
                       <img
                         src={`http://localhost:8080/api/v1/images/${image.imageUrl}`}
-                        alt={product.name}
+                        alt={productDetails.name}
                         style={{ width: "100%", height: "auto" }}
                       />
                     </div>
@@ -169,7 +125,7 @@ const ProductDetail = () => {
                   {...thumbnailSliderSettings}
                   className="thumbnail-slider"
                 >
-                  {product.productImages.map((image, index) => (
+                  {productDetails.productImages.map((image, index) => (
                     <motion.div
                       key={image.productImageId}
                       className={`thumbnail-slide ${
@@ -178,7 +134,7 @@ const ProductDetail = () => {
                     >
                       <img
                         src={`http://localhost:8080/api/v1/images/${image.imageUrl}`}
-                        alt={product.name}
+                        alt={productDetails.name}
                       />
                     </motion.div>
                   ))}
@@ -190,7 +146,7 @@ const ProductDetail = () => {
           </div>
           <div className="content-main-details-product">
             <div className="name-details-product">
-              <h1>{product.name}</h1>
+              <h1>{productDetails.name}</h1>
             </div>
             <div className="content-below-details">
               <div className="title-content-below-details1">
@@ -212,11 +168,11 @@ const ProductDetail = () => {
               </div>
               <div className="title-content-below-details2">
                 <div className="title1">
-                  <p>Rs. {product.price}</p>
+                  <p>Rs. {productDetails.price}</p>
                 </div>
                 <div className="title">
                   <Tooltip
-                    title={product.color}
+                    title={productDetails.color}
                     overlayInnerStyle={{
                       backgroundColor: "white",
                       color: "#fa422d",
@@ -225,15 +181,15 @@ const ProductDetail = () => {
                   >
                     <div
                       className="color-block"
-                      style={{ backgroundColor: product.color }}
+                      style={{ backgroundColor: productDetails.color }}
                     ></div>
                   </Tooltip>
                 </div>
                 <div className="title">
-                  <p>{product.brand.name}</p>
+                  <p>{productDetails.brand.name}</p>
                 </div>
                 <div className="title">
-                  <p>{product.category.name}</p>
+                  <p>{productDetails.category.name}</p>
                 </div>
                 <div className="cacul-cart">
                   <div
@@ -256,19 +212,19 @@ const ProductDetail = () => {
             </div>
             <div className="availability">
               <h6>Availability:</h6>
-              <p className={product.quantity > 0 ? "in-stock" : "out-of-stock"}>
-                {product.quantity > 0 ? "In stock!" : "Out of stock!"}
+              <p className={productDetails.quantity > 0 ? "in-stock" : "out-of-stock"}>
+                {productDetails.quantity > 0 ? "In stock!" : "Out of stock!"}
               </p>
             </div>
             <div className="title-content-button">
               <button
                 className="add-to-cart-btn"
                 onClick={handleAddToCart}
-                disabled={product.quantity === 0}
+                disabled={productDetails.quantity === 0}
               >
                 <p>ADD TO CART</p>
               </button>
-              <Review productId={product.productId} onReviewSubmitted={loadReviews} /> {/* Truyền callback vào Review */}
+              <Review productId={productDetails.productId} onReviewSubmitted={loadReviews} /> {/* Truyền callback vào Review */}
             </div>
           </div>
         </div>
@@ -283,7 +239,7 @@ const ProductDetail = () => {
           </div>
           <div className="content-desc-product-details">
             {!showReviews ? (
-              <p>{product.description}</p>
+              <p>{productDetails.description}</p>
             ) : (
               <ReviewsList productId={id} reviews={reviews} /> // Truyền productId vào ReviewsList
             )}

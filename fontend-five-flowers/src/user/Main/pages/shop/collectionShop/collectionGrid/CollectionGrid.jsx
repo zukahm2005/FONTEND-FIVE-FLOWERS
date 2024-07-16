@@ -1,4 +1,3 @@
-import { notification } from "antd";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -8,7 +7,6 @@ import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../../../header/components/cart/cartContext/CartProvider";
 import "./collectionGrid.scss";
-import axios from "axios";
 
 const CollectionGrid = ({ displayType, products }) => {
   const { addToCart, isLoggedIn } = useContext(CartContext);
@@ -49,39 +47,7 @@ const CollectionGrid = ({ displayType, products }) => {
 
   const handleAddToCart = async (e, product) => {
     e.stopPropagation();
-    if (!isLoggedIn) {
-      notification.error({
-        message: "Login Required",
-        description: "Please log in to add products to your cart.",
-      });
-      return;
-    }
-
-    try {
-      const response = await axios.get(
-        `http://localhost:8080/api/v1/products/get/${product.productId}`
-      );
-      const availableQuantity = response.data.quantity;
-
-      if (availableQuantity === 0) {
-        notification.error({
-          message: "Out of Stock",
-          description: `${product.name} is out of stock.`,
-        });
-        return;
-      }
-
-      await addToCart(product, 1);
-      notification.success({
-        message: "Added to Cart",
-        description: `${product.name} has been added to your cart.`,
-      });
-    } catch (error) {
-      notification.error({
-        message: "Out of Stock",
-        description: `Only ${product.quantity} items left in stock.`,
-      });
-    }
+    await addToCart(product, 1);
   };
 
   const handleNavigateToProductDetails = (productId) => {

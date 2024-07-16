@@ -212,6 +212,11 @@
             padding: 0.8rem 1.8rem;
           }
         }
+        .add-to-cart-btn:disabled {
+          cursor: not-allowed;
+          background-color: #d3d3d3; /* Màu nền khi nút bị vô hiệu hóa */
+          color: #ffffff; /* Màu chữ khi nút bị vô hiệu hóa */
+        }
       }
     }
 
