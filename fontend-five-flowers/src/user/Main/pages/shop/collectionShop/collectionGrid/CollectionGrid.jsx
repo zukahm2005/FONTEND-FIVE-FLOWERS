@@ -10,34 +10,12 @@ import { CartContext } from "../../../../header/components/cart/cartContext/Cart
 import "./collectionGrid.scss";
 import axios from "axios";
 
-const CollectionGrid = ({ displayType, products }) => {
+const CollectionGrid = ({ displayType, products, itemsPerPage }) => {
   const { addToCart, isLoggedIn } = useContext(CartContext);
   const navigate = useNavigate();
 
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(9);
-
-  const updateItemsPerPage = () => {
-    if (window.innerWidth < 600) {
-      setItemsPerPage(4);
-    } else if (window.innerWidth < 900) {
-      setItemsPerPage(6);
-    } else {
-      setItemsPerPage(9);
-    }
-    console.log("Current window width:", window.innerWidth);
-    console.log("Items per page:", itemsPerPage);
-  };
-
-  useEffect(() => {
-    updateItemsPerPage();
-    window.addEventListener("resize", updateItemsPerPage);
-
-    return () => {
-      window.removeEventListener("resize", updateItemsPerPage);
-    };
-  }, []);
 
   useEffect(() => {
     setTotalPages(Math.ceil(products.length / itemsPerPage));

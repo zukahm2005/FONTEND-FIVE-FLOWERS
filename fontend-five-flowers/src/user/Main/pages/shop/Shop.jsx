@@ -18,6 +18,7 @@ const Shop = () => {
   const [displayType, setDisplayType] = useState("grid");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortType, setSortType] = useState("featured");
+  const [itemsPerPage, setItemsPerPage] = useState(9);
 
   useEffect(() => {
     axios
@@ -72,6 +73,7 @@ const Shop = () => {
 
   const handleDisplayChange = (type) => {
     setDisplayType(type);
+    setItemsPerPage(type === "list" ? 5 : 9);
   };
 
   const handleSearchTermChange = (term) => {
@@ -177,6 +179,7 @@ const Shop = () => {
               <CollectionGrid
                 products={filteredProducts}
                 displayType={displayType}
+                itemsPerPage={itemsPerPage}
               />
             </div>
           </div>

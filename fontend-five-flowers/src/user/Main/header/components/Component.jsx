@@ -1,8 +1,8 @@
 import { Dropdown, Menu } from 'antd';
 import React, { useContext, useState } from "react";
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import { CgProfile } from "react-icons/cg";
 import { MdAccountCircle } from "react-icons/md";
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import Cart from "./cart/Cart";
 import { CartContext } from './cart/cartContext/CartProvider';
 import "./component.scss";
@@ -25,7 +25,7 @@ const Component = ({ showDrawer, cart }) => {
 
   const menu = (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item key="profile">Profile</Menu.Item>
+      <Menu.Item key="profile">Orders</Menu.Item>
       <Menu.Item key="logout">Logout</Menu.Item>
     </Menu>
   );

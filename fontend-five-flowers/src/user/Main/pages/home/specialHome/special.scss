@@ -13,7 +13,7 @@
             margin: 0 auto;
 
             p {
-                font-size: 19rem;
+                font-size: 17vw;
                 color: #fafafa;
                 font-weight: bold;
             }
@@ -22,7 +22,7 @@
         .special-feature-name {
             position: absolute;
             top: 40%;
-            left: 40%;
+            left: 40%; /* Mặc định là 40% */
 
             p {
                 font-size: 3rem;
@@ -46,12 +46,11 @@
         max-width: 80%;
         margin: 0 auto;
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+        grid-template-columns: repeat(4, 1fr); /* Hiển thị 4 cột mặc định */
         gap: 1rem; /* Add gap between grid items */
 
         .special-home-main {
             text-align: center;
-
             display: flex;
             flex-direction: column;
             gap: 1rem;
@@ -60,6 +59,8 @@
             .special-img {
                 perspective: 1000px; /* Add perspective */
                 img {
+                    width: 100%; /* Adjust width to ensure responsiveness */
+                    max-width: 5rem; /* Maximum width */
                     filter: brightness(0); /* Make image black */
                     transition: transform 0.5s;
                     transform-style: preserve-3d;
@@ -79,6 +80,101 @@
                     line-height: 1.6rem;
                 }
             }
+        }
+    }
+
+    /* Media Queries */
+    @media (max-width: 1200px) {
+        .special-home-features .special-feature-name {
+            left: 39%; /* Khi màn hình nhỏ hơn 1200px */
+            
+            p {
+                font-size: 2.5rem;
+            }
+        }
+
+        .special-home-icon .special-home-main .special-name h3 {
+            font-size: 20px;
+        }
+
+        .special-home-icon .special-home-main .special-content p {
+            font-size: 14px;
+        }
+
+        .special-home-icon .special-home-main .special-img img {
+            max-width: 4rem; /* Adjust icon size for smaller screens */
+        }
+    }
+
+    @media (max-width: 1000px) {
+        .special-home-icon {
+            grid-template-columns: repeat(2, 1fr); /* Hiển thị 2 cột */
+        }
+    }
+
+    @media (max-width: 900px) {
+        .special-home-features .special-feature-name {
+            left: 39%; /* Khi màn hình nhỏ hơn 900px */
+
+            p {
+                font-size: 2rem;
+            }
+        }
+
+        .special-home-icon .special-home-main .special-name h3 {
+            font-size: 18px;
+        }
+
+        .special-home-icon .special-home-main .special-content p {
+            font-size: 12px;
+        }
+
+        .special-home-icon .special-home-main .special-img img {
+            max-width: 3rem; /* Adjust icon size for smaller screens */
+        }
+    }
+
+    @media (max-width: 600px) {
+        .special-home-features .special-feature-name {
+            left: 39%; /* Khi màn hình nhỏ hơn 600px */
+
+            p {
+                font-size: 1.5rem;
+            }
+        }
+
+        .special-home-icon .special-home-main .special-name h3 {
+            font-size: 16px;
+        }
+
+        .special-home-icon .special-home-main .special-content p {
+            font-size: 10px;
+        }
+
+        .special-home-icon .special-home-main .special-img img {
+            max-width: 3rem; /* Adjust icon size for smaller screens */
+        }
+    }
+
+    @media (max-width: 400px) {
+        .special-home-features .special-feature-name {
+            left: 36%; /* Khi màn hình nhỏ hơn 400px */
+
+            p {
+                font-size: 1rem;
+            }
+        }
+
+        .special-home-icon .special-home-main .special-name h3 {
+            font-size: 14px;
+        }
+
+        .special-home-icon .special-home-main .special-content p {
+            font-size: 8px;
+        }
+
+        .special-home-icon .special-home-main .special-img img {
+            max-width: 2rem; /* Adjust icon size for smaller screens */
         }
     }
 }
