@@ -42,7 +42,7 @@ const AddPaymentAdmin = () => {
     <div className="add-payment-container">
       <div className="layout-payment-container">
         <div className="header-payment-add-container">
-          <Link to="/admin/payment">
+          <Link to="/admin/payments">
             <FaArrowLeft />
           </Link>
           <p>Add Payment</p>
@@ -64,7 +64,7 @@ const AddPaymentAdmin = () => {
               </div>
               <div className="date-container-payment">
                 <label>
-                  <p>Payment Date: </p>
+                  <p>Payment Date:</p>
                 </label>
                 <input
                   type="datetime-local"
@@ -81,7 +81,6 @@ const AddPaymentAdmin = () => {
               </div>
             </div>
           </div>
-         
           {message && <p>{message}</p>}
         </form>
       </div>
