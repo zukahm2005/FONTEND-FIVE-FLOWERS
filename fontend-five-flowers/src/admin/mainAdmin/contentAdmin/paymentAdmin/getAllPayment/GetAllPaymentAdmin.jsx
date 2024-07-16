@@ -229,14 +229,14 @@ const GetAllPaymentAdmin = () => {
               <p>Add Payment</p>
             </Link>
           </div>
+          <div className="sandbox-switch">
+            <label>Sandbox Mode</label>
+            <Switch
+              checked={sandboxMode}
+              onChange={handleSandboxToggle}
+            />
+          </div>
         </div>
-      </div>
-      <div className="sandbox-toggle">
-        <p>Sandbox Mode</p>
-        <Switch
-          checked={sandboxMode}
-          onChange={handleSandboxToggle}
-        />
       </div>
       <div className="bottom-paymentadmin-container">
         <Table
