@@ -177,6 +177,7 @@ const CheckOut = () => {
         orderDetails: orderDetails,
         address: { addressId: addressId },
         payment: paypalApproved ? { paymentMethod: "PayPal" } : { paymentId: formFields.paymentMethod },
+        status: paypalApproved ? "Paid" : "Pending",
       };
 
       const orderResponse = await axios.post(
@@ -189,7 +190,6 @@ const CheckOut = () => {
         }
       );
 
-      // Update the product quantities in the database
       await Promise.all(
         cart.map((product) =>
           axios.put(
