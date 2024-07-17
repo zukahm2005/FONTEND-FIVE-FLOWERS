@@ -45,7 +45,9 @@ const Register = ({ switchToLogin }) => {
     }
 
     if (!validatePassword(password)) {
-      setError("Password must be at least 6 characters long and contain at least one special character");
+      setError(
+        "Password must be at least 6 characters long and contain at least one special character"
+      );
       return;
     }
 
@@ -74,8 +76,11 @@ const Register = ({ switchToLogin }) => {
 
       navigate("/");
     } catch (error) {
-      console.error("Registration failed", error);
-      setError("Registration failed");
+      if (error.response && error.response.data && error.response.data.message) {
+        setError(error.response.data.message); // Thông báo lỗi từ server
+      } else {
+        setError("Username exists");
+      }
       setSuccess("");
     }
   };
@@ -141,10 +146,14 @@ const Register = ({ switchToLogin }) => {
             </div>
             <div className="button-form-register">
               <div className="button-register">
-                <button type="submit"><p>Register</p></button>
+                <button type="submit">
+                  <p>Register</p>
+                </button>
               </div>
               <div className="button-to-register">
-                <p onClick={switchToLogin}><p>Login now</p></p>
+                <p onClick={switchToLogin}>
+                  <p>Login now</p>
+                </p>
               </div>
             </div>
           </div>
