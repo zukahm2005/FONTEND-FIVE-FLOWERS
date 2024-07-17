@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import Error from "../error/Error";
 import Footer from "./Main/footer/Footer";
@@ -16,18 +16,21 @@ import News from "./Main/pages/news/News";
 import Shop from "./Main/pages/shop/Shop";
 import ProductDetail from "./Main/pages/shop/productDetails/ProductDetails";
 import AnalyticsTrackVisit from "../admin/mainAdmin/contentAdmin/homeAdmin/analyticsadmin/AnalyticsTrackVisit";
-import LoginAdmin from "./Main/header/components/profile/loginAdmin/LoginAdmin";
 import "./user.scss";
 
 const User = () => {
   const [cart, setCart] = useState([]);
 
+  useEffect(() => {
+    console.log("User component rendered");
+  }, []);
+
   return (
     <CartProvider>
       <div className="user-container">
         <Header cart={cart} setCart={setCart} />
-        <AnalyticsTrackVisit /> {/* Tích hợp component */}
         <div>
+          <AnalyticsTrackVisit /> {/* Đặt component ở đây để đảm bảo chỉ render một lần */}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home setCart={setCart} cart={cart} />} />
@@ -41,7 +44,6 @@ const User = () => {
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/cart-user" element={<CartUser />} />
             <Route path="/order-receive" element={<OrderReceive />} />
-            <Route path="/loginAdmin" element={<LoginAdmin />} /> {/* Add this route */}
             <Route path="*" element={<Error />} />
           </Routes>
         </div>

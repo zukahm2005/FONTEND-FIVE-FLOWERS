@@ -1,38 +1,50 @@
+import React, { useLayoutEffect } from 'react';
 import axios from 'axios';
-import { useEffect } from 'react';
+import moment from 'moment-timezone';
+
+let visitTracked = false;
 
 const AnalyticsTrackVisit = () => {
-    useEffect(() => {
+    useLayoutEffect(() => {
         const trackVisit = async () => {
-            try {
-                console.log('Checking visit tracking conditions...');
-                // Reset visitTracked khi người dùng truy cập trang mới
-                sessionStorage.removeItem('visitTracked');
-                const visitTracked = sessionStorage.getItem('visitTracked');
-                const onAdminPage = window.location.pathname.includes('/admin');
-                console.log(`visitTracked: ${visitTracked}`);
-                console.log(`onAdminPage: ${onAdminPage}`);
-
-                if (!visitTracked && !onAdminPage) {
+            if (!visitTracked && !localStorage.getItem('visitTracked') && !window.location.pathname.includes('/admin')) {
+                try {
                     console.log('Sending visit tracking request...');
+
+                    const visitTime = moment().tz('Asia/Ho_Chi_Minh').format('YYYY-MM-DDTHH:mm:ss');
+                    console.log('Formatted visit time:', visitTime);
+
                     await axios.post('/api/analytics/track', {
-                        visitTime: new Date().toISOString(),
+                        visitTime: visitTime,
                         page: window.location.pathname
                     }, {
                         withCredentials: true
                     });
-                    sessionStorage.setItem('visitTracked', 'true');
+
+                    localStorage.setItem('visitTracked', 'true');
+                    visitTracked = true;
                     console.log('Visit tracked successfully.');
-                } else {
-                    console.log('Visit already tracked or on admin page.');
+                } catch (error) {
+                    console.error('Failed to track visit', error);
                 }
-            } catch (error) {
-                console.error('Failed to track visit', error);
+            } else {
+                console.log('Visit already tracked or on admin page.');
             }
         };
 
         trackVisit();
-    }, []);
+
+        const handleBeforeUnload = () => {
+            localStorage.removeItem('visitTracked');
+            visitTracked = false;
+        };
+
+        window.addEventListener('beforeunload', handleBeforeUnload);
+
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []); // Chỉ chạy một lần khi component được mount
 
     return null;
 };
