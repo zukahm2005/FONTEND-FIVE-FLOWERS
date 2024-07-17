@@ -2,11 +2,12 @@
   background-image: url("https://bikex-club.myshopify.com/cdn/shop/files/img-4.jpg?v=1614291618");
   background-size: cover;
   background-repeat: no-repeat;
+  background-position: center;
   height: 50rem;
   max-width: 100%;
   margin: 10rem 0;
-
   position: relative;
+
   .info-big-sale-container {
     max-width: 100%;
     position: absolute;
@@ -36,12 +37,117 @@
       max-width: 100%;
       button {
         border-radius: 40px;
-        p {
-          padding: 1.4rem 3rem;
-          font-weight: 600;
-          font-size: 1rem;
+        padding: 1.4rem 3rem;
+        font-weight: 600;
+        font-size: 1rem;
+        color: white;
+        background-color: #fa422d;
+        border: none;
+        cursor: pointer;
+
+        a {
+          text-decoration: none;
           color: white;
         }
+
+        p {
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  @media (max-width: 1200px) {
+    height: 40rem;
+    margin: 8rem 0;
+    .info-big-sale-container {
+      left: 15%;
+      top: 28%;
+      .name-big-sale p {
+        font-size: 90px;
+      }
+      .title-big-sale p {
+        font-size: 32px;
+      }
+      .button-big-sale button {
+        padding: 1.2rem 2.5rem;
+        font-size: 0.9rem;
+      }
+    }
+  }
+
+  @media (max-width: 992px) {
+    height: 35rem;
+    margin: 6rem 0;
+    .info-big-sale-container {
+      left: 10%;
+      top: 26%;
+      .name-big-sale p {
+        font-size: 70px;
+      }
+      .title-big-sale p {
+        font-size: 28px;
+      }
+      .button-big-sale button {
+        padding: 1rem 2rem;
+        font-size: 0.8rem;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    height: 30rem;
+    margin: 4rem 0;
+    .info-big-sale-container {
+      top: 25%;
+      left: 5%;
+      .name-big-sale p {
+        font-size: 50px;
+      }
+      .title-big-sale p {
+        font-size: 24px;
+      }
+      .button-big-sale button {
+        padding: 0.8rem 1.5rem;
+        font-size: 0.7rem;
+      }
+    }
+  }
+
+  @media (max-width: 576px) {
+    height: 25rem;
+    margin: 2rem 0;
+    .info-big-sale-container {
+      top: 20%;
+      left: 5%;
+      .name-big-sale p {
+        font-size: 40px;
+      }
+      .title-big-sale p {
+        font-size: 20px;
+      }
+      .button-big-sale button {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.6rem;
+      }
+    }
+  }
+
+  @media (max-width: 400px) {
+    height: 20rem;
+    margin: 1rem 0;
+    .info-big-sale-container {
+      top: 15%;
+      left: 5%;
+      .name-big-sale p {
+        font-size: 30px;
+      }
+      .title-big-sale p {
+        font-size: 18px;
+      }
+      .button-big-sale button {
+        padding: 0.4rem 1rem;
+        font-size: 0.5rem;
       }
     }
   }

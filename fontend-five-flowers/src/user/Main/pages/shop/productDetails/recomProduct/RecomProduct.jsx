@@ -1,4 +1,3 @@
-import { notification } from 'antd';
 import axios from 'axios';
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -43,38 +42,9 @@ const RecommentProduct = () => {
     fetchProducts();
   }, []);
 
-  const handleAddToCart = async (e, product) => {
+  const handleAddToCart = (e, product) => {
     e.stopPropagation(); // Ngăn chặn sự kiện lan truyền
-    try {
-      const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
-      const availableQuantity = response.data.quantity;
-
-      if (availableQuantity === 0) {
-        notification.error({
-          message: "Out of Stock",
-          description: `${product.name} is out of stock.`,
-        });
-        return;
-      }
-
-      if (isLoggedIn) {
-        await addToCart(product, 1);
-        notification.success({
-          message: 'Added to Cart',
-          description: `${product.name} has been added to your cart.`,
-        });
-      } else {
-        notification.error({
-          message: 'Login Required',
-          description: 'Please log in to add products to your cart.',
-        });
-      }
-    } catch (error) {
-      notification.error({
-        message: 'Out of Stock',
-        description: `Only ${product.quantity} items left in stock.`,
-      });
-    }
+    addToCart(product, 1);
   };
 
   const handleNavigateToProductDetails = (productId) => {

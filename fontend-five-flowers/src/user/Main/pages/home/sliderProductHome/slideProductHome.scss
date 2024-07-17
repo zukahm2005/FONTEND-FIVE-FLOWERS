@@ -14,7 +14,7 @@
         &::before {
           content: "";
           display: block;
-          width: 3%;
+          width: 30px;
           height: 3px;
           background-color: #f96733;
           margin-bottom: 1rem;
@@ -105,8 +105,8 @@
 
       .product-info {
         padding: 10px 15px;
-        .out-of-stock{
-          p{
+        .out-of-stock {
+          p {
             color: #fa3e2c;
           }
         }
@@ -144,8 +144,8 @@
       position: absolute;
       top: 100%;
       transform: translateY(-50%);
-      width: 40px;
-      height: 40px;
+      width: 35px;
+      height: 35px;
       background: #fa3e2c;
       color: #fff;
       border-radius: 50%;
@@ -161,11 +161,75 @@
     }
 
     .swiper-button-prev {
-      left: 47%;
+      left: 45%;
     }
 
     .swiper-button-next {
-      right: 47%;
+      right: 45%;
+    }
+  }
+  @media (min-width: 900px) {
+    .swiper-button-container {
+      .swiper-button-prev,
+      .swiper-button-next {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+  @media (max-width: 768px) {
+    .slide-product-home-title-main {
+      .slide-product-title {
+        h1 {
+          font-size: 1.8rem;
+        }
+      }
+    }
+
+    .swiper-button-container {
+      .swiper-button-prev,
+      .swiper-button-next {
+        width: 25px;
+        height: 25px;
+      }
+    }
+  }
+  @media (max-width: 600px) {
+    .slide-product-home-title-main {
+      .slide-product-title {
+        h1 {
+          font-size: 1.5rem;
+        }
+      }
+    }
+
+    .swiper-button-container {
+      .swiper-button-prev,
+      .swiper-button-next {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
+
+  @media (max-width: 480px) {
+    .slide-product-home-title-main {
+      margin: 2rem;
+      .slide-product-title h1 {
+        font-size: 1.5rem;
+        &::before {
+          width: 5%;
+          margin-left: 45%;
+        }
+      }
+    }
+
+    .swiper-button-container {
+      .swiper-button-prev,
+      .swiper-button-next {
+        width: 15px;
+        height: 15px;
+      }
     }
   }
 }

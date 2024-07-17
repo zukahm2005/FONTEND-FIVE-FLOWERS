@@ -14,7 +14,7 @@ const BigSaleHome = () => {
         </div>
         <div className="button-big-sale">
           <button>
-          <Link to="/shop"><p>BUY NOW</p></Link>
+            <Link to="/shop"><p>BUY NOW</p></Link>
           </button>
         </div>
       </div>
