@@ -29,7 +29,10 @@ const CheckOut = () => {
     const fetchPaymentMethods = async () => {
       try {
         const response = await axios.get("http://localhost:8080/api/v1/payments/all");
-        setPaymentMethods(response.data);
+        const filteredPaymentMethods = response.data.filter(
+          (method) => method.paymentMethod !== "PayPal" || method.isActive
+        );
+        setPaymentMethods(filteredPaymentMethods);
       } catch (error) {
         console.error("Lỗi khi lấy phương thức thanh toán:", error);
       }
