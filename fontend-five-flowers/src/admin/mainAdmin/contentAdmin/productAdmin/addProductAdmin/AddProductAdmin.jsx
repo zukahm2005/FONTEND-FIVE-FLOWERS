@@ -1,5 +1,13 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Image, Modal, Pagination, Upload, message as antMessage } from "antd";
+import {
+  Button,
+  Checkbox,
+  Image,
+  Modal,
+  Pagination,
+  Upload,
+  message as antMessage,
+} from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
@@ -35,7 +43,9 @@ const AddProductAdmin = () => {
       if (id) {
         try {
           console.log("Fetching product with id:", id);
-          const response = await axios.get(`http://localhost:8080/api/v1/products/get/${id}`);
+          const response = await axios.get(
+            `http://localhost:8080/api/v1/products/get/${id}`
+          );
           const productData = response.data;
           console.log("Fetched product data:", productData);
           setProduct({
@@ -47,7 +57,9 @@ const AddProductAdmin = () => {
             brandId: productData.brand?.brandId || "",
             categoryId: productData.category?.categoryId || "",
           });
-          setSelectedImages(productData.productImages.map(img => img.imageUrl));
+          setSelectedImages(
+            productData.productImages.map((img) => img.imageUrl)
+          );
         } catch (error) {
           console.error("Error fetching product:", error);
         }
@@ -56,11 +68,12 @@ const AddProductAdmin = () => {
 
     const fetchBrandsAndCategories = async () => {
       try {
-        const [brandsResponse, categoriesResponse, imagesResponse] = await Promise.all([
-          axios.get("http://localhost:8080/api/v1/brands/all"),
-          axios.get("http://localhost:8080/api/v1/categories/all"),
-          axios.get("http://localhost:8080/api/v1/product_images/all")
-        ]);
+        const [brandsResponse, categoriesResponse, imagesResponse] =
+          await Promise.all([
+            axios.get("http://localhost:8080/api/v1/brands/all"),
+            axios.get("http://localhost:8080/api/v1/categories/all"),
+            axios.get("http://localhost:8080/api/v1/product_images/all"),
+          ]);
 
         setBrands(brandsResponse.data.content);
         setCategories(categoriesResponse.data.content);
@@ -116,7 +129,8 @@ const AddProductAdmin = () => {
     if (!product.name) newErrors.name = "Product name is required";
     if (!product.description) newErrors.description = "Description is required";
     if (product.price <= 0) newErrors.price = "Price must be greater than 0";
-    if (product.quantity <= 0) newErrors.quantity = "Quantity must be greater than 0";
+    if (product.quantity <= 0)
+      newErrors.quantity = "Quantity must be greater than 0";
     if (!product.color) newErrors.color = "Color is required";
     if (!product.brandId) newErrors.brandId = "Brand is required";
     if (!product.categoryId) newErrors.categoryId = "Category is required";
@@ -133,14 +147,14 @@ const AddProductAdmin = () => {
     }
 
     try {
+      let productResponse;
+
       if (id) {
-     
-        // Cập nhật sản phẩm
-        await axios.put(
+        productResponse = await axios.put(
           `http://localhost:8080/api/v1/products/update/${id}`,
           {
             name: product.name,
-            description: product.description, // Đảm bảo mô tả được gửi đúng cách
+            description: product.description,
             price: product.price,
             quantity: product.quantity,
             color: product.color,
@@ -150,6 +164,7 @@ const AddProductAdmin = () => {
             category: {
               categoryId: product.categoryId,
             },
+            productImages: selectedImages.map((url) => ({ imageUrl: url })),
           },
           {
             headers: {
@@ -158,17 +173,41 @@ const AddProductAdmin = () => {
             },
           }
         );
+
+        if (images.length > 0) {
+          const formData = new FormData();
+          for (let i = 0; i < images.length; i++) {
+            formData.append("files", images[i]);
+          }
+
+          const uploadResponse = await axios.put(
+            `http://localhost:8080/api/v1/products/update/${id}/images`,
+            formData,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+
+          const newImages = uploadResponse.data.productImages.map(
+            (img) => img.imageUrl
+          );
+          setSelectedImages((prevSelectedImages) => [
+            ...prevSelectedImages,
+            ...newImages,
+          ]);
+        }
+
         setMessage("Product updated successfully");
-        // Navigate to another page to trigger re-render
         navigate("/admin/product");
       } else {
-        console.log("Adding new product:", product);
-        // Thêm mới sản phẩm
-        const productResponse = await axios.post(
+        productResponse = await axios.post(
           "http://localhost:8080/api/v1/products/add",
           {
             name: product.name,
-            description: product.description, // Đảm bảo mô tả được gửi đúng cách
+            description: product.description,
             price: product.price,
             quantity: product.quantity,
             color: product.color,
@@ -196,8 +235,7 @@ const AddProductAdmin = () => {
           }
 
           if (images.length > 0) {
-            console.log("Uploading images for product with id:", productId);
-            await axios.post(
+            const uploadResponse = await axios.post(
               `http://localhost:8080/api/v1/products/add/images/${productId}`,
               formData,
               {
@@ -207,10 +245,17 @@ const AddProductAdmin = () => {
                 },
               }
             );
+
+            const newImages = uploadResponse.data.productImages.map(
+              (img) => img.imageUrl
+            );
+            setSelectedImages((prevSelectedImages) => [
+              ...prevSelectedImages,
+              ...newImages,
+            ]);
           }
 
           if (selectedImages.length > 0) {
-            console.log("Adding existing images for product with id:", productId);
             await axios.post(
               `http://localhost:8080/api/v1/products/add/existing-images/${productId}`,
               selectedImages,
@@ -224,7 +269,6 @@ const AddProductAdmin = () => {
           }
 
           setMessage("Product and images added successfully");
-          // Navigate to another page to trigger re-render
           navigate("/admin/product");
         } else {
           setMessage("Product added but no images to upload");
@@ -251,7 +295,10 @@ const AddProductAdmin = () => {
   // Logic for displaying current images
   const indexOfLastImage = currentPage * imagesPerPage;
   const indexOfFirstImage = indexOfLastImage - imagesPerPage;
-  const currentImages = existingImages.slice(indexOfFirstImage, indexOfLastImage);
+  const currentImages = existingImages.slice(
+    indexOfFirstImage,
+    indexOfLastImage
+  );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -304,7 +351,9 @@ const AddProductAdmin = () => {
                     value={product.price}
                     onChange={handleInputChange}
                   />
-                  {errors.price && <span className="error">{errors.price}</span>}
+                  {errors.price && (
+                    <span className="error">{errors.price}</span>
+                  )}
                 </div>
                 <div className="info-quantity-container">
                   <label>
@@ -332,7 +381,9 @@ const AddProductAdmin = () => {
                     value={product.color}
                     onChange={handleInputChange}
                   />
-                  {errors.color && <span className="error">{errors.color}</span>}
+                  {errors.color && (
+                    <span className="error">{errors.color}</span>
+                  )}
                 </div>
               </div>
               <div className="media-image-container" onClick={showModal}>
