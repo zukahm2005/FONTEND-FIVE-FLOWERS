@@ -16,7 +16,7 @@ import CustomCKEditor from "../../CKEditorComponent/CKEditorComponent";
 import "./AddProductAdmin.scss";
 
 const AddProductAdmin = () => {
-  const { id } = useParams(); // Lấy id từ URL nếu có
+  const { id } = useParams();
   const navigate = useNavigate();
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -29,8 +29,7 @@ const AddProductAdmin = () => {
     brandId: "",
     categoryId: "",
   });
-  const [images, setImages] = useState([]);
-  const [newImages, setNewImages] = useState([]); // State để lưu trữ các ảnh mới tải lên
+  const [newImages, setNewImages] = useState([]);
   const [message, setMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [existingImages, setExistingImages] = useState([]);
@@ -44,7 +43,12 @@ const AddProductAdmin = () => {
       if (id) {
         try {
           const response = await axios.get(
-            `http://localhost:8080/api/v1/products/get/${id}`
+            `http://localhost:8080/api/v1/products/get/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+              }
+            }
           );
           const productData = response.data;
           setProduct({
@@ -96,7 +100,7 @@ const AddProductAdmin = () => {
 
   const handleDescriptionChange = (event, editor) => {
     const data = editor.getData();
-    const plainText = data.replace(/<\/?[^>]+(>|$)/g, ""); // Loại bỏ thẻ HTML
+    const plainText = data.replace(/<\/?[^>]+(>|$)/g, "");
     setProduct((prevState) => ({
       ...prevState,
       description: plainText,
@@ -109,17 +113,13 @@ const AddProductAdmin = () => {
   };
 
   const handleImageSelect = (image) => {
-    setSelectedImages((prev) => {
-      if (prev.includes(image)) {
-        return prev.filter((img) => img !== image);
-      } else {
-        return [...prev, image];
-      }
-    });
+    setSelectedImages((prev) =>
+      prev.includes(image) ? prev.filter((img) => img !== image) : [...prev, image]
+    );
   };
 
   const handleRemoveImage = (imageUrl, e) => {
-    e.stopPropagation(); // Ngăn không cho mở popup khi nhấn nút X
+    e.stopPropagation();
     setSelectedImages((prevSelectedImages) =>
       prevSelectedImages.filter((img) => img !== imageUrl)
     );
@@ -130,8 +130,7 @@ const AddProductAdmin = () => {
     if (!product.name) newErrors.name = "Product name is required";
     if (!product.description) newErrors.description = "Description is required";
     if (product.price <= 0) newErrors.price = "Price must be greater than 0";
-    if (product.quantity <= 0)
-      newErrors.quantity = "Quantity must be greater than 0";
+    if (product.quantity <= 0) newErrors.quantity = "Quantity must be greater than 0";
     if (!product.color) newErrors.color = "Color is required";
     if (!product.brandId) newErrors.brandId = "Brand is required";
     if (!product.categoryId) newErrors.categoryId = "Category is required";
@@ -149,22 +148,17 @@ const AddProductAdmin = () => {
 
     try {
       let productResponse;
+      let productId;
+
+      console.log("Submitting product:", product);
 
       if (id) {
         productResponse = await axios.put(
           `http://localhost:8080/api/v1/products/update/${id}`,
           {
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            quantity: product.quantity,
-            color: product.color,
-            brand: {
-              brandId: product.brandId,
-            },
-            category: {
-              categoryId: product.categoryId,
-            },
+            ...product,
+            brand: { brandId: product.brandId },
+            category: { categoryId: product.categoryId },
             productImages: selectedImages.map((url) => ({ imageUrl: url })),
           },
           {
@@ -174,50 +168,19 @@ const AddProductAdmin = () => {
             },
           }
         );
+        productId = id;
 
         if (newImages.length > 0) {
-          const formData = new FormData();
-          for (let i = 0; i < newImages.length; i++) {
-            formData.append("files", newImages[i]);
-          }
-
-          const uploadResponse = await axios.put(
-            `http://localhost:8080/api/v1/products/update/${id}/images`,
-            formData,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`,
-                "Content-Type": "multipart/form-data",
-              },
-            }
-          );
-
-          const newImageUrls = uploadResponse.data.productImages.map(
-            (img) => img.imageUrl
-          );
-          setSelectedImages((prevSelectedImages) => [
-            ...prevSelectedImages,
-            ...newImageUrls,
-          ]);
+          await uploadImages(productId);
         }
 
-        setMessage("Product updated successfully");
-        navigate("/admin/product");
       } else {
         productResponse = await axios.post(
           "http://localhost:8080/api/v1/products/add",
           {
-            name: product.name,
-            description: product.description,
-            price: product.price,
-            quantity: product.quantity,
-            color: product.color,
-            brand: {
-              brandId: product.brandId,
-            },
-            category: {
-              categoryId: product.categoryId,
-            },
+            ...product,
+            brand: { brandId: product.brandId },
+            category: { categoryId: product.categoryId },
           },
           {
             headers: {
@@ -226,100 +189,80 @@ const AddProductAdmin = () => {
             },
           }
         );
+        productId = productResponse.data.productId;
 
-        const productId = productResponse.data.productId;
+        console.log("Product created with ID:", productId);
 
-        if (productId) {
-          const formData = new FormData();
-          for (let i = 0; i < newImages.length; i++) {
-            formData.append("files", newImages[i]);
-          }
+        if (selectedImages.length > 0) {
+          await axios.post(
+            `http://localhost:8080/api/v1/products/add/existing-images/${productId}`,
+            selectedImages,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+                "Content-Type": "application/json",
+              },
+            }
+          );
+        }
 
-          if (newImages.length > 0) {
-            const uploadResponse = await axios.post(
-              `http://localhost:8080/api/v1/products/add/images/${productId}`,
-              formData,
-              {
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem("token")}`,
-                  "Content-Type": "multipart/form-data",
-                },
-              }
-            );
-
-            const newImageUrls = uploadResponse.data.productImages.map(
-              (img) => img.imageUrl
-            );
-            setSelectedImages((prevSelectedImages) => [
-              ...prevSelectedImages,
-              ...newImageUrls,
-            ]);
-          }
-
-          if (selectedImages.length > 0) {
-            await axios.post(
-              `http://localhost:8080/api/v1/products/add/existing-images/${productId}`,
-              selectedImages,
-              {
-                headers: {
-                  Authorization: `Bearer ${localStorage.getItem("token")}`,
-                  "Content-Type": "application/json",
-                },
-              }
-            );
-          }
-
-          setMessage("Product and images added successfully");
-          navigate("/admin/product");
-        } else {
-          setMessage("Product added but no images to upload");
+        if (newImages.length > 0) {
+          await uploadImages(productId);
         }
       }
+
+      setMessage("Product and images added successfully");
+      navigate("/admin/product");
     } catch (error) {
       console.error("Error in add/update product:", error);
       setMessage("Failed to add/update product. Please try again.");
     }
   };
 
-  const showModal = () => {
-    setIsModalVisible(true);
-  };
+  const uploadImages = async (productId) => {
+    if (!productId) {
+      throw new Error("Product ID is not defined for uploading images.");
+    }
 
-  const handleOk = async () => {
+    const formData = new FormData();
+    newImages.forEach((image) => formData.append("files", image));
+
     try {
-      if (newImages.length > 0) {
-        const formData = new FormData();
-        for (let i = 0; i < newImages.length; i++) {
-          formData.append("files", newImages[i]);
+      console.log("Uploading images for product ID:", productId);
+
+      const uploadResponse = await axios.post(
+        `http://localhost:8080/api/v1/products/add/images/${productId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            "Content-Type": "multipart/form-data",
+          },
         }
+      );
 
-        const response = await axios.post(
-          `http://localhost:8080/api/v1/products/add/images/${id}`,
-          formData,
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-
-        const uploadedImageUrls = response.data.productImages.map(
-          (img) => img.imageUrl // Không thêm phần tiền tố URL tại đây
-        );
-
-        setSelectedImages((prevSelectedImages) => [
-          ...prevSelectedImages,
-          ...uploadedImageUrls,
-        ]);
-      }
-
-      setNewImages([]);
-      setIsModalVisible(false);
+      const newImageUrls = uploadResponse.data.productImages.map(
+        (img) => img.imageUrl
+      );
+      setSelectedImages((prevSelectedImages) => [
+        ...prevSelectedImages,
+        ...newImageUrls,
+      ]);
     } catch (error) {
       console.error("Error uploading images:", error);
-      setMessage("Failed to upload images. Please try again.");
+      antMessage.error("Failed to upload images. Please try again.");
     }
+  };
+
+  const showModal = () => setIsModalVisible(true);
+
+  const handleOk = async () => {
+    setSelectedImages((prevSelectedImages) => [
+      ...prevSelectedImages,
+      ...newImages.map((file) => URL.createObjectURL(file)),
+    ]);
+    setNewImages([]);
+    setIsModalVisible(false);
   };
 
   const handleCancel = () => {
@@ -327,13 +270,9 @@ const AddProductAdmin = () => {
     setIsModalVisible(false);
   };
 
-  // Logic for displaying current images
   const indexOfLastImage = currentPage * imagesPerPage;
   const indexOfFirstImage = indexOfLastImage - imagesPerPage;
-  const currentImages = existingImages.slice(
-    indexOfFirstImage,
-    indexOfLastImage
-  );
+  const currentImages = existingImages.slice(indexOfFirstImage, indexOfLastImage);
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
@@ -350,7 +289,7 @@ const AddProductAdmin = () => {
           <div className="bottom-proadmin-add-container">
             <div className="left-proadmin-main">
               <div className="title-container-proadmin">
-                <label htmlFor="">
+                <label>
                   <p>Title:</p>
                 </label>
                 <input
@@ -386,9 +325,7 @@ const AddProductAdmin = () => {
                     value={product.price}
                     onChange={handleInputChange}
                   />
-                  {errors.price && (
-                    <span className="error">{errors.price}</span>
-                  )}
+                  {errors.price && <span className="error">{errors.price}</span>}
                 </div>
                 <div className="info-quantity-container">
                   <label>
@@ -416,9 +353,7 @@ const AddProductAdmin = () => {
                     value={product.color}
                     onChange={handleInputChange}
                   />
-                  {errors.color && (
-                    <span className="error">{errors.color}</span>
-                  )}
+                  {errors.color && <span className="error">{errors.color}</span>}
                 </div>
               </div>
               <div className="media-image-container" onClick={showModal}>
@@ -433,7 +368,7 @@ const AddProductAdmin = () => {
                       <div key={index} className="selected-image">
                         <Image
                           width={100}
-                          src={`http://localhost:8080/api/v1/images/${image}`}
+                          src={image.startsWith("blob:") ? image : `http://localhost:8080/api/v1/images/${image}`}
                           alt={`Image ${index}`}
                         />
                         <Button
@@ -511,8 +446,8 @@ const AddProductAdmin = () => {
       >
         <Upload
           listType="picture"
-          multiple={true}
-          beforeUpload={() => false} // Prevent automatic upload
+          multiple
+          beforeUpload={() => false}
           onChange={handleFileChange}
         >
           <Button icon={<UploadOutlined />}>Select Images to Upload</Button>
@@ -537,7 +472,7 @@ const AddProductAdmin = () => {
           pageSize={imagesPerPage}
           total={existingImages.length}
           onChange={paginate}
-          showSizeChanger={false} // Ẩn phần lựa chọn số lượng mục trên mỗi trang
+          showSizeChanger={false}
         />
       </Modal>
     </div>

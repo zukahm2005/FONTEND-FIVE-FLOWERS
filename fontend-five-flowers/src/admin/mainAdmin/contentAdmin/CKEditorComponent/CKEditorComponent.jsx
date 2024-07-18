@@ -11,13 +11,22 @@ const CKEditorComponent = ({ data, onChange }) => {
                 onReady={ editor => {
                     console.log('Editor is ready to use!', editor);
                 } }
-                onChange={onChange}
+                onChange={ (event, editor) => {
+                    const data = editor.getData();
+                    onChange(event, editor, data);
+                }}
                 onBlur={ (event, editor) => {
                     console.log('Blur.', editor);
                 } }
                 onFocus={ (event, editor) => {
                     console.log('Focus.', editor);
                 } }
+                config={{
+                    toolbar: [
+                        'heading', '|',
+                        'bold', 'italic', 'underline', 'link', 'bulletedList', 'numberedList', 'blockQuote'
+                    ],
+                }}
             />
         </div>
     );

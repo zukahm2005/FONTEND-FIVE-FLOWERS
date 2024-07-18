@@ -239,7 +239,7 @@ const ProductDetail = () => {
           </div>
           <div className="content-desc-product-details">
             {!showReviews ? (
-              <p>{productDetails.description}</p>
+              <div dangerouslySetInnerHTML={{ __html: productDetails.description }} /> // Sử dụng dangerouslySetInnerHTML để hiển thị HTML
             ) : (
               <ReviewsList productId={id} reviews={reviews} /> // Truyền productId vào ReviewsList
             )}
