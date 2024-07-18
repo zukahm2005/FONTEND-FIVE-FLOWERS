@@ -1,0 +1,147 @@
+.user-details-container {
+    max-width: 80%;
+    padding-left: 200px; // Thêm padding trái để dịch bảng sang phải
+    margin: 10rem auto;
+    height: auto;
+  
+    .user-details-header-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+  
+      .title-user-details {
+        font-size: 24px;
+        font-weight: bold;
+      }
+  
+      .filters-user-details {
+        display: flex;
+        gap: 10px;
+  
+        .ant-select,
+        .ant-picker {
+          width: 200px;
+        }
+      }
+    }
+  
+    .orders-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+  
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+      }
+  
+      th {
+        background-color: #f2f2f2;
+      }
+    }
+  
+    .ant-collapse {
+      width: 100%;
+    }
+  
+    .order-summary {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+  
+      span {
+        flex: 1;
+        text-align: center;
+        padding: 0 10px;
+      }
+    }
+  
+    .status-pending-payment {
+      background-color: orange;
+      color: white;
+    }
+  
+    .status-paid {
+      background-color: green;
+      color: white;
+    }
+  
+    .status-packaging {
+      background-color: blue;
+      color: white;
+    }
+  
+    .status-shipping {
+      background-color: purple;
+      color: white;
+    }
+  
+    .status-delivered {
+      background-color: cyan;
+      color: white;
+    }
+  
+    .status-cancelled {
+      background-color: red;
+      color: white;
+    }
+  
+    .status-refunded {
+      background-color: magenta;
+      color: white;
+    }
+  }
+  
+  .user-details {
+    padding: 20px;
+    background-color: #f9f9f9;
+  
+    h3 {
+      margin-top: 0;
+      margin-bottom: 20px;
+    }
+  
+    .order-details-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+  
+      th,
+      td {
+        padding: 10px;
+        text-align: left;
+        box-shadow: none;
+      }
+  
+      th {
+        background-color: #f2f2f2;
+        box-shadow: none;
+      }
+  
+      td {
+        text-align: left;
+        word-break: break-word;
+        box-shadow: none;
+      }
+  
+      td:nth-child(2),
+      td:nth-child(3) {
+        text-align: left;
+      }
+    }
+  
+    .order-summary {
+      display: flex;
+      justify-content: flex-end;
+      flex-direction: column;
+      align-items: flex-end;
+      font-size: 16px;
+  
+      p {
+        margin: 0;
+        padding: 5px 0;
+      }
+    }
+  }
+  

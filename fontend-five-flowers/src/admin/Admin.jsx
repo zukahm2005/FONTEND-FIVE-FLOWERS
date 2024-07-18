@@ -15,6 +15,7 @@ import PaymentAdmin from "./mainAdmin/contentAdmin/paymentAdmin/PaymentAdmin";
 import ProductAdmin from "./mainAdmin/contentAdmin/productAdmin/ProductAdmin";
 import SideBarAdmin from "./mainAdmin/sideBarAdmin/SideBarAdmin";
 
+
 const Admin = () => {
   const navigate = useNavigate();
 
@@ -45,6 +46,7 @@ const Admin = () => {
             <Route path="orders/*" element={<OrderAdmin />} />
             <Route path="payment/*" element={<PaymentAdmin />} />
             <Route path="comment/*" element={<CommentReviewAdmin />} />
+            <Route path="customer/*" element={<AddressAdmin />} />
             <Route path="*" element={<Error />} />
           </Routes>
         </div>

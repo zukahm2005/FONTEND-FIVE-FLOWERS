@@ -1,9 +1,8 @@
-import { Modal, Space, Table } from "antd";
+import { Table } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { MdEdit } from "react-icons/md";
 import './GetAllAddressAdmin.scss';
 
 const GetAllAddressAdmin = () => {
@@ -19,8 +18,6 @@ const GetAllAddressAdmin = () => {
     sort: "all",
     search: "",
   });
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState("");
 
   const navigate = useNavigate();
 
@@ -34,7 +31,7 @@ const GetAllAddressAdmin = () => {
 
     try {
       const response = await axios.get(
-        "http://localhost:8080/api/v1/addresses/all",
+        "http://localhost:8080/api/v1/admin/getAllUsers",
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -73,8 +70,7 @@ const GetAllAddressAdmin = () => {
     // Handle search filter
     if (filter.search) {
       filtered = filtered.filter((address) =>
-        address.user &&
-        address.user.userName.toLowerCase().includes(filter.search.toLowerCase())
+        address.userName.toLowerCase().includes(filter.search.toLowerCase())
       );
     }
 
@@ -87,10 +83,10 @@ const GetAllAddressAdmin = () => {
         filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
         break;
       case "a-to-z":
-        filtered.sort((a, b) => a.user.userName.localeCompare(b.user.userName));
+        filtered.sort((a, b) => a.userName.localeCompare(b.userName));
         break;
       case "z-to-a":
-        filtered.sort((a, b) => b.user.userName.localeCompare(a.user.userName));
+        filtered.sort((a, b) => b.userName.localeCompare(a.userName));
         break;
       default:
         break;
@@ -103,49 +99,43 @@ const GetAllAddressAdmin = () => {
     setPagination(pagination);
   };
 
+  const formatDate = (dateArray) => {
+    if (!Array.isArray(dateArray) || dateArray.length !== 6) {
+      return "N/A"; // Giá trị mặc định khi dữ liệu không hợp lệ
+    }
+    const [year, month, day, hours, minutes, seconds] = dateArray;
+    const date = new Date(
+      Date.UTC(year, month - 1, day, hours, minutes, seconds)
+    ); // Chú ý tháng bắt đầu từ 0 trong JavaScript
+    if (isNaN(date)) {
+      return "N/A"; // Giá trị mặc định khi dữ liệu không hợp lệ
+    }
+    const formattedDate = date.toISOString().slice(0, 19).replace("T", " ");
+    return formattedDate;
+  };
+
   const columns = [
     {
-      title: "User",
-      dataIndex: ["user", "userName"],
-      key: "user",
-      render: (text) => (text ? text : "No user"),
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
     },
     {
-      title: "Phone",
-      dataIndex: "phone",
-      key: "phone",
-      render: (text) => (text ? text : "No phone"),
+      title: "User Name",
+      dataIndex: "userName",
+      key: "userName",
     },
     {
       title: "Email",
-      dataIndex: ["user", "email"],
+      dataIndex: "email",
       key: "email",
-      render: (text) => (text ? text : "No email"),
     },
     {
-      title: "Address",
-      key: "address",
-      render: (text, record) => (
-        <div className="address-horizontal">
-          <p>{record.addressLine1}</p>
-          <p>{record.addressLine2}</p>
-          <p>{record.city}, {record.state}</p>
-          <p>{record.postalCode}</p>
-          <p>{record.country}</p>
-        </div>
-      ),
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (text, record) => (
-        <Space size="middle">
-          <Link to={`/admin/address/update/${record.addressId}`}>
-            <MdEdit />
-          </Link>
-        </Space>
-      ),
-    },
+      title: "Created At",
+      dataIndex: "createdAt",
+      key: "createdAt",
+      render: (text) => formatDate(text), // Use formatDate to display the date and time
+    }
   ];
 
   const itemRender = (current, type, originalElement) => {
@@ -172,8 +162,8 @@ const GetAllAddressAdmin = () => {
   return (
     <div className="getalladdress-admin">
       <div className="getalladdress-header">
-        <h2>All Customers</h2>
-        <div className="menu-custommer-container">
+        <h2>All Addresses</h2>
+        <div className="menu-user-container">
           <div className="sort-menu">
             <select
               className="sort-select"
@@ -193,7 +183,7 @@ const GetAllAddressAdmin = () => {
           <div className="search-proadmin-container">
             <input
               type="text"
-              placeholder="Search customer..."
+              placeholder="Search address..."
               value={filter.search}
               onChange={(e) => {
                 setFilter({ ...filter, search: e.target.value });
@@ -209,11 +199,16 @@ const GetAllAddressAdmin = () => {
           loading={loading}
           pagination={{ ...pagination, itemRender }}
           onChange={handleTableChange}
-          rowKey="addressId"
+          rowKey="id"
+          onRow={(record) => {
+            return {
+              onClick: () => {
+                navigate(`customer/${record.id}`);
+              },
+            };
+          }}
         />
       </div>
-      {error && <p style={{ color: "red" }}>{error}</p>}
-      {success && <p style={{ color: "green" }}>{success}</p>}
     </div>
   );
 };
