@@ -30,6 +30,7 @@ const AddProductAdmin = () => {
     categoryId: "",
   });
   const [images, setImages] = useState([]);
+  const [newImages, setNewImages] = useState([]); // State để lưu trữ các ảnh mới tải lên
   const [message, setMessage] = useState("");
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [existingImages, setExistingImages] = useState([]);
@@ -42,12 +43,10 @@ const AddProductAdmin = () => {
     const fetchProduct = async () => {
       if (id) {
         try {
-          console.log("Fetching product with id:", id);
           const response = await axios.get(
             `http://localhost:8080/api/v1/products/get/${id}`
           );
           const productData = response.data;
-          console.log("Fetched product data:", productData);
           setProduct({
             name: productData.name || "",
             description: productData.description || "",
@@ -106,7 +105,7 @@ const AddProductAdmin = () => {
 
   const handleFileChange = (info) => {
     const fileList = info.fileList.map((file) => file.originFileObj);
-    setImages(fileList);
+    setNewImages(fileList);
   };
 
   const handleImageSelect = (image) => {
@@ -121,7 +120,9 @@ const AddProductAdmin = () => {
 
   const handleRemoveImage = (imageUrl, e) => {
     e.stopPropagation(); // Ngăn không cho mở popup khi nhấn nút X
-    setSelectedImages(selectedImages.filter((img) => img !== imageUrl));
+    setSelectedImages((prevSelectedImages) =>
+      prevSelectedImages.filter((img) => img !== imageUrl)
+    );
   };
 
   const validateForm = () => {
@@ -174,10 +175,10 @@ const AddProductAdmin = () => {
           }
         );
 
-        if (images.length > 0) {
+        if (newImages.length > 0) {
           const formData = new FormData();
-          for (let i = 0; i < images.length; i++) {
-            formData.append("files", images[i]);
+          for (let i = 0; i < newImages.length; i++) {
+            formData.append("files", newImages[i]);
           }
 
           const uploadResponse = await axios.put(
@@ -191,12 +192,12 @@ const AddProductAdmin = () => {
             }
           );
 
-          const newImages = uploadResponse.data.productImages.map(
+          const newImageUrls = uploadResponse.data.productImages.map(
             (img) => img.imageUrl
           );
           setSelectedImages((prevSelectedImages) => [
             ...prevSelectedImages,
-            ...newImages,
+            ...newImageUrls,
           ]);
         }
 
@@ -230,11 +231,11 @@ const AddProductAdmin = () => {
 
         if (productId) {
           const formData = new FormData();
-          for (let i = 0; i < images.length; i++) {
-            formData.append("files", images[i]);
+          for (let i = 0; i < newImages.length; i++) {
+            formData.append("files", newImages[i]);
           }
 
-          if (images.length > 0) {
+          if (newImages.length > 0) {
             const uploadResponse = await axios.post(
               `http://localhost:8080/api/v1/products/add/images/${productId}`,
               formData,
@@ -246,12 +247,12 @@ const AddProductAdmin = () => {
               }
             );
 
-            const newImages = uploadResponse.data.productImages.map(
+            const newImageUrls = uploadResponse.data.productImages.map(
               (img) => img.imageUrl
             );
             setSelectedImages((prevSelectedImages) => [
               ...prevSelectedImages,
-              ...newImages,
+              ...newImageUrls,
             ]);
           }
 
@@ -284,11 +285,45 @@ const AddProductAdmin = () => {
     setIsModalVisible(true);
   };
 
-  const handleOk = () => {
-    setIsModalVisible(false);
+  const handleOk = async () => {
+    try {
+      if (newImages.length > 0) {
+        const formData = new FormData();
+        for (let i = 0; i < newImages.length; i++) {
+          formData.append("files", newImages[i]);
+        }
+
+        const response = await axios.post(
+          `http://localhost:8080/api/v1/products/add/images/${id}`,
+          formData,
+          {
+            headers: {
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+
+        const uploadedImageUrls = response.data.productImages.map(
+          (img) => img.imageUrl // Không thêm phần tiền tố URL tại đây
+        );
+
+        setSelectedImages((prevSelectedImages) => [
+          ...prevSelectedImages,
+          ...uploadedImageUrls,
+        ]);
+      }
+
+      setNewImages([]);
+      setIsModalVisible(false);
+    } catch (error) {
+      console.error("Error uploading images:", error);
+      setMessage("Failed to upload images. Please try again.");
+    }
   };
 
   const handleCancel = () => {
+    setNewImages([]);
     setIsModalVisible(false);
   };
 
@@ -399,6 +434,7 @@ const AddProductAdmin = () => {
                         <Image
                           width={100}
                           src={`http://localhost:8080/api/v1/images/${image}`}
+                          alt={`Image ${index}`}
                         />
                         <Button
                           type="text"

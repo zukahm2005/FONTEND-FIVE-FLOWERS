@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Legend } from 'recharts';
 import { DatePicker, Select } from 'antd';
+import axios from 'axios';
 import moment from 'moment';
-import './AnalyticsChart.scss'; // Import file SCSS của bạn
+import React, { useEffect, useState } from 'react';
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from 'recharts';
+import './AnalyticsChart.scss';
 
 const { RangePicker } = DatePicker;
 const { Option } = Select;
