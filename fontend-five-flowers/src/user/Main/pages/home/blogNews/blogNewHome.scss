@@ -2,6 +2,7 @@
     text-align: center;
     margin: 0 auto;
     max-width: 80%;
+
     h2 {
         font-size: 36px;
         margin-bottom: 20px;
@@ -9,18 +10,22 @@
 
     .blog-list {
         display: grid;
-        grid-template-columns: auto auto auto;
+        grid-template-columns: repeat(3, 1fr); // Chia đều chiều rộng cho 3 cột
+        gap: 20px; // Khoảng cách giữa các bài viết
         max-width: 100%;
+
         .blog-item {
             background: #fff;
-            margin: 10px;
-            width: 100%;
             padding: 20px;
             text-align: left;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
 
             .blog-image-home {
                 width: 100%;
-                height: auto;
+                height: 200px; // Chiều cao cố định cho ảnh
+                object-fit: cover; // Đảm bảo ảnh được căn chỉnh đúng cách
                 margin-bottom: 20px;
             }
 
@@ -50,8 +55,9 @@
 
             .read-more-btn {
                 display: inline-block;
-                margin-top: 10px;
-                padding: 15px 35px;
+                width: 50%; // Đặt chiều rộng cho nút
+                margin: 10px auto 0; // Căn giữa nút
+                padding: 10px 0; // Điều chỉnh padding để phù hợp với kích thước nút
                 background: linear-gradient(to right, var(--button-bg-hover-color), var(--button-bg-color), var(--button-bg-hover-color), var(--button-bg-color));
                 background-size: 200% auto;
                 color: white;
@@ -59,11 +65,12 @@
                 border-radius: 30px;
                 text-decoration: none;
                 transition: background 0.3s ease, transform 0.3s;
+                text-align: center;
         
                 &:hover {
-                  background-position: right center;
+                    background-position: right center;
                 }
-              }
+            }
         }
     }
 }

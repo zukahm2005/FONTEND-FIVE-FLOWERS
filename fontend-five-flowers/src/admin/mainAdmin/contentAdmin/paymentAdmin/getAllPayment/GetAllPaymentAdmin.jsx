@@ -33,10 +33,11 @@ const GetAllPaymentAdmin = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`
         }
       });
-      setPayments(response.data);
+      const uniquePayments = filterUniquePayPal(response.data);
+      setPayments(uniquePayments);
       setPagination((prev) => ({
         ...prev,
-        total: response.data.length,
+        total: uniquePayments.length,
       }));
       setLoading(false);
     } catch (error) {
@@ -62,6 +63,13 @@ const GetAllPaymentAdmin = () => {
   useEffect(() => {
     handleFilterAndSort();
   }, [filter, payments, pagination.current, pagination.pageSize]);
+
+  const filterUniquePayPal = (data) => {
+    const paypalMethods = data.filter(payment => payment.paymentMethod === "PayPal");
+    const latestPayPal = paypalMethods.length > 0 ? [paypalMethods[paypalMethods.length - 1]] : [];
+    const nonPayPalMethods = data.filter(payment => payment.paymentMethod !== "PayPal");
+    return [...nonPayPalMethods, ...latestPayPal];
+  };
 
   const handleFilterAndSort = () => {
     let filtered = [...payments];
