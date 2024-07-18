@@ -14,6 +14,18 @@
         gap: 20px; // Khoảng cách giữa các bài viết
         max-width: 100%;
 
+        @media (max-width: 1024px) { // Tablet
+            grid-template-columns: repeat(2, 1fr); // Chia đều chiều rộng cho 2 cột
+            
+            .blog-item:nth-child(3) {
+                display: none; // Ẩn bài thứ 3
+            }
+        }
+
+        @media (max-width: 768px) { // Mobile
+            grid-template-columns: 1fr; // Chỉ có 1 cột
+        }
+
         .blog-item {
             background: #fff;
             padding: 20px;
