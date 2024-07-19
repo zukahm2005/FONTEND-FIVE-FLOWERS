@@ -1,6 +1,6 @@
 import { notification } from "antd";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode"; // Correct named import
+import { jwtDecode } from "jwt-decode"; // Đúng cách
 import React, { createContext, useEffect, useState } from "react";
 
 export const CartContext = createContext();
@@ -14,6 +14,8 @@ const CartProvider = ({ children }) => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
+      syncCartFromServer();
+    } else {
       fetchCartItems();
     }
   }, []);
@@ -24,6 +26,43 @@ const CartProvider = ({ children }) => {
       setCart(cartItems);
     } catch (error) {
       console.error("Failed to fetch cart items:", error);
+    }
+  };
+
+  const syncCartWithServer = async () => {
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        await axios.post(
+          "http://localhost:8080/api/v1/cart/sync",
+          cartItems,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+      } catch (error) {
+        console.error("Failed to sync cart with server:", error);
+      }
+    }
+  };
+
+  const syncCartFromServer = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const response = await axios.get("http://localhost:8080/api/v1/cart", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        localStorage.setItem("cartItems", JSON.stringify(response.data));
+        setCart(response.data);
+      } catch (error) {
+        console.error("Failed to fetch cart from server:", error);
+      }
     }
   };
 
@@ -44,10 +83,11 @@ const CartProvider = ({ children }) => {
   const login = async (token) => {
     setIsLoggedIn(true);
     localStorage.setItem("token", token);
-    fetchCartItems();
+    await syncCartFromServer();
   };
 
-  const logout = () => {
+  const logout = async () => {
+    await syncCartWithServer();
     localStorage.removeItem("token");
     localStorage.removeItem("cartItems");
     setIsLoggedIn(false);
@@ -56,7 +96,7 @@ const CartProvider = ({ children }) => {
 
   const addToCart = async (product, quantity = 1) => {
     console.log("addToCart called with product:", product, "and quantity:", quantity);
-  
+
     if (!isLoggedIn) {
       notification.error({
         message: "Login Required",
@@ -64,13 +104,13 @@ const CartProvider = ({ children }) => {
       });
       return;
     }
-  
+
     try {
       const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
       const availableQuantity = response.data.quantity;
-  
+
       console.log(`Available quantity for product ${product.productId}: ${availableQuantity}`);
-  
+
       if (availableQuantity === 0) {
         console.log(`Product ${product.productId} is out of stock.`);
         notification.error({
@@ -79,7 +119,7 @@ const CartProvider = ({ children }) => {
         });
         return;
       }
-  
+
       const newCart = [...cart];
       const productInCart = newCart.find(item => item.productId === product.productId);
       if (productInCart) {
@@ -110,7 +150,7 @@ const CartProvider = ({ children }) => {
           return;
         }
       }
-  
+
       saveCartItems(newCart);
       notification.success({
         message: "Added to Cart",
@@ -124,7 +164,6 @@ const CartProvider = ({ children }) => {
       });
     }
   };
-  
 
   const updateQuantity = (productId, quantity) => {
     const newCart = cart.map((item) => {
