@@ -1,15 +1,15 @@
 import React from "react";
-import { Routes, Route } from "react-router-dom";
-import AddProductAdmin from "./addProductAdmin/AddProductAdmin";
+import { Route, Routes } from "react-router-dom";
+import AddProduct from "./addProductAdmin/AddProductAdmin";
+import EditProductAdmin from "./editProductAdmin/EditProductAdmin"; // Import EditProductAdmin component
 import GetAllProductAdmin from "./getAllProductAdmin/GetAllProductAdmin";
-
 const ProductAdmin = () => {
   return (
     <div className="product-admin-main-container">
       <Routes>
         <Route index element={<GetAllProductAdmin />} />
-        <Route path="add" element={<AddProductAdmin />} />
-        <Route path="edit/:id" element={<AddProductAdmin />} /> {/* Thêm route này */}
+        <Route path="add" element={<AddProduct />} /> {/* Route for adding products */}
+        <Route path="edit/:id" element={<EditProductAdmin />} /> {/* Route for editing products */}
       </Routes>
     </div>
   );

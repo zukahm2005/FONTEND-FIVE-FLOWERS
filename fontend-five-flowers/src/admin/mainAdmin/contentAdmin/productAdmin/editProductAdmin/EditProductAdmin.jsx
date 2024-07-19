@@ -1,13 +1,22 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Image, Modal, Pagination, Upload, message as antMessage } from "antd";
+import {
+    Button,
+    Checkbox,
+    Image,
+    Modal,
+    Pagination,
+    Upload,
+    message as antMessage,
+} from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import CustomCKEditor from "../../CKEditorComponent/CKEditorComponent";
-import "./AddProductAdmin.scss";
+import "./editProductAdmin,.scss";
 
-const AddProduct = () => {
+const EditProductAdmin = () => {
+  const { id } = useParams();
   const navigate = useNavigate();
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -30,6 +39,36 @@ const AddProduct = () => {
   const imagesPerPage = 20;
 
   useEffect(() => {
+    const fetchProduct = async () => {
+      if (id) {
+        try {
+          const response = await axios.get(
+            `http://localhost:8080/api/v1/products/get/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+              }
+            }
+          );
+          const productData = response.data;
+          setProduct({
+            name: productData.name || "",
+            description: productData.description || "",
+            price: productData.price || 0,
+            quantity: productData.quantity || 0,
+            color: productData.color || "",
+            brandId: productData.brand?.brandId || "",
+            categoryId: productData.category?.categoryId || "",
+          });
+          setSelectedImages(
+            productData.productImages.map((img) => img.imageUrl)
+          );
+        } catch (error) {
+          console.error("Error fetching product:", error);
+        }
+      }
+    };
+
     const fetchBrandsAndCategories = async () => {
       try {
         const [brandsResponse, categoriesResponse, imagesResponse] =
@@ -47,8 +86,9 @@ const AddProduct = () => {
       }
     };
 
+    fetchProduct();
     fetchBrandsAndCategories();
-  }, []);
+  }, [id]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -105,12 +145,13 @@ const AddProduct = () => {
     }
 
     try {
-      const productResponse = await axios.post(
-        "http://localhost:8080/api/v1/products/add",
+      const productResponse = await axios.put(
+        `http://localhost:8080/api/v1/products/update/${id}`,
         {
           ...product,
           brand: { brandId: product.brandId },
           category: { categoryId: product.categoryId },
+          productImages: selectedImages.map((url) => ({ imageUrl: url })),
         },
         {
           headers: {
@@ -120,9 +161,7 @@ const AddProduct = () => {
         }
       );
 
-      const productId = productResponse.data.productId;
-
-      if (!productId) throw new Error("Product ID is not defined.");
+      const productId = id;
 
       if (selectedImages.length > 0) {
         await axios.post(
@@ -141,11 +180,11 @@ const AddProduct = () => {
         await uploadImages(productId);
       }
 
-      setMessage("Product and images added successfully");
+      setMessage("Product and images updated successfully");
       navigate("/admin/product");
     } catch (error) {
-      console.error("Error in add product:", error);
-      setMessage("Failed to add product. Please try again.");
+      console.error("Error in update product:", error);
+      setMessage("Failed to update product. Please try again.");
     }
   };
 
@@ -185,12 +224,18 @@ const AddProduct = () => {
   const showModal = () => setIsModalVisible(true);
 
   const handleOk = async () => {
-    setSelectedImages((prevSelectedImages) => [
-      ...prevSelectedImages,
-      ...newImages.map((file) => URL.createObjectURL(file)),
-    ]);
-    setNewImages([]);
-    setIsModalVisible(false);
+    if (id && newImages.length > 0) {
+      try {
+        await uploadImages(id);
+        setNewImages([]);
+        setIsModalVisible(false);
+      } catch (error) {
+        console.error("Error uploading images:", error);
+      }
+    } else {
+      setNewImages([]);
+      setIsModalVisible(false);
+    }
   };
 
   const handleCancel = () => {
@@ -211,7 +256,7 @@ const AddProduct = () => {
           <Link to="/admin/product">
             <FaArrowLeft />
           </Link>
-          <p>Add Product</p>
+          <p>Edit Product</p>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="bottom-proadmin-add-container">
@@ -296,7 +341,7 @@ const AddProduct = () => {
                       <div key={index} className="selected-image">
                         <Image
                           width={100}
-                          src={image.startsWith("blob:") ? image : `http://localhost:8080/api/v1/images/${image}`}
+                          src={`http://localhost:8080/api/v1/images/${image}`}
                           alt={`Image ${index}`}
                         />
                         <Button
@@ -407,4 +452,4 @@ const AddProduct = () => {
   );
 };
 
-export default AddProduct;
+export default EditProductAdmin;

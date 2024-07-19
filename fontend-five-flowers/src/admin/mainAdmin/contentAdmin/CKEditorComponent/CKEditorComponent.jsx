@@ -1,20 +1,25 @@
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
-import React from 'react';
+import React, { useState } from 'react';
 
 const CKEditorComponent = ({ data, onChange }) => {
+    const [editorData, setEditorData] = useState(data);
+
+    const handleEditorChange = (event, editor) => {
+        const data = editor.getData();
+        setEditorData(data);
+        onChange(event, editor, data);
+    };
+
     return (
         <div className="App">
             <CKEditor
                 editor={ ClassicEditor }
-                data={data}
+                data={editorData}
                 onReady={ editor => {
                     console.log('Editor is ready to use!', editor);
                 } }
-                onChange={ (event, editor) => {
-                    const data = editor.getData();
-                    onChange(event, editor, data);
-                }}
+                onChange={handleEditorChange}
                 onBlur={ (event, editor) => {
                     console.log('Blur.', editor);
                 } }
@@ -24,8 +29,9 @@ const CKEditorComponent = ({ data, onChange }) => {
                 config={{
                     toolbar: [
                         'heading', '|',
-                        'bold', 'italic', 'underline', 'link', 'bulletedList', 'numberedList', 'blockQuote'
+                        'bold', 'italic', 'link', 'bulletedList', 'numberedList', 'blockQuote'
                     ],
+                    language: 'en',
                 }}
             />
         </div>
