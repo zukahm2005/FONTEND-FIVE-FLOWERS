@@ -60,9 +60,9 @@ const ShoppingCart = () => {
               {cart.map((item, index) => (
                 <div className="shopping-cart-row" key={index}>
                   <div className="shopping-cart-image" onClick={() => handleNavigateToProductDetails(item.productId)}>
-                    {item.productImages?.length > 0 && item.productImages[0]?.imageUrl && (
+                    {item.imageUrl && (
                       <img
-                        src={`http://localhost:8080/api/v1/images/${item.productImages[0].imageUrl}`}
+                        src={`http://localhost:8080/api/v1/images/${item.imageUrl}`}
                         alt={item.name}
                       />
                     )}

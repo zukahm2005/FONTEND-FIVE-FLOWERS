@@ -59,14 +59,14 @@ const Cart = () => {
                       <p>X</p>
                     </motion.div>
                     <div className="image-cart-container" onClick={() => handleNavigateToProductDetails(item.productId)}>
-                      {item.productImages && item.productImages[0] && item.productImages[0].imageUrl ? (
+                      {item.imageUrl ? (
                         <img
-                          src={`http://localhost:8080/api/v1/images/${item.productImages[0].imageUrl}`}
+                          src={`http://localhost:8080/api/v1/images/${item.imageUrl}`}
                           alt={item.name}
                         />
                       ) : (
                         <img
-                          src="path_to_default_image" // Bạn nên cung cấp đường dẫn tới ảnh mặc định ở đây
+                          src="path_to_default_image"
                           alt="default"
                         />
                       )}

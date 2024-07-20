@@ -1,6 +1,5 @@
 import { notification } from "antd";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode"; // Đúng cách
 import React, { createContext, useEffect, useState } from "react";
 
 export const CartContext = createContext();
@@ -66,12 +65,16 @@ const CartProvider = ({ children }) => {
     }
   };
 
-  const fetchProductDetails = async (id) => {
+  const parseJwt = (token) => {
     try {
-      const response = await axios.get(`http://localhost:8080/api/v1/products/get/${id}`);
-      setProductDetails(response.data);
-    } catch (error) {
-      console.error("Failed to fetch product details:", error);
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    } catch (e) {
+      return null;
     }
   };
 
@@ -95,8 +98,6 @@ const CartProvider = ({ children }) => {
   };
 
   const addToCart = async (product, quantity = 1) => {
-    console.log("addToCart called with product:", product, "and quantity:", quantity);
-
     if (!isLoggedIn) {
       notification.error({
         message: "Login Required",
@@ -109,10 +110,7 @@ const CartProvider = ({ children }) => {
       const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
       const availableQuantity = response.data.quantity;
 
-      console.log(`Available quantity for product ${product.productId}: ${availableQuantity}`);
-
       if (availableQuantity === 0) {
-        console.log(`Product ${product.productId} is out of stock.`);
         notification.error({
           message: "Out of Stock",
           description: `${product.name} is out of stock.`,
@@ -127,7 +125,6 @@ const CartProvider = ({ children }) => {
           productInCart.quantity += quantity;
           productInCart.totalPrice = productInCart.quantity * productInCart.price;
         } else {
-          console.log(`Only ${availableQuantity} items left in stock for product ${product.productId}.`);
           notification.error({
             message: "Out of Stock",
             description: `Only ${availableQuantity} items left in stock.`,
@@ -139,10 +136,10 @@ const CartProvider = ({ children }) => {
           newCart.push({
             ...product,
             quantity,
+            imageUrl: response.data.productImages.length > 0 ? response.data.productImages[0].imageUrl : null,
             totalPrice: quantity * product.price,
           });
         } else {
-          console.log(`Only ${availableQuantity} items left in stock for product ${product.productId}.`);
           notification.error({
             message: "Out of Stock",
             description: `Only ${availableQuantity} items left in stock.`,
@@ -186,7 +183,7 @@ const CartProvider = ({ children }) => {
     }
 
     try {
-      const decodedToken = jwtDecode(token);
+      const decodedToken = parseJwt(token);
       const userId = decodedToken.userId;
 
       const orderDetails = cart.map((product) => ({
@@ -240,6 +237,15 @@ const CartProvider = ({ children }) => {
     saveCartItems(newCart);
   };
 
+  const fetchProductDetails = async (id) => {
+    try {
+      const response = await axios.get(`http://localhost:8080/api/v1/products/get/${id}`);
+      setProductDetails(response.data);
+    } catch (error) {
+      console.error("Failed to fetch product details:", error);
+    }
+  };
+
   const totalPrice = cart.reduce(
     (total, product) => total + product.totalPrice,
     0
@@ -262,7 +268,7 @@ const CartProvider = ({ children }) => {
         distinctProductCount,
         logout,
         login,
-        fetchProductDetails,
+        fetchProductDetails, // Ensure this function is provided in the context
         productDetails,
       }}
     >
