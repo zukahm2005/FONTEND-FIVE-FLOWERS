@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
+import ReactHtmlParser from 'react-html-parser';
 import "./getAllProductAdmin.scss";
 
 const GetAllProductAdmin = () => {
@@ -153,7 +154,7 @@ const GetAllProductAdmin = () => {
       key: "description",
       render: (text, record) => (
         <div>
-          {text.split(" ").slice(0, 20).join(" ")}
+          {ReactHtmlParser(text.split(" ").slice(0, 20).join(" "))}
           {text.split(" ").length > 20 && (
             <p
               type="link"

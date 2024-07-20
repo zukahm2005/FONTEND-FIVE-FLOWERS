@@ -1,14 +1,14 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Image, Modal, Pagination, Upload, message as antMessage } from "antd";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import { FaArrowLeft } from "react-icons/fa";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CustomCKEditor from "../../CKEditorComponent/CKEditorComponent";
+import ReactHtmlParser from 'react-html-parser';
 import "./AddProductAdmin.scss";
 
 const AddProductAdmin = () => {
-  const { id } = useParams();
   const navigate = useNavigate();
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -26,80 +26,71 @@ const AddProductAdmin = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [existingImages, setExistingImages] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
+  const [newSelectedImages, setNewSelectedImages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [errors, setErrors] = useState({});
   const imagesPerPage = 20;
 
   useEffect(() => {
-    const fetchProduct = async () => {
-      if (id) {
-        try {
-          const response = await axios.get(`http://localhost:8080/api/v1/products/get/${id}`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-          });
-          const productData = response.data;
-          setProduct({
-            name: productData.name || "",
-            description: productData.description || "",
-            price: productData.price || 0,
-            quantity: productData.quantity || 0,
-            color: productData.color || "",
-            brandId: productData.brand?.brandId || "",
-            categoryId: productData.category?.categoryId || "",
-          });
-          setSelectedImages(productData.productImages.map((img) => img.imageUrl));
-        } catch (error) {
-          console.error("Error fetching product:", error);
-        }
-      }
-    };
-
     const fetchBrandsAndCategories = async () => {
       try {
         const [brandsResponse, categoriesResponse, imagesResponse] = await Promise.all([
           axios.get("http://localhost:8080/api/v1/brands/all"),
           axios.get("http://localhost:8080/api/v1/categories/all"),
-          axios.get("http://localhost:8080/api/v1/product_images/all"),
+          axios.get("http://localhost:8080/api/v1/images/all"),
         ]);
 
         setBrands(brandsResponse.data.content);
         setCategories(categoriesResponse.data.content);
         setExistingImages(imagesResponse.data);
+
+        console.log("Fetched existing images:", imagesResponse.data);
       } catch (error) {
         console.error("Error fetching brands, categories or images:", error);
       }
     };
 
-    fetchProduct();
     fetchBrandsAndCategories();
-  }, [id]);
+  }, []);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setProduct((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleDescriptionChange = (event, editor) => {
-    const data = editor.getData();
-    const plainText = data.replace(/<\/?[^>]+(>|$)/g, "");
-    setProduct((prevState) => ({ ...prevState, description: plainText }));
-  };
+  const handleDescriptionChange = useCallback((event, editor, data) => {
+    setProduct((prevState) => ({ ...prevState, description: data }));
+  }, []);
 
   const handleFileChange = (info) => {
     const fileList = info.fileList.map((file) => file.originFileObj);
+    const newImageUrls = fileList.map((file) => URL.createObjectURL(file));
+
+    const uniqueNewImageUrls = newImageUrls.filter(
+      (url) => !newSelectedImages.includes(url)
+    );
+
     setNewImages(fileList);
+    setNewSelectedImages(uniqueNewImageUrls);
   };
 
   const handleImageSelect = (image) => {
+    const normalizedImage = image.trim();
     setSelectedImages((prev) =>
-      prev.includes(image) ? prev.filter((img) => img !== image) : [...prev, image]
+      prev.includes(normalizedImage)
+        ? prev.filter((img) => img !== normalizedImage)
+        : [...prev, normalizedImage]
     );
   };
 
   const handleRemoveImage = (imageUrl, e) => {
     e.stopPropagation();
+    const normalizedImageUrl = imageUrl.trim();
     setSelectedImages((prevSelectedImages) =>
-      prevSelectedImages.filter((img) => img !== imageUrl)
+      prevSelectedImages.filter((img) => img !== normalizedImageUrl)
+    );
+    setNewSelectedImages((prevSelectedImages) =>
+      prevSelectedImages.filter((img) => img !== normalizedImageUrl)
     );
   };
 
@@ -126,7 +117,7 @@ const AddProductAdmin = () => {
 
     try {
       const productResponse = await axios.post(
-        "http://localhost:8080/api/v1/products/add",
+        `http://localhost:8080/api/v1/products/add`,
         {
           ...product,
           brand: { brandId: product.brandId },
@@ -139,12 +130,14 @@ const AddProductAdmin = () => {
           },
         }
       );
+
       const productId = productResponse.data.productId;
 
       if (selectedImages.length > 0) {
+        const uniqueSelectedImages = [...new Set(selectedImages)];
         await axios.post(
           `http://localhost:8080/api/v1/products/add/existing-images/${productId}`,
-          selectedImages,
+          uniqueSelectedImages,
           {
             headers: {
               Authorization: `Bearer ${localStorage.getItem("token")}`,
@@ -196,32 +189,8 @@ const AddProductAdmin = () => {
 
   const showModal = () => setIsModalVisible(true);
 
-  const handleOk = async () => {
-    try {
-      if (newImages.length > 0) {
-        const productResponse = await axios.post(
-          "http://localhost:8080/api/v1/products/add",
-          {
-            ...product,
-            brand: { brandId: product.brandId },
-            category: { categoryId: product.categoryId },
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        const productId = productResponse.data.productId;
-        await uploadImages(productId);
-        setMessage("Product and images added successfully");
-      }
-      setIsModalVisible(false);
-    } catch (error) {
-      console.error("Error in handleOk:", error);
-      setMessage("Failed to add images. Please try again.");
-    }
+  const handleOk = () => {
+    setIsModalVisible(false);
   };
 
   const handleCancel = () => {
@@ -242,7 +211,7 @@ const AddProductAdmin = () => {
           <Link to="/admin/product">
             <FaArrowLeft />
           </Link>
-          <p>{id ? "Edit Product" : "Add Product"}</p>
+          <p>Add Product</p>
         </div>
         <form onSubmit={handleSubmit}>
           <div className="bottom-proadmin-add-container">
@@ -264,8 +233,13 @@ const AddProductAdmin = () => {
                 <label>
                   <p>Description</p>
                 </label>
-                <CustomCKEditor data={product.description} onChange={handleDescriptionChange} />
-                {errors.description && <span className="error">{errors.description}</span>}
+                <CustomCKEditor
+                  data={product.description}
+                  onChange={handleDescriptionChange}
+                />
+                {errors.description && (
+                  <span className="error">{errors.description}</span>
+                )}
               </div>
               <div className="info-proadmin-container">
                 <div className="info-price-container">
@@ -279,7 +253,9 @@ const AddProductAdmin = () => {
                     value={product.price}
                     onChange={handleInputChange}
                   />
-                  {errors.price && <span className="error">{errors.price}</span>}
+                  {errors.price && (
+                    <span className="error">{errors.price}</span>
+                  )}
                 </div>
                 <div className="info-quantity-container">
                   <label>
@@ -292,7 +268,9 @@ const AddProductAdmin = () => {
                     value={product.quantity}
                     onChange={handleInputChange}
                   />
-                  {errors.quantity && <span className="error">{errors.quantity}</span>}
+                  {errors.quantity && (
+                    <span className="error">{errors.quantity}</span>
+                  )}
                 </div>
                 <div className="info-color-container">
                   <label>
@@ -305,33 +283,58 @@ const AddProductAdmin = () => {
                     value={product.color}
                     onChange={handleInputChange}
                   />
-                  {errors.color && <span className="error">{errors.color}</span>}
+                  {errors.color && (
+                    <span className="error">{errors.color}</span>
+                  )}
                 </div>
               </div>
-              <div className="media-image-container" onClick={showModal}>
+              <div className="media-image-container">
                 <label>
                   <p>Media: </p>
                 </label>
                 <div className="upload-image-container">
-                  {selectedImages.length === 0 ? (
-                    <p>Select Images to Upload</p>
+                  <Button icon={<UploadOutlined />} onClick={showModal}>
+                    Select Images to Upload
+                  </Button>
+                </div>
+                <div className="images-container">
+                  {newSelectedImages.length === 0 && selectedImages.length === 0 ? (
+                    <p>No images selected</p>
                   ) : (
-                    selectedImages.map((image, index) => (
-                      <div key={index} className="selected-image">
-                        <Image
-                          width={100}
-                          src={`http://localhost:8080/api/v1/images/${image}`}
-                          alt={`Image ${index}`}
-                        />
-                        <Button
-                          type="text"
-                          onClick={(e) => handleRemoveImage(image, e)}
-                          className="button-delete-image"
-                        >
-                          X
-                        </Button>
-                      </div>
-                    ))
+                    <>
+                      {newSelectedImages.map((image, index) => (
+                        <div key={index} className="selected-image">
+                          <Image
+                            width={100}
+                            src={image}
+                            alt={`New Image ${index}`}
+                          />
+                          <Button
+                            type="text"
+                            onClick={(e) => handleRemoveImage(image, e)}
+                            className="button-delete-image"
+                          >
+                            X
+                          </Button>
+                        </div>
+                      ))}
+                      {selectedImages.map((image, index) => (
+                        <div key={index} className="selected-image">
+                          <Image
+                            width={100}
+                            src={`http://localhost:8080/api/v1/images/${image}`}
+                            alt={`Existing Image ${index}`}
+                          />
+                          <Button
+                            type="text"
+                            onClick={(e) => handleRemoveImage(image, e)}
+                            className="button-delete-image"
+                          >
+                            X
+                          </Button>
+                        </div>
+                      ))}
+                    </>
                   )}
                 </div>
               </div>
@@ -346,7 +349,11 @@ const AddProductAdmin = () => {
                 <label>
                   <p>Brand: </p>
                 </label>
-                <select name="brandId" value={product.brandId} onChange={handleInputChange}>
+                <select
+                  name="brandId"
+                  value={product.brandId}
+                  onChange={handleInputChange}
+                >
                   <option value="">Select Brand</option>
                   {brands.map((brand) => (
                     <option key={brand.brandId} value={brand.brandId}>
@@ -354,21 +361,32 @@ const AddProductAdmin = () => {
                     </option>
                   ))}
                 </select>
-                {errors.brandId && <span className="error">{errors.brandId}</span>}
+                {errors.brandId && (
+                  <span className="error">{errors.brandId}</span>
+                )}
               </div>
               <div className="proadmin-components">
                 <label>
                   <p>Category: </p>
                 </label>
-                <select name="categoryId" value={product.categoryId} onChange={handleInputChange}>
+                <select
+                  name="categoryId"
+                  value={product.categoryId}
+                  onChange={handleInputChange}
+                >
                   <option value="">Select Category</option>
                   {categories.map((category) => (
-                    <option key={category.categoryId} value={category.categoryId}>
+                    <option
+                      key={category.categoryId}
+                      value={category.categoryId}
+                    >
                       {category.name}
                     </option>
                   ))}
                 </select>
-                {errors.categoryId && <span className="error">{errors.categoryId}</span>}
+                {errors.categoryId && (
+                  <span className="error">{errors.categoryId}</span>
+                )}
               </div>
             </div>
           </div>
@@ -390,19 +408,22 @@ const AddProductAdmin = () => {
           <Button icon={<UploadOutlined />}>Select Images to Upload</Button>
         </Upload>
         <div className="existing-images-container">
-          {currentImages.map((image, index) => (
-            <div key={index} className="existing-images">
-              <Checkbox
-                checked={selectedImages.includes(image.imageUrl)}
-                onChange={() => handleImageSelect(image.imageUrl)}
-              >
-                <img
-                  src={`http://localhost:8080/api/v1/images/${image.imageUrl}`}
-                  alt="product"
-                />
-              </Checkbox>
-            </div>
-          ))}
+          {currentImages.map((image, index) => {
+            const normalizedImageUrl = image.trim();
+            return (
+              <div key={index} className="existing-images">
+                <Checkbox
+                  checked={selectedImages.includes(normalizedImageUrl)}
+                  onChange={() => handleImageSelect(normalizedImageUrl)}
+                >
+                  <img
+                    src={`http://localhost:8080/api/v1/images/${normalizedImageUrl}`}
+                    alt="product"
+                  />
+                </Checkbox>
+              </div>
+            );
+          })}
         </div>
         <Pagination
           current={currentPage}

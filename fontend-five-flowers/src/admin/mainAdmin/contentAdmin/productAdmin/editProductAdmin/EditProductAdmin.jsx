@@ -1,19 +1,12 @@
 import { UploadOutlined } from "@ant-design/icons";
-import {
-    Button,
-    Checkbox,
-    Image,
-    Modal,
-    Pagination,
-    Upload,
-    message as antMessage,
-} from "antd";
+import { Button, Checkbox, Image, Modal, Pagination, Upload, message as antMessage } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import CustomCKEditor from "../../CKEditorComponent/CKEditorComponent";
-import "./editProductAdmin,.scss";
+import ReactHtmlParser from 'react-html-parser';
+import "./editProductAdmin.scss";
 
 const EditProductAdmin = () => {
   const { id } = useParams();
@@ -34,6 +27,7 @@ const EditProductAdmin = () => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [existingImages, setExistingImages] = useState([]);
   const [selectedImages, setSelectedImages] = useState([]);
+  const [newSelectedImages, setNewSelectedImages] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [errors, setErrors] = useState({});
   const imagesPerPage = 20;
@@ -42,14 +36,9 @@ const EditProductAdmin = () => {
     const fetchProduct = async () => {
       if (id) {
         try {
-          const response = await axios.get(
-            `http://localhost:8080/api/v1/products/get/${id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${localStorage.getItem("token")}`
-              }
-            }
-          );
+          const response = await axios.get(`http://localhost:8080/api/v1/products/get/${id}`, {
+            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
+          });
           const productData = response.data;
           setProduct({
             name: productData.name || "",
@@ -60,9 +49,7 @@ const EditProductAdmin = () => {
             brandId: productData.brand?.brandId || "",
             categoryId: productData.category?.categoryId || "",
           });
-          setSelectedImages(
-            productData.productImages.map((img) => img.imageUrl)
-          );
+          setSelectedImages(productData.productImages.map((img) => img.imageUrl));
         } catch (error) {
           console.error("Error fetching product:", error);
         }
@@ -71,16 +58,15 @@ const EditProductAdmin = () => {
 
     const fetchBrandsAndCategories = async () => {
       try {
-        const [brandsResponse, categoriesResponse, imagesResponse] =
-          await Promise.all([
-            axios.get("http://localhost:8080/api/v1/brands/all"),
-            axios.get("http://localhost:8080/api/v1/categories/all"),
-            axios.get("http://localhost:8080/api/v1/product_images/all"),
-          ]);
+        const [brandsResponse, categoriesResponse, imagesResponse] = await Promise.all([
+          axios.get("http://localhost:8080/api/v1/brands/all"),
+          axios.get("http://localhost:8080/api/v1/categories/all"),
+          axios.get("http://localhost:8080/api/v1/images/all"), // Change this line
+        ]);
 
         setBrands(brandsResponse.data.content);
         setCategories(categoriesResponse.data.content);
-        setExistingImages(imagesResponse.data);
+        setExistingImages(imagesResponse.data); // Change this line
       } catch (error) {
         console.error("Error fetching brands, categories or images:", error);
       }
@@ -92,34 +78,42 @@ const EditProductAdmin = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProduct((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+    setProduct((prevState) => ({ ...prevState, [name]: value }));
   };
 
   const handleDescriptionChange = (event, editor, data) => {
-    setProduct((prevState) => ({
-      ...prevState,
-      description: data,
-    }));
+    setProduct((prevState) => ({ ...prevState, description: data }));
   };
 
   const handleFileChange = (info) => {
     const fileList = info.fileList.map((file) => file.originFileObj);
+    const newImageUrls = fileList.map((file) => URL.createObjectURL(file));
+
+    const uniqueNewImageUrls = newImageUrls.filter(
+      (url) => !newSelectedImages.includes(url)
+    );
+
     setNewImages(fileList);
+    setNewSelectedImages(uniqueNewImageUrls);
   };
 
   const handleImageSelect = (image) => {
+    const normalizedImage = image.trim();
     setSelectedImages((prev) =>
-      prev.includes(image) ? prev.filter((img) => img !== image) : [...prev, image]
+      prev.includes(normalizedImage)
+        ? prev.filter((img) => img !== normalizedImage)
+        : [...prev, normalizedImage]
     );
   };
 
   const handleRemoveImage = (imageUrl, e) => {
     e.stopPropagation();
+    const normalizedImageUrl = imageUrl.trim();
     setSelectedImages((prevSelectedImages) =>
-      prevSelectedImages.filter((img) => img !== imageUrl)
+      prevSelectedImages.filter((img) => img !== normalizedImageUrl)
+    );
+    setNewSelectedImages((prevSelectedImages) =>
+      prevSelectedImages.filter((img) => img !== normalizedImageUrl)
     );
   };
 
@@ -145,13 +139,12 @@ const EditProductAdmin = () => {
     }
 
     try {
-      const productResponse = await axios.put(
+      await axios.put(
         `http://localhost:8080/api/v1/products/update/${id}`,
         {
           ...product,
           brand: { brandId: product.brandId },
           category: { categoryId: product.categoryId },
-          productImages: selectedImages.map((url) => ({ imageUrl: url })),
         },
         {
           headers: {
@@ -208,13 +201,8 @@ const EditProductAdmin = () => {
         }
       );
 
-      const newImageUrls = uploadResponse.data.productImages.map(
-        (img) => img.imageUrl
-      );
-      setSelectedImages((prevSelectedImages) => [
-        ...prevSelectedImages,
-        ...newImageUrls,
-      ]);
+      const newImageUrls = uploadResponse.data.productImages.map((img) => img.imageUrl);
+      setSelectedImages((prevSelectedImages) => [...prevSelectedImages, ...newImageUrls]);
     } catch (error) {
       console.error("Error uploading images:", error);
       antMessage.error("Failed to upload images. Please try again.");
@@ -223,19 +211,8 @@ const EditProductAdmin = () => {
 
   const showModal = () => setIsModalVisible(true);
 
-  const handleOk = async () => {
-    if (id && newImages.length > 0) {
-      try {
-        await uploadImages(id);
-        setNewImages([]);
-        setIsModalVisible(false);
-      } catch (error) {
-        console.error("Error uploading images:", error);
-      }
-    } else {
-      setNewImages([]);
-      setIsModalVisible(false);
-    }
+  const handleOk = () => {
+    setIsModalVisible(false);
   };
 
   const handleCancel = () => {
@@ -278,13 +255,8 @@ const EditProductAdmin = () => {
                 <label>
                   <p>Description</p>
                 </label>
-                <CustomCKEditor
-                  data={product.description}
-                  onChange={handleDescriptionChange}
-                />
-                {errors.description && (
-                  <span className="error">{errors.description}</span>
-                )}
+                <CustomCKEditor data={product.description} onChange={handleDescriptionChange} />
+                {errors.description && <span className="error">{errors.description}</span>}
               </div>
               <div className="info-proadmin-container">
                 <div className="info-price-container">
@@ -311,9 +283,7 @@ const EditProductAdmin = () => {
                     value={product.quantity}
                     onChange={handleInputChange}
                   />
-                  {errors.quantity && (
-                    <span className="error">{errors.quantity}</span>
-                  )}
+                  {errors.quantity && <span className="error">{errors.quantity}</span>}
                 </div>
                 <div className="info-color-container">
                   <label>
@@ -329,30 +299,51 @@ const EditProductAdmin = () => {
                   {errors.color && <span className="error">{errors.color}</span>}
                 </div>
               </div>
-              <div className="media-image-container" onClick={showModal}>
+              <div className="media-image-container">
                 <label>
                   <p>Media: </p>
                 </label>
                 <div className="upload-image-container">
-                  {selectedImages.length === 0 ? (
-                    <p>Select Images to Upload</p>
+                  <Button icon={<UploadOutlined />} onClick={showModal}>Select Images to Upload</Button>
+                </div>
+                <div className="images-container">
+                  {newSelectedImages.length === 0 && selectedImages.length === 0 ? (
+                    <p>No images selected</p>
                   ) : (
-                    selectedImages.map((image, index) => (
-                      <div key={index} className="selected-image">
-                        <Image
-                          width={100}
-                          src={`http://localhost:8080/api/v1/images/${image}`}
-                          alt={`Image ${index}`}
-                        />
-                        <Button
-                          type="text"
-                          onClick={(e) => handleRemoveImage(image, e)}
-                          className="button-delete-image"
-                        >
-                          X
-                        </Button>
-                      </div>
-                    ))
+                    <>
+                      {newSelectedImages.map((image, index) => (
+                        <div key={index} className="selected-image">
+                          <Image
+                            width={100}
+                            src={image}
+                            alt={`New Image ${index}`}
+                          />
+                          <Button
+                            type="text"
+                            onClick={(e) => handleRemoveImage(image, e)}
+                            className="button-delete-image"
+                          >
+                            X
+                          </Button>
+                        </div>
+                      ))}
+                      {selectedImages.map((image, index) => (
+                        <div key={index} className="selected-image">
+                          <Image
+                            width={100}
+                            src={`http://localhost:8080/api/v1/images/${image}`}
+                            alt={`Existing Image ${index}`}
+                          />
+                          <Button
+                            type="text"
+                            onClick={(e) => handleRemoveImage(image, e)}
+                            className="button-delete-image"
+                          >
+                            X
+                          </Button>
+                        </div>
+                      ))}
+                    </>
                   )}
                 </div>
               </div>
@@ -367,11 +358,7 @@ const EditProductAdmin = () => {
                 <label>
                   <p>Brand: </p>
                 </label>
-                <select
-                  name="brandId"
-                  value={product.brandId}
-                  onChange={handleInputChange}
-                >
+                <select name="brandId" value={product.brandId} onChange={handleInputChange}>
                   <option value="">Select Brand</option>
                   {brands.map((brand) => (
                     <option key={brand.brandId} value={brand.brandId}>
@@ -379,32 +366,21 @@ const EditProductAdmin = () => {
                     </option>
                   ))}
                 </select>
-                {errors.brandId && (
-                  <span className="error">{errors.brandId}</span>
-                )}
+                {errors.brandId && <span className="error">{errors.brandId}</span>}
               </div>
               <div className="proadmin-components">
                 <label>
                   <p>Category: </p>
                 </label>
-                <select
-                  name="categoryId"
-                  value={product.categoryId}
-                  onChange={handleInputChange}
-                >
+                <select name="categoryId" value={product.categoryId} onChange={handleInputChange}>
                   <option value="">Select Category</option>
                   {categories.map((category) => (
-                    <option
-                      key={category.categoryId}
-                      value={category.categoryId}
-                    >
+                    <option key={category.categoryId} value={category.categoryId}>
                       {category.name}
                     </option>
                   ))}
                 </select>
-                {errors.categoryId && (
-                  <span className="error">{errors.categoryId}</span>
-                )}
+                {errors.categoryId && <span className="error">{errors.categoryId}</span>}
               </div>
             </div>
           </div>
@@ -426,19 +402,22 @@ const EditProductAdmin = () => {
           <Button icon={<UploadOutlined />}>Select Images to Upload</Button>
         </Upload>
         <div className="existing-images-container">
-          {currentImages.map((image, index) => (
-            <div key={index} className="existing-images">
-              <Checkbox
-                checked={selectedImages.includes(image.imageUrl)}
-                onChange={() => handleImageSelect(image.imageUrl)}
-              >
-                <img
-                  src={`http://localhost:8080/api/v1/images/${image.imageUrl}`}
-                  alt="product"
-                />
-              </Checkbox>
-            </div>
-          ))}
+          {currentImages.map((image, index) => {
+            const normalizedImageUrl = image.trim();
+            return (
+              <div key={index} className="existing-images">
+                <Checkbox
+                  checked={selectedImages.includes(normalizedImageUrl)}
+                  onChange={() => handleImageSelect(normalizedImageUrl)}
+                >
+                  <img
+                    src={`http://localhost:8080/api/v1/images/${normalizedImageUrl}`}
+                    alt="product"
+                  />
+                </Checkbox>
+              </div>
+            );
+          })}
         </div>
         <Pagination
           current={currentPage}
