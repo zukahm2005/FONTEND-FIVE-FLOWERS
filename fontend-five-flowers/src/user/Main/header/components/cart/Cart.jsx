@@ -1,14 +1,20 @@
 import { notification } from 'antd';
 import axios from 'axios';
 import { motion } from 'framer-motion';
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import "./cart.scss";
 import { CartContext } from "./cartContext/CartProvider";
 
 const Cart = () => {
-  const { cart, updateQuantity, totalPrice, removeFromCart } = useContext(CartContext);
+  const { cart, updateQuantity, totalPrice, removeFromCart, setCart } = useContext(CartContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    cartItems.forEach(item => item.totalPrice = item.price * item.quantity); // Tính toán lại totalPrice cho mỗi sản phẩm
+    setCart(cartItems);
+  }, [setCart]);
 
   const handleQuantityChange = async (productId, quantity) => {
     const product = cart.find((item) => item.productId === productId);
@@ -77,20 +83,23 @@ const Cart = () => {
                       </div>
                       <div className="desc-content-cart">
                         <div className="desc-brand-content-cart">
-                          <p>{item.brand?.name}</p>
+                          <p>{item.brand}</p>
                         </div>
                         <div className="space-desc-content-cart">
                           <p>/</p>
                         </div>
                         <div className="desc-category-content-cart">
-                          <p>{item.category?.name}</p>
+                          <p>{item.category}</p>
+                        </div>
+                        <div className="desc-price-content-cart">
+                          <p>USD{item.price}</p>
                         </div>
                       </div>
                     </div>
                   </div>
                   <div className="cacul-container-content-cart">
                     <div className="total-each-product-cart">
-                      <p>₹{item.totalPrice}</p>
+                      <p>USD {item.totalPrice}</p>
                     </div>
                     <div className="cacul-cart">
                       <div
@@ -129,7 +138,7 @@ const Cart = () => {
             <p>Total Price</p>
           </div>
           <div className="total-money-cart">
-            <p>₹{totalPrice}</p>
+            <p>USD {totalPrice}</p>
           </div>
         </div>
       </div>

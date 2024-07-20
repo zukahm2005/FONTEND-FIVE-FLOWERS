@@ -1,13 +1,18 @@
 import { notification } from "antd";
 import axios from "axios";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../cartContext/CartProvider";
 import "./shoppingCart.scss";
 
 const ShoppingCart = () => {
-  const { cart, updateQuantity, removeFromCart, totalPrice } = useContext(CartContext);
+  const { cart, updateQuantity, removeFromCart, totalPrice, setCart } = useContext(CartContext);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    setCart(cartItems);
+  }, [setCart]);
 
   const handleQuantityChange = async (productId, quantity) => {
     const product = cart.find((item) => item.productId === productId);
@@ -73,11 +78,11 @@ const ShoppingCart = () => {
                     </div>
                     <div className="category-shcart">
                       <p>
-                        {item.category?.name} / {item.brand?.name}
+                        {item.category} / {item.brand}
                       </p>
                     </div>
                     <div className="price-shcart">
-                      <p>Rs. {item.price}</p>
+                      <p>Rs. {item.price}</p> {/* Hiển thị giá sản phẩm */}
                     </div>
                     <div className="quantity-controls">
                       <div

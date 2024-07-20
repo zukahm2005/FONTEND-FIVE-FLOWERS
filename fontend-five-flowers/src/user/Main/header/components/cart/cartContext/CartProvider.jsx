@@ -22,6 +22,7 @@ const CartProvider = ({ children }) => {
   const fetchCartItems = () => {
     try {
       const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+      cartItems.forEach(item => item.totalPrice = item.price * item.quantity); // Tính toán lại totalPrice cho mỗi sản phẩm
       setCart(cartItems);
     } catch (error) {
       console.error("Failed to fetch cart items:", error);
@@ -57,8 +58,12 @@ const CartProvider = ({ children }) => {
             Authorization: `Bearer ${token}`,
           },
         });
-        localStorage.setItem("cartItems", JSON.stringify(response.data));
-        setCart(response.data);
+        const cartItems = response.data.map(item => ({
+          ...item,
+          totalPrice: item.price * item.quantity // Tính toán lại totalPrice cho mỗi sản phẩm
+        }));
+        localStorage.setItem("cartItems", JSON.stringify(cartItems));
+        setCart(cartItems);
       } catch (error) {
         console.error("Failed to fetch cart from server:", error);
       }
@@ -138,6 +143,10 @@ const CartProvider = ({ children }) => {
             quantity,
             imageUrl: response.data.productImages.length > 0 ? response.data.productImages[0].imageUrl : null,
             totalPrice: quantity * product.price,
+            name: product.name, // Thêm tên sản phẩm
+            brand: response.data.brand?.name, // Thêm thương hiệu
+            category: response.data.category?.name, // Thêm danh mục
+            price: product.price // Thêm giá sản phẩm
           });
         } else {
           notification.error({
