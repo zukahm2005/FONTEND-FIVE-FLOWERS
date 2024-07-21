@@ -311,11 +311,6 @@ const OrderListAdmin = () => {
         address ? `${address.address}, ${address.postalCode}` : "No address",
     },
     {
-      title: "Postcode",
-      dataIndex: ["address", "postalCode"],
-      key: "postalCode",
-    },
-    {
       title: "Order Date",
       dataIndex: "createdAt",
       key: "createdAt",
@@ -332,6 +327,12 @@ const OrderListAdmin = () => {
       dataIndex: "status",
       key: "status",
       render: (status, record) => renderStatusSelect(status, record),
+    },
+    {
+      title: "Updated At",
+      dataIndex: "updatedAt",
+      key: "updatedAt",
+      render: (updatedAt) => formatDate(updatedAt),
     },
   ];
 
