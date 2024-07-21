@@ -42,12 +42,14 @@ const GetAllAddressAdmin = () => {
           },
         }
       );
-      console.log(response.data.content); // Log data to check
-      setAddresses(response.data.content || response.data); // Adjust if using pagination or not
+      const allUsers = response.data.content || response.data; // Điều chỉnh nếu có phân trang hoặc không
+      const userAddresses = allUsers.filter(user => user.roles.includes('ROLE_USER')); // Lọc những người dùng có roles là ROLE_USER
+      console.log(userAddresses); // Log data để kiểm tra
+      setAddresses(userAddresses);
       setPagination({
         current: page,
         pageSize: pageSize,
-        total: response.data.totalElements || response.data.length,
+        total: userAddresses.length,
       });
       setLoading(false);
     } catch (error) {
@@ -67,14 +69,14 @@ const GetAllAddressAdmin = () => {
   const handleFilterAndSort = () => {
     let filtered = [...addresses];
 
-    // Handle search filter
+    // Xử lý tìm kiếm
     if (filter.search) {
       filtered = filtered.filter((address) =>
         address.userName.toLowerCase().includes(filter.search.toLowerCase())
       );
     }
 
-    // Handle sort
+    // Xử lý sắp xếp
     switch (filter.sort) {
       case "newest":
         filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
@@ -134,7 +136,7 @@ const GetAllAddressAdmin = () => {
       title: "Created At",
       dataIndex: "createdAt",
       key: "createdAt",
-      render: (text) => formatDate(text), // Use formatDate to display the date and time
+      render: (text) => formatDate(text), // Sử dụng formatDate để hiển thị ngày giờ
     }
   ];
 
@@ -203,7 +205,7 @@ const GetAllAddressAdmin = () => {
           onRow={(record) => {
             return {
               onClick: () => {
-                navigate(`customer/${record.id}`);
+                navigate(`/admin/address/customer/${record.id}`); // Điều hướng đến UserDetail với ID người dùng
               },
             };
           }}

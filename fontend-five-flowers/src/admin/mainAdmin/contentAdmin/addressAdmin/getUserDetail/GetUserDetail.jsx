@@ -1,7 +1,7 @@
-import { DatePicker, Select, Table, Tag } from "antd";
+import { DatePicker, Select, Table, Tag, Input, Button } from "antd";
 import axios from "axios";
-import jwtDecode from "jwt-decode";
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import "./UserDetail.scss"; // Tệp CSS tùy chỉnh của bạn
 import CartUserDetails from "../../../../../user/Main/header/components/cart/cartUser/cartUserDetails/CartUserDetails";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -21,6 +21,8 @@ const GetUserDetails = () => {
     total: 0,
   });
 
+  const { id } = useParams(); // Lấy id từ URL
+
   const fetchUserOrders = async (page = 1, pageSize = 10) => {
     try {
       const token = localStorage.getItem("token");
@@ -28,8 +30,9 @@ const GetUserDetails = () => {
         console.error("No token found");
         return;
       }
+
       const response = await axios.get(
-        `http://localhost:8080/api/v1/orders/all`,
+        `http://localhost:8080/api/v1/orders/user/${id}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -40,12 +43,14 @@ const GetUserDetails = () => {
           },
         }
       );
-      const orders = response.data.content;
+      const orders = response.data;
+      console.log("Fetched orders:", orders); // Thêm log này để kiểm tra dữ liệu phản hồi
+
       setOrders(orders);
       setPagination({
         current: page,
         pageSize: pageSize,
-        total: response.data.totalElements || response.data.length,
+        total: orders.length,
       });
       applyFiltersAndSort(orders, sortOrder, dateRange, statusFilter);
     } catch (error) {
@@ -54,8 +59,10 @@ const GetUserDetails = () => {
   };
 
   useEffect(() => {
-    fetchUserOrders(pagination.current, pagination.pageSize);
-  }, [pagination.current, pagination.pageSize]);
+    if (id) {
+      fetchUserOrders(pagination.current, pagination.pageSize);
+    }
+  }, [pagination.current, pagination.pageSize, id]);
 
   const handleStatusFilterChange = (value) => {
     setStatusFilter(value);
@@ -136,6 +143,7 @@ const GetUserDetails = () => {
       default:
         break;
     }
+    console.log("Filtered and sorted orders:", filteredOrders); // Thêm log này để kiểm tra dữ liệu sau khi lọc và sắp xếp
     setFilteredOrders(filteredOrders);
   };
 
@@ -172,13 +180,16 @@ const GetUserDetails = () => {
     return <Tag color={color}>{status}</Tag>;
   };
 
-  const formatDate = (dateString) => {
-    if (!dateString) {
-      return "N/A"; // Default value when data is invalid
+  const formatDate = (dateArray) => {
+    if (!Array.isArray(dateArray) || dateArray.length !== 6) {
+      return "N/A"; // Giá trị mặc định khi dữ liệu không hợp lệ
     }
-    const date = new Date(dateString);
+    const [year, month, day, hours, minutes, seconds] = dateArray;
+    const date = new Date(
+      Date.UTC(year, month - 1, day, hours, minutes, seconds)
+    ); // Chú ý tháng bắt đầu từ 0 trong JavaScript
     if (isNaN(date)) {
-      return "N/A"; // Default value when data is invalid
+      return "N/A"; // Giá trị mặc định khi dữ liệu không hợp lệ
     }
     const formattedDate = date.toISOString().slice(0, 19).replace("T", " ");
     return formattedDate;
