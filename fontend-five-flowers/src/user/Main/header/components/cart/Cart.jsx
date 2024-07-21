@@ -1,24 +1,27 @@
-import { notification } from 'antd';
-import axios from 'axios';
-import { motion } from 'framer-motion';
-import React, { useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { notification } from "antd";
+import axios from "axios";
+import { motion } from "framer-motion";
+import React, { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import "./cart.scss";
 import { CartContext } from "./cartContext/CartProvider";
 
 const Cart = () => {
-  const { cart, updateQuantity, totalPrice, removeFromCart, setCart } = useContext(CartContext);
+  const { cart, updateQuantity, totalPrice, removeFromCart, setCart } =
+    useContext(CartContext);
   const navigate = useNavigate();
 
   useEffect(() => {
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    cartItems.forEach(item => item.totalPrice = item.price * item.quantity); // Tính toán lại totalPrice cho mỗi sản phẩm
+    cartItems.forEach((item) => (item.totalPrice = item.price * item.quantity)); // Tính toán lại totalPrice cho mỗi sản phẩm
     setCart(cartItems);
   }, [setCart]);
 
   const handleQuantityChange = async (productId, quantity) => {
     const product = cart.find((item) => item.productId === productId);
-    const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
+    const response = await axios.get(
+      `http://localhost:8080/api/v1/products/get/${product.productId}`
+    );
     const availableQuantity = response.data.quantity;
 
     if (quantity > 0 && quantity <= availableQuantity) {
@@ -64,21 +67,28 @@ const Cart = () => {
                     >
                       <p>X</p>
                     </motion.div>
-                    <div className="image-cart-container" onClick={() => handleNavigateToProductDetails(item.productId)}>
+                    <div
+                      className="image-cart-container"
+                      onClick={() =>
+                        handleNavigateToProductDetails(item.productId)
+                      }
+                    >
                       {item.imageUrl ? (
                         <img
                           src={`http://localhost:8080/api/v1/images/${item.imageUrl}`}
                           alt={item.name}
                         />
                       ) : (
-                        <img
-                          src="path_to_default_image"
-                          alt="default"
-                        />
+                        <img src="path_to_default_image" alt="default" />
                       )}
                     </div>
                     <div className="details-content-cart">
-                      <div className="name-content-cart" onClick={() => handleNavigateToProductDetails(item.productId)}>
+                      <div
+                        className="name-content-cart"
+                        onClick={() =>
+                          handleNavigateToProductDetails(item.productId)
+                        }
+                      >
                         <p>{item.name}</p>
                       </div>
                       <div className="desc-content-cart">
@@ -91,21 +101,21 @@ const Cart = () => {
                         <div className="desc-category-content-cart">
                           <p>{item.category}</p>
                         </div>
-                        <div className="desc-price-content-cart">
-                          <p>USD{item.price}</p>
-                        </div>
                       </div>
                     </div>
                   </div>
                   <div className="cacul-container-content-cart">
                     <div className="total-each-product-cart">
-                      <p>USD {item.totalPrice}</p>
+                      <p>$ {item.totalPrice}</p>
                     </div>
                     <div className="cacul-cart">
                       <div
                         className="cacul-quantity-content-cart"
                         onClick={() =>
-                          handleQuantityChange(item.productId, item.quantity - 1)
+                          handleQuantityChange(
+                            item.productId,
+                            item.quantity - 1
+                          )
                         }
                       >
                         <p>-</p>
@@ -116,7 +126,10 @@ const Cart = () => {
                       <div
                         className="cacul-quantity-content-cart"
                         onClick={() =>
-                          handleQuantityChange(item.productId, item.quantity + 1)
+                          handleQuantityChange(
+                            item.productId,
+                            item.quantity + 1
+                          )
                         }
                       >
                         <p>+</p>
@@ -138,7 +151,7 @@ const Cart = () => {
             <p>Total Price</p>
           </div>
           <div className="total-money-cart">
-            <p>USD {totalPrice}</p>
+            <p>$ {totalPrice}</p>
           </div>
         </div>
       </div>

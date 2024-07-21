@@ -20,16 +20,12 @@ const AddPaymentAdmin = () => {
     e.preventDefault();
 
     try {
-      await axios.post(
-        "http://localhost:8080/api/v1/payments/add",
-        payment,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+      await axios.post("http://localhost:8080/api/v1/payments/add", payment, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          "Content-Type": "application/json",
+        },
+      });
 
       setMessage("Payment added successfully");
     } catch (error) {
@@ -42,7 +38,7 @@ const AddPaymentAdmin = () => {
     <div className="add-payment-container">
       <div className="layout-payment-container">
         <div className="header-payment-add-container">
-          <Link to="/admin/payments">
+          <Link to="/admin/payment">
             <FaArrowLeft />
           </Link>
           <p>Add Payment</p>

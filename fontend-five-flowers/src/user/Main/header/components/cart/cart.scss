@@ -1,3 +1,8 @@
+:root {
+  --button-bg-color: #fa3e2c;
+  --button-bg-hover-color: #f97c37;
+}
+
 .cart-container {
   margin-top: -1rem;
   display: flex;
@@ -141,9 +146,22 @@
     max-width: 100%;
 
     button {
+      display: inline-block;
+      background: linear-gradient(
+        to right,
+        var(--button-bg-hover-color),
+        var(--button-bg-color),
+        var(--button-bg-hover-color),
+        var(--button-bg-color)
+      );
+      background-size: 200% auto;
+      transition:
+        background 0.3s ease,
+        transform 0.3s;
+      outline: none;
+      border: none;
       width: 100%;
       border-radius: 40px;
-
       p {
         padding: 1rem 0;
         color: white;

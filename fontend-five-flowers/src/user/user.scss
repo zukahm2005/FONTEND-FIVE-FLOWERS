@@ -1,5 +1,7 @@
 /* user.scss */
-.user-container button {
+
+
+button {
   display: inline-block;
   background: linear-gradient(to right, var(--button-bg-hover-color), var(--button-bg-color), var(--button-bg-hover-color), var(--button-bg-color));
   background-size: 200% auto;
@@ -8,7 +10,7 @@
   border: none;
 }
 
-.user-container button:hover {
+button:hover {
   background-position: right center;
   cursor: pointer;
 }
