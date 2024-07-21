@@ -24,6 +24,7 @@ const CheckOut = () => {
   const [errors, setErrors] = useState({});
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [sandboxMode, setSandboxMode] = useState(false);
+  const [combinedCart, setCombinedCart] = useState([]);
 
   useEffect(() => {
     const fetchPaymentMethods = async () => {
@@ -50,6 +51,44 @@ const CheckOut = () => {
     fetchPaymentMethods();
     fetchSandboxStatus();
   }, []);
+
+  useEffect(() => {
+    const fetchCartData = async () => {
+      const localCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      let serverCart = [];
+      const token = localStorage.getItem("token");
+
+      if (token) {
+        try {
+          const response = await axios.get("http://localhost:8080/api/v1/cart", {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          serverCart = response.data;
+        } catch (error) {
+          console.error("Failed to fetch cart from server:", error);
+        }
+      }
+
+      const combinedCartItems = [...localCart, ...serverCart];
+      const uniqueCartItems = combinedCartItems.reduce((acc, item) => {
+        const found = acc.find(accItem => accItem.productId === item.productId);
+        if (found) {
+          found.quantity += item.quantity;
+          found.totalPrice = found.quantity * found.price;
+        } else {
+          acc.push({ ...item, totalPrice: item.price * item.quantity });
+        }
+        return acc;
+      }, []);
+
+      setCombinedCart(uniqueCartItems);
+      setCart(uniqueCartItems); // Cập nhật CartContext với dữ liệu kết hợp
+    };
+
+    fetchCartData();
+  }, [setCart]);
 
   useEffect(() => {
     if (formFields.paymentMethod === "paypal") {
@@ -169,7 +208,7 @@ const CheckOut = () => {
 
       const addressId = addressResponse.data.addressId;
 
-      const orderDetails = cart.map((product) => ({
+      const orderDetails = combinedCart.map((product) => ({
         product: { productId: product.productId },
         quantity: product.quantity,
         price: product.price,
@@ -194,7 +233,7 @@ const CheckOut = () => {
       );
 
       await Promise.all(
-        cart.map((product) =>
+        combinedCart.map((product) =>
           axios.put(
             `http://localhost:8080/api/v1/products/reduceQuantity/${product.productId}`,
             null,
@@ -204,6 +243,12 @@ const CheckOut = () => {
           )
         )
       );
+
+      await axios.delete("http://localhost:8080/api/v1/cart/clear", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       const orderData = {
         orderId: orderResponse.data.orderId,
@@ -219,6 +264,7 @@ const CheckOut = () => {
       });
 
       setCart([]);
+      localStorage.removeItem("cartItems"); // Clear localStorage cart
       navigate("/order-receive", { state: { order: orderData } });
     } catch (error) {
       console.error("Error placing order:", error);
@@ -377,13 +423,13 @@ const CheckOut = () => {
           </div>
           <div className="info-order-container">
             <div className="checkout-details">
-              {cart.map((item, index) => (
+              {combinedCart.map((item, index) => (
                 <div key={index} className="checkout-item">
                   <div className="info-details-checkout">
                     <div className="image-checkout-container">
                       <div className="item-image">
                         <img
-                          src={`http://localhost:8080/api/v1/images/${item.productImages[0].imageUrl}`}
+                          src={`http://localhost:8080/api/v1/images/${item.imageUrl}`}
                           alt={item.name}
                         />
                         <div className="quantity-item-checkout">
@@ -396,12 +442,12 @@ const CheckOut = () => {
                         <p>{item.name}</p>
                       </div>
                       <div className="title-item-details">
-                        <p>{item.category.name} / {item.brand.name}</p>
+                        <p>{item.category} / {item.brand}</p>
                       </div>
                     </div>
                   </div>
                   <div className="total-price">
-                    <p>₹{item.price * item.quantity}</p>
+                    <p>₹{item.totalPrice}</p>
                   </div>
                 </div>
               ))}

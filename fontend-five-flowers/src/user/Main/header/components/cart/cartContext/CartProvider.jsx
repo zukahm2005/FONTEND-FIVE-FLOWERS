@@ -29,6 +29,75 @@ const CartProvider = ({ children }) => {
     }
   };
 
+  const fetchCartFromServer = async () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      try {
+        const response = await axios.get("http://localhost:8080/api/v1/cart", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        return response.data;
+      } catch (error) {
+        console.error("Failed to fetch cart from server:", error);
+      }
+    }
+    return [];
+  };
+
+  const syncCartFromServer = async () => {
+    const serverCartItems = await fetchCartFromServer();
+    const localCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+
+    const mergedCartItems = [...localCartItems, ...serverCartItems];
+    const uniqueCartItems = mergedCartItems.reduce((acc, item) => {
+      const found = acc.find(accItem => accItem.productId === item.productId);
+      if (found) {
+        found.quantity += item.quantity;
+        found.totalPrice = found.quantity * found.price;
+      } else {
+        acc.push({ ...item, totalPrice: item.price * item.quantity });
+      }
+      return acc;
+    }, []);
+
+    setCart(uniqueCartItems);
+    localStorage.setItem("cartItems", JSON.stringify(uniqueCartItems));
+  };
+
+  const saveCartItems = (cartItems) => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    setCart(cartItems);
+  };
+
+  const parseJwt = (token) => {
+    try {
+      const base64Url = token.split('.')[1];
+      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+      }).join(''));
+      return JSON.parse(jsonPayload);
+    } catch (e) {
+      return null;
+    }
+  };
+
+  const login = async (token) => {
+    setIsLoggedIn(true);
+    localStorage.setItem("token", token);
+    await syncCartFromServer();
+  };
+
+  const logout = async () => {
+    await syncCartWithServer();
+    localStorage.removeItem("token");
+    localStorage.removeItem("cartItems");
+    setIsLoggedIn(false);
+    setCart([]);
+  };
+
   const syncCartWithServer = async () => {
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
     const token = localStorage.getItem("token");
@@ -47,59 +116,6 @@ const CartProvider = ({ children }) => {
         console.error("Failed to sync cart with server:", error);
       }
     }
-  };
-
-  const syncCartFromServer = async () => {
-    const token = localStorage.getItem("token");
-    if (token) {
-      try {
-        const response = await axios.get("http://localhost:8080/api/v1/cart", {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
-        const cartItems = response.data.map(item => ({
-          ...item,
-          totalPrice: item.price * item.quantity // Tính toán lại totalPrice cho mỗi sản phẩm
-        }));
-        localStorage.setItem("cartItems", JSON.stringify(cartItems));
-        setCart(cartItems);
-      } catch (error) {
-        console.error("Failed to fetch cart from server:", error);
-      }
-    }
-  };
-
-  const parseJwt = (token) => {
-    try {
-      const base64Url = token.split('.')[1];
-      const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-      const jsonPayload = decodeURIComponent(atob(base64).split('').map(function(c) {
-        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-      }).join(''));
-      return JSON.parse(jsonPayload);
-    } catch (e) {
-      return null;
-    }
-  };
-
-  const saveCartItems = (cartItems) => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    setCart(cartItems);
-  };
-
-  const login = async (token) => {
-    setIsLoggedIn(true);
-    localStorage.setItem("token", token);
-    await syncCartFromServer();
-  };
-
-  const logout = async () => {
-    await syncCartWithServer();
-    localStorage.removeItem("token");
-    localStorage.removeItem("cartItems");
-    setIsLoggedIn(false);
-    setCart([]);
   };
 
   const addToCart = async (product, quantity = 1) => {
@@ -143,10 +159,10 @@ const CartProvider = ({ children }) => {
             quantity,
             imageUrl: response.data.productImages.length > 0 ? response.data.productImages[0].imageUrl : null,
             totalPrice: quantity * product.price,
-            name: product.name, // Thêm tên sản phẩm
-            brand: response.data.brand?.name, // Thêm thương hiệu
-            category: response.data.category?.name, // Thêm danh mục
-            price: product.price // Thêm giá sản phẩm
+            name: product.name,
+            brand: response.data.brand?.name,
+            category: response.data.category?.name,
+            price: product.price
           });
         } else {
           notification.error({
@@ -277,7 +293,7 @@ const CartProvider = ({ children }) => {
         distinctProductCount,
         logout,
         login,
-        fetchProductDetails, // Ensure this function is provided in the context
+        fetchProductDetails,
         productDetails,
       }}
     >
