@@ -189,7 +189,7 @@ const CartUser = () => {
       title: "Total",
       dataIndex: "price",
       key: "price",
-      render: (price) => `₹${price}`,
+      render: (price) => `$${price}`,
     },
     {
       title: "Address",

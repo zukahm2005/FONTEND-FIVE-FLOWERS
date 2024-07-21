@@ -31,16 +31,6 @@ const getStatusColor = (status) => {
   }
 };
 
-const StyledSelect = styled(Select)`
-  width: 110px !important;
-  .ant-select-selection-item {
-    color: ${(props) => getStatusColor(props.status)} !important;
-  }
-  .ant-select-item-option-content {
-    color: ${(props) => getStatusColor(props.status)} !important;
-  }
-`;
-
 const OrderDetails = () => {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
@@ -139,54 +129,6 @@ const OrderDetails = () => {
     return !nonEditableStatuses.includes(status);
   };
 
-  const updateStatus = async (orderDetailId, newStatus) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.put(
-        `http://localhost:8080/api/v1/order-details/${orderDetailId}/status`,
-        { status: newStatus },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-      setOrder((prevOrder) => {
-        const updatedOrderDetails = prevOrder.orderDetails.map((detail) =>
-          detail.orderDetailId === orderDetailId
-            ? { ...detail, status: newStatus }
-            : detail
-        );
-        const updatedOrderStatus = calculateOrderStatus(updatedOrderDetails);
-        updateOrderStatus(prevOrder.orderId, updatedOrderStatus);
-        return {
-          ...prevOrder,
-          orderDetails: updatedOrderDetails,
-          status: updatedOrderStatus,
-        };
-      });
-    } catch (error) {
-      console.error("Error updating status:", error);
-    }
-  };
-
-  const updateOrderStatus = async (orderId, newStatus) => {
-    try {
-      const token = localStorage.getItem("token");
-      await axios.put(
-        `http://localhost:8080/api/v1/orders/${orderId}/status`,
-        { status: newStatus },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
-    } catch (error) {
-      console.error("Error updating order status:", error);
-    }
-  };
-
   const handleQuantityChange = (orderDetailId, newQuantity) => {
     setOrder((prevOrder) => ({
       ...prevOrder,
@@ -238,24 +180,11 @@ const OrderDetails = () => {
     return <div>Loading...</div>;
   }
 
-  const renderStatusSelect = (status, detail) => {
+  const renderStatusText = (status) => {
     return (
-      <StyledSelect
-        status={status}
-        value={status}
-        onChange={(value) => updateStatus(detail.orderDetailId, value)}
-        onClick={(e) => e.stopPropagation()} // prevent event propagation
-        disabled={!isOrderEditable(status)}
-      >
-        <Option value="Pending">Pending</Option>
-        <Option value="Paid">Paid</Option>
-        <Option value="Packaging">Packaging</Option>
-        <Option value="Shipping">Shipping</Option>
-        <Option value="Delivered">Delivered</Option>
-        <Option value="Cancelled">Cancelled</Option>
-        <Option value="Refunded">Refunded</Option>
-        <Option value="Returned">Returned</Option>
-      </StyledSelect>
+      <span style={{ color: getStatusColor(status) }}>
+        {status}
+      </span>
     );
   };
 
@@ -329,7 +258,7 @@ const OrderDetails = () => {
                     </div>
                     <div className="price-info-ordtails">
                       <p>
-                        ₹{detail.price} x{" "}
+                        ${detail.price} x{" "}
                         {orderEditable && editableQuantityId === detail.orderDetailId ? (
                           <InputNumber
                             min={1}
@@ -355,10 +284,10 @@ const OrderDetails = () => {
                       </p>
                     </div>
                     <div className="status-ordtails">
-                      {renderStatusSelect(detail.status, detail)}
+                      {renderStatusText(detail.status)}
                     </div>
                     <div className="product-price">
-                      <p>₹{detail.price * detail.quantity}</p>
+                      <p>${detail.price * detail.quantity}</p>
                     </div>
                   </div>
                 </div>

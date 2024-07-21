@@ -211,6 +211,14 @@ const EditOrderDetails = () => {
     }));
   };
 
+  const renderStatusText = (status) => {
+    return (
+      <span style={{ color: getStatusColor(status) }}>
+        {status}
+      </span>
+    );
+  };
+
   const columns = [
     {
       title: "Product Name",
@@ -317,7 +325,7 @@ const EditOrderDetails = () => {
               </div>
               <div className="price-info-ordtails">
                 <p>
-                  ₹{detail.price} x 
+                  ${detail.price} x 
                   {editableQuantityId === detail.orderDetailId ? (
                     <InputNumber
                       min={1}
@@ -339,24 +347,10 @@ const EditOrderDetails = () => {
                 </p>
               </div>
               <div className="status-ordtails">
-                <StyledSelect
-                  status={detail.status}
-                  value={detail.status}
-                  onChange={(value) =>
-                    updateStatus(detail.orderDetailId, value)
-                  }
-                >
-                  <Option value="Pending">Pending</Option>
-                  <Option value="Paid">Paid</Option>
-                  <Option value="Packaging">Packaging</Option>
-                  <Option value="Shipping">Shipping</Option>
-                  <Option value="Delivered">Delivered</Option>
-                  <Option value="Cancelled">Cancelled</Option>
-                  <Option value="Refunded">Refunded</Option>
-                </StyledSelect>
+                {renderStatusText(detail.status)}
               </div>
               <div className="product-price">
-                <p>₹{detail.price * detail.quantity}</p>
+                <p>${detail.price * detail.quantity}</p>
               </div>
               <div className="remove-detail">
                 <div onClick={() => handleRemoveOrderDetail(detail.orderDetailId)}>
@@ -371,7 +365,7 @@ const EditOrderDetails = () => {
             <h3>Total Price</h3>
           </div>
           <div className="price-title">
-            <h3> ₹{calculateTotalPrice()}</h3>
+            <h3> ${calculateTotalPrice()}</h3>
           </div>
         </div>
         <Button type="primary" onClick={handleUpdateOrder}>

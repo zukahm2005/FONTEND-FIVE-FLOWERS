@@ -224,6 +224,10 @@ const OrderListAdmin = () => {
   };
 
   const renderStatusSelect = (status, record) => {
+    const handleClick = (e) => {
+      e.stopPropagation();
+    };
+
     if (
       status === "Delivered" ||
       status === "Cancelled" ||
@@ -235,6 +239,7 @@ const OrderListAdmin = () => {
           status={status}
           value={status}
           disabled
+          onClick={handleClick}
         >
           <Option value="Pending">Pending</Option>
           <Option value="Paid">Paid</Option>
@@ -253,7 +258,7 @@ const OrderListAdmin = () => {
         status={status}
         value={status}
         onChange={(value) => updateOrderStatus(record.orderId, value)}
-        onClick={(e) => e.stopPropagation()} // prevent event propagation
+        onClick={handleClick} // prevent event propagation
       >
         <Option value="Pending">Pending</Option>
         <Option value="Paid">Paid</Option>
@@ -296,7 +301,7 @@ const OrderListAdmin = () => {
       title: "Total Price",
       dataIndex: "price",
       key: "price",
-      render: (text) => `₹${text}`,
+      render: (text) => `$${text}`,
     },
     {
       title: "Address",

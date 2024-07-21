@@ -85,7 +85,7 @@ const CartUserDetails = ({ order }) => {
       title: "Price",
       dataIndex: "product",
       key: "productPrice",
-      render: (product) => `₹${parseInt(product.price)}`,
+      render: (product) => `$${parseInt(product.price)}`,
     },
     {
       title: "Qty",
@@ -98,7 +98,7 @@ const CartUserDetails = ({ order }) => {
       dataIndex: "total",
       key: "total",
       render: (text, record) =>
-        `₹${parseInt(record.product.price * record.quantity)}`,
+        `$${parseInt(record.product.price * record.quantity)}`,
     },
     {
       title: "Status",

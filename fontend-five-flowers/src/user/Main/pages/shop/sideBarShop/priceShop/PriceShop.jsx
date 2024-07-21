@@ -36,7 +36,7 @@ const PriceShop = ({ onPriceFilterChange, maxPrice }) => {
         </div>
         <div className="input-price">
           <div className="label-input">
-            <p>From ₹</p>
+            <p>From $</p>
           </div>
           <motion.input
             type="text"
@@ -53,7 +53,7 @@ const PriceShop = ({ onPriceFilterChange, maxPrice }) => {
         </div>
         <div className="input-price">
           <div className="label-input">
-            <p>To ₹</p>
+            <p>To $</p>
           </div>
           <motion.input
             type="text"
