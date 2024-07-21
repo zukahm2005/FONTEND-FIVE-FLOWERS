@@ -50,19 +50,13 @@ const CartProvider = ({ children }) => {
     const serverCartItems = await fetchCartFromServer();
     const localCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
-    const combinedCartItems = localCartItems.reduce((acc, item) => {
-      const found = acc.find(accItem => accItem.productId === item.productId);
-      if (found) {
-        found.quantity += item.quantity;
-        found.totalPrice = found.quantity * found.price;
-      } else {
-        acc.push({ ...item, totalPrice: item.price * item.quantity });
-      }
-      return acc;
-    }, [...serverCartItems]);
+    const mergedCartItems = serverCartItems.map(serverItem => {
+      const localItem = localCartItems.find(localItem => localItem.productId === serverItem.productId);
+      return localItem ? { ...serverItem, quantity: serverItem.quantity } : serverItem;
+    });
 
-    setCart(combinedCartItems);
-    localStorage.setItem("cartItems", JSON.stringify(combinedCartItems));
+    setCart(mergedCartItems);
+    localStorage.setItem("cartItems", JSON.stringify(mergedCartItems));
   };
 
   const saveCartItems = (cartItems) => {
@@ -241,6 +235,12 @@ const CartProvider = ({ children }) => {
           }
         );
       }
+
+      await axios.delete("http://localhost:8080/api/v1/cart/clear", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       notification.success({
         message: "Order Placed",

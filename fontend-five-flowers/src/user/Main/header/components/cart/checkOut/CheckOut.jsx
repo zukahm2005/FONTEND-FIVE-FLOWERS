@@ -71,17 +71,16 @@ const CheckOut = () => {
         }
       }
 
-      const combinedCartItems = [...localCart, ...serverCart];
-      const uniqueCartItems = combinedCartItems.reduce((acc, item) => {
-        const found = acc.find(accItem => accItem.productId === item.productId);
+      const uniqueCartItems = serverCart.reduce((acc, item) => {
+        const found = localCart.find(localItem => localItem.productId === item.productId);
         if (found) {
-          found.quantity += item.quantity;
+          found.quantity = item.quantity; // Đảm bảo không tăng số lượng khi đăng nhập lại
           found.totalPrice = found.quantity * found.price;
         } else {
           acc.push({ ...item, totalPrice: item.price * item.quantity });
         }
         return acc;
-      }, []);
+      }, [...localCart]);
 
       setCombinedCart(uniqueCartItems);
       setCart(uniqueCartItems); // Cập nhật CartContext với dữ liệu kết hợp
