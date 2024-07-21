@@ -34,6 +34,26 @@ const Cart = () => {
     }
   };
 
+  const handleRemoveFromCart = async (productId) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        await axios.delete(`http://localhost:8080/api/v1/cart/remove/${productId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+      }
+      removeFromCart(productId);
+    } catch (error) {
+      console.error("Failed to remove item from cart:", error);
+      notification.error({
+        message: "Error",
+        description: "Failed to remove item from cart. Please try again.",
+      });
+    }
+  };
+
   const handleViewCart = () => {
     navigate("/shopping-cart", { state: { cart } });
   };
@@ -63,7 +83,7 @@ const Cart = () => {
                       variants={{
                         hover: { x: 10 },
                       }}
-                      onClick={() => removeFromCart(item.productId)}
+                      onClick={() => handleRemoveFromCart(item.productId)}
                     >
                       <p>X</p>
                     </motion.div>

@@ -50,8 +50,7 @@ const CartProvider = ({ children }) => {
     const serverCartItems = await fetchCartFromServer();
     const localCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
 
-    const mergedCartItems = [...localCartItems, ...serverCartItems];
-    const uniqueCartItems = mergedCartItems.reduce((acc, item) => {
+    const combinedCartItems = localCartItems.reduce((acc, item) => {
       const found = acc.find(accItem => accItem.productId === item.productId);
       if (found) {
         found.quantity += item.quantity;
@@ -60,10 +59,10 @@ const CartProvider = ({ children }) => {
         acc.push({ ...item, totalPrice: item.price * item.quantity });
       }
       return acc;
-    }, []);
+    }, [...serverCartItems]);
 
-    setCart(uniqueCartItems);
-    localStorage.setItem("cartItems", JSON.stringify(uniqueCartItems));
+    setCart(combinedCartItems);
+    localStorage.setItem("cartItems", JSON.stringify(combinedCartItems));
   };
 
   const saveCartItems = (cartItems) => {
