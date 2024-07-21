@@ -171,7 +171,7 @@ const GetAllProductAdmin = () => {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (text) => `₹${text}`,
+      render: (text) => `$${text}`,
     },
     {
       title: "Quantity",

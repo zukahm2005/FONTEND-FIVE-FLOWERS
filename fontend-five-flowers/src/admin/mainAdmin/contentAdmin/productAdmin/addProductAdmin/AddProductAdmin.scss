@@ -89,18 +89,23 @@
         .info-button-container {
           display: flex;
           justify-content: flex-end;
+          button {
+            padding: 0.5rem;
+            border: none; /* Added border */
+            cursor: pointer; /* Added cursor */
+            background-color: #777777 !important; /* Added !important */
 
-          p {
-            padding: 3px;
-            color: #fefefe;
-            background-color: #777777;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
+            p {
+              padding: 1px;
+              color: #fefefe;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-size: 16px;
+              font-weight: bold;
+            }
             &:hover {
-              background-color: #212121;
+              background-color: #212121 !important; /* Added !important */
             }
           }
         }
@@ -124,7 +129,7 @@
             flex-wrap: wrap;
             gap: 2rem;
             position: relative;
-            
+
             p {
               font-weight: normal;
             }

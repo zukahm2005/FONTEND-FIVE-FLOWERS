@@ -339,8 +339,8 @@ const AddProductAdmin = () => {
                 </div>
               </div>
               <div className="info-button-container">
-                <button type="submit">
-                  <p>Save</p>
+                <button type="submit" className="custom-button">
+                  <p>Push</p>
                 </button>
               </div>
             </div>
