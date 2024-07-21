@@ -1,140 +1,170 @@
 import { DatePicker, Select, Table, Tag } from "antd";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode";
-import React, { useContext, useEffect, useState } from "react";
-import { CartContext } from "../../../../../user/Main/header/components/cart/cartContext/CartProvider";
-import "./UserDetail.scss";
+import jwtDecode from "jwt-decode";
+import React, { useEffect, useState } from "react";
+import "./UserDetail.scss"; // Tệp CSS tùy chỉnh của bạn
 import CartUserDetails from "../../../../../user/Main/header/components/cart/cartUser/cartUserDetails/CartUserDetails";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+
 const { Option } = Select;
 const { RangePicker } = DatePicker;
 
 const GetUserDetails = () => {
-  const { isLoggedIn } = useContext(CartContext);
-  const [userDetails, setUserDetails] = useState([]);
-  const [filteredDetails, setFilteredDetails] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [filteredOrders, setFilteredOrders] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
   const [dateRange, setDateRange] = useState([]);
   const [sortOrder, setSortOrder] = useState("status");
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+    total: 0,
+  });
 
-  const fetchUserDetails = async () => {
-    if (!isLoggedIn) return;
+  const fetchUserOrders = async (page = 1, pageSize = 10) => {
     try {
       const token = localStorage.getItem("token");
-      const decodedToken = jwtDecode(token);
-      const userId = decodedToken.userId;
+      if (!token) {
+        console.error("No token found");
+        return;
+      }
       const response = await axios.get(
-        `http://localhost:8080/api/v1/users/details/${userId}`,
+        `http://localhost:8080/api/v1/orders/all`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
+          params: {
+            page: page - 1,
+            size: pageSize,
+          },
         }
       );
-      setUserDetails(response.data);
-      applyFiltersAndSort(response.data, sortOrder, dateRange, statusFilter);
+      const orders = response.data.content;
+      setOrders(orders);
+      setPagination({
+        current: page,
+        pageSize: pageSize,
+        total: response.data.totalElements || response.data.length,
+      });
+      applyFiltersAndSort(orders, sortOrder, dateRange, statusFilter);
     } catch (error) {
-      console.error("Error fetching user details:", error);
+      console.error("Error fetching user orders:", error);
     }
   };
 
   useEffect(() => {
-    if (isLoggedIn) {
-      fetchUserDetails();
-    }
-  }, [isLoggedIn]);
+    fetchUserOrders(pagination.current, pagination.pageSize);
+  }, [pagination.current, pagination.pageSize]);
 
   const handleStatusFilterChange = (value) => {
     setStatusFilter(value);
-    applyFiltersAndSort(userDetails, sortOrder, dateRange, value);
+    applyFiltersAndSort(orders, sortOrder, dateRange, value);
   };
 
   const handleDateRangeChange = (dates) => {
     setDateRange(dates);
-    applyFiltersAndSort(userDetails, sortOrder, dates, statusFilter);
+    applyFiltersAndSort(orders, sortOrder, dates, statusFilter);
   };
 
   const handleSortOrderChange = (value) => {
     setSortOrder(value);
-    applyFiltersAndSort(userDetails, value, dateRange, statusFilter);
+    applyFiltersAndSort(orders, value, dateRange, statusFilter);
+  };
+
+  const handleTableChange = (pagination) => {
+    setPagination(pagination);
   };
 
   const statusPriority = {
-    Active: 1,
-    Inactive: 2,
-    Banned: 3,
-    Suspended: 4,
+    Pending: 1,
+    Packaging: 2,
+    Shipping: 3,
+    Paid: 4,
+    Delivered: 5,
+    Cancelled: 6,
+    Refunded: 7,
+    Returned: 8,
   };
 
   const applyFiltersAndSort = (
-    detailsList,
+    ordersList,
     sortOrder,
     dateRange,
     statusFilter
   ) => {
-    let filteredDetails = [...detailsList];
+    let filteredOrders = [...ordersList];
 
     if (dateRange && dateRange.length === 2) {
       const [start, end] = dateRange;
       const startDate = new Date(start).setHours(0, 0, 0, 0);
       const endDate = new Date(end).setHours(23, 59, 59, 999);
-      filteredDetails = filteredDetails.filter((detail) => {
-        const detailDateArray = detail.createdAt;
-        const detailDate = new Date(
-          Date.UTC(
-            detailDateArray[0],
-            detailDateArray[1] - 1,
-            detailDateArray[2],
-            detailDateArray[3],
-            detailDateArray[4],
-            detailDateArray[5]
-          )
-        );
-        return detailDate >= startDate && detailDate <= endDate;
+      filteredOrders = filteredOrders.filter((order) => {
+        const orderDate = new Date(order.createdAt);
+        return orderDate >= startDate && orderDate <= endDate;
       });
     }
 
     if (statusFilter) {
-      filteredDetails = filteredDetails.filter(
-        (detail) => detail.status === statusFilter
+      filteredOrders = filteredOrders.filter(
+        (order) => order.status === statusFilter
       );
     }
 
     switch (sortOrder) {
       case "newest":
-        filteredDetails.sort(
+        filteredOrders.sort(
           (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
         );
         break;
       case "oldest":
-        filteredDetails.sort(
+        filteredOrders.sort(
           (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
         );
         break;
+      case "price-low":
+        filteredOrders.sort((a, b) => a.price - b.price);
+        break;
+      case "price-high":
+        filteredOrders.sort((a, b) => b.price - a.price);
+        break;
       case "status":
-        filteredDetails.sort(
+        filteredOrders.sort(
           (a, b) => statusPriority[a.status] - statusPriority[b.status]
         );
         break;
       default:
         break;
     }
-    setFilteredDetails(filteredDetails);
+    setFilteredOrders(filteredOrders);
   };
 
   const getStatusTag = (status) => {
     let color;
     switch (status) {
-      case "Active":
+      case "Pending":
+        color = "orange";
+        break;
+      case "Paid":
         color = "green";
         break;
-      case "Inactive":
-        color = "gray";
+      case "Packaging":
+        color = "blue";
         break;
-      case "Banned":
+      case "Shipping":
+        color = "purple";
+        break;
+      case "Delivered":
+        color = "cyan";
+        break;
+      case "Cancelled":
         color = "red";
         break;
-      case "Suspended":
-        color = "orange";
+      case "Refunded":
+        color = "magenta";
+        break;
+      case "Returned":
+        color = "black";
         break;
       default:
         color = "default";
@@ -142,14 +172,11 @@ const GetUserDetails = () => {
     return <Tag color={color}>{status}</Tag>;
   };
 
-  const formatDate = (dateArray) => {
-    if (!Array.isArray(dateArray) || dateArray.length !== 6) {
+  const formatDate = (dateString) => {
+    if (!dateString) {
       return "N/A"; // Default value when data is invalid
     }
-    const [year, month, day, hours, minutes, seconds] = dateArray;
-    const date = new Date(
-      Date.UTC(year, month - 1, day, hours, minutes, seconds)
-    ); // Note month starts from 0 in JavaScript
+    const date = new Date(dateString);
     if (isNaN(date)) {
       return "N/A"; // Default value when data is invalid
     }
@@ -165,17 +192,26 @@ const GetUserDetails = () => {
       render: (text, record, index) => index + 1,
     },
     {
-      title: "User Name",
-      dataIndex: "userName",
-      key: "userName",
+      title: "Total",
+      dataIndex: "price",
+      key: "price",
+      render: (price) => `₹${price}`,
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "Address",
+      dataIndex: "address",
+      key: "address",
+      render: (address) => (address ? `${address.address}` : "No address"),
     },
     {
-      title: "Join Date",
+      title: "Payment Method",
+      dataIndex: "payment",
+      key: "payment",
+      render: (payment) =>
+        payment ? payment.paymentMethod : "No payment method",
+    },
+    {
+      title: "Order Date",
       dataIndex: "createdAt",
       key: "createdAt",
       render: (createdAt) => formatDate(createdAt),
@@ -188,6 +224,27 @@ const GetUserDetails = () => {
     },
   ];
 
+  const itemRender = (current, type, originalElement) => {
+    if (type === "prev") {
+      return (
+        <p className="custom-pagination-button">
+          <FaArrowLeft />
+        </p>
+      );
+    }
+    if (type === "next") {
+      return (
+        <p className="custom-pagination-button">
+          <FaArrowRight />
+        </p>
+      );
+    }
+    if (type === "page") {
+      return <p className="custom-pagination-button">{current}</p>;
+    }
+    return originalElement;
+  };
+
   return (
     <div className="user-details-container">
       <div className="user-details-header-container">
@@ -195,38 +252,56 @@ const GetUserDetails = () => {
           <p>User Details</p>
         </div>
         <div className="filters-user-details">
-          <Select
-            style={{ width: 200 }}
-            onChange={handleSortOrderChange}
-            defaultValue="status"
-            placeholder="Sort by"
-          >
-            <Option value="newest">Newest</Option>
-            <Option value="oldest">Oldest</Option>
-            <Option value="status">Status</Option>
-          </Select>
-          <RangePicker onChange={handleDateRangeChange} />
-          <Select
-            style={{ width: 200 }}
-            onChange={handleStatusFilterChange}
-            defaultValue=""
-            placeholder="Filter by Status"
-          >
-            <Option value="">All</Option>
-            <Option value="Active">Active</Option>
-            <Option value="Inactive">Inactive</Option>
-            <Option value="Banned">Banned</Option>
-            <Option value="Suspended">Suspended</Option>
-          </Select>
+          <p>
+            <Select
+              style={{ width: 200 }}
+              onChange={handleSortOrderChange}
+              defaultValue="status"
+              placeholder="Sort by"
+            >
+              <Option value="newest">Newest</Option>
+              <Option value="oldest">Oldest</Option>
+              <Option value="price-low">Price, low to high</Option>
+              <Option value="price-high">Price, high to low</Option>
+              <Option value="status">Status</Option>
+            </Select>
+          </p>
+          <p>
+            <RangePicker onChange={handleDateRangeChange} />
+          </p>
+          <p>
+            <Select
+              style={{ width: 200 }}
+              onChange={handleStatusFilterChange}
+              defaultValue=""
+              placeholder="Filter by Status"
+            >
+              <Option value="">All</Option>
+              <Option value="Pending">Pending</Option>
+              <Option value="Paid">Paid</Option>
+              <Option value="Packaging">Packaging</Option>
+              <Option value="Shipping">Shipping</Option>
+              <Option value="Delivered">Delivered</Option>
+              <Option value="Cancelled">Cancelled</Option>
+              <Option value="Refunded">Refunded</Option>
+              <Option value="Returned">Returned</Option>
+            </Select>
+          </p>
         </div>
       </div>
 
       <Table
-        dataSource={filteredDetails}
         columns={columns}
-        rowKey="userId"
+        dataSource={filteredOrders}
+        loading={false}
+        pagination={{
+          ...pagination,
+          itemRender: itemRender,
+        }}
+        onChange={handleTableChange}
+        rowKey="orderId"
         expandable={{
-          expandedRowRender: (detail) => <CartUserDetails detail={detail} />,
+          expandedRowRender: (order) => <CartUserDetails order={order} />,
         }}
       />
     </div>
