@@ -119,11 +119,11 @@ const CartProvider = ({ children }) => {
       });
       return;
     }
-
+  
     try {
       const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
       const availableQuantity = response.data.quantity;
-
+  
       if (availableQuantity === 0) {
         notification.error({
           message: "Out of Stock",
@@ -131,7 +131,7 @@ const CartProvider = ({ children }) => {
         });
         return;
       }
-
+  
       const newCart = [...cart];
       const productInCart = newCart.find(item => item.productId === product.productId);
       if (productInCart) {
@@ -165,7 +165,7 @@ const CartProvider = ({ children }) => {
           return;
         }
       }
-
+  
       saveCartItems(newCart);
       notification.success({
         message: "Added to Cart",
@@ -179,6 +179,7 @@ const CartProvider = ({ children }) => {
       });
     }
   };
+  
 
   const updateQuantity = (productId, quantity) => {
     const newCart = cart.map((item) => {
@@ -270,10 +271,12 @@ const CartProvider = ({ children }) => {
     }
   };
 
-  const totalPrice = cart.reduce(
-    (total, product) => total + product.totalPrice,
-    0
-  );
+  const totalPrice = cart.reduce((total, product) => {
+    const price = product.price ? product.price : 0;
+    const quantity = product.quantity ? product.quantity : 0;
+    return total + (price * quantity);
+  }, 0);
+  
 
   const distinctProductCount = cart.length;
 

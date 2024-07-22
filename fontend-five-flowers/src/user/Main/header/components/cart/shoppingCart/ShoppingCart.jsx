@@ -1,7 +1,7 @@
-import { notification } from "antd";
-import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios"; // Import axios
+import { notification } from "antd"; // Import notification
 import { CartContext } from "../cartContext/CartProvider";
 import "./shoppingCart.scss";
 
@@ -100,7 +100,7 @@ const ShoppingCart = () => {
                       </div>
                     </div>
                     <div className="price-shcart">
-                      <p>Total: Rs. {item.totalPrice}</p>
+                      <p>Total: Rs. {item.totalPrice}</p> {/* Hiển thị tổng giá sản phẩm */}
                     </div>
                     <div className="delete-button-shopping-cart">
                       <button onClick={() => removeFromCart(item.productId)}>
