@@ -1,49 +1,14 @@
 import { motion } from "framer-motion";
-import React, { useContext, useEffect, useState } from "react";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import React, { useContext } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
-import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../../../header/components/cart/cartContext/CartProvider";
 import "./collectionGrid.scss";
 
 const CollectionGrid = ({ displayType, products }) => {
-  const { addToCart, isLoggedIn } = useContext(CartContext);
+  const { addToCart } = useContext(CartContext);
   const navigate = useNavigate();
-
-  const [currentPage, setCurrentPage] = useState(0);
-  const [totalPages, setTotalPages] = useState(0);
-  const [itemsPerPage, setItemsPerPage] = useState(9);
-
-  const updateItemsPerPage = () => {
-    if (window.innerWidth < 600) {
-      setItemsPerPage(4);
-    } else if (window.innerWidth < 900) {
-      setItemsPerPage(6);
-    } else {
-      setItemsPerPage(9);
-    }
-    console.log("Current window width:", window.innerWidth);
-    console.log("Items per page:", itemsPerPage);
-  };
-
-  useEffect(() => {
-    updateItemsPerPage();
-    window.addEventListener("resize", updateItemsPerPage);
-
-    return () => {
-      window.removeEventListener("resize", updateItemsPerPage);
-    };
-  }, []);
-
-  useEffect(() => {
-    setTotalPages(Math.ceil(products.length / itemsPerPage));
-  }, [products, itemsPerPage]);
-
-  const handlePageClick = (data) => {
-    setCurrentPage(data.selected);
-  };
 
   const handleAddToCart = async (e, product) => {
     e.stopPropagation();
@@ -54,19 +19,14 @@ const CollectionGrid = ({ displayType, products }) => {
     navigate(`/product/${productId}`);
   };
 
-  const displayedProducts = products.slice(
-    currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage
-  );
-
   return (
     <div className={`collection-grid ${displayType}`}>
-      {displayedProducts.length === 0 ? (
+      {products.length === 0 ? (
         <div className="no-products">
           <p>No product in stock!</p>
         </div>
       ) : (
-        displayedProducts.map((product) => (
+        products.map((product) => (
           <div
             key={product.productId}
             className={`product-item ${displayType}-item`}
@@ -138,24 +98,6 @@ const CollectionGrid = ({ displayType, products }) => {
           </div>
         ))
       )}
-      <ReactPaginate
-        previousLabel={<FaArrowLeft />}
-        nextLabel={<FaArrowRight />}
-        breakLabel={"..."}
-        breakClassName={"break-me"}
-        pageCount={totalPages}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={5}
-        onPageChange={handlePageClick}
-        containerClassName={"pagination"}
-        activeClassName={"active"}
-        pageClassName={"page"}
-        previousClassName={`prev ${currentPage === 0 ? "disabled" : ""}`}
-        nextClassName={`next ${
-          currentPage === totalPages - 1 ? "disabled" : ""
-        }`}
-        disabledClassName={"disabled"}
-      />
     </div>
   );
 };

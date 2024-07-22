@@ -5,6 +5,8 @@ import CollectionGrid from "./collectionShop/collectionGrid/CollectionGrid";
 import CollectionHeader from "./collectionShop/collectionHeader/CollectionHeader";
 import "./shop.scss";
 import SideBarShop from "./sideBarShop/SideBarShop";
+import ReactPaginate from "react-paginate";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -19,6 +21,8 @@ const Shop = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortType, setSortType] = useState("featured");
   const [itemsPerPage, setItemsPerPage] = useState(9);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
     axios
@@ -52,6 +56,8 @@ const Shop = () => {
     products,
     searchTerm,
     sortType,
+    currentPage,
+    itemsPerPage,
   ]);
 
   const handleCategoryFilterChange = (category) => {
@@ -82,6 +88,10 @@ const Shop = () => {
 
   const handleSortChange = (sort) => {
     setSortType(sort);
+  };
+
+  const handlePageClick = (data) => {
+    setCurrentPage(data.selected);
   };
 
   const filterProducts = () => {
@@ -135,7 +145,13 @@ const Shop = () => {
     }
 
     setFilteredProducts(filtered);
+    setTotalPages(Math.ceil(filtered.length / itemsPerPage));
   };
+
+  const displayedProducts = filteredProducts.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
 
   return (
     <div className="shop-container">
@@ -177,9 +193,25 @@ const Shop = () => {
             </div>
             <div className="bottom-collection-grid-container">
               <CollectionGrid
-                products={filteredProducts}
+                products={displayedProducts}
                 displayType={displayType}
                 itemsPerPage={itemsPerPage}
+              />
+              <ReactPaginate
+                previousLabel={<FaArrowLeft />}
+                nextLabel={<FaArrowRight />}
+                breakLabel={"..."}
+                breakClassName={"break-me"}
+                pageCount={totalPages}
+                marginPagesDisplayed={2}
+                pageRangeDisplayed={5}
+                onPageChange={handlePageClick}
+                containerClassName={"pagination"}
+                activeClassName={"active"}
+                pageClassName={"page"}
+                previousClassName={`prev ${currentPage === 0 ? "disabled" : ""}`}
+                nextClassName={`next ${currentPage === totalPages - 1 ? "disabled" : ""}`}
+                disabledClassName={"disabled"}
               />
             </div>
           </div>

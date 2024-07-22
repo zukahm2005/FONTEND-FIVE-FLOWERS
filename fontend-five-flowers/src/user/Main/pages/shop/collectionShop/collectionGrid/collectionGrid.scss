@@ -3,11 +3,12 @@
 
   &.grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(22rem, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); // Adjust min-width to show 4 products
+    gap: 2rem;
   }
 
   &.list {
-    max-width: 40rem;
+    max-width: 20rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -15,23 +16,22 @@
 
   .product-item {
     &.grid-item {
-      width: 25rem;
+      width: 20rem;
     }
 
     &.list-item {
       display: flex;
-      max-width: 100%;
+      max-width: 20rem;
 
       .product-card {
-        max-width: 100%;
+        max-width: 20rem;
 
-        .product-info {
-        }
+        .product-info {}
       }
     }
 
     .product-card {
-      width: 22rem;
+      width: 20rem;
       display: flex;
       flex-direction: column;
       transition: transform 0.3s ease-in-out;
@@ -76,9 +76,9 @@
           left: 10px;
           background: #fa3e2c;
           color: #fff;
-          padding: 10px 5px;
+          padding: 8px 4px;
           border-radius: 50%;
-          font-size: 0.9rem;
+          font-size: 0.6rem;
           font-weight: bold;
           z-index: 1;
         }
@@ -96,13 +96,13 @@
             align-items: center;
             background: #fa3e2c;
             border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            width: 30px;
+            height: 30px;
             margin-bottom: 0.5rem;
 
             .icon {
               color: #fff;
-              font-size: 1.2rem;
+              font-size: 1rem;
             }
           }
         }
@@ -158,16 +158,17 @@
 
   .pagination {
     display: flex;
-    justify-content: center;
+    justify-content: center; // Center the pagination
     margin-top: 2rem;
     list-style: none;
-    padding-left: 145%;
+    padding: 0;
+    
     li {
       margin: 0 0.3rem;
       cursor: pointer;
 
       &.active a {
-        background-color: #fa3e2c; // Màu đậm cho trang hiện tại
+        background-color: #fa3e2c; // Dark color for the current page
         color: #fff;
         border-radius: 50%;
         width: 2rem;
@@ -179,7 +180,7 @@
       }
 
       &.page a {
-        background-color: #f66153; // Màu nhạt cho các trang khác
+        background-color: #f66153; // Light color for other pages
         color: #fff;
         border-radius: 50%;
         width: 2rem;
@@ -223,7 +224,6 @@
 
       &:hover {
         background-color: #fa3e2c;
-        border-radius: 50%;
       }
 
       &.disabled {
