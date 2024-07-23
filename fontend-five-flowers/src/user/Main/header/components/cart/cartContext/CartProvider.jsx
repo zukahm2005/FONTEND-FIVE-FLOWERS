@@ -138,7 +138,7 @@ const CartProvider = ({ children }) => {
       if (productInCart) {
         if (productInCart.quantity + quantity <= availableQuantity) {
           productInCart.quantity += quantity;
-          productInCart.totalPrice = productInCart.quantity * productInCart.price;
+          productInCart.totalPrice = productInCart.quantity * productInCart.price; // Tính lại tổng tiền
         } else {
           notification.error({
             message: "Out of Stock",

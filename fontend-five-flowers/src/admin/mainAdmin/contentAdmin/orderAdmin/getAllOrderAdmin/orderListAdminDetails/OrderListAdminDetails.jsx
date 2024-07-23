@@ -303,19 +303,20 @@ const OrderDetails = () => {
             </div>
           </div>
           <div className="total-price-order-details-admin">
-            <div className="total-price-ordtails">
-              <div className="price-title">
+            <div className="sub-price-ordtails">
+              <div className="price-title-sub">
                 <p>Subtotal</p>
               </div>
               <div className="price-title">
+              <div className="price-title-sub">
                 <p> ${subtotal}</p>
               </div>
             </div>
-            <div className="total-price-ordtails">
-              <div className="price-title">
-                <p>Shipping</p>
+            <div className="sub-price-ordtails">
+            <div className="price-title-sub">
+            <p>Shipping</p>
               </div>
-              <div className="price-title">
+              <div className="price-title-sub">
                 <p> ${shippingCost}</p>
               </div>
             </div>
@@ -351,9 +352,10 @@ const OrderDetails = () => {
               <div className="name-cus">
                 <div className="editable-field">
                   <p>
-                    <span>User: </span>
                     {order.user.userName}
+                    
                   </p>
+                  <p>1 order</p>
                 </div>
                 <div className="editable-field">
                   <p>

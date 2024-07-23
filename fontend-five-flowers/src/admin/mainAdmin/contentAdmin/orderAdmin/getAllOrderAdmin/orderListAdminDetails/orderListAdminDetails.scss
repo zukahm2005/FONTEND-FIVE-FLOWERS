@@ -133,23 +133,27 @@
           border-radius: 20px;
           box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.2);
           padding: 1rem;
+          .sub-price-ordtails{
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .price-title-sub{
+                font-size: 0.9rem;
+            }
+          }
           .total-price-ordtails {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
             .price-title {
               p {
-                font-size: 0.9rem;
-                color: rgb(64, 64, 64);
-              }
-            }
-            .price-title-total {
-              p {
-                font-size: 1.2rem;
-                color: #fa422d;
+                font-size: 1rem;
+                color: rgb(14, 64, 204);
                 font-weight: bold;
-              }
             }
+            }
+          
           }
         }
       }
