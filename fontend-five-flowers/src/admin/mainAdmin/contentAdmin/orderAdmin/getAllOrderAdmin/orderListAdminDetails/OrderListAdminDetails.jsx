@@ -226,7 +226,7 @@ const OrderDetails = () => {
         </div>
         <div className="below-page-box">
           <div className="time-order">
-            <p>Placed at: {formatDateTime(order.createdAt)}</p>
+            <p> Placed at: {formatDateTime(order.createdAt)}</p>{" "}
           </div>
         </div>
       </div>
@@ -312,8 +312,8 @@ const OrderDetails = () => {
               </div>
             </div>
             <div className="sub-price-ordtails">
-            <div className="price-title-sub">
-            <p>Shipping</p>
+              <div className="price-title-sub">
+                <p>Shipping</p>
               </div>
               <div className="price-title-sub">
                 <p> ${shippingCost}</p>
@@ -339,57 +339,57 @@ const OrderDetails = () => {
                 </div>
 
                 {orderEditable && (
-                  <div className="editable-field">
-                    <FaPen
-                      style={{ cursor: "pointer", marginLeft: "10px" }}
-                      onClick={showEditModal}
-                    />
+                  <div>
+                    <p>
+                      <FaPen
+                        style={{ cursor: "pointer", marginLeft: "10px" }}
+                        onClick={showEditModal}
+                        className="icon-pencil"
+                      />
+                    </p>
                   </div>
                 )}
               </div>
-
-              <div className="name-cus">
-                <div className="editable-field">
-                  <p>
-                    {order.user.userName}
-                    
-                  </p>
+              <div className="info-container-cus-details">
+                <div className="name-cus-container">
+                  <div className="name-user">
+                    <p>{order.user.userName}</p>
+                  </div>
                   <p>1 order</p>
                 </div>
-                <div className="editable-field">
-                  <p>
-                    <span>Email: </span>
-                    {editableFields.email}
-                  </p>
+                <div className="contact-info-cus">
+                  <div className="title-contact-info-cus">
+                    <p>Contact infomation</p>
+                  </div>
+                  <div className="email-info-cus">
+                    <p>{editableFields.email}</p>
+                  </div>
+                  <div className="phone-info-cus">
+                    <p>{editableFields.phone}</p>
+                  </div>
+                  <div className="first-name-cus">
+                    <p>
+                      {" "}
+                      {editableFields.firstName} {editableFields.lastName}
+                    </p>
+                  </div>
                 </div>
-                <div className="editable-field">
-                  <p>
-                    <span>First Name: </span>
-                    {editableFields.firstName}
-                  </p>
+                <div className="shipping-address-cus">
+                  <div className="title-shipping-cus">
+                    <p>Shipping address</p>
+                  </div>
+                  <div className="info-address-shipping">
+                    <p>{`${editableFields.address}, ${editableFields.city}`}</p>
+                  </div>
                 </div>
-                <div className="editable-field">
-                  <p>
-                    <span>Last Name: </span>
-                    {editableFields.lastName}
-                  </p>
+                <div className="billing-address-cus">
+                  <div className="billing-title">
+                    <p>Billing address</p>
+                  </div>
+                  <div className="content-billing">
+                    <p> Same as shipping address</p>
+                  </div>
                 </div>
-                <div className="editable-field">
-                  <p>
-                    <span>Phone: </span>
-                    {editableFields.phone}
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="shipping-ordtails">
-              <div className="title-ship">
-                <p>Shipping address</p>
-              </div>
-              <div className="editable-field">
-                <p>
-                  {`${editableFields.address}, ${editableFields.city}, ${editableFields.postalCode}`}
-                </p>
               </div>
             </div>
           </div>

@@ -1,4 +1,13 @@
-import { Button, Checkbox, Input, InputNumber, Modal, Select, Table, notification } from "antd";
+import {
+  Button,
+  Checkbox,
+  Input,
+  InputNumber,
+  Modal,
+  Select,
+  Table,
+  notification,
+} from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaPen } from "react-icons/fa";
@@ -43,9 +52,14 @@ const EditOrderDetails = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [pagination, setPagination] = useState({ current: 1, pageSize: 5, total: 0 });
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 5,
+    total: 0,
+  });
   const [editableQuantityId, setEditableQuantityId] = useState(null);
   const navigate = useNavigate();
+  const shippingCost = 5; // Định nghĩa phí vận chuyển cố định
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -72,7 +86,9 @@ const EditOrderDetails = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:8080/api/v1/products/search?query=${value}&page=${page - 1}&size=${pageSize}`,
+        `http://localhost:8080/api/v1/products/search?query=${value}&page=${
+          page - 1
+        }&size=${pageSize}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -80,7 +96,11 @@ const EditOrderDetails = () => {
         }
       );
       setSearchResults(response.data.content);
-      setPagination({ current: page, pageSize: pageSize, total: response.data.totalElements });
+      setPagination({
+        current: page,
+        pageSize: pageSize,
+        total: response.data.totalElements,
+      });
       setIsModalVisible(true);
     } catch (error) {
       console.error("Error searching products:", error);
@@ -99,7 +119,9 @@ const EditOrderDetails = () => {
           },
         }
       );
-      console.log(`Updated status of orderDetailId ${orderDetailId} to ${newStatus}`);
+      console.log(
+        `Updated status of orderDetailId ${orderDetailId} to ${newStatus}`
+      );
       setOrder((prevOrder) => ({
         ...prevOrder,
         orderDetails: prevOrder.orderDetails.map((detail) =>
@@ -118,13 +140,13 @@ const EditOrderDetails = () => {
       const token = localStorage.getItem("token");
       const updatedOrder = {
         ...order,
-        orderDetails: order.orderDetails.map(detail => ({
+        orderDetails: order.orderDetails.map((detail) => ({
           orderDetailId: detail.orderDetailId,
           product: { productId: detail.product.productId },
           quantity: detail.quantity,
           price: detail.price,
           status: detail.status,
-        }))
+        })),
       };
 
       await axios.put(
@@ -194,10 +216,11 @@ const EditOrderDetails = () => {
   };
 
   const calculateTotalPrice = () => {
-    return order.orderDetails.reduce(
+    const subtotal = order.orderDetails.reduce(
       (total, detail) => total + detail.price * detail.quantity,
       0
     );
+    return subtotal + shippingCost;
   };
 
   const handleQuantityChange = (orderDetailId, newQuantity) => {
@@ -212,11 +235,7 @@ const EditOrderDetails = () => {
   };
 
   const renderStatusText = (status) => {
-    return (
-      <span style={{ color: getStatusColor(status) }}>
-        {status}
-      </span>
-    );
+    return <span style={{ color: getStatusColor(status) }}>{status}</span>;
   };
 
   const columns = [
@@ -247,7 +266,11 @@ const EditOrderDetails = () => {
       dataIndex: ["productImages"],
       key: "productImages",
       render: (productImages) => (
-        <img src={`http://localhost:8080/api/v1/images/${productImages[0]?.imageUrl}`} alt="Product" style={{ width: 50, height: 50 }} />
+        <img
+          src={`http://localhost:8080/api/v1/images/${productImages[0]?.imageUrl}`}
+          alt="Product"
+          style={{ width: 50, height: 50 }}
+        />
       ),
     },
     {
@@ -259,7 +282,9 @@ const EditOrderDetails = () => {
             if (e.target.checked) {
               setSelectedProducts([...selectedProducts, record]);
             } else {
-              setSelectedProducts(selectedProducts.filter((product) => product.id !== record.id));
+              setSelectedProducts(
+                selectedProducts.filter((product) => product.id !== record.id)
+              );
             }
           }}
         />
@@ -270,6 +295,11 @@ const EditOrderDetails = () => {
   if (!order) {
     return <div>Loading...</div>;
   }
+
+  const subtotal = order.orderDetails.reduce(
+    (total, detail) => total + detail.price * detail.quantity,
+    0
+  );
 
   return (
     <div className="edit-order-container">
@@ -292,7 +322,9 @@ const EditOrderDetails = () => {
           <div className="input-edit-product">
             <Input.Search
               placeholder="Search product to add"
-              onSearch={(value) => handleSearch(value, pagination.current, pagination.pageSize)}
+              onSearch={(value) =>
+                handleSearch(value, pagination.current, pagination.pageSize)
+              }
               enterButton
             />
           </div>
@@ -325,7 +357,7 @@ const EditOrderDetails = () => {
               </div>
               <div className="price-info-ordtails">
                 <p>
-                  ${detail.price} x 
+                  ${detail.price} x
                   {editableQuantityId === detail.orderDetailId ? (
                     <InputNumber
                       min={1}
@@ -340,7 +372,9 @@ const EditOrderDetails = () => {
                       {detail.quantity}{" "}
                       <FaPen
                         style={{ cursor: "pointer" }}
-                        onClick={() => setEditableQuantityId(detail.orderDetailId)}
+                        onClick={() =>
+                          setEditableQuantityId(detail.orderDetailId)
+                        }
                       />
                     </>
                   )}
@@ -353,7 +387,9 @@ const EditOrderDetails = () => {
                 <p>${detail.price * detail.quantity}</p>
               </div>
               <div className="remove-detail">
-                <div onClick={() => handleRemoveOrderDetail(detail.orderDetailId)}>
+                <div
+                  onClick={() => handleRemoveOrderDetail(detail.orderDetailId)}
+                >
                   <p>X</p>
                 </div>
               </div>
@@ -361,11 +397,27 @@ const EditOrderDetails = () => {
           </div>
         ))}
         <div className="total-price-ordtails">
-          <div className="price-title">
-            <h3>Total Price</h3>
+          <div className="container-title-price-edit-order">
+            <div className="price-title-edit-order">
+              <p>Subtotal</p>
+            </div>
+            <div className="price-title-edit-order">
+              <p>Shipping</p>
+            </div>
+            <div className="price-total-edit-order">
+              <p>Total</p>
+            </div>
           </div>
-          <div className="price-title">
-            <h3> ${calculateTotalPrice()}</h3>
+          <div className="container-price-edit-order">
+            <div className="price-title-edit-order">
+              <p> ${subtotal}</p>
+            </div>
+            <div className="price-title-edit-order">
+              <p> ${shippingCost}</p>
+            </div>
+            <div className="price-total-edit-order">
+              <p> ${subtotal + shippingCost}</p>
+            </div>
           </div>
         </div>
         <Button type="primary" onClick={handleUpdateOrder}>
@@ -386,7 +438,8 @@ const EditOrderDetails = () => {
             current: pagination.current,
             pageSize: pagination.pageSize,
             total: pagination.total,
-            onChange: (page, pageSize) => handleSearch(searchProduct, page, pageSize),
+            onChange: (page, pageSize) =>
+              handleSearch(searchProduct, page, pageSize),
           }}
           rowKey="id"
         />

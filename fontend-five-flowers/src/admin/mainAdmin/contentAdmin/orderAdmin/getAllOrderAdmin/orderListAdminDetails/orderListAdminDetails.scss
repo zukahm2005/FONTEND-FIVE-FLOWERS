@@ -8,212 +8,247 @@
     flex-direction: column;
     gap: 2rem;
     padding-left: 10%;
-  
+
     .ordtails-page-box {
-      max-width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-  
-      .page-box-header-row {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-  
-        .arrow-id-order {
-          display: flex;
-          flex-direction: row;
-          gap: 0.2rem;
-          align-items: center;
-          cursor: pointer;
-  
-          .id-order {
-            p {
-              font-size: 1.4rem;
-              font-weight: bold;
-            }
-          }
-        }
-  
-        .button-edit-print {
-          display: flex;
-          flex-direction: row;
-          gap: 1rem;
-  
-          .button {
-            background-color: #e3e3e1;
-            border-radius: 10px;
-            cursor: pointer;
-  
-            p {
-              padding: 0.2rem 1rem;
-            }
-          }
-        }
-      }
-    }
-  
-    .ordtails-layout-container {
-      max-width: 100%;
-      display: grid;
-      grid-template-columns: 3fr 1fr;
-      gap: 2rem;
-  
-      .left-box-layout {
+        max-width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 2rem;
-  
-        .block-stack-ordtails {
-          max-width: 100%;
-          background-color: white;
-          border-radius: 20px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.2);
-          padding: 1rem;
-          height: 27rem;
-          overflow-y: auto;
-  
-          /* Hide scrollbar */
-          -ms-overflow-style: none; /* Internet Explorer 10+ */
-          scrollbar-width: none; /* Firefox */
-          ::-webkit-scrollbar {
-            display: none; /* Safari and Chrome */
-          }
-  
-          .info-ordtails-container {
-            display: flex;
-            flex-direction: column;
-            gap: 2rem;
-  
-            .product {
-              border: thin solid #e7e7e7;
-              border-radius: 15px;
-              padding: 1rem;
-              height: 10rem;
-  
-              .product-info {
-                display: grid;
-                grid-template-columns: 1.5fr 2fr 2fr 1fr 1fr;
-                gap: 0.5rem;
-  
-                .image-ordtails {
-                  width: 100%;
-  
-                  img {
-                    width: 100px;
-                  }
-                }
-              }
-  
-              .product-details {
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-  
-                .color-info-ordtails {
-                  p {
-                    color: rgb(169, 169, 169);
-                  }
-                }
-  
-                .product-price {
-                  text-align: right;
-                }
-              }
-            }
-          }
-        }
-  
-        .total-price-order-details-admin {
-          padding-top: 1rem;
-          display: flex;
-          flex-direction: column;
-          gap: 0.5rem;
-          background-color: white;
-          border-radius: 20px;
-          box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.2);
-          padding: 1rem;
-          .sub-price-ordtails{
+        gap: 0.5rem;
+
+        .page-box-header-row {
             display: flex;
             flex-direction: row;
             justify-content: space-between;
 
-            .price-title-sub{
-                font-size: 0.9rem;
-            }
-          }
-          .total-price-ordtails {
-            display: flex;
-            flex-direction: row;
-            justify-content: space-between;
-            .price-title {
-              p {
-                font-size: 1rem;
-                color: rgb(14, 64, 204);
-                font-weight: bold;
-            }
-            }
-          
-          }
-        }
-      }
-  
-      .right-box-layout {
-        background-color: white;
-        padding: 1rem;
-        border-radius: 15px;
-        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.2);
-  
-        .info-user-ordtails-container {
-          display: flex;
-          flex-direction: column;
-          gap: 1rem;
-  
-          .customer-ordtails {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            .title-cus {
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              p {
-                font-weight: bold;
-                font-size: 1.3rem;
-              }
-            }
-            .name-cus {
-              display: flex;
-              flex-direction: column;
-              gap: 0.3rem;
-              p {
-                font-size: 0.9rem;
-  
-                span {
-                  font-weight: bold;
-                  color: rgb(69, 69, 69);
+            .arrow-id-order {
+                display: flex;
+                flex-direction: row;
+                gap: 0.2rem;
+                align-items: center;
+                cursor: pointer;
+
+                .id-order {
+                    p {
+                        font-size: 1.4rem;
+                        font-weight: bold;
+                    }
                 }
-              }
             }
-          }
-          .shipping-ordtails {
+
+            .button-edit-print {
+                display: flex;
+                flex-direction: row;
+                gap: 1rem;
+
+                .button {
+                    background-color: #e3e3e1;
+                    border-radius: 10px;
+                    cursor: pointer;
+
+                    p {
+                        padding: 0.2rem 1rem;
+                    }
+                }
+            }
+        }
+        .below-page-box {
+            .time-order {
+                p {
+                    color: rgb(101, 101, 240);
+                }
+            }
+        }
+    }
+
+    .ordtails-layout-container {
+        max-width: 100%;
+        display: grid;
+        grid-template-columns: 3fr 1fr;
+        gap: 2rem;
+
+        .left-box-layout {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
-            .title-ship {
-              p {
-                font-weight: bold;
-                font-size: 1.3rem;
-              }
+            gap: 2rem;
+
+            .block-stack-ordtails {
+                max-width: 100%;
+                background-color: white;
+                border-radius: 20px;
+                box-shadow:
+                    0 1px 3px rgba(0, 0, 0, 0.1),
+                    0 1px 2px rgba(0, 0, 0, 0.2);
+                padding: 1rem;
+                height: 27rem;
+                overflow-y: auto;
+
+                /* Hide scrollbar */
+                -ms-overflow-style: none; /* Internet Explorer 10+ */
+                scrollbar-width: none; /* Firefox */
+                ::-webkit-scrollbar {
+                    display: none; /* Safari and Chrome */
+                }
+
+                .info-ordtails-container {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 2rem;
+
+                    .product {
+                        border: thin solid #e7e7e7;
+                        border-radius: 15px;
+                        padding: 1rem;
+                        height: 10rem;
+
+                        .product-info {
+                            display: grid;
+                            grid-template-columns: 1.5fr 2fr 2fr 1fr 1fr;
+                            gap: 0.5rem;
+
+                            .image-ordtails {
+                                width: 100%;
+
+                                img {
+                                    width: 100px;
+                                }
+                            }
+                        }
+
+                        .product-details {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 0.5rem;
+
+                            .color-info-ordtails {
+                                p {
+                                    color: rgb(169, 169, 169);
+                                }
+                            }
+
+                            .product-price {
+                                text-align: right;
+                            }
+                        }
+                    }
+                }
             }
-            .address-ship {
-              p {
-                font-size: 0.9rem;
-              }
+
+            .total-price-order-details-admin {
+                padding-top: 1rem;
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+                background-color: white;
+                border-radius: 20px;
+                box-shadow:
+                    0 1px 3px rgba(0, 0, 0, 0.1),
+                    0 1px 2px rgba(0, 0, 0, 0.2);
+                padding: 1rem;
+                .sub-price-ordtails {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+
+                    .price-title-sub {
+                        font-size: 0.9rem;
+                    }
+                }
+                .total-price-ordtails {
+                    display: flex;
+                    flex-direction: row;
+                    justify-content: space-between;
+                    .price-title {
+                        p {
+                            font-size: 1rem;
+                            color: blue;
+                            font-weight: bold;
+                        }
+                    }
+                }
             }
-          }
         }
-      }
+
+        .right-box-layout {
+            background-color: white;
+            padding: 1rem;
+            border-radius: 15px;
+            box-shadow:
+                0 1px 3px rgba(0, 0, 0, 0.1),
+                0 1px 2px rgba(0, 0, 0, 0.2);
+            height: 30rem;
+            .info-user-ordtails-container {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+
+                .customer-ordtails {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                    .title-cus {
+                        display: flex;
+                        flex-direction: row;
+                        align-items: center;
+                        p {
+                            font-weight: bold;
+                            font-size: 1rem;
+                        }
+                        .icon-pencil {
+                            p {
+                                font-size: 0.5rem;
+                            }
+                        }
+                    }
+                    .info-container-cus-details {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 2rem;
+                        .name-cus-container {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 0.5rem;
+                            .name-user {
+                                p {
+                                    color: blue;
+                                }
+                            }
+                        }
+                        .contact-info-cus {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 0.5rem;
+                            .title-contact-info-cus {
+                                p {
+                                    font-weight: bold;
+                                }
+                            }
+                            .email-info-cus {
+                                p {
+                                    color: blue;
+                                }
+                            }
+                        }
+                        .shipping-address-cus {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 0.5rem;
+                            .title-shipping-cus{
+                                p{
+                                    font-weight: bold;
+                                }
+                            }
+                        }
+                        .billing-address-cus {
+                            display: flex;
+                            flex-direction: column;
+                            gap: 0.5rem;
+                            .billing-title{
+                                font-weight: bold;
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
-  }
-  
+}
