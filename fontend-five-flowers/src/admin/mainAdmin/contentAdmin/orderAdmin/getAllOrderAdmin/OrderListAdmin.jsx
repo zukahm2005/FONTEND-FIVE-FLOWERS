@@ -1,4 +1,4 @@
-import { DatePicker, Select, Table } from "antd";
+import { DatePicker, Input, Select, Table } from "antd";
 import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
@@ -53,11 +53,12 @@ const OrderListAdmin = () => {
   });
   const [dateRange, setDateRange] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const shippingCost = 5; // Định nghĩa phí vận chuyển cố định
 
   const navigate = useNavigate();
 
-  const fetchOrders = async (page = 1, pageSize = 10) => {
+  const fetchOrders = async () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
@@ -67,32 +68,32 @@ const OrderListAdmin = () => {
             Authorization: `Bearer ${token}`,
           },
           params: {
-            page: page - 1,
-            size: pageSize,
+            size: 1000, // Fetch a large number of orders to ensure we get all of them
           },
         }
       );
       console.log("Fetched orders:", response.data.content);
       setOrders(response.data.content);
+      setPagination({
+        current: 1,
+        pageSize: 10,
+        total: response.data.totalElements,
+      });
       applyFiltersAndSort(
         response.data.content,
         sortOrder,
         dateRange,
-        statusFilter
+        statusFilter,
+        searchTerm
       );
-      setPagination({
-        current: page,
-        pageSize: pageSize,
-        total: response.data.totalElements,
-      });
     } catch (error) {
       console.error("Error fetching orders:", error);
     }
   };
 
   useEffect(() => {
-    fetchOrders(pagination.current, pagination.pageSize);
-  }, [pagination.current, pagination.pageSize]);
+    fetchOrders();
+  }, []);
 
   const viewOrderDetails = (orderId) => {
     navigate(`/admin/orders/${orderId}`);
@@ -100,24 +101,31 @@ const OrderListAdmin = () => {
 
   const handleSortChange = (value) => {
     setSortOrder(value);
-    applyFiltersAndSort(orders, value, dateRange, statusFilter);
+    applyFiltersAndSort(orders, value, dateRange, statusFilter, searchTerm);
   };
 
   const handleDateRangeChange = (dates) => {
     setDateRange(dates);
-    applyFiltersAndSort(orders, sortOrder, dates, statusFilter);
+    applyFiltersAndSort(orders, sortOrder, dates, statusFilter, searchTerm);
   };
 
   const handleStatusFilterChange = (value) => {
     setStatusFilter(value);
-    applyFiltersAndSort(orders, sortOrder, dateRange, value);
+    applyFiltersAndSort(orders, sortOrder, dateRange, value, searchTerm);
+  };
+
+  const handleSearchChange = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    applyFiltersAndSort(orders, sortOrder, dateRange, statusFilter, value);
   };
 
   const applyFiltersAndSort = (
     ordersList,
     sortOrder,
     dateRange,
-    statusFilter
+    statusFilter,
+    searchTerm
   ) => {
     let filteredOrders = [...ordersList];
 
@@ -148,6 +156,20 @@ const OrderListAdmin = () => {
     if (statusFilter) {
       filteredOrders = filteredOrders.filter(
         (order) => order.status === statusFilter
+      );
+    }
+
+    if (searchTerm) {
+      const lowerCaseSearchTerm = searchTerm.toLowerCase();
+      filteredOrders = filteredOrders.filter(
+        (order) =>
+          order.user?.userName.toLowerCase().includes(lowerCaseSearchTerm) ||
+          (order.user?.firstName &&
+            order.user.firstName.toLowerCase().includes(lowerCaseSearchTerm)) ||
+          (order.user?.lastName &&
+            order.user.lastName.toLowerCase().includes(lowerCaseSearchTerm)) ||
+          (order.address?.address &&
+            order.address.address.toLowerCase().includes(lowerCaseSearchTerm))
       );
     }
 
@@ -218,7 +240,7 @@ const OrderListAdmin = () => {
           },
         }
       );
-      fetchOrders(pagination.current, pagination.pageSize); // Fetch updated orders
+      fetchOrders(); // Fetch updated orders
     } catch (error) {
       console.error("Error updating order status:", error);
     }
@@ -383,6 +405,12 @@ const OrderListAdmin = () => {
               <Option value="Cancelled">Cancelled</Option>
               <Option value="Refunded">Refunded</Option>
             </Select>
+            <Input
+              placeholder="Search something"
+              value={searchTerm}
+              onChange={handleSearchChange}
+              style={{ width: 200 }}
+            />
             <div className="button-create-orderadmin">
               <Link to="add">
                 <p>Create order</p>
