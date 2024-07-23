@@ -54,7 +54,7 @@ const AddBlogAdmin = () => {
 
     const handleSearch = async () => {
         try {
-            const response = await axios.get('http://localhost:8080/api/v1/blogs/search?keyword=bicycle');
+            const response = await axios.get('http://localhost:8080/api/v1/blogs/search?keyword=' + encodeURIComponent('Bicycles OR bicycle racing OR bicycle maintenance OR bicycle accessories OR effects of cycling'));
             setSearchResults(response.data.articles.slice(0, 10)); // Lấy 10 bài viết đầu tiên
         } catch (error) {
             console.error('Error searching articles:', error);
