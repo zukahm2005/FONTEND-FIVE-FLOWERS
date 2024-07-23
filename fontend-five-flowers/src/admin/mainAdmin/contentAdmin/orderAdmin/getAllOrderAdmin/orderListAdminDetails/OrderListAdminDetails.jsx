@@ -307,7 +307,6 @@ const OrderDetails = () => {
               <div className="price-title-sub">
                 <p>Subtotal</p>
               </div>
-              <div className="price-title">
               <div className="price-title-sub">
                 <p> ${subtotal}</p>
               </div>
