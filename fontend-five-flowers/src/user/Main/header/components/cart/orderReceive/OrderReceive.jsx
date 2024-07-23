@@ -5,10 +5,13 @@ import "./orderReceive.scss";
 const OrderReceive = () => {
   const location = useLocation();
   const { order } = location.state || {};
+  const shippingCost = 5; // Định nghĩa phí vận chuyển cố định
 
   if (!order) {
     return <div>Order not found</div>;
   }
+
+  const subtotal = order.orderDetails.reduce((acc, detail) => acc + (detail.price * detail.quantity), 0);
 
   return (
     <div className="order-receive-container">
@@ -80,17 +83,34 @@ const OrderReceive = () => {
                     </div>
                   </div>
                   <div className="total-each-order-receive">
-                    <p>₹{detail.price}</p>
+                    <p>₹{detail.price * detail.quantity}</p>
                   </div>
                 </div>
               ))}
             </div>
-            <div className="total-or-container">
-              <div className="total-or">
-                <p>Total</p>
+            <div className="total-price-check-out">
+              <div className="container-title-price-check-out">
+                <div className="title-checkout">
+                  <p>Subtotal</p>
+                </div>
+                <div className="title-checkout">
+                  <p>Shipping</p>
+                </div>
+
+                <div className="total-price-check-out">
+                  <p>Total</p>
+                </div>
               </div>
-              <div className="price-total-or">
-                <p>₹{order.total}</p>
+              <div className="container-price-check-out">
+                <div className="sub-price-shopping-check-out">
+                  <p>${subtotal}</p>
+                </div>
+                <div className="sub-price-shopping-check-out">
+                  <p>${shippingCost}</p>
+                </div>
+                <div className="total-money-shopping-check-out">
+                  <p>${subtotal + shippingCost}</p>
+                </div>
               </div>
             </div>
           </div>

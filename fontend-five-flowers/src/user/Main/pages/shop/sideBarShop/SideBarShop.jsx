@@ -1,7 +1,7 @@
 import React from "react";
 
 import AvailabilityShop from "./availabilityShop/AvailabilityShop";
-import BrandShop from "./BrandShop/BrandShop"
+import BrandShop from "./brandShop/BrandShop"
 import CategoryShop from "./categoryShop/CategoryShop";
 import PriceShop from "./priceShop/PriceShop";
 import "./sideBarShop.scss";

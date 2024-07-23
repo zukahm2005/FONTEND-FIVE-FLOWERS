@@ -8,6 +8,7 @@ const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [productDetails, setProductDetails] = useState(null);
+  const shippingCost = 5; // Phí vận chuyển cố định
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -179,7 +180,6 @@ const CartProvider = ({ children }) => {
       });
     }
   };
-  
 
   const updateQuantity = (productId, quantity) => {
     const newCart = cart.map((item) => {
@@ -271,12 +271,13 @@ const CartProvider = ({ children }) => {
     }
   };
 
-  const totalPrice = cart.reduce((total, product) => {
+  const subtotal = cart.reduce((total, product) => {
     const price = product.price ? product.price : 0;
     const quantity = product.quantity ? product.quantity : 0;
     return total + (price * quantity);
   }, 0);
-  
+
+  const totalPrice = subtotal + shippingCost; // Tổng số tiền bao gồm cả phí vận chuyển
 
   const distinctProductCount = cart.length;
 
@@ -291,6 +292,7 @@ const CartProvider = ({ children }) => {
         isLoggedIn,
         setIsLoggedIn,
         setCart,
+        subtotal,
         totalPrice,
         distinctProductCount,
         logout,

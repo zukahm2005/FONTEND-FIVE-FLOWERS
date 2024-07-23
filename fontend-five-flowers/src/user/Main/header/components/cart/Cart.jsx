@@ -7,9 +7,10 @@ import "./cart.scss";
 import { CartContext } from "./cartContext/CartProvider";
 
 const Cart = () => {
-  const { cart, updateQuantity, totalPrice, removeFromCart, setCart } =
+  const { cart, updateQuantity, subtotal, totalPrice, removeFromCart, setCart } =
     useContext(CartContext);
   const navigate = useNavigate();
+  const shippingCost = 5;
 
   useEffect(() => {
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
@@ -38,11 +39,14 @@ const Cart = () => {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        await axios.delete(`http://localhost:8080/api/v1/cart/remove/${productId}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        await axios.delete(
+          `http://localhost:8080/api/v1/cart/remove/${productId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
       }
       removeFromCart(productId);
     } catch (error) {
@@ -167,11 +171,27 @@ const Cart = () => {
 
       <div className="total-price-container-cart">
         <div className="total-price-cart">
-          <div className="title-price-cart">
-            <p>Total Price</p>
+          <div className="container-title-price-cart">
+            <div className="subtotal-cart">
+              <p>Subtotal</p>
+            </div>
+            <div className="shipping-cart">
+              <p>Shipping</p>
+            </div>
+            <div className="title-price-cart">
+              <p>Total Price</p>
+            </div>
           </div>
-          <div className="total-money-cart">
-            <p>$ {totalPrice}</p>
+          <div className="container-price-cart">
+            <div className="sub-price-cart">
+              <p>${subtotal}</p>
+            </div>
+            <div className="shipping-price-cart">
+              <p>$5</p>
+            </div>
+            <div className="total-money-cart">
+              <p>${totalPrice}</p>
+            </div>
           </div>
         </div>
       </div>

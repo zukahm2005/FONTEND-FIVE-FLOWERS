@@ -7,7 +7,7 @@ import "./checkOut.scss";
 
 const CheckOut = () => {
   const navigate = useNavigate();
-  const { cart, totalPrice, setCart } = useContext(CartContext);
+  const { cart, subtotal, totalPrice, setCart } = useContext(CartContext);
 
   const [formFields, setFormFields] = useState({
     country: "",
@@ -25,11 +25,14 @@ const CheckOut = () => {
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [sandboxMode, setSandboxMode] = useState(false);
   const [combinedCart, setCombinedCart] = useState([]);
+  const shippingCost = 5; // Định nghĩa phí vận chuyển cố định
 
   useEffect(() => {
     const fetchPaymentMethods = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/v1/payments/all");
+        const response = await axios.get(
+          "http://localhost:8080/api/v1/payments/all"
+        );
         const filteredPaymentMethods = response.data.filter(
           (method) => method.paymentMethod !== "PayPal" || method.isActive
         );
@@ -41,10 +44,12 @@ const CheckOut = () => {
 
     const fetchSandboxStatus = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/v1/payments/sandbox-status");
+        const response = await axios.get(
+          "http://localhost:8080/api/v1/payments/sandbox-status"
+        );
         setSandboxMode(response.data);
       } catch (error) {
-        console.error('Error fetching sandbox status:', error);
+        console.error("Error fetching sandbox status:", error);
       }
     };
 
@@ -60,27 +65,35 @@ const CheckOut = () => {
 
       if (token) {
         try {
-          const response = await axios.get("http://localhost:8080/api/v1/cart", {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          });
+          const response = await axios.get(
+            "http://localhost:8080/api/v1/cart",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
           serverCart = response.data;
         } catch (error) {
           console.error("Failed to fetch cart from server:", error);
         }
       }
 
-      const uniqueCartItems = serverCart.reduce((acc, item) => {
-        const found = localCart.find(localItem => localItem.productId === item.productId);
-        if (found) {
-          found.quantity = item.quantity; // Đảm bảo không tăng số lượng khi đăng nhập lại
-          found.totalPrice = found.quantity * found.price;
-        } else {
-          acc.push({ ...item, totalPrice: item.price * item.quantity });
-        }
-        return acc;
-      }, [...localCart]);
+      const uniqueCartItems = serverCart.reduce(
+        (acc, item) => {
+          const found = localCart.find(
+            (localItem) => localItem.productId === item.productId
+          );
+          if (found) {
+            found.quantity = item.quantity; // Đảm bảo không tăng số lượng khi đăng nhập lại
+            found.totalPrice = found.quantity * found.price;
+          } else {
+            acc.push({ ...item, totalPrice: item.price * item.quantity });
+          }
+          return acc;
+        },
+        [...localCart]
+      );
 
       setCombinedCart(uniqueCartItems);
       setCart(uniqueCartItems); // Cập nhật CartContext với dữ liệu kết hợp
@@ -92,33 +105,38 @@ const CheckOut = () => {
   useEffect(() => {
     if (formFields.paymentMethod === "paypal") {
       const paypalScript = document.createElement("script");
-      paypalScript.src = sandboxMode 
+      paypalScript.src = sandboxMode
         ? "https://www.paypal.com/sdk/js?client-id=ASoIba-pexbxQxYyFoU_YXosUuJm7ScuwQiYZOMnDYStlMgVN0WmPTPcMHyg3vWRmEJlbc00aCkfl2Io"
         : "https://www.paypal.com/sdk/js?client-id=AZI9cbp3UpTTl8BOM50Z3MXh9OqeE9sKNKdw2Ekj-e2gyaO9I2Cemn6iyxW6a2jX-uydpWUtw79Uzn1_";
       paypalScript.addEventListener("load", () => {
-        window.paypal.Buttons({
-          createOrder: (data, actions) => {
-            return actions.order.create({
-              purchase_units: [{
-                amount: {
-                  value: totalPrice.toString()
-                }
-              }]
-            });
-          },
-          onApprove: (data, actions) => {
-            return actions.order.capture().then(details => {
-              handleOrderCreation(true);
-            });
-          },
-          onError: (err) => {
-            console.error("Lỗi PayPal Checkout: ", err);
-            notification.error({
-              message: "Lỗi Thanh Toán",
-              description: "Có lỗi xảy ra trong quá trình thanh toán bằng PayPal."
-            });
-          }
-        }).render("#paypal-button-container");
+        window.paypal
+          .Buttons({
+            createOrder: (data, actions) => {
+              return actions.order.create({
+                purchase_units: [
+                  {
+                    amount: {
+                      value: totalPrice.toString(),
+                    },
+                  },
+                ],
+              });
+            },
+            onApprove: (data, actions) => {
+              return actions.order.capture().then((details) => {
+                handleOrderCreation(true);
+              });
+            },
+            onError: (err) => {
+              console.error("Lỗi PayPal Checkout: ", err);
+              notification.error({
+                message: "Lỗi Thanh Toán",
+                description:
+                  "Có lỗi xảy ra trong quá trình thanh toán bằng PayPal.",
+              });
+            },
+          })
+          .render("#paypal-button-container");
       });
       document.body.appendChild(paypalScript);
     }
@@ -146,13 +164,15 @@ const CheckOut = () => {
     if (!formFields.lastName) newErrors.lastName = "Last name is required";
     if (!formFields.address) newErrors.address = "Address is required";
     if (!formFields.city) newErrors.city = "City is required";
-    if (!formFields.postalCode) newErrors.postalCode = "Postal code is required";
+    if (!formFields.postalCode)
+      newErrors.postalCode = "Postal code is required";
     if (!formFields.phone) {
       newErrors.phone = "Phone number is required";
     } else if (!/^\d+$/.test(formFields.phone)) {
       newErrors.phone = "Phone number must be digits only";
     }
-    if (!formFields.paymentMethod) newErrors.paymentMethod = "Payment method is required";
+    if (!formFields.paymentMethod)
+      newErrors.paymentMethod = "Payment method is required";
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -217,7 +237,9 @@ const CheckOut = () => {
         user: { id: userId },
         orderDetails: orderDetails,
         address: { addressId: addressId },
-        payment: paypalApproved ? { paymentMethod: "PayPal" } : { paymentId: formFields.paymentMethod },
+        payment: paypalApproved
+          ? { paymentMethod: "PayPal" }
+          : { paymentId: formFields.paymentMethod },
         status: paypalApproved ? "Paid" : "Pending",
       };
 
@@ -253,7 +275,9 @@ const CheckOut = () => {
         orderId: orderResponse.data.orderId,
         orderDate: new Date().toLocaleDateString(),
         total: totalPrice,
-        paymentMethod: paypalApproved ? "PayPal" : selectedPaymentMethod.paymentMethod,
+        paymentMethod: paypalApproved
+          ? "PayPal"
+          : selectedPaymentMethod.paymentMethod,
         orderDetails: orderResponse.data.orderDetails,
       };
 
@@ -328,7 +352,9 @@ const CheckOut = () => {
                   value={formFields.firstName}
                   onChange={handleInputChange}
                 />
-                {errors.firstName && <p className="error">{errors.firstName}</p>}
+                {errors.firstName && (
+                  <p className="error">{errors.firstName}</p>
+                )}
                 <input
                   type="text"
                   name="lastName"
@@ -381,7 +407,9 @@ const CheckOut = () => {
                   value={formFields.postalCode}
                   onChange={handleInputChange}
                 />
-                {errors.postalCode && <p className="error">{errors.postalCode}</p>}
+                {errors.postalCode && (
+                  <p className="error">{errors.postalCode}</p>
+                )}
               </div>
               <div className="payment-method-container">
                 <div className="title-payment">
@@ -409,7 +437,10 @@ const CheckOut = () => {
                   )}
                 </div>
                 {formFields.paymentMethod === "paypal" ? (
-                  <div id="paypal-button-container" className="paypal-button-container"></div>
+                  <div
+                    id="paypal-button-container"
+                    className="paypal-button-container"
+                  ></div>
                 ) : (
                   <div className="order-now">
                     <button type="submit">
@@ -441,7 +472,9 @@ const CheckOut = () => {
                         <p>{item.name}</p>
                       </div>
                       <div className="title-item-details">
-                        <p>{item.category} / {item.brand}</p>
+                        <p>
+                          {item.category} / {item.brand}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -451,8 +484,29 @@ const CheckOut = () => {
                 </div>
               ))}
               <div className="total-price-check-out">
-                <p>Total</p>
-                <p>₹{totalPrice}</p>
+                <div className="container-title-price-check-out">
+                  <div className="title-checkout">
+                    <p>Subtotal</p>
+                  </div>
+                  <div className="title-checkout">
+                    <p>Shipping</p>
+                  </div>
+
+                  <div className="total-price-check-out">
+                    <p>Total</p>
+                  </div>
+                </div>
+                <div className="container-price-check-out">
+                  <div className="sub-price-shopping-check-out">
+                    <p>${subtotal}</p>
+                  </div>
+                  <div className="sub-price-shopping-check-out">
+                    <p>${shippingCost}</p>
+                  </div>
+                  <div className="total-money-shopping-check-out">
+                    <p>${totalPrice}</p>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
