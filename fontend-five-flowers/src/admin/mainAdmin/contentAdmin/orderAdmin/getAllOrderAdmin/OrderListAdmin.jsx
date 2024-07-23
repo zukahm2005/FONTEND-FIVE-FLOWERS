@@ -53,6 +53,7 @@ const OrderListAdmin = () => {
   });
   const [dateRange, setDateRange] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
+  const shippingCost = 5; // Định nghĩa phí vận chuyển cố định
 
   const navigate = useNavigate();
 
@@ -301,7 +302,7 @@ const OrderListAdmin = () => {
       title: "Total Price",
       dataIndex: "price",
       key: "price",
-      render: (text) => `$${text}`,
+      render: (text) => `$${text + shippingCost}`, // Cập nhật để thêm phí vận chuyển
     },
     {
       title: "Address",

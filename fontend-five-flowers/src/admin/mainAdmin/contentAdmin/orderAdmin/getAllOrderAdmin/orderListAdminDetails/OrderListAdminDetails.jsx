@@ -3,7 +3,6 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaPen } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
-import styled from "styled-components";
 import "./orderListAdminDetails.scss";
 
 const { Option } = Select;
@@ -38,6 +37,7 @@ const OrderDetails = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editableFields, setEditableFields] = useState({});
   const navigate = useNavigate();
+  const shippingCost = 5; // Định nghĩa phí vận chuyển cố định
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -96,27 +96,29 @@ const OrderDetails = () => {
 
   const calculateOrderStatus = (orderDetails) => {
     const statusPriority = {
-      "Pending": 1,
-      "Packaging": 2,
-      "Shipping": 3,
-      "Paid": 4,
-      "Delivered": 5,
-      "Cancelled": 6,
-      "Refunded": 7,
-      "Returned": 8,
+      Pending: 1,
+      Packaging: 2,
+      Shipping: 3,
+      Paid: 4,
+      Delivered: 5,
+      Cancelled: 6,
+      Refunded: 7,
+      Returned: 8,
     };
 
-    if (orderDetails.some(detail => detail.status === "Pending")) {
+    if (orderDetails.some((detail) => detail.status === "Pending")) {
       return "Pending";
     }
 
-    if (orderDetails.every(detail => detail.status === "Cancelled")) {
+    if (orderDetails.every((detail) => detail.status === "Cancelled")) {
       return "Cancelled";
     }
 
     let highestPriorityStatus = "Delivered";
     for (let detail of orderDetails) {
-      if (statusPriority[detail.status] < statusPriority[highestPriorityStatus]) {
+      if (
+        statusPriority[detail.status] < statusPriority[highestPriorityStatus]
+      ) {
         highestPriorityStatus = detail.status;
       }
     }
@@ -125,7 +127,12 @@ const OrderDetails = () => {
   };
 
   const isOrderEditable = (status) => {
-    const nonEditableStatuses = ["Delivered", "Cancelled", "Refunded", "Returned"];
+    const nonEditableStatuses = [
+      "Delivered",
+      "Cancelled",
+      "Refunded",
+      "Returned",
+    ];
     return !nonEditableStatuses.includes(status);
   };
 
@@ -181,14 +188,14 @@ const OrderDetails = () => {
   }
 
   const renderStatusText = (status) => {
-    return (
-      <span style={{ color: getStatusColor(status) }}>
-        {status}
-      </span>
-    );
+    return <span style={{ color: getStatusColor(status) }}>{status}</span>;
   };
 
   const orderEditable = isOrderEditable(order.status);
+  const subtotal = order.orderDetails.reduce(
+    (acc, detail) => acc + detail.price * detail.quantity,
+    0
+  );
 
   return (
     <div className="ordtails-page-container">
@@ -259,7 +266,8 @@ const OrderDetails = () => {
                     <div className="price-info-ordtails">
                       <p>
                         ${detail.price} x{" "}
-                        {orderEditable && editableQuantityId === detail.orderDetailId ? (
+                        {orderEditable &&
+                        editableQuantityId === detail.orderDetailId ? (
                           <InputNumber
                             min={1}
                             value={detail.quantity}
@@ -294,15 +302,34 @@ const OrderDetails = () => {
               ))}
             </div>
           </div>
-          <div className="total-price-ordtails">
-            <div className="price-title">
-              <h3>Total Price</h3>
+          <div className="total-price-order-details-admin">
+            <div className="total-price-ordtails">
+              <div className="price-title">
+                <p>Subtotal</p>
+              </div>
+              <div className="price-title">
+                <p> ${subtotal}</p>
+              </div>
             </div>
-            <div className="price-title">
-              <h3> ₹{order.price}</h3>
+            <div className="total-price-ordtails">
+              <div className="price-title">
+                <p>Shipping</p>
+              </div>
+              <div className="price-title">
+                <p> ${shippingCost}</p>
+              </div>
+            </div>
+            <div className="total-price-ordtails">
+              <div className="price-title">
+                <p>Total</p>
+              </div>
+              <div className="price-title">
+                <p> ${subtotal + shippingCost}</p>
+              </div>
             </div>
           </div>
         </div>
+
         <div className="right-box-layout">
           <div className="info-user-ordtails-container">
             <div className="customer-ordtails">

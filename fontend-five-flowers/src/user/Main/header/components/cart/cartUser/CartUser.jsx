@@ -16,6 +16,7 @@ const CartUser = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [dateRange, setDateRange] = useState([]);
   const [sortOrder, setSortOrder] = useState("status");
+  const shippingCost = 5; // Định nghĩa phí vận chuyển cố định
 
   const fetchUserOrders = async () => {
     if (!isLoggedIn) return;
@@ -189,7 +190,7 @@ const CartUser = () => {
       title: "Total",
       dataIndex: "price",
       key: "price",
-      render: (price) => `$${price}`,
+      render: (price) => `$${price + shippingCost}`, // Cập nhật để thêm phí vận chuyển
     },
     {
       title: "Address",
