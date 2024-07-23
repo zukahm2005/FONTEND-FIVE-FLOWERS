@@ -7,7 +7,9 @@ import "./checkOut.scss";
 
 const CheckOut = () => {
   const navigate = useNavigate();
-  const { cart, subtotal, totalPrice, setCart } = useContext(CartContext);
+  const { cart, setCart } = useContext(CartContext);
+  const [subtotal, setSubtotal] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   const [formFields, setFormFields] = useState({
     country: "",
@@ -103,6 +105,17 @@ const CheckOut = () => {
   }, [setCart]);
 
   useEffect(() => {
+    const calculateTotalPrice = () => {
+      const newSubtotal = combinedCart.reduce((acc, item) => acc + item.totalPrice, 0);
+      const newTotalPrice = newSubtotal + shippingCost;
+      setSubtotal(newSubtotal);
+      setTotalPrice(newTotalPrice);
+    };
+
+    calculateTotalPrice();
+  }, [combinedCart, shippingCost]);
+
+  useEffect(() => {
     if (formFields.paymentMethod === "paypal") {
       const paypalScript = document.createElement("script");
       paypalScript.src = sandboxMode
@@ -140,7 +153,7 @@ const CheckOut = () => {
       });
       document.body.appendChild(paypalScript);
     }
-  }, [formFields.paymentMethod, sandboxMode]);
+  }, [formFields.paymentMethod, sandboxMode, totalPrice]);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -274,11 +287,23 @@ const CheckOut = () => {
       const orderData = {
         orderId: orderResponse.data.orderId,
         orderDate: new Date().toLocaleDateString(),
+        subtotal: subtotal,
+        shippingCost: shippingCost,
         total: totalPrice,
         paymentMethod: paypalApproved
           ? "PayPal"
           : selectedPaymentMethod.paymentMethod,
-        orderDetails: orderResponse.data.orderDetails,
+        orderDetails: combinedCart.map((product) => ({
+          product: {
+            name: product.name,
+            color: product.color,
+            brand: product.brand,
+            category: product.category,
+          },
+          quantity: product.quantity,
+          price: product.price,
+          total: product.totalPrice,
+        })),
       };
 
       notification.success({
@@ -498,13 +523,13 @@ const CheckOut = () => {
                 </div>
                 <div className="container-price-check-out">
                   <div className="sub-price-shopping-check-out">
-                    <p>${subtotal}</p>
+                    <p>₹{subtotal}</p>
                   </div>
                   <div className="sub-price-shopping-check-out">
-                    <p>${shippingCost}</p>
+                    <p>₹{shippingCost}</p>
                   </div>
                   <div className="total-money-shopping-check-out">
-                    <p>${totalPrice}</p>
+                    <p>₹{totalPrice}</p>
                   </div>
                 </div>
               </div>

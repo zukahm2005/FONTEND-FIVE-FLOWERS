@@ -5,13 +5,10 @@ import "./orderReceive.scss";
 const OrderReceive = () => {
   const location = useLocation();
   const { order } = location.state || {};
-  const shippingCost = 5; // Định nghĩa phí vận chuyển cố định
 
   if (!order) {
     return <div>Order not found</div>;
   }
-
-  const subtotal = order.orderDetails.reduce((acc, detail) => acc + (detail.price * detail.quantity), 0);
 
   return (
     <div className="order-receive-container">
@@ -78,12 +75,12 @@ const OrderReceive = () => {
                     </div>
                     <div className="brand-category-pro-receive">
                       <p>
-                        {detail.product.brand.name} / {detail.product.category.name}
+                        {detail.product.brand} / {detail.product.category}
                       </p>
                     </div>
                   </div>
                   <div className="total-each-order-receive">
-                    <p>₹{detail.price * detail.quantity}</p>
+                    <p>₹{detail.total}</p>
                   </div>
                 </div>
               ))}
@@ -103,13 +100,13 @@ const OrderReceive = () => {
               </div>
               <div className="container-price-check-out">
                 <div className="sub-price-shopping-check-out">
-                  <p>${subtotal}</p>
+                  <p>₹{order.subtotal}</p>
                 </div>
                 <div className="sub-price-shopping-check-out">
-                  <p>${shippingCost}</p>
+                  <p>₹{order.shippingCost}</p>
                 </div>
                 <div className="total-money-shopping-check-out">
-                  <p>${subtotal + shippingCost}</p>
+                  <p>₹{order.total}</p>
                 </div>
               </div>
             </div>
