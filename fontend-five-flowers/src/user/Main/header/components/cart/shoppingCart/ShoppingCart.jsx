@@ -1,21 +1,13 @@
-import { notification } from "antd"; // Import notification
-import axios from "axios"; // Import axios
+import { notification } from "antd";
+import axios from "axios";
 import React, { useContext, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../cartContext/CartProvider";
 import "./shoppingCart.scss";
 
 const ShoppingCart = () => {
-  const {
-    cart,
-    updateQuantity,
-    removeFromCart,
-    subtotal,
-    totalPrice,
-    setCart,
-  } = useContext(CartContext);
+  const { cart, updateQuantity, removeFromCart, totalPrice, isLoading, setCart } = useContext(CartContext);
   const navigate = useNavigate();
-  const shippingCost = 5; // Định nghĩa phí vận chuyển cố định
 
   useEffect(() => {
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
@@ -24,9 +16,7 @@ const ShoppingCart = () => {
 
   const handleQuantityChange = async (productId, quantity) => {
     const product = cart.find((item) => item.productId === productId);
-    const response = await axios.get(
-      `http://localhost:8080/api/v1/products/get/${product.productId}`
-    );
+    const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
     const availableQuantity = response.data.quantity;
 
     if (quantity > 0 && quantity <= availableQuantity) {
@@ -46,6 +36,10 @@ const ShoppingCart = () => {
   const handleProceedToCheckout = () => {
     navigate("/checkout", { state: { cart, totalPrice } });
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="shopping-cart-container">
@@ -74,12 +68,7 @@ const ShoppingCart = () => {
               </div>
               {cart.map((item, index) => (
                 <div className="shopping-cart-row" key={index}>
-                  <div
-                    className="shopping-cart-image"
-                    onClick={() =>
-                      handleNavigateToProductDetails(item.productId)
-                    }
-                  >
+                  <div className="shopping-cart-image" onClick={() => handleNavigateToProductDetails(item.productId)}>
                     {item.imageUrl && (
                       <img
                         src={`http://localhost:8080/api/v1/images/${item.imageUrl}`}
@@ -88,12 +77,7 @@ const ShoppingCart = () => {
                     )}
                   </div>
                   <div className="shopping-cart-info">
-                    <div
-                      className="name-shcart"
-                      onClick={() =>
-                        handleNavigateToProductDetails(item.productId)
-                      }
-                    >
+                    <div className="name-shcart" onClick={() => handleNavigateToProductDetails(item.productId)}>
                       <p>{item.name}</p>
                     </div>
                     <div className="category-shcart">
@@ -107,31 +91,20 @@ const ShoppingCart = () => {
                     <div className="quantity-controls">
                       <div
                         className="button-quantity"
-                        onClick={() =>
-                          handleQuantityChange(
-                            item.productId,
-                            item.quantity - 1
-                          )
-                        }
+                        onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
                       >
                         <p>-</p>
                       </div>
                       <span>{item.quantity}</span>
                       <div
                         className="button-quantity"
-                        onClick={() =>
-                          handleQuantityChange(
-                            item.productId,
-                            item.quantity + 1
-                          )
-                        }
+                        onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
                       >
                         <p>+</p>
                       </div>
                     </div>
                     <div className="price-shcart">
-                      <p>Total: Rs. {item.totalPrice}</p>{" "}
-                      {/* Hiển thị tổng giá sản phẩm */}
+                      <p>Total: Rs. {item.totalPrice}</p>
                     </div>
                     <div className="delete-button-shopping-cart">
                       <button onClick={() => removeFromCart(item.productId)}>
@@ -157,31 +130,9 @@ const ShoppingCart = () => {
               <div className="title-price-cart">
                 <p>Order Summary</p>
               </div>
-              <div className="info-price-total-container-shopping-cart">
-                <div className="container-title-price-shopping-cart">
-                  <div className="subtotal-shopping-cart">
-                    <p>Subtotal: </p>
-                  </div>
-                  <div className="shipping-shopping-cart">
-                    <p>Shipping: </p>
-                  </div>
-                  <div className="title-price-shopping-cart">
-                    <p>Total: </p>
-                  </div>
-                </div>
-                <div className="container-price-cart">
-                  <div className="sub-price-shopping-cart">
-                    <p>${subtotal}</p>
-                  </div>
-                  <div className="shipping-price-shopping-cart">
-                    <p>${shippingCost}</p>
-                  </div>
-                  <div className="total-money-shopping-cart">
-                    <p>${totalPrice}</p>
-                  </div>
-                </div>
+              <div className="total-money-cart">
+                <p>Subtotal : Rs. {totalPrice}</p>
               </div>
-
               <div className="text-total-cart">
                 <i>
                   Shipping, taxes, and discounts will be calculated at checkout.

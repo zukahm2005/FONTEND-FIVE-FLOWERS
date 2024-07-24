@@ -7,22 +7,18 @@ import "./cart.scss";
 import { CartContext } from "./cartContext/CartProvider";
 
 const Cart = () => {
-  const { cart, updateQuantity, subtotal, totalPrice, removeFromCart, setCart } =
-    useContext(CartContext);
+  const { cart, updateQuantity, totalPrice, removeFromCart, setCart, isLoading } = useContext(CartContext);
   const navigate = useNavigate();
-  const shippingCost = 5;
 
   useEffect(() => {
     const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    cartItems.forEach((item) => (item.totalPrice = item.price * item.quantity)); // Tính toán lại totalPrice cho mỗi sản phẩm
+    cartItems.forEach((item) => (item.totalPrice = item.price * item.quantity));
     setCart(cartItems);
   }, [setCart]);
 
   const handleQuantityChange = async (productId, quantity) => {
     const product = cart.find((item) => item.productId === productId);
-    const response = await axios.get(
-      `http://localhost:8080/api/v1/products/get/${product.productId}`
-    );
+    const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
     const availableQuantity = response.data.quantity;
 
     if (quantity > 0 && quantity <= availableQuantity) {
@@ -39,14 +35,11 @@ const Cart = () => {
     try {
       const token = localStorage.getItem("token");
       if (token) {
-        await axios.delete(
-          `http://localhost:8080/api/v1/cart/remove/${productId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        await axios.delete(`http://localhost:8080/api/v1/cart/remove/${productId}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
       }
       removeFromCart(productId);
     } catch (error) {
@@ -65,6 +58,10 @@ const Cart = () => {
   const handleNavigateToProductDetails = (productId) => {
     navigate(`/product/${productId}`);
   };
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className="cart-container">
@@ -93,9 +90,7 @@ const Cart = () => {
                     </motion.div>
                     <div
                       className="image-cart-container"
-                      onClick={() =>
-                        handleNavigateToProductDetails(item.productId)
-                      }
+                      onClick={() => handleNavigateToProductDetails(item.productId)}
                     >
                       {item.imageUrl ? (
                         <img
@@ -109,9 +104,7 @@ const Cart = () => {
                     <div className="details-content-cart">
                       <div
                         className="name-content-cart"
-                        onClick={() =>
-                          handleNavigateToProductDetails(item.productId)
-                        }
+                        onClick={() => handleNavigateToProductDetails(item.productId)}
                       >
                         <p>{item.name}</p>
                       </div>
@@ -171,27 +164,11 @@ const Cart = () => {
 
       <div className="total-price-container-cart">
         <div className="total-price-cart">
-          <div className="container-title-price-cart">
-            <div className="subtotal-cart">
-              <p>Subtotal</p>
-            </div>
-            <div className="shipping-cart">
-              <p>Shipping</p>
-            </div>
-            <div className="title-price-cart">
-              <p>Total Price</p>
-            </div>
+          <div className="title-price-cart">
+            <p>Total Price</p>
           </div>
-          <div className="container-price-cart">
-            <div className="sub-price-cart">
-              <p>${subtotal}</p>
-            </div>
-            <div className="shipping-price-cart">
-              <p>$5</p>
-            </div>
-            <div className="total-money-cart">
-              <p>${totalPrice}</p>
-            </div>
+          <div className="total-money-cart">
+            <p>$ {totalPrice}</p>
           </div>
         </div>
       </div>

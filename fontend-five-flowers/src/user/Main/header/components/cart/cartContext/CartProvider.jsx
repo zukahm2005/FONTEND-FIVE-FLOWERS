@@ -8,23 +8,25 @@ const CartProvider = ({ children }) => {
   const [cart, setCart] = useState([]);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [productDetails, setProductDetails] = useState(null);
-  const shippingCost = 5; // Phí vận chuyển cố định
+  const [totalPrice, setTotalPrice] = useState(0);
+  const [distinctProductCount, setDistinctProductCount] = useState(0);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
       setIsLoggedIn(true);
-      syncCartFromServer();
+      syncCartFromServer().then(() => setIsLoading(false));
     } else {
       fetchCartItems();
+      setIsLoading(false);
     }
   }, []);
 
   const fetchCartItems = () => {
     try {
       const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-      cartItems.forEach(item => item.totalPrice = item.price * item.quantity); // Tính toán lại totalPrice cho mỗi sản phẩm
-      setCart(cartItems);
+      updateCartStateAndLocalStorage(cartItems);
     } catch (error) {
       console.error("Failed to fetch cart items:", error);
     }
@@ -50,19 +52,33 @@ const CartProvider = ({ children }) => {
   const syncCartFromServer = async () => {
     const serverCartItems = await fetchCartFromServer();
     const localCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-
     const mergedCartItems = serverCartItems.map(serverItem => {
       const localItem = localCartItems.find(localItem => localItem.productId === serverItem.productId);
-      return localItem ? { ...serverItem, quantity: serverItem.quantity } : serverItem;
+      return localItem ? { ...serverItem, quantity: localItem.quantity } : serverItem;
     });
+    updateCartStateAndLocalStorage(mergedCartItems);
+  };
 
-    setCart(mergedCartItems);
-    localStorage.setItem("cartItems", JSON.stringify(mergedCartItems));
+  const updateCartStateAndLocalStorage = (cartItems) => {
+    const updatedCartItems = cartItems.map(item => ({
+      ...item,
+      totalPrice: item.price * item.quantity
+    }));
+    setCart(updatedCartItems);
+    localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
+    setTotalPrice(calculateTotalPrice(updatedCartItems));
+    setDistinctProductCount(updatedCartItems.length);
+  };
+
+  const calculateTotalPrice = (cartItems) => {
+    return cartItems.reduce((total, item) => total + item.totalPrice, 0);
   };
 
   const saveCartItems = (cartItems) => {
     localStorage.setItem("cartItems", JSON.stringify(cartItems));
     setCart(cartItems);
+    setTotalPrice(calculateTotalPrice(cartItems));
+    setDistinctProductCount(cartItems.length);
   };
 
   const parseJwt = (token) => {
@@ -90,6 +106,8 @@ const CartProvider = ({ children }) => {
     localStorage.removeItem("cartItems");
     setIsLoggedIn(false);
     setCart([]);
+    setTotalPrice(0);
+    setDistinctProductCount(0);
   };
 
   const syncCartWithServer = async () => {
@@ -120,11 +138,11 @@ const CartProvider = ({ children }) => {
       });
       return;
     }
-  
+
     try {
       const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
       const availableQuantity = response.data.quantity;
-  
+
       if (availableQuantity === 0) {
         notification.error({
           message: "Out of Stock",
@@ -132,13 +150,13 @@ const CartProvider = ({ children }) => {
         });
         return;
       }
-  
+
       const newCart = [...cart];
       const productInCart = newCart.find(item => item.productId === product.productId);
       if (productInCart) {
         if (productInCart.quantity + quantity <= availableQuantity) {
           productInCart.quantity += quantity;
-          productInCart.totalPrice = productInCart.quantity * productInCart.price; // Tính lại tổng tiền
+          productInCart.totalPrice = productInCart.quantity * productInCart.price;
         } else {
           notification.error({
             message: "Out of Stock",
@@ -166,7 +184,7 @@ const CartProvider = ({ children }) => {
           return;
         }
       }
-  
+
       saveCartItems(newCart);
       notification.success({
         message: "Added to Cart",
@@ -248,6 +266,8 @@ const CartProvider = ({ children }) => {
         description: "Your order has been placed successfully!",
       });
       saveCartItems([]);
+      setTotalPrice(0);
+      setDistinctProductCount(0);
     } catch (error) {
       console.error("Error placing order:", error);
       notification.error({
@@ -271,16 +291,6 @@ const CartProvider = ({ children }) => {
     }
   };
 
-  const subtotal = cart.reduce((total, product) => {
-    const price = product.price ? product.price : 0;
-    const quantity = product.quantity ? product.quantity : 0;
-    return total + (price * quantity);
-  }, 0);
-
-  const totalPrice = subtotal + shippingCost; // Tổng số tiền bao gồm cả phí vận chuyển
-
-  const distinctProductCount = cart.length;
-
   return (
     <CartContext.Provider
       value={{
@@ -292,13 +302,13 @@ const CartProvider = ({ children }) => {
         isLoggedIn,
         setIsLoggedIn,
         setCart,
-        subtotal,
         totalPrice,
         distinctProductCount,
-        logout,
-        login,
         fetchProductDetails,
         productDetails,
+        logout,
+        login,
+        isLoading,
       }}
     >
       {children}
