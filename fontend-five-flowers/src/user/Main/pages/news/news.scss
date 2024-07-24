@@ -3,12 +3,10 @@
   --button-bg-hover-color: #f97c37;
 }
 
-
-
 body, html {
   width: 100%;
   height: 100%;
-} 
+}
 
 .news-container {
   width: 100%;
@@ -34,11 +32,9 @@ body, html {
     overflow: hidden;
     z-index: 1; // Đảm bảo header có z-index thấp hơn menu
 
-
     .header-content {
       background: rgba(0, 0, 0, 0.7);
       padding: 20px;
-      border-radius: 0;
       width: 100%;
       height: 100%;
       display: flex;
@@ -73,57 +69,75 @@ body, html {
   }
 
   .blog-list-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 60px; /* Thay đổi khoảng cách giữa các blog-item */
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Chia đều chiều rộng cho 2 cột */
+    gap: 20px; /* Khoảng cách giữa các bài viết */
     width: 90%;
     margin: auto;
-    justify-content: center;
     padding: 0 20px;
+
+    @media (max-width: 768px) { /* Mobile */
+      grid-template-columns: 1fr; /* Chỉ có 1 cột */
+    }
   }
 
   .blog-item {
-    width: calc(50% - 30px); /* Điều chỉnh chiều rộng để phù hợp với gap */
+    background: #fff;
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    background-color: #fff;
-    box-shadow: none;
-    border: none;
+    text-align: left;
     border-radius: 0;
     overflow: hidden;
+    box-shadow: none;
 
     .blog-image {
       width: 100%;
-      height: 500px;
+      height: 500px; /* Chiều cao cố định cho ảnh */
       cursor: pointer;
       object-fit: cover;
+      margin-bottom: 20px;
       border-radius: 0;
+
+      @media (max-width: 1024px) { /* Tablet */
+        height: 400px; /* Giảm chiều cao của ảnh */
+      }
+
+      @media (max-width: 768px) { /* Mobile */
+        height: 300px; /* Giảm chiều cao của ảnh */
+      }
+
+      @media (max-width: 480px) { /* Mobile nhỏ */
+        height: 200px; /* Giảm chiều cao của ảnh */
+      }
     }
 
     .blog-content {
       padding: 20px;
+      width: 100%;
 
       .blog-meta {
         display: flex;
-        justify-content: flex-start;
+        justify-content: space-between;
         margin-bottom: 10px;
-        font-size: 0.9em;
-        color: #777;
+        font-size: 14px;
+        color: #888;
 
-        .blog-date {
+        .blog-date,
+        .blog-comments {
           display: flex;
           align-items: center;
+          gap: 5px;
+        }
 
-          svg {
-            margin-right: 5px;
-            color: #ff6600;
-          }
+        svg {
+          color: #ff6600;
         }
       }
 
       h2 {
-        margin: 0 0 10px;
-        font-size: 1.5em;
+        margin: 10px 0;
+        font-size: 20px;
         cursor: pointer;
         color: #333;
         transition: color 0.3s ease;
@@ -134,15 +148,17 @@ body, html {
       }
 
       p {
-        font-size: 1em;
-        color: #555;
+        font-size: 16px;
         line-height: 1.5;
+        color: #555;
       }
 
       .read-more-btn {
         display: inline-block;
-        margin-top: 10px;
-        padding: 15px 35px;
+        width: auto; /* Đặt chiều rộng tự động */
+        min-width: 150px; /* Chiều rộng tối thiểu để tránh quá nhỏ */
+        margin: 10px auto 0; /* Căn giữa nút */
+        padding: 10px 20px; /* Điều chỉnh padding để phù hợp với kích thước nút */
         background: linear-gradient(to right, var(--button-bg-hover-color), var(--button-bg-color), var(--button-bg-hover-color), var(--button-bg-color));
         background-size: 200% auto;
         color: white;
@@ -150,6 +166,7 @@ body, html {
         border-radius: 30px;
         text-decoration: none;
         transition: background 0.3s ease, transform 0.3s;
+        text-align: center;
 
         &:hover {
           background-position: right center;
@@ -162,7 +179,7 @@ body, html {
     display: flex;
     justify-content: center;
     gap: 10px;
-    padding: 50px 0 50px 0;
+    padding: 50px 0;
 
     button {
       width: 40px;

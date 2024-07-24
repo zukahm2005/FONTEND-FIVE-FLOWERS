@@ -40,6 +40,18 @@
       text-transform: uppercase;
       font-size: 40px;
       margin: 0;
+
+      @media (max-width: 1024px) {
+        font-size: 32px;
+      }
+
+      @media (max-width: 768px) {
+        font-size: 24px;
+      }
+
+      @media (max-width: 480px) {
+        font-size: 20px;
+      }
     }
 
     .breadcrumb-blogdetail {
@@ -62,6 +74,14 @@
       span {
         color: white;
         margin-left: 5px;
+
+        @media (max-width: 768px) {
+          font-size: 12px;
+        }
+
+        @media (max-width: 480px) {
+          font-size: 10px;
+        }
       }
     }
   }
@@ -72,16 +92,45 @@
   flex-direction: column;
   align-items: center;
   padding: 20px 0;
+
+  @media (max-width: 768px) {
+    padding: 10px;
+  }
 }
 
 .blog-content {
   width: 50%;
   padding: 20px;
+
+  @media (max-width: 1024px) {
+    width: 70%;
+  }
+
+  @media (max-width: 768px) {
+    width: 90%;
+    padding: 10px;
+  }
+
+  @media (max-width: 480px) {
+    width: 100%;
+  }
 }
 
 .blog-title {
   font-size: 36px;
   margin: 20px 0;
+
+  @media (max-width: 1024px) {
+    font-size: 28px;
+  }
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
 }
 
 .blog-meta {
@@ -95,11 +144,27 @@
     gap: 5px;
     font-size: 14px;
     color: #888;
+
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 10px;
+    }
   }
 
   .blog-date,
   .blog-author {
     font-size: 14px;
+
+    @media (max-width: 768px) {
+      font-size: 12px;
+    }
+
+    @media (max-width: 480px) {
+      font-size: 10px;
+    }
   }
 
   .blog-date svg,
@@ -119,6 +184,14 @@
   font-size: 16px;
   line-height: 1.6;
 
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
+
   p {
     margin-bottom: 20px;
   }
@@ -128,5 +201,13 @@
     margin: 20px auto;
     width: 70%;
     height: auto;
+
+    @media (max-width: 768px) {
+      width: 90%;
+    }
+
+    @media (max-width: 480px) {
+      width: 100%;
+    }
   }
 }
