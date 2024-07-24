@@ -11,6 +11,8 @@ const CartProvider = ({ children }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [distinctProductCount, setDistinctProductCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
+  const [subtotal, setSubtotal] = useState(0); // Thêm trạng thái cho Subtotal
+  const shippingCost = 5; // Định nghĩa phí vận chuyển cố định
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -22,6 +24,13 @@ const CartProvider = ({ children }) => {
       setIsLoading(false);
     }
   }, []);
+
+  useEffect(() => {
+    // Tính toán lại Subtotal và Total Price khi cart thay đổi
+    const newSubtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
+    setSubtotal(newSubtotal);
+    setTotalPrice(newSubtotal + shippingCost);
+  }, [cart]);
 
   const fetchCartItems = () => {
     try {
@@ -68,9 +77,14 @@ const CartProvider = ({ children }) => {
     localStorage.setItem("cartItems", JSON.stringify(updatedCartItems));
     setTotalPrice(calculateTotalPrice(updatedCartItems));
     setDistinctProductCount(updatedCartItems.length);
+    setSubtotal(calculateSubtotal(updatedCartItems));
   };
 
   const calculateTotalPrice = (cartItems) => {
+    return cartItems.reduce((total, item) => total + item.totalPrice, 0);
+  };
+
+  const calculateSubtotal = (cartItems) => {
     return cartItems.reduce((total, item) => total + item.totalPrice, 0);
   };
 
@@ -79,6 +93,7 @@ const CartProvider = ({ children }) => {
     setCart(cartItems);
     setTotalPrice(calculateTotalPrice(cartItems));
     setDistinctProductCount(cartItems.length);
+    setSubtotal(calculateSubtotal(cartItems));
   };
 
   const parseJwt = (token) => {
@@ -108,6 +123,7 @@ const CartProvider = ({ children }) => {
     setCart([]);
     setTotalPrice(0);
     setDistinctProductCount(0);
+    setSubtotal(0);
   };
 
   const syncCartWithServer = async () => {
@@ -268,6 +284,7 @@ const CartProvider = ({ children }) => {
       saveCartItems([]);
       setTotalPrice(0);
       setDistinctProductCount(0);
+      setSubtotal(0);
     } catch (error) {
       console.error("Error placing order:", error);
       notification.error({
@@ -309,6 +326,7 @@ const CartProvider = ({ children }) => {
         logout,
         login,
         isLoading,
+        subtotal,
       }}
     >
       {children}
