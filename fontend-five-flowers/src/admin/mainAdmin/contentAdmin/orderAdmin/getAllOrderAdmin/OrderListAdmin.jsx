@@ -54,7 +54,6 @@ const OrderListAdmin = () => {
   const [dateRange, setDateRange] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const shippingCost = 5; // Định nghĩa phí vận chuyển cố định
 
   const navigate = useNavigate();
 
@@ -128,12 +127,12 @@ const OrderListAdmin = () => {
     searchTerm
   ) => {
     let filteredOrders = [...ordersList];
-
+  
     if (dateRange && dateRange.length === 2) {
       const [start, end] = dateRange;
-      const startDate = new Date(start).setHours(0, 0, 0, 0);
-      const endDate = new Date(end).setHours(23, 59, 59, 999);
-
+      const startDate = new Date(start).getTime();
+      const endDate = new Date(end).getTime();
+  
       filteredOrders = filteredOrders.filter((order) => {
         const orderDateArray = order.createdAt;
         const orderDate = new Date(
@@ -145,20 +144,17 @@ const OrderListAdmin = () => {
             orderDateArray[4],
             orderDateArray[5]
           )
-        );
-        if (isNaN(orderDate)) {
-          return false;
-        }
+        ).getTime();
         return orderDate >= startDate && orderDate <= endDate;
       });
     }
-
+  
     if (statusFilter) {
       filteredOrders = filteredOrders.filter(
         (order) => order.status === statusFilter
       );
     }
-
+  
     if (searchTerm) {
       const lowerCaseSearchTerm = searchTerm.toLowerCase();
       filteredOrders = filteredOrders.filter(
@@ -172,7 +168,7 @@ const OrderListAdmin = () => {
             order.address.address.toLowerCase().includes(lowerCaseSearchTerm))
       );
     }
-
+  
     const statusPriority = {
       Pending: 1,
       Packaging: 2,
@@ -183,17 +179,57 @@ const OrderListAdmin = () => {
       Refunded: 7,
       Returned: 8,
     };
-
+  
     switch (sortOrder) {
       case "newest":
-        filteredOrders.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        );
+        filteredOrders.sort((a, b) => {
+          const dateA = new Date(
+            Date.UTC(
+              a.createdAt[0],
+              a.createdAt[1] - 1,
+              a.createdAt[2],
+              a.createdAt[3],
+              a.createdAt[4],
+              a.createdAt[5]
+            )
+          ).getTime();
+          const dateB = new Date(
+            Date.UTC(
+              b.createdAt[0],
+              b.createdAt[1] - 1,
+              b.createdAt[2],
+              b.createdAt[3],
+              b.createdAt[4],
+              b.createdAt[5]
+            )
+          ).getTime();
+          return dateA - dateB;
+        });
         break;
       case "oldest":
-        filteredOrders.sort(
-          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-        );
+        filteredOrders.sort((a, b) => {
+          const dateA = new Date(
+            Date.UTC(
+              a.createdAt[0],
+              a.createdAt[1] - 1,
+              a.createdAt[2],
+              a.createdAt[3],
+              a.createdAt[4],
+              a.createdAt[5]
+            )
+          ).getTime();
+          const dateB = new Date(
+            Date.UTC(
+              b.createdAt[0],
+              b.createdAt[1] - 1,
+              b.createdAt[2],
+              b.createdAt[3],
+              b.createdAt[4],
+              b.createdAt[5]
+            )
+          ).getTime();
+          return dateB - dateA;
+        });
         break;
       case "price-low":
         filteredOrders.sort((a, b) => a.price - b.price);
@@ -212,6 +248,9 @@ const OrderListAdmin = () => {
     console.log("Filtered and Sorted orders:", filteredOrders);
     setFilteredOrders(filteredOrders);
   };
+  
+  
+
 
   const formatDate = (dateArray) => {
     if (!Array.isArray(dateArray) || dateArray.length !== 6) {
@@ -324,7 +363,7 @@ const OrderListAdmin = () => {
       title: "Total Price",
       dataIndex: "price",
       key: "price",
-      render: (text) => `$${text + shippingCost}`, // Cập nhật để thêm phí vận chuyển
+      render: (text) => `$${text}`, // Sử dụng giá từ backend
     },
     {
       title: "Address",

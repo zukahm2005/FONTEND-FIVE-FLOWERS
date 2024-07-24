@@ -193,9 +193,10 @@ const OrderDetails = () => {
 
   const orderEditable = isOrderEditable(order.status);
   const subtotal = order.orderDetails.reduce(
-    (acc, detail) => acc + detail.price * detail.quantity,
+    (acc, detail) => acc + detail.product.price * detail.quantity,
     0
   );
+  const totalPrice = subtotal + order.shippingCost;
 
   return (
     <div className="ordtails-page-container">
@@ -265,7 +266,7 @@ const OrderDetails = () => {
                     </div>
                     <div className="price-info-ordtails">
                       <p>
-                        ${detail.price} x{" "}
+                        ${detail.product.price} x{" "}
                         {orderEditable &&
                         editableQuantityId === detail.orderDetailId ? (
                           <InputNumber
@@ -295,7 +296,7 @@ const OrderDetails = () => {
                       {renderStatusText(detail.status)}
                     </div>
                     <div className="product-price">
-                      <p>${detail.price * detail.quantity}</p>
+                      <p>${detail.product.price * detail.quantity}</p>
                     </div>
                   </div>
                 </div>
@@ -316,7 +317,7 @@ const OrderDetails = () => {
                 <p>Shipping</p>
               </div>
               <div className="price-title-sub">
-                <p> ${shippingCost}</p>
+                <p> ${order.shippingCost}</p>
               </div>
             </div>
             <div className="total-price-ordtails">
@@ -324,7 +325,7 @@ const OrderDetails = () => {
                 <p>Total</p>
               </div>
               <div className="price-title">
-                <p> ${subtotal + shippingCost}</p>
+                <p> ${totalPrice}</p>
               </div>
             </div>
           </div>

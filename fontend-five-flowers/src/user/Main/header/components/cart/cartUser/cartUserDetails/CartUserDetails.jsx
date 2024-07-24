@@ -8,6 +8,8 @@ const CartUserDetails = ({ order }) => {
     0
   );
 
+  const totalPrice = totalOrderDetailsPrice + order.shippingCost;
+
   const statusPriority = {
     Pending: 1,
     Packaging: 2,
@@ -85,7 +87,7 @@ const CartUserDetails = ({ order }) => {
       title: "Price",
       dataIndex: "product",
       key: "productPrice",
-      render: (product) => `$${parseInt(product.price)}`,
+      render: (product) => `$${parseInt(product.price)}`,  // Hiển thị giá gốc
     },
     {
       title: "Qty",
@@ -98,7 +100,7 @@ const CartUserDetails = ({ order }) => {
       dataIndex: "total",
       key: "total",
       render: (text, record) =>
-        `$${parseInt(record.product.price * record.quantity)}`,
+        `$${parseInt(record.product.price * record.quantity)}`,  // Tính tổng
     },
     {
       title: "Status",
@@ -120,7 +122,7 @@ const CartUserDetails = ({ order }) => {
       />
       <div className="order-summary">
         <p>
-          <strong>Total:</strong> ₹{parseInt(totalOrderDetailsPrice + 2)}
+          <strong>Total:</strong> ${totalPrice}
         </p>
       </div>
     </div>

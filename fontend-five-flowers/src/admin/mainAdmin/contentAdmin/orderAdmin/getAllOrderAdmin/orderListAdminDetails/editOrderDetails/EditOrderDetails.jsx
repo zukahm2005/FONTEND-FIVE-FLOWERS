@@ -217,7 +217,7 @@ const EditOrderDetails = () => {
 
   const calculateTotalPrice = () => {
     const subtotal = order.orderDetails.reduce(
-      (total, detail) => total + detail.price * detail.quantity,
+      (total, detail) => total + detail.product.price * detail.quantity,
       0
     );
     return subtotal + shippingCost;
@@ -297,7 +297,7 @@ const EditOrderDetails = () => {
   }
 
   const subtotal = order.orderDetails.reduce(
-    (total, detail) => total + detail.price * detail.quantity,
+    (total, detail) => total + detail.product.price * detail.quantity,
     0
   );
 
@@ -357,7 +357,7 @@ const EditOrderDetails = () => {
               </div>
               <div className="price-info-ordtails">
                 <p>
-                  ${detail.price} x
+                  ${detail.product.price} x
                   {editableQuantityId === detail.orderDetailId ? (
                     <InputNumber
                       min={1}
@@ -384,7 +384,7 @@ const EditOrderDetails = () => {
                 {renderStatusText(detail.status)}
               </div>
               <div className="product-price">
-                <p>${detail.price * detail.quantity}</p>
+                <p>${detail.product.price * detail.quantity}</p>
               </div>
               <div className="remove-detail">
                 <div
