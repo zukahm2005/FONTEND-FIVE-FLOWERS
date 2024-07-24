@@ -2,8 +2,9 @@
     max-width: 100%;
     margin: 5rem 0;
     background-image: url(https://bikex-club.myshopify.com/cdn/shop/files/blog_detail-4.jpg?v=1598503894);
-    background-size: 100% 100%;
+    background-size: 100% 70%;
     height: auto;
+
     .top-shopping-container {
         max-width: 100%;
         background-color: rgba(55, 55, 55, 0.8);
@@ -13,6 +14,7 @@
         align-items: center;
         justify-content: center;
         gap: 1rem;
+
         .name-top-shopping-container {
             max-width: 100%;
             h1 {
@@ -20,6 +22,7 @@
                 color: white;
             }
         }
+
         .name-bottom-shopping-container {
             max-width: 100%;
             display: flex;
@@ -37,11 +40,13 @@
             }
         }
     }
+
     .background-bot-shopping-cart-container {
         background-color: white;
         max-width: 100%;
         height: auto;
         padding-bottom: 5rem;
+
         .shopping-cart-session-main {
             padding: 5rem;
             max-width: 70%;
@@ -49,6 +54,28 @@
             display: grid;
             grid-template-columns: 3.5fr 1.5fr;
             gap: 1rem;
+
+            @media (max-width: 1354px) {
+                max-width: 80% !important;
+            }
+
+            @media (max-width: 1205px) {
+                max-width: 100% !important;
+            }
+
+            @media (max-width: 937px) {
+                display: flex;
+                flex-direction: column;
+            }
+
+            @media (max-width: 667px) {
+                padding: 2rem;
+                max-width: 90%;
+                .shopping-cart-header p {
+                    font-size: 18px;
+                }
+            }
+
             .shopping-cart-items {
                 display: flex;
                 flex-direction: column;
@@ -58,12 +85,14 @@
                 overflow-y: auto;
                 scrollbar-width: none; /* Firefox */
                 -ms-overflow-style: none; /* Internet Explorer 10+ */
+
                 .shopping-cart-header {
                     p {
                         font-size: 24px;
                         font-weight: 700;
                     }
                 }
+
                 .shopping-cart-row {
                     border: thin solid #e4e4e4;
                     display: grid;
@@ -73,18 +102,46 @@
                     gap: 2rem;
                     position: relative;
 
-                    .shopping-cart-image {
-                        max-width: 100%;
+                    @media (max-width: 937px) {
+                        grid-template-columns: 1fr 2fr;
+                        height: auto;
+                    }
 
-                        img {
-                            width: 100%;
+                    @media (max-width: 667px) {
+                        grid-template-columns: 1fr 1fr;
+                        padding: 0.5rem;
+                        gap: 1rem;
+                        .shopping-cart-image img {
+                            max-width: 100px;
+                        }
+                        .shopping-cart-info .name-shcart p {
+                            font-size: 16px;
+                        }
+                        .shopping-cart-info .category-shcart p,
+                        .shopping-cart-info .price-shcart p {
+                            font-size: 14px;
+                        }
+                        .shopping-cart-info .quantity-controls .button-quantity p {
+                            padding: 0 0.3rem;
                         }
                     }
+
+                    .shopping-cart-image {
+                        max-width: 100%;
+                        img {
+                            width: 100%;
+                            max-width: 150px; /* Đặt kích thước tối đa cho ảnh */
+                            height: auto; /* Giữ nguyên tỷ lệ của ảnh */
+                            object-fit: contain; /* Đảm bảo ảnh không bị cắt */
+                        }
+                    }
+
                     .shopping-cart-info {
                         display: flex;
                         flex-direction: column;
                         gap: 0.8rem;
                         max-width: 100%;
+
                         .name-shcart {
                             p {
                                 font-size: 22px;
@@ -92,11 +149,13 @@
                                 color: #3c3a3b;
                             }
                         }
+
                         .category-shcart {
                             p {
                                 color: #6e5947;
                             }
                         }
+
                         .price-shcart {
                             p {
                                 font-size: 17px;
@@ -104,6 +163,7 @@
                                 color: #3c3a3b;
                             }
                         }
+
                         .quantity-controls {
                             display: flex;
                             flex-direction: row;
@@ -118,6 +178,7 @@
                                 }
                             }
                         }
+
                         .delete-button-shopping-cart {
                             position: absolute;
                             left: 0%;
@@ -129,6 +190,7 @@
                         }
                     }
                 }
+
                 .continue-shopping {
                     max-width: 100%;
                     button {
@@ -143,6 +205,7 @@
                     }
                 }
             }
+
             .total-price-container-cart {
                 max-width: 100%;
 
@@ -159,25 +222,45 @@
                             font-weight: 700;
                         }
                     }
+
                     .info-price-total-container-shopping-cart {
-                        display: grid;
-                        grid-template-columns: auto auto;
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+
+                        @media (max-width: 937px) {
+                            flex-direction: row; /* Duy trì flex row */
+                            gap: 1rem;
+                        }
+
+                        @media (max-width: 667px) {
+                            .container-title-price-shopping-cart p {
+                                font-size: 14px;
+                            }
+                            .container-price-cart p {
+                                font-size: 14px;
+                            }
+                        }
+
                         .container-title-price-shopping-cart {
                             display: flex;
                             flex-direction: column;
                             gap: 0.5rem;
+
                             .subtotal-shopping-cart {
                                 p {
                                     color: rgb(75, 75, 75);
                                     font-size: 1rem;
                                 }
                             }
+
                             .shipping-shopping-cart {
                                 p {
                                     font-size: 1rem;
                                     color: rgb(75, 75, 75);
                                 }
                             }
+
                             .title-price-shopping-cart {
                                 p {
                                     font-size: 1.2rem;
@@ -186,22 +269,26 @@
                                 }
                             }
                         }
+
                         .container-price-cart {
                             display: flex;
                             flex-direction: column;
                             gap: 0.5rem;
+
                             .sub-price-shopping-cart {
                                 p {
                                     color: rgb(75, 75, 75);
-                                    font-size:1rem;
+                                    font-size: 1rem;
                                 }
                             }
+
                             .shipping-price-shopping-cart {
                                 p {
                                     font-size: 1rem;
                                     color: rgb(75, 75, 75);
                                 }
                             }
+
                             .total-money-shopping-cart {
                                 p {
                                     font-size: 1.2rem;
@@ -211,6 +298,7 @@
                             }
                         }
                     }
+
                     .total-money-cart {
                         p {
                             font-size: 16px;
@@ -226,14 +314,15 @@
                             font-size: 0.8rem;
                         }
                     }
+
                     .button-checkout {
                         button {
                             width: 100%;
                             border-radius: 40px;
-                            p {
 
+                            p {
                                 padding: 0.5rem 1.5rem;
-                                font-size: 0.8rem;
+                                font-size: 0.7rem;
                                 font-weight: 600;
                                 color: white;
                             }
