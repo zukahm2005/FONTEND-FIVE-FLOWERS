@@ -1,12 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import ReactPaginate from "react-paginate";
 import { Link } from "react-router-dom";
 import CollectionGrid from "./collectionShop/collectionGrid/CollectionGrid";
 import CollectionHeader from "./collectionShop/collectionHeader/CollectionHeader";
 import "./shop.scss";
 import SideBarShop from "./sideBarShop/SideBarShop";
-import ReactPaginate from "react-paginate";
-import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 
 const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -43,6 +43,23 @@ const Shop = () => {
         setInitialMaxPrice(maxPriceValue);
       })
       .catch((error) => console.error("Error fetching products:", error));
+  }, []);
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 976) {
+        setItemsPerPage(4);
+      } else {
+        setItemsPerPage(9);
+      }
+    };
+
+    handleResize(); // Set initial value
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
 
   useEffect(() => {
