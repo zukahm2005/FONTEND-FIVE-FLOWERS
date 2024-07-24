@@ -7,6 +7,7 @@ import CollectionGrid from "./collectionShop/collectionGrid/CollectionGrid";
 import CollectionHeader from "./collectionShop/collectionHeader/CollectionHeader";
 import "./shop.scss";
 import SideBarShop from "./sideBarShop/SideBarShop";
+import { Drawer, Button } from "antd";
 
 const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -23,6 +24,8 @@ const Shop = () => {
   const [itemsPerPage, setItemsPerPage] = useState(9);
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
+  const [drawerVisible, setDrawerVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 700);
 
   useEffect(() => {
     axios
@@ -47,7 +50,8 @@ const Shop = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth <= 976) {
+      setIsMobile(window.innerWidth <= 700);
+      if (window.innerWidth <= 911) {
         setItemsPerPage(4);
       } else {
         setItemsPerPage(9);
@@ -190,17 +194,43 @@ const Shop = () => {
       </div>
       <div className="background-bot-shop-container">
         <div className="bot-shop-container">
-          <div className="sidebar-shop-container">
-            <SideBarShop
-              onCategoryFilterChange={handleCategoryFilterChange}
-              onBrandFilterChange={handleBrandFilterChange}
-              selectedBrand={selectedBrand}
-              onPriceFilterChange={handlePriceFilterChange}
-              maxPrice={initialMaxPrice}
-              onAvailabilityFilterChange={handleAvailabilityFilterChange}
-            />
-          </div>
-          <div className="collection-grid-container">
+          {isMobile ? (
+            <>
+              <Button
+                className="drawer-button"
+                onClick={() => setDrawerVisible(true)}
+                icon={<FaArrowRight />}
+              />
+              <Drawer
+                title="Filters"
+                placement="left"
+                onClose={() => setDrawerVisible(false)}
+                visible={drawerVisible}
+                bodyStyle={{ padding: "1rem" }}
+              >
+                <SideBarShop
+                  onCategoryFilterChange={handleCategoryFilterChange}
+                  onBrandFilterChange={handleBrandFilterChange}
+                  selectedBrand={selectedBrand}
+                  onPriceFilterChange={handlePriceFilterChange}
+                  maxPrice={initialMaxPrice}
+                  onAvailabilityFilterChange={handleAvailabilityFilterChange}
+                />
+              </Drawer>
+            </>
+          ) : (
+            <div className="sidebar-shop-container">
+              <SideBarShop
+                onCategoryFilterChange={handleCategoryFilterChange}
+                onBrandFilterChange={handleBrandFilterChange}
+                selectedBrand={selectedBrand}
+                onPriceFilterChange={handlePriceFilterChange}
+                maxPrice={initialMaxPrice}
+                onAvailabilityFilterChange={handleAvailabilityFilterChange}
+              />
+            </div>
+          )}
+          <div className={`collection-grid-container ${isMobile ? 'mobile-fullwidth' : ''}`}>
             <div className="header-collection-grid-container">
               <CollectionHeader
                 onDisplayChange={handleDisplayChange}
