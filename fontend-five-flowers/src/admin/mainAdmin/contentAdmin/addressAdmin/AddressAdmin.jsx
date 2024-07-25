@@ -10,7 +10,6 @@ const AddressAdmin = () => {
   return (
     <CartProvider>
       <div className="address-container">
-        <h1>Address Admin</h1>
         <Routes>
           <Route index element={<GetAllAddress />} />
           <Route path="update-address/:id" element={<UpdateAddress />} />

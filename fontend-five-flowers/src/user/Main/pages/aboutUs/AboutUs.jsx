@@ -66,10 +66,12 @@ const AboutUs = () => {
 
       <section className="aboutus-components">
         <div className="aboutus-section-container">
-          <div className="aboutus-section-container-subh2">
-            <p>SUSPENSION</p>
+          <div className="aboutus-section-title">
+            <div className="aboutus-section-container-subh2">
+              <p>SUSPENSION</p>
+            </div>
+            <h2>Suspension Components</h2>
           </div>
-          <h2>Suspension Components</h2>
           <div className="aboutus-component-list">
             <div className="aboutus-component">
               <img
@@ -140,8 +142,13 @@ const AboutUs = () => {
       </section>
 
       <section className="aboutus-king-of-bicycles">
-        <div className="aboutus-section-container">
+        <div className="aboutus-section-title">
+          <div className="aboutus-section-container-subh2">
+            <p>DUIS LEO</p>
+          </div>
           <h2>KING OF BICYCLES</h2>
+        </div>
+        <div className="aboutus-section-container">
           <div className="aboutus-bicycles">
             <div className="aboutus-bicycle">
               <img
@@ -212,40 +219,53 @@ const AboutUs = () => {
       </section>
 
       <section className="aboutus-team">
-        <div className="aboutus-section-container">
+        <div className="aboutus-section-title">
+          <div className="aboutus-section-container-subh2">
+            <p>OUR TEAM</p>
+          </div>
           <h2>Meet Our Support Members</h2>
+        </div>
+        <div className="aboutus-section-container">
           <div className="aboutus-team-members">
             <div className="aboutus-member">
               <img
                 src="https://bikex-club.myshopify.com/cdn/shop/files/about-new-11_800x.jpg?v=1631946572"
                 alt="Regina Carter"
               />
-              <h3>Regina Carter</h3>
-              <p>Store Manager</p>
+              <div className="aboutus-member-content">
+                <h3>Regina Carter</h3>
+                <p>Store Manager</p>
+              </div>
             </div>
             <div className="aboutus-member">
               <img
                 src="https://bikex-club.myshopify.com/cdn/shop/files/about-new-10_800x.jpg?v=1631946595"
                 alt="Andy Harris"
               />
-              <h3>Andy Harris</h3>
-              <p>Sales Associate</p>
+              <div className="aboutus-member-content">
+                <h3>Andy Harris</h3>
+                <p>Sales Associate</p>
+              </div>
             </div>
             <div className="aboutus-member">
               <img
                 src="https://bikex-club.myshopify.com/cdn/shop/files/about-new-9_800x.jpg?v=1631946609"
                 alt="Sonya Gilbert"
               />
-              <h3>Sonya Gilbert</h3>
-              <p>Customer Support</p>
+              <div className="aboutus-member-content">
+                <h3>Sonya Gilbert</h3>
+                <p>Customer Support</p>
+              </div>
             </div>
             <div className="aboutus-member">
               <img
                 src="https://bikex-club.myshopify.com/cdn/shop/files/about-new-8_800x.jpg?v=1631946627"
                 alt="Lena Robertson"
               />
-              <h3>Lena Robertson</h3>
-              <p>Production Manager</p>
+              <div className="aboutus-member-content">
+                <h3>Lena Robertson</h3>
+                <p>Production Manager</p>
+              </div>
             </div>
           </div>
         </div>
