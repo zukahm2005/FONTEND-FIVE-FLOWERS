@@ -5,6 +5,8 @@
 
 .review-container {
   margin-top: 50px;
+  
+  
 
   h2 {
     font-size: 2rem;
@@ -12,17 +14,26 @@
     @media (max-width: 1400px) {
       font-size: 1.2rem; /* Giảm kích thước font chữ */
     }
+    @media (max-width: 1000px) {
+      font-size: 1rem;
+    }
   }
 
   .submit-review-btn {
     display: inline-block;
     margin-top: 10px;
     padding: 15px 35px;
-    background: linear-gradient(to right, var(--button-bg-hover-color), var(--button-bg-color), var(--button-bg-hover-color), var(--button-bg-color));
+    background: linear-gradient(
+      to right,
+      var(--button-bg-hover-color),
+      var(--button-bg-color),
+      var(--button-bg-hover-color),
+      var(--button-bg-color)
+    );
     background-size: 200% auto;
     color: white;
     text-transform: uppercase;
-    border-radius: 30px;
+    border-radius: 40px;
     text-decoration: none;
     transition: background-position 0.3s ease, transform 0.3s;
     border: none;
@@ -41,10 +52,16 @@
       @media (max-width: 1400px) {
         font-size: 0.8rem; /* Giảm kích thước font chữ */
       }
+      @media(max-width: 1116px){
+        font-size: 0.6rem;
+      }
     }
 
     @media (max-width: 1400px) {
-      padding: 10px 25px; /* Giảm kích thước padding */
+      padding: 12px 30px; /* Giảm kích thước padding */
+    }
+    @media (max-width: 1116px){
+      padding: 10px 30px;
     }
   }
 
@@ -64,9 +81,24 @@
     }
   }
 
-  .ant-input-textarea {
+  .review-input-textarea {
+    width: 100%; /* Đảm bảo phần tử này chiếm 100% chiều rộng của phần tử cha */
+    border-radius: 40px; /* Bo tròn các góc */
+    overflow: hidden; /* Đảm bảo nội dung không vượt quá viền bo tròn */
+    
+    @media (max-width: 1400px) {
+      width: 90%; /* Giảm kích thước width xuống 90% */
+    }
+
+    @media (max-width: 1250px) {
+      width: 80%; /* Giảm kích thước width xuống 80% */
+    }
+    @media (max-width: 734px) {
+      width: 90%; /* Giảm kích thước width xuống 80% */
+    }
     .ant-input {
       font-size: 1rem;
+      border-radius: 40px; /* Bo tròn các góc */
 
       @media (max-width: 1400px) {
         font-size: 0.8rem; /* Giảm kích thước font chữ */

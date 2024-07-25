@@ -52,14 +52,29 @@
       margin: 0 auto;
       padding-top: 3rem;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
       background-color: white;
       grid-column-gap: 4rem; /* Tăng khoảng cách giữa các cột */
 
       @media (max-width: 1600px) {
         max-width: 80%;
       }
+      @media (max-width: 1250px) {
+        max-width: 90%;
+      }
+      @media (max-width: 1000px) {
+        grid-column-gap: 10rem; /* Giảm khoảng cách giữa các cột */
 
+        .name-details-product{
+          h1{
+            font-size: 2rem;
+          }
+        }
+      }
+      @media ( max-width:818px){
+        max-width: 100%;
+      }
+     
       .img-details-product {
         max-width: 100%;
         margin-left: 2rem;
@@ -104,7 +119,98 @@
             }
           }
         }
+        @media (max-width: 1116px) {
+          .main-slider {
+            width: 25rem;
+          }
 
+          .thumbnail-slider {
+            .thumbnail-slide {
+              max-width: 80%;
+              img {
+                width: 80%; /* Giảm kích thước ảnh nhỏ xuống 80% */
+                height: auto;
+                object-fit: cover;
+                cursor: pointer;
+                border: 1px solid transparent; /* Default border color */
+              }
+
+              &.active img {
+                border: 1px solid #ff5947; /* Add border color when active */
+              }
+            }
+
+            .slick-slide {
+              padding: 5px; /* Giảm khoảng cách giữa các ảnh nhỏ */
+            }
+
+            .slick-list {
+              max-width: 80%;
+              margin: 0 -10px; /* Giảm khoảng cách giữa các ảnh nhỏ */
+            }
+          }
+        }
+        @media(max-width:821px){
+          .main-slider {
+            width: 25rem;
+          }
+
+          .thumbnail-slider {
+            .thumbnail-slide {
+              max-width: 75%;
+              img {
+                width: 75%; /* Giảm kích thước ảnh nhỏ xuống 80% */
+                height: auto;
+                object-fit: cover;
+                cursor: pointer;
+                border: 1px solid transparent; /* Default border color */
+              }
+
+              &.active img {
+                border: 1px solid #ff5947; /* Add border color when active */
+              }
+            }
+
+            .slick-slide {
+              padding: 5px; /* Giảm khoảng cách giữa các ảnh nhỏ */
+            }
+
+            .slick-list {
+              max-width: 80%;
+              margin: 0 -10px; /* Giảm khoảng cách giữa các ảnh nhỏ */
+            }
+          }
+        }
+        @media(max-width: 734px){
+          .main-slider {
+            width: 40rem;
+          }
+
+          .thumbnail-slider {
+            .thumbnail-slide {
+              max-width: 100%;
+
+              img {
+                width: 100%;
+                height: auto;
+                object-fit: cover;
+                cursor: pointer;
+                border: 1px solid transparent; /* Default border color */
+              }
+
+              &.active img {
+                border: 1px solid #ff5947; /* Add border color when active */
+              }
+            }
+
+            .slick-slide {
+            }
+
+            .slick-list {
+              max-width: 100%;
+            }
+          }
+        }
         .slick-slider {
           margin-bottom: 20px;
         }
@@ -150,6 +256,13 @@
           margin-left: 4rem; /* Tăng khoảng cách bên trái */
         }
 
+        @media (max-width: 1116px) {
+          margin-left: 3rem; /* Tăng khoảng cách bên trái */
+        }
+        @media(max-width: 1000px){
+          gap: 2.2rem;
+        }
+
         .name-details-product {
           font-size: 1.5rem;
 
@@ -157,16 +270,24 @@
             font-size: 1.2rem; /* Giảm kích thước font chữ */
           }
         }
-
+        
         .content-below-details {
           display: flex;
           flex-direction: row;
           gap: 3rem;
 
+          @media (max-width: 1000px) {
+            gap: 1.5rem; /* Giảm khoảng cách giữa các phần tử */
+          }
+
           .title-content-below-details1 {
             display: flex;
             flex-direction: column;
             gap: 2.5rem;
+
+            @media (max-width: 1000px) {
+              gap: 1.5rem; /* Giảm khoảng cách giữa các phần tử */
+            }
 
             .title-content {
               p {
@@ -177,6 +298,10 @@
                 @media (max-width: 1400px) {
                   font-size: 16px; /* Giảm kích thước font chữ */
                 }
+
+                @media (max-width: 1116px) {
+                  font-size: 14px; /* Giảm kích thước font chữ */
+                }
               }
             }
           }
@@ -186,12 +311,20 @@
             flex-direction: column;
             gap: 2.7rem;
 
+            @media (max-width: 1000px) {
+              gap: 1.5rem; /* Giảm khoảng cách giữa các phần tử */
+            }
+
             .title1 {
               p {
                 color: #fa422d;
 
                 @media (max-width: 1400px) {
                   font-size: 16px; /* Giảm kích thước font chữ */
+                }
+
+                @media (max-width: 1116px) {
+                  font-size: 14px; /* Giảm kích thước font chữ */
                 }
               }
             }
@@ -241,6 +374,10 @@
               @media (max-width: 1400px) {
                 font-size: 14px; /* Giảm kích thước font chữ */
               }
+
+              @media (max-width: 1116px) {
+                font-size: 12px; /* Giảm kích thước font chữ */
+              }
             }
           }
         }
@@ -258,6 +395,10 @@
             @media (max-width: 1400px) {
               font-size: 16px; /* Giảm kích thước font chữ */
             }
+
+            @media (max-width: 1116px) {
+              font-size: 14px; /* Giảm kích thước font chữ */
+            }
           }
 
           .in-stock {
@@ -267,6 +408,10 @@
             @media (max-width: 1400px) {
               font-size: 16px; /* Giảm kích thước font chữ */
             }
+
+            @media (max-width: 1116px) {
+              font-size: 14px; /* Giảm kích thước font chữ */
+            }
           }
 
           .out-of-stock {
@@ -275,6 +420,10 @@
 
             @media (max-width: 1400px) {
               font-size: 16px; /* Giảm kích thước font chữ */
+            }
+
+            @media (max-width: 1116px) {
+              font-size: 14px; /* Giảm kích thước font chữ */
             }
           }
         }
@@ -290,6 +439,11 @@
             @media (max-width: 1400px) {
               font-size: 0.8rem; /* Giảm kích thước font chữ */
               padding: 0.5rem 1.2rem; /* Giảm kích thước padding */
+            }
+
+            @media (max-width: 1116px) {
+              font-size: 0.6rem; /* Giảm kích thước font chữ */
+              padding: 0.3rem 1rem; /* Giảm kích thước padding */
             }
           }
         }
@@ -317,6 +471,10 @@
         padding-left: 3rem; /* Tăng khoảng cách bên trái */
       }
 
+      @media (max-width: 1116px) {
+        padding-left: 2rem; /* Tăng khoảng cách bên trái */
+      }
+
       .title-desc-product-details {
         button {
           border-radius: 0.4rem 0.4rem 0 0;
@@ -328,6 +486,10 @@
 
             @media (max-width: 1400px) {
               font-size: 0.8rem; /* Giảm kích thước font chữ */
+            }
+
+            @media (max-width: 1116px) {
+              font-size: 0.6rem; /* Giảm kích thước font chữ */
             }
           }
         }
@@ -342,6 +504,10 @@
 
           @media (max-width: 1400px) {
             font-size: 0.8rem; /* Giảm kích thước font chữ */
+          }
+
+          @media (max-width: 1116px) {
+            font-size: 0.6rem; /* Giảm kích thước font chữ */
           }
         }
       }

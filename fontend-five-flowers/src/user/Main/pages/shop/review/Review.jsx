@@ -1,8 +1,8 @@
-import React, { useContext, useState } from "react";
-import { Rate, Input, Space, notification } from "antd";
+import { Input, Rate, Space, notification } from "antd";
 import axios from "axios";
-import "./Review.scss";
+import React, { useContext, useState } from "react";
 import { CartContext } from "../../../header/components/cart/cartContext/CartProvider";
+import "./Review.scss";
 
 const desc = ["terrible", "bad", "normal", "good", "wonderful"];
 
@@ -70,12 +70,13 @@ const Review = ({ productId, onReviewSubmitted }) => {
           onChange={setReviewValue}
           value={reviewValue}
         />
-        {reviewValue ? <span>{desc[Math.ceil(reviewValue) - 1]}</span> : null}
         <Input.TextArea
           placeholder="Write your review here..."
           value={comment}
           onChange={(e) => setComment(e.target.value)}
+          className="review-input-textarea" // Add this line
         />
+
         <button className="submit-review-btn" onClick={handleReviewSubmit}>
           <p>Submit Review</p>
         </button>
