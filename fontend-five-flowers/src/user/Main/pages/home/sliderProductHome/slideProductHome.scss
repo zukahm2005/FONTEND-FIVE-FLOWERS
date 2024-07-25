@@ -138,14 +138,15 @@
 
   .swiper-button-container {
     margin-bottom: 5rem;
+
     .swiper-button-prev,
     .swiper-button-next {
       margin-bottom: 10rem;
       position: absolute;
       top: 100%;
       transform: translateY(-50%);
-      width: 35px;
-      height: 35px;
+      width: 40px; /* Tăng kích thước nút */
+      height: 40px; /* Tăng kích thước nút */
       background: #fa3e2c;
       color: #fff;
       border-radius: 50%;
@@ -168,15 +169,24 @@
       right: 45%;
     }
   }
-  @media (min-width: 900px) {
+
+  @media (max-width: 900px) {
     .swiper-button-container {
       .swiper-button-prev,
       .swiper-button-next {
-        width: 25px;
-        height: 25px;
+        width: 40px; /* Điều chỉnh lại kích thước nút cho màn hình lớn hơn */
+        height: 40px;
+      }
+      .swiper-button-prev {
+        left: 40%;
+      }
+
+      .swiper-button-next {
+        right: 40%;
       }
     }
   }
+
   @media (max-width: 768px) {
     .slide-product-home-title-main {
       .slide-product-title {
@@ -189,11 +199,19 @@
     .swiper-button-container {
       .swiper-button-prev,
       .swiper-button-next {
-        width: 25px;
-        height: 25px;
+        width: 40px; /* Điều chỉnh lại kích thước nút cho màn hình trung bình */
+        height: 40px;
+      }
+      .swiper-button-prev {
+        left: 40%;
+      }
+
+      .swiper-button-next {
+        right: 40%;
       }
     }
   }
+
   @media (max-width: 600px) {
     .slide-product-home-title-main {
       .slide-product-title {
@@ -206,8 +224,8 @@
     .swiper-button-container {
       .swiper-button-prev,
       .swiper-button-next {
-        width: 20px;
-        height: 20px;
+        width: 40px; /* Điều chỉnh lại kích thước nút cho màn hình nhỏ */
+        height: 40px;
       }
     }
   }
@@ -227,8 +245,8 @@
     .swiper-button-container {
       .swiper-button-prev,
       .swiper-button-next {
-        width: 15px;
-        height: 15px;
+        width: 35px; /* Điều chỉnh lại kích thước nút cho màn hình rất nhỏ */
+        height: 35px;
       }
     }
   }

@@ -1,4 +1,5 @@
 import { Tooltip, notification } from "antd";
+import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -10,7 +11,6 @@ import Review from "../review/Review";
 import ReviewsList from "../review/reviewList/ReviewList";
 import "./productDetails.scss";
 import RecommentProduct from "./recomProduct/RecomProduct";
-import axios from "axios";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -71,8 +71,8 @@ const ProductDetail = () => {
     fade: true,
     asNavFor: thumbnailSlider.current,
     ref: mainSlider,
-    prevArrow: <div className="slick-prev" />,
-    nextArrow: <div className="slick-next" />,
+    // prevArrow: <div className="slick-prev" />,
+    // nextArrow: <div className="slick-next" />,
   };
 
   const thumbnailSliderSettings = {
@@ -84,8 +84,8 @@ const ProductDetail = () => {
     ref: thumbnailSlider,
     swipe: false,
     draggable: false,
-    prevArrow: <div className="slick-prev" />,
-    nextArrow: <div className="slick-next" />,
+    // prevArrow: <div className="slick-prev" />,
+    // nextArrow: <div className="slick-next" />,
   };
 
   return (
