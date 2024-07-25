@@ -11,8 +11,8 @@ const CartProvider = ({ children }) => {
   const [totalPrice, setTotalPrice] = useState(0);
   const [distinctProductCount, setDistinctProductCount] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
-  const [subtotal, setSubtotal] = useState(0); // Thêm trạng thái cho Subtotal
-  const shippingCost = 5; // Định nghĩa phí vận chuyển cố định
+  const [subtotal, setSubtotal] = useState(0);
+  const shippingCost = 5;
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -31,6 +31,23 @@ const CartProvider = ({ children }) => {
     setSubtotal(newSubtotal);
     setTotalPrice(newSubtotal + shippingCost);
   }, [cart]);
+
+  // Đồng bộ hóa giỏ hàng từ localStorage lên server
+  useEffect(() => {
+    const syncCartToServerOnReload = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        await syncCartWithServer();
+        await syncCartFromServer();
+      }
+    };
+
+    window.addEventListener("beforeunload", syncCartToServerOnReload);
+
+    return () => {
+      window.removeEventListener("beforeunload", syncCartToServerOnReload);
+    };
+  }, []);
 
   const fetchCartItems = () => {
     try {
@@ -60,12 +77,7 @@ const CartProvider = ({ children }) => {
 
   const syncCartFromServer = async () => {
     const serverCartItems = await fetchCartFromServer();
-    const localCartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const mergedCartItems = serverCartItems.map(serverItem => {
-      const localItem = localCartItems.find(localItem => localItem.productId === serverItem.productId);
-      return localItem ? { ...serverItem, quantity: localItem.quantity } : serverItem;
-    });
-    updateCartStateAndLocalStorage(mergedCartItems);
+    updateCartStateAndLocalStorage(serverCartItems);
   };
 
   const updateCartStateAndLocalStorage = (cartItems) => {
