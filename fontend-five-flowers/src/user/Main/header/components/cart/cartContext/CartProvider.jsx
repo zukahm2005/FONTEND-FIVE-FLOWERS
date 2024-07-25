@@ -101,10 +101,10 @@ const CartProvider = ({ children }) => {
   };
 
   const saveCartItems = (cartItems) => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
     setCart(cartItems);
-    setTotalPrice(calculateTotalPrice(cartItems));
     setDistinctProductCount(cartItems.length);
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    setTotalPrice(calculateTotalPrice(cartItems));
     setSubtotal(calculateSubtotal(cartItems));
   };
 
@@ -293,9 +293,11 @@ const CartProvider = ({ children }) => {
         message: "Order Placed",
         description: "Your order has been placed successfully!",
       });
-      saveCartItems([]);
-      setTotalPrice(0);
+
+      // Cập nhật lại trạng thái giỏ hàng
+      setCart([]);
       setDistinctProductCount(0);
+      setTotalPrice(0);
       setSubtotal(0);
     } catch (error) {
       console.error("Error placing order:", error);
