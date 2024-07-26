@@ -1,11 +1,29 @@
 .reviews-list {
     margin: 0 auto;
+    max-width: 80%;
+
+    @media (max-width: 1400px) {
+        max-width: 90%;
+    }
+
+    @media (max-width: 1250px) {
+        max-width: 95%;
+    }
+
+    @media (max-width: 734px) {
+        max-width: 100%;
+    }
 }
 
 .review-item {
     border-bottom: 1px solid #ddd;
     padding: 15px 0;
     margin-left: 10px;
+
+    @media (max-width: 734px) {
+        padding: 10px 0;
+        margin-left: 0;
+    }
 
     .review-header {
         display: flex;
@@ -21,6 +39,16 @@
                 height: 50px;
                 border-radius: 50%;
                 margin-right: 10px;
+
+                @media (max-width: 1400px) {
+                    width: 40px;
+                    height: 40px;
+                }
+
+                @media (max-width: 1000px) {
+                    width: 30px;
+                    height: 30px;
+                }
             }
 
             .review-user-info {
@@ -30,12 +58,28 @@
                 .review-username {
                     font-weight: bold;
                     font-size: 1.1em;
+
+                    @media (max-width: 1400px) {
+                        font-size: 1em;
+                    }
+
+                    @media (max-width: 1000px) {
+                        font-size: 0.9em;
+                    }
                 }
 
                 .review-date {
                     color: #888;
                     font-size: 0.9em;
-                    margin-top: 5px; /* Thêm khoảng cách giữa tên người dùng và ngày tháng */
+                    margin-top: 5px;
+
+                    @media (max-width: 1400px) {
+                        font-size: 0.8em;
+                    }
+
+                    @media (max-width: 1000px) {
+                        font-size: 0.7em;
+                    }
                 }
             }
         }
@@ -45,16 +89,32 @@
             align-items: center;
 
             .stars {
-                color: #fadb14; // Màu vàng cho sao
-                font-size: 1.5em; // Tăng kích thước của sao
+                color: #fadb14;
+                font-size: 1.5em;
                 margin-right: 10px;
+
+                @media (max-width: 1400px) {
+                    font-size: 1.2em;
+                }
+
+                @media (max-width: 1000px) {
+                    font-size: 1em;
+                }
             }
         }
     }
 
     .review-content {
-        margin-top: 10px;
+        margin-top: 5px; /* Giảm khoảng cách giữa nội dung đánh giá và phần tử phía trên */
         font-size: 1em;
         line-height: 1.5;
+
+        @media (max-width: 1400px) {
+            font-size: 0.9em;
+        }
+
+        @media (max-width: 1000px) {
+            font-size: 0.8em;
+        }
     }
 }
