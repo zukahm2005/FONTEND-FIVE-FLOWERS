@@ -5,8 +5,6 @@
 
 .review-container {
   margin-top: 50px;
-  
-  
 
   h2 {
     font-size: 2rem;
@@ -35,7 +33,9 @@
     text-transform: uppercase;
     border-radius: 40px;
     text-decoration: none;
-    transition: background-position 0.3s ease, transform 0.3s;
+    transition:
+      background-position 0.3s ease,
+      transform 0.3s;
     border: none;
     cursor: pointer;
 
@@ -52,7 +52,7 @@
       @media (max-width: 1400px) {
         font-size: 0.8rem; /* Giảm kích thước font chữ */
       }
-      @media(max-width: 1116px){
+      @media (max-width: 1116px) {
         font-size: 0.6rem;
       }
     }
@@ -60,7 +60,7 @@
     @media (max-width: 1400px) {
       padding: 12px 30px; /* Giảm kích thước padding */
     }
-    @media (max-width: 1116px){
+    @media (max-width: 1116px) {
       padding: 10px 30px;
     }
   }
@@ -73,19 +73,14 @@
     }
   }
 
-  .ant-input {
-    font-size: 1rem;
-
-    @media (max-width: 1400px) {
-      font-size: 0.8rem; /* Giảm kích thước font chữ */
-    }
-  }
-
   .review-input-textarea {
     width: 100%; /* Đảm bảo phần tử này chiếm 100% chiều rộng của phần tử cha */
     border-radius: 40px; /* Bo tròn các góc */
     overflow: hidden; /* Đảm bảo nội dung không vượt quá viền bo tròn */
-    
+    padding: 15px 20px; /* Điều chỉnh padding để kiểm soát chiều cao của input */
+    border: 1px solid #d9d9d9; /* Đường viền màu xám nhạt */
+    font-size: 1rem;
+
     @media (max-width: 1400px) {
       width: 90%; /* Giảm kích thước width xuống 90% */
     }
@@ -93,16 +88,24 @@
     @media (max-width: 1250px) {
       width: 80%; /* Giảm kích thước width xuống 80% */
     }
-    @media (max-width: 734px) {
-      width: 90%; /* Giảm kích thước width xuống 80% */
+    
+    @media (max-width: 1116px) {
+      padding: 10px 20px; /* Điều chỉnh padding để kiểm soát chiều cao của input */
+      font-size: 0.8rem;
     }
-    .ant-input {
-      font-size: 1rem;
-      border-radius: 40px; /* Bo tròn các góc */
+    
+    @media (max-width: 734px) {
+      width: 90%; /* Giảm kích thước width xuống 90% */
+    }
 
-      @media (max-width: 1400px) {
-        font-size: 0.8rem; /* Giảm kích thước font chữ */
-      }
+    &::placeholder {
+      color: #999999; /* Màu chữ của placeholder */
+    }
+
+    &:focus {
+      border-color: #f5766b; /* Đổi màu viền khi focus */
+      box-shadow: 0 0 5px rgba(250, 62, 44, 0.5); /* Hiệu ứng đổ bóng khi focus */
+      outline: none; /* Bỏ viền mặc định khi focus */
     }
   }
 }

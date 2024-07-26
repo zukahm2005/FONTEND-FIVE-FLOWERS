@@ -1,3 +1,129 @@
+:root {
+  --button-bg-color: #fa3e2c;
+  --button-bg-hover-color: #f97c37;
+}
+
+.review-container {
+  margin-top: 50px;
+
+  h2 {
+    font-size: 2rem;
+
+    @media (max-width: 1400px) {
+      font-size: 1.2rem; /* Giảm kích thước font chữ */
+    }
+    @media (max-width: 1000px) {
+      font-size: 1rem;
+    }
+  }
+
+  .submit-review-btn {
+    display: inline-block;
+    margin-top: 10px;
+    padding: 15px 35px;
+    background: linear-gradient(
+      to right,
+      var(--button-bg-hover-color),
+      var(--button-bg-color),
+      var(--button-bg-hover-color),
+      var(--button-bg-color)
+    );
+    background-size: 200% auto;
+    color: white;
+    text-transform: uppercase;
+    border-radius: 40px;
+    text-decoration: none;
+    transition:
+      background-position 0.3s ease,
+      transform 0.3s;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background-position: right center;
+    }
+
+    p {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: normal; /* Bỏ font-weight bold */
+      color: white; /* Màu trắng */
+
+      @media (max-width: 1400px) {
+        font-size: 0.8rem; /* Giảm kích thước font chữ */
+      }
+      @media (max-width: 1116px) {
+        font-size: 0.6rem;
+      }
+    }
+
+    @media (max-width: 1400px) {
+      padding: 12px 30px; /* Giảm kích thước padding */
+    }
+    @media (max-width: 1116px) {
+      padding: 10px 30px;
+    }
+  }
+
+  .ant-rate {
+    font-size: 1.5rem;
+
+    @media (max-width: 1400px) {
+      font-size: 1rem; /* Giảm kích thước font chữ */
+    }
+  }
+
+  .review-input-textarea {
+    width: 100%; /* Đảm bảo phần tử này chiếm 100% chiều rộng của phần tử cha */
+    border-radius: 40px; /* Bo tròn các góc */
+    overflow: hidden; /* Đảm bảo nội dung không vượt quá viền bo tròn */
+    padding: 15px 20px; /* Điều chỉnh padding để kiểm soát chiều cao của input */
+    border: 1px solid #d9d9d9; /* Đường viền màu xám nhạt */
+    font-size: 1rem;
+
+    @media (max-width: 1400px) {
+      width: 90%; /* Giảm kích thước width xuống 90% */
+    }
+
+    @media (max-width: 1250px) {
+      width: 80%; /* Giảm kích thước width xuống 80% */
+    }
+    
+    @media (max-width: 1116px) {
+      padding: 10px 20px; /* Điều chỉnh padding để kiểm soát chiều cao của input */
+    }
+    
+    @media (max-width: 734px) {
+      width: 90%; /* Giảm kích thước width xuống 90% */
+    }
+
+    &::placeholder {
+      color: #999999; /* Màu chữ của placeholder */
+    }
+
+    &:focus {
+      border-color: #f5766b; /* Đổi màu viền khi focus */
+      box-shadow: 0 0 5px rgba(250, 62, 44, 0.5); /* Hiệu ứng đổ bóng khi focus */
+      outline: none; /* Bỏ viền mặc định khi focus */
+    }
+  }
+}
+
+/* Import các kiểu mặc định của slick-carousel */
+@import "~slick-carousel/slick/slick.css";
+@import "~slick-carousel/slick/slick-theme.css";
+
+/* Ghi đè các kiểu của slick-carousel */
+.slick-next,
+.slick-prev {
+  display: none !important; /* Ẩn hoàn toàn các nút điều hướng */
+}
+
+.slick-next:before,
+.slick-prev:before {
+  content: none !important; /* Sử dụng !important để ghi đè các kiểu mặc định */
+}
+
 .product-details-container {
   object-fit: cover;
   background-size: cover;
@@ -15,6 +141,7 @@
       flex-direction: column;
       gap: 0.5rem;
       background-color: rgba(92, 90, 92, 0.7);
+      margin: 0 auto;
 
       .main-text-center {
         h1 {
@@ -52,7 +179,7 @@
       margin: 0 auto;
       padding-top: 3rem;
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
       background-color: white;
       grid-column-gap: 4rem; /* Tăng khoảng cách giữa các cột */
 
@@ -63,18 +190,18 @@
         max-width: 90%;
       }
       @media (max-width: 1000px) {
-        grid-column-gap: 10rem; /* Giảm khoảng cách giữa các cột */
+        grid-column-gap: 2rem; /* Giảm khoảng cách giữa các cột */
 
-        .name-details-product{
-          h1{
+        .name-details-product {
+          h1 {
             font-size: 2rem;
           }
         }
       }
-      @media ( max-width:818px){
+      @media (max-width: 818px) {
         max-width: 100%;
       }
-     
+
       .img-details-product {
         max-width: 100%;
         margin-left: 2rem;
@@ -85,130 +212,213 @@
 
         .main-slider,
         .thumbnail-slider {
-          width: 35rem;
+          width: 100%; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
         }
 
         @media (max-width: 1400px) {
-          .main-slider {
-            width: 30rem;
+          .main-slider,
+          .thumbnail-slider {
+            width: 100%; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
           }
 
-          .thumbnail-slider {
-            .thumbnail-slide {
-              max-width: 90%;
-              img {
-                width: 90%; /* Giảm kích thước ảnh nhỏ xuống 90% */
-                height: auto;
-                object-fit: cover;
-                cursor: pointer;
-                border: 1px solid transparent; /* Default border color */
-              }
-
-              &.active img {
-                border: 1px solid #ff5947; /* Add border color when active */
-              }
+          .thumbnail-slide {
+            max-width: 100%;
+            img {
+              width: 100%; /* Giảm kích thước ảnh nhỏ xuống 90% */
+              height: auto;
+              object-fit: cover;
+              cursor: pointer;
+              border: 1px solid transparent; /* Default border color */
             }
 
-            .slick-slide {
-              padding: 5px; /* Giảm khoảng cách giữa các ảnh nhỏ */
+            &.active img {
+              border: 1px solid #ff5947; /* Add border color when active */
             }
+          }
 
-            .slick-list {
-              max-width: 95%;
-              margin: 0 -10px; /* Giảm khoảng cách giữa các ảnh nhỏ */
-            }
+          .slick-slide {
+            padding: 5px; /* Giảm khoảng cách giữa các ảnh nhỏ */
+          }
+
+          .slick-list {
+            max-width: 100%;
+            margin: 0 -10px; /* Giảm khoảng cách giữa các ảnh nhỏ */
           }
         }
         @media (max-width: 1116px) {
-          .main-slider {
-            width: 25rem;
+          .main-slider,
+          .thumbnail-slider {
+            width: 100%; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
           }
 
-          .thumbnail-slider {
-            .thumbnail-slide {
-              max-width: 80%;
-              img {
-                width: 80%; /* Giảm kích thước ảnh nhỏ xuống 80% */
-                height: auto;
-                object-fit: cover;
-                cursor: pointer;
-                border: 1px solid transparent; /* Default border color */
-              }
-
-              &.active img {
-                border: 1px solid #ff5947; /* Add border color when active */
-              }
+          .thumbnail-slide {
+            max-width: 100%;
+            img {
+              width: 100%; /* Giảm kích thước ảnh nhỏ xuống 80% */
+              height: auto;
+              object-fit: cover;
+              cursor: pointer;
+              border: 1px solid transparent; /* Default border color */
             }
 
-            .slick-slide {
-              padding: 5px; /* Giảm khoảng cách giữa các ảnh nhỏ */
+            &.active img {
+              border: 1px solid #ff5947; /* Add border color when active */
             }
+          }
 
-            .slick-list {
-              max-width: 80%;
-              margin: 0 -10px; /* Giảm khoảng cách giữa các ảnh nhỏ */
-            }
+          .slick-slide {
+            padding: 5px; /* Giảm khoảng cách giữa các ảnh nhỏ */
+          }
+
+          .slick-list {
+            max-width: 100%;
+            margin: 0 -10px; /* Giảm khoảng cách giữa các ảnh nhỏ */
           }
         }
-        @media(max-width:821px){
-          .main-slider {
-            width: 25rem;
+        @media (max-width: 821px) {
+          .main-slider,
+          .thumbnail-slider {
+            width: 100%; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
           }
 
-          .thumbnail-slider {
-            .thumbnail-slide {
-              max-width: 75%;
-              img {
-                width: 75%; /* Giảm kích thước ảnh nhỏ xuống 80% */
-                height: auto;
-                object-fit: cover;
-                cursor: pointer;
-                border: 1px solid transparent; /* Default border color */
-              }
-
-              &.active img {
-                border: 1px solid #ff5947; /* Add border color when active */
-              }
+          .thumbnail-slide {
+            max-width: 100%;
+            img {
+              width: 100%; /* Giảm kích thước ảnh nhỏ xuống 75% */
+              height: auto;
+              object-fit: cover;
+              cursor: pointer;
+              border: 1px solid transparent; /* Default border color */
             }
 
-            .slick-slide {
-              padding: 5px; /* Giảm khoảng cách giữa các ảnh nhỏ */
+            &.active img {
+              border: 1px solid #ff5947; /* Add border color when active */
             }
+          }
 
-            .slick-list {
-              max-width: 80%;
-              margin: 0 -10px; /* Giảm khoảng cách giữa các ảnh nhỏ */
-            }
+          .slick-slide {
+            padding: 5px; /* Giảm khoảng cách giữa các ảnh nhỏ */
+          }
+
+          .slick-list {
+            max-width: 100%;
+            margin: 0 -10px; /* Giảm khoảng cách giữa các ảnh nhỏ */
           }
         }
-        @media(max-width: 734px){
-          .main-slider {
-            width: 40rem;
+        @media (max-width: 734px) {
+          .main-slider,
+          .thumbnail-slider {
+            width: 20rem; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
           }
 
+          .thumbnail-slide {
+            max-width: 100%;
+            img {
+              width: 100%;
+              height: auto;
+              object-fit: cover;
+              cursor: pointer;
+              border: 1px solid transparent; /* Default border color */
+            }
+
+            &.active img {
+              border: 1px solid #ff5947; /* Add border color when active */
+            }
+          }
+
+          .slick-slide {
+          }
+
+          .slick-list {
+            max-width: 100%;
+          }
+        }
+        @media (max-width: 672px) {
+          .main-slider,
           .thumbnail-slider {
-            .thumbnail-slide {
-              max-width: 100%;
+            width: 100%; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
+          }
 
-              img {
-                width: 100%;
-                height: auto;
-                object-fit: cover;
-                cursor: pointer;
-                border: 1px solid transparent; /* Default border color */
-              }
-
-              &.active img {
-                border: 1px solid #ff5947; /* Add border color when active */
-              }
+          .thumbnail-slide {
+            max-width: 100%;
+            img {
+              width: 100%;
+              height: auto;
+              object-fit: cover;
+              cursor: pointer;
+              border: 1px solid transparent; /* Default border color */
             }
 
-            .slick-slide {
+            &.active img {
+              border: 1px solid #ff5947; /* Add border color when active */
+            }
+          }
+
+          .slick-slide {
+          }
+
+          .slick-list {
+            max-width: 100%;
+          }
+        }
+        @media (max-width: 625px) {
+          .main-slider,
+          .thumbnail-slider {
+            width: 100%; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
+          }
+
+          .thumbnail-slide {
+            max-width: 100%;
+            img {
+              width: 100%;
+              height: auto;
+              object-fit: cover;
+              cursor: pointer;
+              border: 1px solid transparent; /* Default border color */
             }
 
-            .slick-list {
-              max-width: 100%;
+            &.active img {
+              border: 1px solid #ff5947; /* Add border color when active */
             }
+          }
+
+          .slick-slide {
+          }
+
+          .slick-list {
+            max-width: 100%;
+            overflow: hidden;
+          }
+        }
+        @media (max-width: 460px) {
+          margin-left: 0;
+          .main-slider,
+          .thumbnail-slider {
+            width: 90%; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
+            margin: 0 auto;
+          }
+
+          .thumbnail-slide {
+            max-width: 100%;
+            img {
+              width: 100%;
+              height: auto;
+              object-fit: cover;
+              cursor: pointer;
+              border: 1px solid transparent; /* Default border color */
+            }
+
+            &.active img {
+              border: 1px solid #ff5947; /* Add border color when active */
+            }
+          }
+
+          .slick-slide {
+          }
+
+          .slick-list {
+            max-width: 100%;
+            overflow: hidden;
           }
         }
         .slick-slider {
@@ -259,8 +469,12 @@
         @media (max-width: 1116px) {
           margin-left: 3rem; /* Tăng khoảng cách bên trái */
         }
-        @media(max-width: 1000px){
+        @media (max-width: 1000px) {
           gap: 2.2rem;
+        }
+        @media (max-width: 460px) {
+          width: 90%;
+          margin: 0 auto;
         }
 
         .name-details-product {
@@ -270,7 +484,7 @@
             font-size: 1.2rem; /* Giảm kích thước font chữ */
           }
         }
-        
+
         .content-below-details {
           display: flex;
           flex-direction: row;
@@ -468,11 +682,21 @@
       }
 
       @media (max-width: 1400px) {
-        padding-left: 3rem; /* Tăng khoảng cách bên trái */
+        padding-left: 2rem; /* Tăng khoảng cách bên trái */
       }
 
       @media (max-width: 1116px) {
-        padding-left: 2rem; /* Tăng khoảng cách bên trái */
+        max-width: 90%;
+        margin: 0 auto;
+      }
+      @media(max-width: 672px){
+        width: 100%;
+        margin: 0 auto;
+        padding-left: 0;
+      }
+      @media (max-width: 460px) {
+        width: 90%;
+        margin: 0 auto;
       }
 
       .title-desc-product-details {
@@ -486,10 +710,16 @@
 
             @media (max-width: 1400px) {
               font-size: 0.8rem; /* Giảm kích thước font chữ */
+              padding: 0.5rem 2rem;
             }
 
             @media (max-width: 1116px) {
               font-size: 0.6rem; /* Giảm kích thước font chữ */
+              width: 100%;
+            }
+            @media(max-width:900px){
+              font-size: 0.5rem;
+              padding: 0.4rem 1.8rem;
             }
           }
         }

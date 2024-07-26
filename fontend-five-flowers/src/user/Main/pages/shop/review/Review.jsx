@@ -1,4 +1,4 @@
-import { Input, Rate, Space, notification } from "antd";
+import { Rate, Space, notification } from "antd";
 import axios from "axios";
 import React, { useContext, useState } from "react";
 import { CartContext } from "../../../header/components/cart/cartContext/CartProvider";
@@ -70,13 +70,12 @@ const Review = ({ productId, onReviewSubmitted }) => {
           onChange={setReviewValue}
           value={reviewValue}
         />
-        <Input.TextArea
+        <input
           placeholder="Write your review here..."
           value={comment}
           onChange={(e) => setComment(e.target.value)}
-          className="review-input-textarea" // Add this line
+          className="review-input-textarea"
         />
-
         <button className="submit-review-btn" onClick={handleReviewSubmit}>
           <p>Submit Review</p>
         </button>
