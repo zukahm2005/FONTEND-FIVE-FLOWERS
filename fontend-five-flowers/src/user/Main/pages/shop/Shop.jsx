@@ -1,3 +1,4 @@
+import { Button, Drawer } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
@@ -7,7 +8,6 @@ import CollectionGrid from "./collectionShop/collectionGrid/CollectionGrid";
 import CollectionHeader from "./collectionShop/collectionHeader/CollectionHeader";
 import "./shop.scss";
 import SideBarShop from "./sideBarShop/SideBarShop";
-import { Drawer, Button } from "antd";
 
 const Shop = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
@@ -51,7 +51,7 @@ const Shop = () => {
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 700);
-      if (window.innerWidth <= 911) {
+      if (window.innerWidth <= 1000) {
         setItemsPerPage(4);
       } else {
         setItemsPerPage(9);
