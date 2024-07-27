@@ -52,9 +52,9 @@ const Shop = () => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 700);
       if (window.innerWidth <= 1000) {
-        setItemsPerPage(4);
+        setItemsPerPage(displayType === "list" ? 5 : 4);
       } else {
-        setItemsPerPage(9);
+        setItemsPerPage(displayType === "list" ? 5 : 9);
       }
     };
 
@@ -64,7 +64,7 @@ const Shop = () => {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [displayType]);
 
   useEffect(() => {
     filterProducts();
@@ -100,7 +100,7 @@ const Shop = () => {
 
   const handleDisplayChange = (type) => {
     setDisplayType(type);
-    setItemsPerPage(type === "list" ? 5 : 9);
+    setItemsPerPage(type === "list" ? 5 : (window.innerWidth <= 1000 ? 4 : 9));
   };
 
   const handleSearchTermChange = (term) => {
