@@ -166,13 +166,13 @@ const ShoppingCart = () => {
                 </div>
                 <div className="container-price-cart">
                   <div className="sub-price-shopping-cart">
-                    <p>₹{subtotal}</p>
+                    <p>${subtotal}</p>
                   </div>
                   <div className="shipping-price-shopping-cart">
-                    <p>₹{shippingCost}</p>
+                    <p>${shippingCost}</p>
                   </div>
                   <div className="total-money-shopping-cart">
-                    <p>₹{totalPrice}</p>
+                    <p>${totalPrice}</p>
                   </div>
                 </div>
               </div>

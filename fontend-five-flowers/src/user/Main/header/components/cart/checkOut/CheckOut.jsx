@@ -504,7 +504,7 @@ const CheckOut = () => {
                     </div>
                   </div>
                   <div className="total-price">
-                    <p>₹{item.totalPrice}</p>
+                    <p>${item.totalPrice}</p>
                   </div>
                 </div>
               ))}
@@ -523,13 +523,13 @@ const CheckOut = () => {
                 </div>
                 <div className="container-price-check-out">
                   <div className="sub-price-shopping-check-out">
-                    <p>₹{subtotal}</p>
+                    <p>${subtotal}</p>
                   </div>
                   <div className="sub-price-shopping-check-out">
-                    <p>₹{shippingCost}</p>
+                    <p>${shippingCost}</p>
                   </div>
                   <div className="total-money-shopping-check-out">
-                    <p>₹{totalPrice}</p>
+                    <p>${totalPrice}</p>
                   </div>
                 </div>
               </div>
