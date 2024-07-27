@@ -1,8 +1,8 @@
 import axios from "axios";
-import {jwtDecode} from "jwt-decode"; // Correct named import
+import { jwtDecode } from "jwt-decode"; // Correct named import
 import React, { useContext, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import { CartContext } from "../../cart/cartContext/CartProvider";
+import { Link, useNavigate } from "react-router-dom";
+import { CartContext } from "../../../cart/cartContext/CartProvider";
 import "./LoginAdmin.scss";
 
 const LoginAdmin = ({ switchToRegister }) => {
@@ -22,7 +22,10 @@ const LoginAdmin = ({ switchToRegister }) => {
     }
 
     try {
-      const response = await axios.post("http://localhost:8080/api/v1/user/login", { userName, password });
+      const response = await axios.post(
+        "http://localhost:8080/api/v1/user/login",
+        { userName, password }
+      );
       const token = response.data.token;
       if (token) {
         const decodedToken = jwtDecode(token); // Decode the token
@@ -64,14 +67,14 @@ const LoginAdmin = ({ switchToRegister }) => {
     } else if (name === "password") {
       setPassword(value);
     }
-    setError(""); 
-    setSuccess(""); 
+    setError("");
+    setSuccess("");
   };
 
   return (
     <div className="login-admin-container">
       <div className="login-title">
-        <p>LOGIN</p>
+        <p>LOGIN ADMIN</p>
       </div>
       <div className="form-login">
         <form onSubmit={handleLogin}>
@@ -96,10 +99,14 @@ const LoginAdmin = ({ switchToRegister }) => {
             </div>
             <div className="button-form-login">
               <div className="button-login">
-                <button type="submit"><p>LOGIN</p></button>
+                <button type="submit">
+                  <p>LOGIN</p>
+                </button>
               </div>
               <div className="button-to-register">
-                <p onClick={switchToRegister}>Create an account</p>
+                <Link to="/registerAdmin">
+                  <p>Create an account</p>
+                </Link>
               </div>
             </div>
           </div>

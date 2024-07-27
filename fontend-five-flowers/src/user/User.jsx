@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import Error from "../error/Error";
 import Footer from "./Main/footer/Footer";
@@ -16,7 +16,8 @@ import News from "./Main/pages/news/News";
 import Shop from "./Main/pages/shop/Shop";
 import ProductDetail from "./Main/pages/shop/productDetails/ProductDetails";
 // import AnalyticsTrackVisit from "../admin/mainAdmin/contentAdmin/homeAdmin/analyticsadmin/AnalyticsTrackVisit";
-import LoginAdmin from "../user/Main/header/components/profile/loginAdmin/LoginAdmin";
+import LoginAdmin from "./Main/header/components/profile/login/loginAdmin/LoginAdmin";
+import RegisterAdmin from "./Main/header/components/profile/register/registerAdmin/RegisterAdmin";
 import "./user.scss";
 
 const User = () => {
@@ -46,7 +47,8 @@ const User = () => {
             <Route path="/cart-user" element={<CartUser />} />
             <Route path="/order-receive" element={<OrderReceive />} />
             <Route path="*" element={<Error />} />
-            <Route path="/loginAdmin" element={<LoginAdmin />} />
+            <Route path="/loginadmin" element={<LoginAdmin />} />
+            <Route path="/registeradmin" element={<RegisterAdmin/>}/>
           </Routes>
         </div>
         <Footer />

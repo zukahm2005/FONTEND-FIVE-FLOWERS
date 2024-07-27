@@ -1,12 +1,11 @@
-.login-admin-container {
+.register-admin-container {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
     max-width: 50%;
     margin: 11rem auto;
-    
   
-    .login-title {
+    .register-admin-title {
       p {
         font-size: 1.5rem;
         font-weight: 500;
@@ -14,14 +13,14 @@
       }
     }
   
-    .form-login {
-      .form-login-content {
+    .form-register-admin {
+      .form-register-admin-content {
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
   
-        .input-username-form-login,
-        .input-password-form-login {
+        .input-username-form-register-admin,
+        .input-password-form-register-admin {
           width: 100%;
   
           input {
@@ -42,12 +41,12 @@
           }
         }
   
-        .button-form-login {
+        .button-form-register-admin {
           display: flex;
           flex-direction: row;
           gap: 1rem;
   
-          .button-login {
+          .button-register-admin {
             button {
               border-radius: 40px;
   
@@ -58,7 +57,7 @@
             }
           }
   
-          .button-to-register {
+          .button-to-register-admin {
             cursor: pointer;
   
             p {
