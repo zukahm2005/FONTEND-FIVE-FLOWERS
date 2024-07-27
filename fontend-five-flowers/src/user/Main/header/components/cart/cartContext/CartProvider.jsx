@@ -299,6 +299,7 @@ const CartProvider = ({ children }) => {
       setDistinctProductCount(0);
       setTotalPrice(0);
       setSubtotal(0);
+      localStorage.removeItem("cartItems"); // Clear localStorage cart
     } catch (error) {
       console.error("Error placing order:", error);
       notification.error({
