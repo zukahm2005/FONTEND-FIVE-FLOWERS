@@ -2,15 +2,16 @@
     max-width: 100%;
     background-color: #f1f1f1;
     .side-bar-container-admin {
-        min-width: 17em;
+        min-width: 14em;
         position: fixed;
         z-index: 2;
         background-color: #ebebeb;
         height: 100%;
+        overflow-y: auto;
     }
     .content-container-admin {
         max-width: 100%;
-        text-align: center;
+        text-align: left;
 
         justify-content: center;
     }

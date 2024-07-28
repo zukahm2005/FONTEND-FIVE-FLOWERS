@@ -17,7 +17,6 @@ import Shop from "./Main/pages/shop/Shop";
 import ProductDetail from "./Main/pages/shop/productDetails/ProductDetails";
 // import AnalyticsTrackVisit from "../admin/mainAdmin/contentAdmin/homeAdmin/analyticsadmin/AnalyticsTrackVisit";
 import LoginAdmin from "./Main/header/components/profile/login/loginAdmin/LoginAdmin";
-import RegisterAdmin from "./Main/header/components/profile/register/registerAdmin/RegisterAdmin";
 import "./user.scss";
 
 const User = () => {
@@ -48,7 +47,6 @@ const User = () => {
             <Route path="/order-receive" element={<OrderReceive />} />
             <Route path="*" element={<Error />} />
             <Route path="/loginadmin" element={<LoginAdmin />} />
-            <Route path="/registeradmin" element={<RegisterAdmin/>}/>
           </Routes>
         </div>
         <Footer />

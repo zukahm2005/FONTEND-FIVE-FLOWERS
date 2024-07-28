@@ -103,11 +103,6 @@ const LoginAdmin = ({ switchToRegister }) => {
                   <p>LOGIN</p>
                 </button>
               </div>
-              <div className="button-to-register">
-                <Link to="/registerAdmin">
-                  <p>Create an account</p>
-                </Link>
-              </div>
             </div>
           </div>
 

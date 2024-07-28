@@ -1,9 +1,9 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./registerAdmin.scss";
+import { useNavigate } from "react-router-dom";
 
-const RegisterAdmin = ({ switchToLogin }) => {
+import "./createAdmin.scss";
+const CreateAdmin = ({ switchToLogin }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -73,7 +73,6 @@ const RegisterAdmin = ({ switchToLogin }) => {
       setPassword("");
       setConfirmPassword("");
       setEmail("");
-
     } catch (error) {
       if (
         error.response &&
@@ -103,9 +102,11 @@ const RegisterAdmin = ({ switchToLogin }) => {
   };
 
   return (
-    <div className="register-admin-container">
+    <div className="create-admin-container">
       <div className="register-admin-title">
-        <p>REGISTER ADMIN</p>
+        <div className="title-register-admin">
+          <p>REGISTER ADMIN</p>
+        </div>
       </div>
 
       <div className="form-register-admin">
@@ -148,15 +149,8 @@ const RegisterAdmin = ({ switchToLogin }) => {
               />
             </div>
             <div className="button-form-register-admin">
-              <div className="button-register-admin">
-                <button type="submit">
-                  <p>Register</p>
-                </button>
-              </div>
-              <div className="button-to-register-admin">
-                <Link to="/loginadmin">
-                  <p>Login now</p>
-                </Link>
+              <div className="button-register-admin" onClick={handleRegister}>
+                <p>Register</p>
               </div>
             </div>
           </div>
@@ -169,4 +163,4 @@ const RegisterAdmin = ({ switchToLogin }) => {
   );
 };
 
-export default RegisterAdmin;
+export default CreateAdmin;

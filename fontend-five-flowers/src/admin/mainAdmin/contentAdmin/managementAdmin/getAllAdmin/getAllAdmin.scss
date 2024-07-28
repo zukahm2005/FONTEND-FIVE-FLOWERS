@@ -1,0 +1,56 @@
+.list-manage-admin-container {
+    max-width: 70%;
+    margin: 0 auto;
+    margin-left: 22rem;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    height: 50rem;
+    padding-top: 5rem;
+  
+    .header-manage-admin-container {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+  
+      .title-header-admin {
+        p {
+          font-size: 1.5rem;
+          font-weight: bold;
+        }
+      }
+  
+      .components-manage-admin-container {
+        .add-manage-admin-container {
+          background-color: black;
+          border-radius: 5px;
+          cursor: pointer;
+  
+          p {
+            color: white;
+            padding: 0.3rem;
+          }
+        }
+      }
+    }
+  }
+  
+  .pagination-container {
+    display: flex;
+    justify-content: flex-end; /* Căn sang bên phải */
+  }
+  
+ 
+  
+ 
+  
+  .button-register-admin div {
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  .button-register-admin div p {
+    margin: 0;
+  }
+  

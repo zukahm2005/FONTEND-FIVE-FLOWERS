@@ -10,6 +10,7 @@ import BrandAdmin from "./mainAdmin/contentAdmin/brandAdmin/BrandAdmin";
 import CategoryAdmin from "./mainAdmin/contentAdmin/categoryAdmin/CategoryAdmin";
 import CommentReviewAdmin from "./mainAdmin/contentAdmin/commentReview/CommentReviewAdmin";
 import HomeAdmin from "./mainAdmin/contentAdmin/homeAdmin/HomeAdmin";
+import ManagementAdmin from "./mainAdmin/contentAdmin/managementAdmin/ManagementAdmin";
 import OrderAdmin from "./mainAdmin/contentAdmin/orderAdmin/OrderAdmin";
 import PaymentAdmin from "./mainAdmin/contentAdmin/paymentAdmin/PaymentAdmin";
 import ProductAdmin from "./mainAdmin/contentAdmin/productAdmin/ProductAdmin";
@@ -47,6 +48,7 @@ const Admin = () => {
             <Route path="payment/*" element={<PaymentAdmin />} />
             <Route path="comment/*" element={<CommentReviewAdmin />} />
             <Route path="customer/*" element={<AddressAdmin />} />
+            <Route path="manage-admin/*" element={<ManagementAdmin/>}/>
             <Route path="*" element={<Error />} />
           </Routes>
         </div>

@@ -1,9 +1,9 @@
 import { motion } from "framer-motion";
 import React from "react";
-import { AiOutlineProduct, AiOutlineComment } from "react-icons/ai";
+import { AiOutlineComment, AiOutlineProduct } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
 import { BsCart2 } from "react-icons/bs";
-import { MdOutlineHome, MdPayment } from "react-icons/md";
+import { MdManageAccounts, MdOutlineHome, MdPayment } from "react-icons/md";
 import { RiBloggerLine } from "react-icons/ri";
 import { TbAddressBook, TbBrandAirbnb } from "react-icons/tb";
 import { Link, useLocation } from "react-router-dom";
@@ -16,7 +16,6 @@ const SideBarAdmin = () => {
 
   return (
     <div className="sidebar-container-admin">
-
       {/* ==== home ======= */}
       <Link to="home">
         <motion.div
@@ -38,7 +37,9 @@ const SideBarAdmin = () => {
       {/* ==== product ======= */}
       <Link to="product">
         <motion.div
-          className={`side-bar-admin-link ${isActive("product") ? "active" : ""}`}
+          className={`side-bar-admin-link ${
+            isActive("product") ? "active" : ""
+          }`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -56,7 +57,9 @@ const SideBarAdmin = () => {
       {/* ==== address ======= */}
       <Link to="address">
         <motion.div
-          className={`side-bar-admin-link ${isActive("address") ? "active" : ""}`}
+          className={`side-bar-admin-link ${
+            isActive("address") ? "active" : ""
+          }`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -88,7 +91,7 @@ const SideBarAdmin = () => {
           </div>
         </motion.div>
       </Link>
-     
+
       {/* ==== brand ======= */}
       <Link to="brand">
         <motion.div
@@ -110,7 +113,9 @@ const SideBarAdmin = () => {
       {/* ==== category ======= */}
       <Link to="category">
         <motion.div
-          className={`side-bar-admin-link ${isActive("category") ? "active" : ""}`}
+          className={`side-bar-admin-link ${
+            isActive("category") ? "active" : ""
+          }`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -128,7 +133,9 @@ const SideBarAdmin = () => {
       {/* ==== orders ======= */}
       <Link to="orders">
         <motion.div
-          className={`side-bar-admin-link ${isActive("orders") ? "active" : ""}`}
+          className={`side-bar-admin-link ${
+            isActive("orders") ? "active" : ""
+          }`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -146,7 +153,9 @@ const SideBarAdmin = () => {
       {/* ==== payment ======= */}
       <Link to="payment">
         <motion.div
-          className={`side-bar-admin-link ${isActive("payment") ? "active" : ""}`}
+          className={`side-bar-admin-link ${
+            isActive("payment") ? "active" : ""
+          }`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -164,7 +173,9 @@ const SideBarAdmin = () => {
       {/* ==== comment review ======= */}
       <Link to="comment">
         <motion.div
-          className={`side-bar-admin-link ${isActive("comment") ? "active" : ""}`}
+          className={`side-bar-admin-link ${
+            isActive("comment") ? "active" : ""
+          }`}
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
         >
@@ -175,6 +186,24 @@ const SideBarAdmin = () => {
           </div>
           <div className="side-bar-admin-page">
             <p>Comment Review</p>
+          </div>
+        </motion.div>
+      </Link>
+      <Link to="manage-admin">
+        <motion.div
+          className={`side-bar-admin-link ${
+            isActive("manage-admin") ? "active" : ""
+          }`}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
+        >
+          <div className="side-bar-admin-icon">
+            <p>
+              <MdManageAccounts />
+            </p>
+          </div>
+          <div className="side-bar-admin-page">
+            <p>Manage Admin</p>
           </div>
         </motion.div>
       </Link>

@@ -1,0 +1,53 @@
+.create-admin-container {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .register-admin-title {
+    .title-register-admin {
+      p {
+        font-size: 1.5rem;
+        font-weight: bold;
+      }
+    }
+  }
+  
+  .form-register-admin {
+    form {
+      .form-register-admin-content {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+  
+        .input-username-form-register-admin,
+        .input-password-form-register-admin {
+          input {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+          }
+        }
+  
+        .button-form-register-admin {
+          display: flex;
+          justify-content: center;
+  
+          .button-register-admin {
+            background-color: #1890ff;
+            color: white;
+            text-align: center;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+  
+            p {
+              margin: 0;
+            }
+          }
+        }
+      }
+    }
+  }
+  
