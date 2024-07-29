@@ -127,12 +127,12 @@ const OrderListAdmin = () => {
     searchTerm
   ) => {
     let filteredOrders = [...ordersList];
-  
+
     if (dateRange && dateRange.length === 2) {
       const [start, end] = dateRange;
       const startDate = new Date(start).getTime();
       const endDate = new Date(end).getTime();
-  
+
       filteredOrders = filteredOrders.filter((order) => {
         const orderDateArray = order.createdAt;
         const orderDate = new Date(
@@ -148,13 +148,13 @@ const OrderListAdmin = () => {
         return orderDate >= startDate && orderDate <= endDate;
       });
     }
-  
+
     if (statusFilter) {
       filteredOrders = filteredOrders.filter(
         (order) => order.status === statusFilter
       );
     }
-  
+
     if (searchTerm) {
       const lowerCaseSearchTerm = searchTerm.toLowerCase();
       filteredOrders = filteredOrders.filter(
@@ -168,7 +168,7 @@ const OrderListAdmin = () => {
             order.address.address.toLowerCase().includes(lowerCaseSearchTerm))
       );
     }
-  
+
     const statusPriority = {
       Pending: 1,
       Packaging: 2,
@@ -179,7 +179,7 @@ const OrderListAdmin = () => {
       Refunded: 7,
       Returned: 8,
     };
-  
+
     switch (sortOrder) {
       case "newest":
         filteredOrders.sort((a, b) => {
@@ -203,7 +203,7 @@ const OrderListAdmin = () => {
               b.createdAt[5]
             )
           ).getTime();
-          return dateA - dateB;
+          return dateB - dateA; // Đổi ngược để sắp xếp từ mới nhất đến cũ nhất
         });
         break;
       case "oldest":
@@ -228,7 +228,7 @@ const OrderListAdmin = () => {
               b.createdAt[5]
             )
           ).getTime();
-          return dateB - dateA;
+          return dateA - dateB; // Đổi ngược để sắp xếp từ cũ nhất đến mới nhất
         });
         break;
       case "price-low":
@@ -248,9 +248,6 @@ const OrderListAdmin = () => {
     console.log("Filtered and Sorted orders:", filteredOrders);
     setFilteredOrders(filteredOrders);
   };
-  
-  
-
 
   const formatDate = (dateArray) => {
     if (!Array.isArray(dateArray) || dateArray.length !== 6) {

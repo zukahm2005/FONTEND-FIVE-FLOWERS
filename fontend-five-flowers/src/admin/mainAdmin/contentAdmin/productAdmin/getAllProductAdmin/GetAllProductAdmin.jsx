@@ -2,10 +2,10 @@ import { Modal, Space, Table, Tag } from "antd";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
+import ReactHtmlParser from 'react-html-parser';
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
-import ReactHtmlParser from 'react-html-parser';
 import "./getAllProductAdmin.scss";
 
 const GetAllProductAdmin = () => {
@@ -27,7 +27,6 @@ const GetAllProductAdmin = () => {
 
   const fetchProducts = async (page = 1, pageSize = 10) => {
     setLoading(true);
-    console.log("Fetching products with params:", { page, pageSize });
     try {
       const response = await axios.get(
         "http://localhost:8080/api/v1/products/all",
@@ -38,8 +37,23 @@ const GetAllProductAdmin = () => {
           },
         }
       );
-      console.log("Response:", response.data);
-      setProducts(response.data.content);
+      const fetchedProducts = response.data.content.map(product => {
+        const createdAtDate = new Date(
+          Date.UTC(
+            product.createdAt[0],
+            product.createdAt[1] - 1,
+            product.createdAt[2],
+            product.createdAt[3],
+            product.createdAt[4],
+            product.createdAt[5]
+          )
+        );
+        return {
+          ...product,
+          createdAt: createdAtDate
+        };
+      });
+      setProducts(fetchedProducts);
       setPagination({
         current: page,
         pageSize: pageSize,
@@ -77,10 +91,10 @@ const GetAllProductAdmin = () => {
         filtered.sort((a, b) => a.price - b.price);
         break;
       case "newest":
-        filtered.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        filtered.sort((a, b) => b.createdAt - a.createdAt);
         break;
       case "oldest":
-        filtered.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
+        filtered.sort((a, b) => a.createdAt - b.createdAt);
         break;
       default:
         break;
@@ -236,7 +250,6 @@ const GetAllProductAdmin = () => {
               className="sort-select"
               value={filter.sort}
               onChange={(e) => {
-                console.log("Sort filter changed:", e.target.value);
                 setFilter({ ...filter, sort: e.target.value });
               }}
             >

@@ -2,7 +2,9 @@
   max-width: 80%;
   margin: 10rem auto;
   height: auto;
-
+  @media(max-width:1300px){
+    max-width: 90%;
+  }
   .cart-user-header-container {
     display: flex;
     justify-content: space-between;
@@ -19,7 +21,7 @@
 
       .ant-select,
       .ant-picker {
-        width: 200px;
+        width: 140px;
       }
     }
   }

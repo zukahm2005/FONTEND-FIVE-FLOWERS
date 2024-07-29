@@ -68,14 +68,9 @@ const CartUser = () => {
     Returned: 8,
   };
 
-  const applyFiltersAndSort = (
-    ordersList,
-    sortOrder,
-    dateRange,
-    statusFilter
-  ) => {
+  const applyFiltersAndSort = (ordersList, sortOrder, dateRange, statusFilter) => {
     let filteredOrders = [...ordersList];
-
+  
     if (dateRange && dateRange.length === 2) {
       const [start, end] = dateRange;
       const startDate = new Date(start).setHours(0, 0, 0, 0);
@@ -95,23 +90,27 @@ const CartUser = () => {
         return orderDate >= startDate && orderDate <= endDate;
       });
     }
-
+  
     if (statusFilter) {
       filteredOrders = filteredOrders.filter(
         (order) => order.status === statusFilter
       );
     }
-
+  
     switch (sortOrder) {
       case "newest":
-        filteredOrders.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        );
+        filteredOrders.sort((a, b) => {
+          const dateA = new Date(Date.UTC(...a.createdAt));
+          const dateB = new Date(Date.UTC(...b.createdAt));
+          return dateB - dateA;
+        });
         break;
       case "oldest":
-        filteredOrders.sort(
-          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-        );
+        filteredOrders.sort((a, b) => {
+          const dateA = new Date(Date.UTC(...a.createdAt));
+          const dateB = new Date(Date.UTC(...b.createdAt));
+          return dateA - dateB;
+        });
         break;
       case "price-low":
         filteredOrders.sort((a, b) => a.price - b.price);
@@ -120,15 +119,16 @@ const CartUser = () => {
         filteredOrders.sort((a, b) => b.price - a.price);
         break;
       case "status":
-        filteredOrders.sort(
-          (a, b) => statusPriority[a.status] - statusPriority[b.status]
-        );
+        filteredOrders.sort((a, b) => statusPriority[a.status] - statusPriority[b.status]);
         break;
       default:
         break;
     }
+  
     setFilteredOrders(filteredOrders);
   };
+  
+  
 
   const getStatusTag = (status) => {
     let color;
@@ -226,7 +226,7 @@ const CartUser = () => {
         </div>
         <div className="filters-cart-user">
           <Select
-            style={{ width: 200 }}
+            style={{ width: 140 }}
             onChange={handleSortOrderChange}
             defaultValue="status"
             placeholder="Sort by"
@@ -239,7 +239,7 @@ const CartUser = () => {
           </Select>
           <RangePicker onChange={handleDateRangeChange} />
           <Select
-            style={{ width: 200 }}
+            style={{ width: 140 }}
             onChange={handleStatusFilterChange}
             defaultValue=""
             placeholder="Filter by Status"
