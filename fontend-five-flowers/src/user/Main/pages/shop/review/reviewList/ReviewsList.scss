@@ -1,24 +1,10 @@
 .reviews-list {
     margin: 0 auto;
-    max-width: 80%;
-
-    @media (max-width: 1400px) {
-        max-width: 90%;
-    }
-
-    @media (max-width: 1250px) {
-        max-width: 95%;
-    }
-
-    @media (max-width: 734px) {
-        max-width: 100%;
-    }
+    max-width: 100%;
 }
 
 .review-item {
     border-bottom: 1px solid #ddd;
-    padding: 15px 0;
-    margin-left: 10px;
 
     @media (max-width: 734px) {
         padding: 10px 0;
@@ -29,7 +15,7 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-
+        padding-top: 0.5rem;
         .review-user {
             display: flex;
             align-items: flex-start;
