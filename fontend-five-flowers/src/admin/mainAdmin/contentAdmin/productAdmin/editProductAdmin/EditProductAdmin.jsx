@@ -1,8 +1,16 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Image, Modal, Pagination, Upload, message as antMessage } from "antd";
+import {
+  Button,
+  Checkbox,
+  Image,
+  Modal,
+  Pagination,
+  Upload,
+  message as antMessage,
+} from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import CustomCKEditor from "../../CKEditorComponent/CKEditorComponent";
 
@@ -34,9 +42,14 @@ const EditProductAdmin = () => {
     const fetchProduct = async () => {
       if (id) {
         try {
-          const response = await axios.get(`http://localhost:8080/api/v1/products/get/${id}`, {
-            headers: { Authorization: `Bearer ${localStorage.getItem("token")}` },
-          });
+          const response = await axios.get(
+            `http://localhost:8080/api/v1/products/get/${id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`,
+              },
+            }
+          );
           const productData = response.data;
           setProduct({
             name: productData.name || "",
@@ -47,7 +60,9 @@ const EditProductAdmin = () => {
             brandId: productData.brand?.brandId || "",
             categoryId: productData.category?.categoryId || "",
           });
-          setSelectedImages(productData.productImages.map((img) => img.imageUrl));
+          setSelectedImages(
+            productData.productImages.map((img) => img.imageUrl)
+          );
         } catch (error) {
           console.error("Error fetching product:", error);
         }
@@ -56,11 +71,12 @@ const EditProductAdmin = () => {
 
     const fetchBrandsAndCategories = async () => {
       try {
-        const [brandsResponse, categoriesResponse, imagesResponse] = await Promise.all([
-          axios.get("http://localhost:8080/api/v1/brands/all"),
-          axios.get("http://localhost:8080/api/v1/categories/all"),
-          axios.get("http://localhost:8080/api/v1/images/all"), // Change this line
-        ]);
+        const [brandsResponse, categoriesResponse, imagesResponse] =
+          await Promise.all([
+            axios.get("http://localhost:8080/api/v1/brands/all"),
+            axios.get("http://localhost:8080/api/v1/categories/all"),
+            axios.get("http://localhost:8080/api/v1/images/all"), // Change this line
+          ]);
 
         setBrands(brandsResponse.data.content);
         setCategories(categoriesResponse.data.content);
@@ -120,7 +136,8 @@ const EditProductAdmin = () => {
     if (!product.name) newErrors.name = "Product name is required";
     if (!product.description) newErrors.description = "Description is required";
     if (product.price <= 0) newErrors.price = "Price must be greater than 0";
-    if (product.quantity <= 0) newErrors.quantity = "Quantity must be greater than 0";
+    if (product.quantity <= 0)
+      newErrors.quantity = "Quantity must be greater than 0";
     if (!product.color) newErrors.color = "Color is required";
     if (!product.brandId) newErrors.brandId = "Brand is required";
     if (!product.categoryId) newErrors.categoryId = "Category is required";
@@ -199,8 +216,13 @@ const EditProductAdmin = () => {
         }
       );
 
-      const newImageUrls = uploadResponse.data.productImages.map((img) => img.imageUrl);
-      setSelectedImages((prevSelectedImages) => [...prevSelectedImages, ...newImageUrls]);
+      const newImageUrls = uploadResponse.data.productImages.map(
+        (img) => img.imageUrl
+      );
+      setSelectedImages((prevSelectedImages) => [
+        ...prevSelectedImages,
+        ...newImageUrls,
+      ]);
     } catch (error) {
       console.error("Error uploading images:", error);
       antMessage.error("Failed to upload images. Please try again.");
@@ -220,9 +242,33 @@ const EditProductAdmin = () => {
 
   const indexOfLastImage = currentPage * imagesPerPage;
   const indexOfFirstImage = indexOfLastImage - imagesPerPage;
-  const currentImages = existingImages.slice(indexOfFirstImage, indexOfLastImage);
+  const currentImages = existingImages.slice(
+    indexOfFirstImage,
+    indexOfLastImage
+  );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const itemRender = (current, type, originalElement) => {
+    if (type === "prev") {
+      return (
+        <div className="custom-pagination-button">
+          <FaArrowLeft />
+        </div>
+      );
+    }
+    if (type === "next") {
+      return (
+        <div className="custom-pagination-button">
+          <FaArrowRight />
+        </div>
+      );
+    }
+    if (type === "page") {
+      return <div className="custom-pagination-button">{current}</div>;
+    }
+    return originalElement;
+  };
 
   return (
     <div className="add-proadmin-container">
@@ -253,8 +299,13 @@ const EditProductAdmin = () => {
                 <label>
                   <p>Description</p>
                 </label>
-                <CustomCKEditor data={product.description} onChange={handleDescriptionChange} />
-                {errors.description && <span className="error">{errors.description}</span>}
+                <CustomCKEditor
+                  data={product.description}
+                  onChange={handleDescriptionChange}
+                />
+                {errors.description && (
+                  <span className="error">{errors.description}</span>
+                )}
               </div>
               <div className="info-proadmin-container">
                 <div className="info-price-container">
@@ -268,7 +319,9 @@ const EditProductAdmin = () => {
                     value={product.price}
                     onChange={handleInputChange}
                   />
-                  {errors.price && <span className="error">{errors.price}</span>}
+                  {errors.price && (
+                    <span className="error">{errors.price}</span>
+                  )}
                 </div>
                 <div className="info-quantity-container">
                   <label>
@@ -281,7 +334,9 @@ const EditProductAdmin = () => {
                     value={product.quantity}
                     onChange={handleInputChange}
                   />
-                  {errors.quantity && <span className="error">{errors.quantity}</span>}
+                  {errors.quantity && (
+                    <span className="error">{errors.quantity}</span>
+                  )}
                 </div>
                 <div className="info-color-container">
                   <label>
@@ -294,7 +349,9 @@ const EditProductAdmin = () => {
                     value={product.color}
                     onChange={handleInputChange}
                   />
-                  {errors.color && <span className="error">{errors.color}</span>}
+                  {errors.color && (
+                    <span className="error">{errors.color}</span>
+                  )}
                 </div>
               </div>
               <div className="media-image-container">
@@ -302,10 +359,13 @@ const EditProductAdmin = () => {
                   <p>Media: </p>
                 </label>
                 <div className="upload-image-container">
-                  <Button icon={<UploadOutlined />} onClick={showModal}>Select Images to Upload</Button>
+                  <Button icon={<UploadOutlined />} onClick={showModal}>
+                    Select Images to Upload
+                  </Button>
                 </div>
                 <div className="images-container">
-                  {newSelectedImages.length === 0 && selectedImages.length === 0 ? (
+                  {newSelectedImages.length === 0 &&
+                  selectedImages.length === 0 ? (
                     <p>No images selected</p>
                   ) : (
                     <>
@@ -316,13 +376,12 @@ const EditProductAdmin = () => {
                             src={image}
                             alt={`New Image ${index}`}
                           />
-                          <Button
-                            type="text"
+                          <div
                             onClick={(e) => handleRemoveImage(image, e)}
                             className="button-delete-image"
                           >
-                            X
-                          </Button>
+                            <p>X</p>
+                          </div>
                         </div>
                       ))}
                       {selectedImages.map((image, index) => (
@@ -332,23 +391,23 @@ const EditProductAdmin = () => {
                             src={`http://localhost:8080/api/v1/images/${image}`}
                             alt={`Existing Image ${index}`}
                           />
-                          <Button
-                            type="text"
+                          <div
                             onClick={(e) => handleRemoveImage(image, e)}
                             className="button-delete-image"
                           >
-                            X
-                          </Button>
+                            <p>X</p>
+                          </div>
                         </div>
                       ))}
                     </>
                   )}
                 </div>
               </div>
+
               <div className="info-button-container">
-                <button type="submit">
+                <div onClick={handleSubmit} className="save-button">
                   <p>Save</p>
-                </button>
+                </div>
               </div>
             </div>
             <div className="right-proadmin-main">
@@ -356,7 +415,11 @@ const EditProductAdmin = () => {
                 <label>
                   <p>Brand: </p>
                 </label>
-                <select name="brandId" value={product.brandId} onChange={handleInputChange}>
+                <select
+                  name="brandId"
+                  value={product.brandId}
+                  onChange={handleInputChange}
+                >
                   <option value="">Select Brand</option>
                   {brands.map((brand) => (
                     <option key={brand.brandId} value={brand.brandId}>
@@ -364,21 +427,32 @@ const EditProductAdmin = () => {
                     </option>
                   ))}
                 </select>
-                {errors.brandId && <span className="error">{errors.brandId}</span>}
+                {errors.brandId && (
+                  <span className="error">{errors.brandId}</span>
+                )}
               </div>
               <div className="proadmin-components">
                 <label>
                   <p>Category: </p>
                 </label>
-                <select name="categoryId" value={product.categoryId} onChange={handleInputChange}>
+                <select
+                  name="categoryId"
+                  value={product.categoryId}
+                  onChange={handleInputChange}
+                >
                   <option value="">Select Category</option>
                   {categories.map((category) => (
-                    <option key={category.categoryId} value={category.categoryId}>
+                    <option
+                      key={category.categoryId}
+                      value={category.categoryId}
+                    >
                       {category.name}
                     </option>
                   ))}
                 </select>
-                {errors.categoryId && <span className="error">{errors.categoryId}</span>}
+                {errors.categoryId && (
+                  <span className="error">{errors.categoryId}</span>
+                )}
               </div>
             </div>
           </div>
@@ -422,6 +496,7 @@ const EditProductAdmin = () => {
           pageSize={imagesPerPage}
           total={existingImages.length}
           onChange={paginate}
+          itemRender={itemRender}
           showSizeChanger={false}
         />
       </Modal>

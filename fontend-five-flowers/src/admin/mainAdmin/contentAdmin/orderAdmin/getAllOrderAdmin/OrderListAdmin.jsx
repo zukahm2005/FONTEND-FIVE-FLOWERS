@@ -1,10 +1,12 @@
-import { DatePicker, Input, Select, Table } from "antd";
+import { DatePicker, Input, Select, Table, Pagination } from "antd";
 import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import "./orderListAdmin.scss";
+import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowRight } from "react-icons/fa";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -67,7 +69,7 @@ const OrderListAdmin = () => {
             Authorization: `Bearer ${token}`,
           },
           params: {
-            size: 1000, // Fetch a large number of orders to ensure we get all of them
+            size: 1000,
           },
         }
       );
@@ -203,7 +205,7 @@ const OrderListAdmin = () => {
               b.createdAt[5]
             )
           ).getTime();
-          return dateB - dateA; // Đổi ngược để sắp xếp từ mới nhất đến cũ nhất
+          return dateB - dateA;
         });
         break;
       case "oldest":
@@ -228,7 +230,7 @@ const OrderListAdmin = () => {
               b.createdAt[5]
             )
           ).getTime();
-          return dateA - dateB; // Đổi ngược để sắp xếp từ cũ nhất đến mới nhất
+          return dateA - dateB;
         });
         break;
       case "price-low":
@@ -251,14 +253,14 @@ const OrderListAdmin = () => {
 
   const formatDate = (dateArray) => {
     if (!Array.isArray(dateArray) || dateArray.length !== 6) {
-      return "N/A"; // Giá trị mặc định khi dữ liệu không hợp lệ
+      return "N/A";
     }
     const [year, month, day, hours, minutes, seconds] = dateArray;
     const date = new Date(
       Date.UTC(year, month - 1, day, hours, minutes, seconds)
-    ); // Chú ý tháng bắt đầu từ 0 trong JavaScript
+    );
     if (isNaN(date)) {
-      return "N/A"; // Giá trị mặc định khi dữ liệu không hợp lệ
+      return "N/A";
     }
     const formattedDate = date.toISOString().slice(0, 19).replace("T", " ");
     return formattedDate;
@@ -276,7 +278,7 @@ const OrderListAdmin = () => {
           },
         }
       );
-      fetchOrders(); // Fetch updated orders
+      fetchOrders();
     } catch (error) {
       console.error("Error updating order status:", error);
     }
@@ -299,6 +301,7 @@ const OrderListAdmin = () => {
           value={status}
           disabled
           onClick={handleClick}
+          size="small"
         >
           <Option value="Pending">Pending</Option>
           <Option value="Paid">Paid</Option>
@@ -317,7 +320,8 @@ const OrderListAdmin = () => {
         status={status}
         value={status}
         onChange={(value) => updateOrderStatus(record.orderId, value)}
-        onClick={handleClick} // prevent event propagation
+        onClick={handleClick}
+        size="small"
       >
         <Option value="Pending">Pending</Option>
         <Option value="Paid">Paid</Option>
@@ -336,50 +340,67 @@ const OrderListAdmin = () => {
       title: "ID",
       dataIndex: "orderId",
       key: "orderId",
+      render: (text) => <span style={{ fontSize: "12px" }}>{text}</span>,
     },
     {
       title: "User",
       dataIndex: ["user", "userName"],
       key: "user",
+      render: (text) => <span style={{ fontSize: "12px" }}>{text}</span>,
     },
     {
       title: "First Name",
       key: "firstName",
       render: (text, record) => {
-        return record.user?.firstName || record.address?.firstName || "null";
+        return (
+          <span style={{ fontSize: "12px" }}>
+            {record.user?.firstName || record.address?.firstName || "null"}
+          </span>
+        );
       },
     },
     {
       title: "Last Name",
       key: "lastName",
       render: (text, record) => {
-        return record.user?.lastName || record.address?.lastName || "null";
+        return (
+          <span style={{ fontSize: "12px" }}>
+            {record.user?.lastName || record.address?.lastName || "null"}
+          </span>
+        );
       },
     },
     {
       title: "Total Price",
       dataIndex: "price",
       key: "price",
-      render: (text) => `$${text}`, // Sử dụng giá từ backend
+      render: (text) => <span style={{ fontSize: "12px" }}>${text}</span>,
     },
     {
       title: "Address",
       dataIndex: "address",
       key: "address",
-      render: (address) =>
-        address ? `${address.address}, ${address.postalCode}` : "No address",
+      render: (address) => (
+        <span style={{ fontSize: "12px" }}>
+          {address ? `${address.address}` : "No address"}
+        </span>
+      ),
     },
     {
       title: "Order Date",
       dataIndex: "createdAt",
       key: "createdAt",
-      render: (createdAt) => formatDate(createdAt),
+      render: (createdAt) => (
+        <span style={{ fontSize: "12px" }}>{formatDate(createdAt)}</span>
+      ),
     },
     {
       title: "Payment Method",
       dataIndex: ["payment", "paymentMethod"],
       key: "paymentMethod",
-      render: (text) => text || "No payment method",
+      render: (text) => (
+        <span style={{ fontSize: "12px" }}>{text || "No payment method"}</span>
+      ),
     },
     {
       title: "Status",
@@ -391,12 +412,39 @@ const OrderListAdmin = () => {
       title: "Updated At",
       dataIndex: "updatedAt",
       key: "updatedAt",
-      render: (updatedAt) => formatDate(updatedAt),
+      render: (updatedAt) => (
+        <span style={{ fontSize: "12px" }}>{formatDate(updatedAt)}</span>
+      ),
     },
   ];
 
   const handleTableChange = (pagination) => {
     setPagination(pagination);
+  };
+
+  const itemRender = (_, type, originalElement) => {
+    if (type === "prev") {
+      return (
+        <div className="custom-pagination-button">
+          <FaArrowLeft />
+        </div>
+      );
+    }
+    if (type === "next") {
+      return (
+        <div className="custom-pagination-button">
+          <FaArrowRight />
+        </div>
+      );
+    }
+    if (type === "page") {
+      return (
+        <div className="custom-pagination-button">
+          {originalElement.props.children}
+        </div>
+      );
+    }
+    return originalElement;
   };
 
   return (
@@ -417,6 +465,7 @@ const OrderListAdmin = () => {
               onChange={handleSortChange}
               defaultValue="status"
               placeholder="Sort by"
+              size="small"
             >
               <Option value="newest">Newest</Option>
               <Option value="oldest">Oldest</Option>
@@ -424,12 +473,17 @@ const OrderListAdmin = () => {
               <Option value="price-high">Price, high to low</Option>
               <Option value="status">Status</Option>
             </Select>
-            <RangePicker style={{ width: 150 }} onChange={handleDateRangeChange} />
+            <RangePicker
+              style={{ width: 150 }}
+              onChange={handleDateRangeChange}
+              size="small"
+            />
             <Select
               style={{ width: 100 }}
               onChange={handleStatusFilterChange}
               defaultValue=""
               placeholder="Filter by Status"
+              size="small"
             >
               <Option value="">All</Option>
               <Option value="Pending">Pending</Option>
@@ -445,7 +499,8 @@ const OrderListAdmin = () => {
               placeholder="Search something"
               value={searchTerm}
               onChange={handleSearchChange}
-              style={{ width: 200 }}
+              style={{ width: 130 }}
+              size="small"
             />
             <div className="button-create-orderadmin">
               <Link to="add">
@@ -459,13 +514,14 @@ const OrderListAdmin = () => {
       <Table
         columns={columns}
         dataSource={filteredOrders}
-        pagination={{ ...pagination, showSizeChanger: false }}
+        pagination={{ ...pagination, showSizeChanger: false, itemRender }}
         onChange={handleTableChange}
         rowKey="orderId"
         onRow={(record) => ({
-          onClick: () => viewOrderDetails(record.orderId), // navigate to order details on row click
+          onClick: () => viewOrderDetails(record.orderId),
         })}
         rowClassName="clickable-row"
+        size="small"
       />
     </motion.div>
   );

@@ -1,8 +1,16 @@
 import { UploadOutlined } from "@ant-design/icons";
-import { Button, Checkbox, Image, Modal, Pagination, Upload, message as antMessage } from "antd";
+import {
+  Button,
+  Checkbox,
+  Image,
+  Modal,
+  Pagination,
+  Upload,
+  message as antMessage,
+} from "antd";
 import axios from "axios";
 import React, { useCallback, useEffect, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import CustomCKEditor from "../../CKEditorComponent/CKEditorComponent";
 import "./addProductAdmin.scss";
@@ -33,11 +41,12 @@ const AddProductAdmin = () => {
   useEffect(() => {
     const fetchBrandsAndCategories = async () => {
       try {
-        const [brandsResponse, categoriesResponse, imagesResponse] = await Promise.all([
-          axios.get("http://localhost:8080/api/v1/brands/all"),
-          axios.get("http://localhost:8080/api/v1/categories/all"),
-          axios.get("http://localhost:8080/api/v1/images/all"),
-        ]);
+        const [brandsResponse, categoriesResponse, imagesResponse] =
+          await Promise.all([
+            axios.get("http://localhost:8080/api/v1/brands/all"),
+            axios.get("http://localhost:8080/api/v1/categories/all"),
+            axios.get("http://localhost:8080/api/v1/images/all"),
+          ]);
 
         setBrands(brandsResponse.data.content);
         setCategories(categoriesResponse.data.content);
@@ -98,7 +107,8 @@ const AddProductAdmin = () => {
     if (!product.name) newErrors.name = "Product name is required";
     if (!product.description) newErrors.description = "Description is required";
     if (product.price <= 0) newErrors.price = "Price must be greater than 0";
-    if (product.quantity <= 0) newErrors.quantity = "Quantity must be greater than 0";
+    if (product.quantity <= 0)
+      newErrors.quantity = "Quantity must be greater than 0";
     if (!product.color) newErrors.color = "Color is required";
     if (!product.brandId) newErrors.brandId = "Brand is required";
     if (!product.categoryId) newErrors.categoryId = "Category is required";
@@ -178,8 +188,13 @@ const AddProductAdmin = () => {
         }
       );
 
-      const newImageUrls = uploadResponse.data.productImages.map((img) => img.imageUrl);
-      setSelectedImages((prevSelectedImages) => [...prevSelectedImages, ...newImageUrls]);
+      const newImageUrls = uploadResponse.data.productImages.map(
+        (img) => img.imageUrl
+      );
+      setSelectedImages((prevSelectedImages) => [
+        ...prevSelectedImages,
+        ...newImageUrls,
+      ]);
     } catch (error) {
       console.error("Error uploading images:", error);
       antMessage.error("Failed to upload images. Please try again.");
@@ -199,9 +214,33 @@ const AddProductAdmin = () => {
 
   const indexOfLastImage = currentPage * imagesPerPage;
   const indexOfFirstImage = indexOfLastImage - imagesPerPage;
-  const currentImages = existingImages.slice(indexOfFirstImage, indexOfLastImage);
+  const currentImages = existingImages.slice(
+    indexOfFirstImage,
+    indexOfLastImage
+  );
 
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const itemRender = (current, type, originalElement) => {
+    if (type === "prev") {
+      return (
+        <div className="custom-pagination-button">
+          <FaArrowLeft />
+        </div>
+      );
+    }
+    if (type === "next") {
+      return (
+        <div className="custom-pagination-button">
+          <FaArrowRight />
+        </div>
+      );
+    }
+    if (type === "page") {
+      return <div className="custom-pagination-button">{current}</div>;
+    }
+    return originalElement;
+  };
 
   return (
     <div className="add-proadmin-container">
@@ -297,7 +336,8 @@ const AddProductAdmin = () => {
                   </Button>
                 </div>
                 <div className="images-container">
-                  {newSelectedImages.length === 0 && selectedImages.length === 0 ? (
+                  {newSelectedImages.length === 0 &&
+                  selectedImages.length === 0 ? (
                     <p>No images selected</p>
                   ) : (
                     <>
@@ -312,7 +352,7 @@ const AddProductAdmin = () => {
                             onClick={(e) => handleRemoveImage(image, e)}
                             className="button-delete-image"
                           >
-                            X
+                            <p>X</p>
                           </div>
                         </div>
                       ))}
@@ -327,7 +367,7 @@ const AddProductAdmin = () => {
                             onClick={(e) => handleRemoveImage(image, e)}
                             className="button-delete-image"
                           >
-                            X
+                            <p>X</p>
                           </div>
                         </div>
                       ))}
@@ -335,6 +375,7 @@ const AddProductAdmin = () => {
                   )}
                 </div>
               </div>
+
               <div className="info-button-container">
                 <div className="custom-button" onClick={handleSubmit}>
                   <p>Push</p>
@@ -427,6 +468,7 @@ const AddProductAdmin = () => {
           pageSize={imagesPerPage}
           total={existingImages.length}
           onChange={paginate}
+          itemRender={itemRender}
           showSizeChanger={false}
         />
       </Modal>

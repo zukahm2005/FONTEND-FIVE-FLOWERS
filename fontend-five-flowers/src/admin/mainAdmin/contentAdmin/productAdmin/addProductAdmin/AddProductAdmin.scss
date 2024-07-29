@@ -4,9 +4,10 @@
   height: 55rem;
   padding-top: 2rem;
 
-  @media(max-width:1080px){
+  @media (max-width: 1080px) {
     max-width: 100%;
   }
+
   input {
     outline: none;
   }
@@ -25,6 +26,7 @@
       flex-direction: row;
       gap: 1rem;
       align-items: center;
+
       .back-arrow {
         font-size: 24px;
         margin-right: 10px;
@@ -46,6 +48,7 @@
       display: flex;
       flex-direction: row;
       gap: 1rem;
+
       .left-proadmin-main {
         background-color: white;
         border-radius: 10px;
@@ -55,6 +58,7 @@
         gap: 1rem;
         padding: 1rem;
         width: 100%;
+
         .title-container-proadmin,
         .desc-container-proadmin,
         .info-proadmin-container {
@@ -79,6 +83,7 @@
 
         .desc-container-proadmin {
           border-radius: 10px;
+
           .ck-editor__editable {
             height: 10rem;
             overflow-y: auto;
@@ -91,12 +96,14 @@
           display: flex;
           justify-content: flex-end;
           cursor: pointer;
+
           .custom-button {
             padding: 0.3rem;
             border: none;
             cursor: pointer;
             background-color: #34a5fb;
             border-radius: 10px;
+
             p {
               padding: 0.5px 5px;
               color: #ffffff;
@@ -106,10 +113,11 @@
               font-size: 14px;
               font-weight: bold;
             }
+
             &:hover {
               background-color: #196ef8 !important;
 
-              p{
+              p {
                 color: white;
               }
             }
@@ -119,11 +127,13 @@
         .info-proadmin-container {
           display: grid;
           grid-template-columns: 1fr 1fr 1fr;
-          @media(max-width:955px){
+
+          @media (max-width: 955px) {
             display: flex;
             flex-direction: column;
             gap: 1rem;
           }
+
           input {
             width: 100%;
           }
@@ -134,6 +144,7 @@
             font-size: 15px;
             font-weight: bold;
           }
+
           .upload-image-container {
             text-align: center;
             padding: 2rem;
@@ -154,20 +165,6 @@
               width: 100%;
               height: 100%;
             }
-
-            .selected-image {
-              position: relative;
-              .button-delete-image {
-                position: absolute;
-                top: 5px;
-                right: 5px;
-                color: red !important;
-                border: none !important;
-                background: none !important;
-                cursor: pointer !important;
-                z-index: 10 !important;
-              }
-            }
           }
 
           .images-container {
@@ -176,6 +173,25 @@
             display: flex;
             gap: 1rem;
             flex-wrap: wrap;
+            .selected-image {
+              position: relative;
+
+              .button-delete-image {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                color: rgb(201, 248, 14) !important;
+                border: none !important;
+                background: none !important;
+                cursor: pointer !important;
+                z-index: 10 !important;
+
+                p {
+                  margin: 0;
+                  color: red !important;
+                }
+              }
+            }
           }
         }
       }
@@ -185,10 +201,8 @@
         display: flex;
         flex-direction: column;
         gap: 1rem;
-        display: flex;
-        flex-direction: column;
-        gap: 1rem;
         width: 40%;
+
         .proadmin-components {
           padding: 1rem;
           max-width: 100%;
@@ -202,6 +216,7 @@
           p {
             font-weight: bold;
           }
+
           select {
             width: 100%;
             padding: 0.5rem;
@@ -223,6 +238,7 @@
   padding: 1rem;
   border-radius: 10px;
   height: auto;
+
   .existing-images {
     min-width: 100px;
     text-align: center;
@@ -238,14 +254,18 @@
     }
 
     .button-delete-image {
-      position: absolute;
-      top: 0%;
-      left: 0%;
+      top: 5px;
+      right: 5px;
       color: red !important;
       border: none !important;
       background: none !important;
       cursor: pointer !important;
       z-index: 10 !important;
+
+      p {
+        margin: 0;
+        color: red !important;
+      }
     }
   }
 }
