@@ -48,12 +48,36 @@ const EcommerceDashboardAdmin = () => {
     }
   };
 
+  const fetchAddToCartStats = async (date) => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.get("/api/v1/cart/stats", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          date: date.format("YYYY-MM-DD"),
+        },
+      });
+
+      const data = response.data;
+      setStats(prevStats => ({
+        ...prevStats,
+        addToCart: data.addToCart,
+      }));
+    } catch (error) {
+      console.error("Error fetching add to cart stats:", error);
+    }
+  };
+
   useEffect(() => {
     fetchStats(moment());
+    fetchAddToCartStats(moment());
   }, []);
 
   const onDateChange = (date) => {
     fetchStats(date);
+    fetchAddToCartStats(date);
   };
 
   const statsData = [
