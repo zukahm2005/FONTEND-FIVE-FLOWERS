@@ -1,59 +1,70 @@
 .getalladdress-admin {
-  padding: 60px;
-  width: 70%;
-  background-color: #f5f5f5;
-  min-height: 100vh;
-  margin-left: 400px; // Điều chỉnh giá trị này để căn chỉnh đúng với menu bên trái
+  max-width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding-top: 6rem;
+  background-color: white;
+  box-shadow: none;
+  height: 55rem;
+
+  @media(max-width: 1191px) {
+    max-width: 90%;
+  }
+
+  @media(max-width: 955px) {
+    max-width: 100%;
+  }
 
   .getalladdress-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
-    padding: 10px;
-    border-radius: 4px;
+    padding-bottom: 0.5rem;
 
     h2 {
+      font-size: 25px; // Adjusted to fit better with the overall layout
+      font-weight: bold;
       margin: 0;
     }
 
-    input {
-      padding: 5px 10px;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    .sort-menu {
+    .menu-user-container {
       display: flex;
-      align-items: center;
+      flex-direction: row;
+      gap: 0.5rem;
 
-      .sort-select {
-        padding: 5px;
-        border: 1px solid #ccc;
-        border-radius: 4px;
+      .sort-menu {
+        display: flex;
+        align-items: center;
+
+        .sort-select {
+          background-color: #ffffff;
+          padding: 0.2rem;
+          border-radius: 10px;
+          text-align: left;
+          border: thin solid gray;
+          font-size: 14px;
+        }
+      }
+
+      .search-proadmin-container {
+        input {
+          padding: 0.2rem;
+          outline: none;
+          border: none;
+          border-radius: 10px;
+          border: thin solid gray;
+          font-size: 14px;
+        }
       }
     }
   }
 
-  .menu-custommer-container {
-    display: flex;
-    align-items: center;
-
-    .sort-menu {
-      margin-right: 10px; // Adjust the space between sort menu and search input
-    }
-
-    .search-custommeradmin-container {
-      background-color: white;
-      padding: 30px;
+  .bottom-proadmin-container {
+    .ant-table {
+      border: 1px solid #f0f0f0;
       border-radius: 4px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
-      .ant-table {
-        border: 1px solid #f0f0f0;
-        border-radius: 4px;
-        overflow: hidden;
-      }
+      overflow: hidden;
 
       .ant-table-thead > tr > th {
         background: #fafafa;
@@ -94,34 +105,15 @@
           }
         }
       }
+    }
 
-      .ant-space-item {
-        button {
-          color: #000;
+    .address-horizontal {
+      display: flex;
+      flex-direction: row;
+      gap: 20px;
 
-          &:hover {
-            color: #000;
-          }
-        }
-
-        div {
-          color: #000;
-          cursor: pointer;
-
-          &:hover {
-            color: #000;
-          }
-        }
-      }
-
-      .address-horizontal {
-        display: flex;
-        flex-direction: row;
-        gap: 20px;
-
-        p {
-          margin: 0;
-        }
+      p {
+        margin: 0;
       }
     }
 
@@ -130,4 +122,35 @@
       padding: 0;
     }
   }
+}
+
+.custom-pagination-button {
+  cursor: pointer;
+}
+
+.read-more {
+  color: blue;
+  cursor: pointer;
+}
+
+.delete-confirm-modal .ant-modal-content {
+  width: 300px;
+  margin: 0 auto;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.delete-confirm-modal .ant-modal-confirm-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.delete-confirm-modal .ant-modal-confirm-content {
+  margin: 12px 0;
+}
+
+.delete-confirm-modal .ant-modal-confirm-btns {
+  display: flex;
+  justify-content: space-around;
 }

@@ -1,12 +1,20 @@
 .page-brand-admin-full-width-container {
-  max-width: 70%;
+  max-width: 80%;
   margin: 0 auto;
-  margin-left: 25rem;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
-  height: 150rem;
-  padding-top: 5rem;
+  padding-top: 6rem;
+  background-color: white;
+  box-shadow: none;
+  height: 55rem;
+
+  @media(max-width: 1191px) {
+    max-width: 90%;
+  }
+
+  @media(max-width: 955px) {
+    max-width: 100%;
+  }
 
   .header-brand-admin-box {
     max-width: 100%;
@@ -14,11 +22,11 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 1rem;
+    padding-bottom: 0.5rem;
 
     .title-brand-admin {
       p {
-        font-size: 30px;
+        font-size: 25px;
         font-weight: bold;
       }
     }
@@ -27,24 +35,16 @@
       max-width: 100%;
       display: flex;
       flex-direction: row;
-      gap: 1rem;
-
-      select {
-        background-color: #e3e3e3;
-        padding: 0.3rem;
-        border-radius: 10px;
-        text-align: center;
-      }
+      gap: 0.5rem;
 
       .button-create-brand-admin {
-        max-width: 100%;
         p {
           background-color: #000000;
           color: rgb(255, 255, 255);
           padding: 5px 20px;
           border: none;
           border-radius: 5px;
-          font-size: 16px;
+          font-size: 14px;
           cursor: pointer;
           box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
           transition: all 0.3s ease;
@@ -52,18 +52,37 @@
       }
 
       .search-brand-admin-container {
-        max-width: 100%;
         input {
           padding: 0.35rem;
           outline: none;
           border: none;
           border-radius: 10px;
+          border: thin solid gray;
+          font-size: 14px;
         }
       }
     }
   }
 
   .bottom-brand-admin-container {
+    .ant-table {
+      width: 100%;
+    }
+
+    .image-container {
+      display: flex;
+      align-items: center;
+
+      .main-image {
+        border-radius: 5px;
+      }
+    }
+  }
+
+  .delete-confirm-modal {
+    .ant-modal-body {
+      padding: 20px;
+    }
   }
 }
 
@@ -74,4 +93,26 @@
 .read-more {
   color: blue;
   cursor: pointer;
+}
+
+.delete-confirm-modal .ant-modal-content {
+  width: 300px;
+  margin: 0 auto;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.delete-confirm-modal .ant-modal-confirm-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.delete-confirm-modal .ant-modal-confirm-content {
+  margin: 12px 0;
+}
+
+.delete-confirm-modal .ant-modal-confirm-btns {
+  display: flex;
+  justify-content: space-around;
 }

@@ -11,10 +11,10 @@ const HomeAdmin = () => {
         <div className="content-container">
           <EcommerceDashboardAdmin />
           <div className="dashboard-row">
-            <div className="chart-admin-container">
+            <div className="summary-section">
               <ChartAdmin />
             </div>
-            <div className="selling-admin-container">
+            <div className="selling-section">
               <SellingAdmin />
             </div>
           </div>

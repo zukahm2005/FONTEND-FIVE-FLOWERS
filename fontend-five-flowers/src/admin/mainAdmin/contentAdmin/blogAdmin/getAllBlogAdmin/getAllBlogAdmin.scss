@@ -1,23 +1,41 @@
 .page-blog-admin-full-width-container {
-  width: 80%;
-  margin-left: 20rem;
-  padding-top: 5rem;
-  min-height: 59rem;
+  max-width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  padding-top: 4rem;
+  background-color: white;
+  box-shadow: none;
+  height: 55rem;
+
+  @media(max-width: 1191px) {
+    max-width: 90%;
+  }
+
+  @media(max-width: 955px) {
+    max-width: 100%;
+  }
 
   .header-blog-admin-box {
+    max-width: 100%;
     display: flex;
+    flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 20px;
+    padding-bottom: 0.5rem;
 
     .title-blogadmin {
-      font-size: 24px;
-      font-weight: bold;
+      p {
+        font-size: 25px; /* Adjusted to fit better with the overall layout */
+        font-weight: bold;
+      }
     }
 
     .menu-blogadmin-container {
+      max-width: 100%;
       display: flex;
-      gap: 10px;
+      flex-direction: row;
+      gap: 0.5rem; /* Adjusted to fit better with the overall layout */
 
       button {
         padding: 10px 20px;
@@ -54,4 +72,35 @@
       padding: 20px;
     }
   }
+}
+
+.custom-pagination-button {
+  cursor: pointer;
+}
+
+.read-more {
+  color: blue;
+  cursor: pointer;
+}
+
+.delete-confirm-modal .ant-modal-content {
+  width: 300px;
+  margin: 0 auto;
+  border-radius: 8px;
+  padding: 16px;
+  text-align: center;
+}
+
+.delete-confirm-modal .ant-modal-confirm-title {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.delete-confirm-modal .ant-modal-confirm-content {
+  margin: 12px 0;
+}
+
+.delete-confirm-modal .ant-modal-confirm-btns {
+  display: flex;
+  justify-content: space-around;
 }

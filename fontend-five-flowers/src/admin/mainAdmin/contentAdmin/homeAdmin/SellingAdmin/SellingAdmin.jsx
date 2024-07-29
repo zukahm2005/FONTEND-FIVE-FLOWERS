@@ -1,12 +1,22 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import './SellingAdmin.scss';
 
 const SellingAdmin = () => {
-  const topSellingProducts = [
-    { name: 'Homepod', price: '$129.00', category: 'USB, wireless', imageUrl: 'homepod.jpg' },
-    { name: 'Macbook Pro', price: '$899.00', category: 'USB, wireless', imageUrl: 'macbook.jpg' },
-    { name: 'Apple Watch', price: '$399.00', category: 'USB, wireless', imageUrl: 'applewatch.jpg' },
-  ];
+  const [topSellingProducts, setTopSellingProducts] = useState([]);
+
+  useEffect(() => {
+    fetchTopSellingProducts();
+  }, []);
+
+  const fetchTopSellingProducts = async () => {
+    try {
+      const response = await axios.get('/api/v1/orders/top-selling-products');
+      setTopSellingProducts(response.data);
+    } catch (error) {
+      console.error('Error fetching top selling products:', error);
+    }
+  };
 
   return (
     <div className="selling-admin-container">
@@ -18,7 +28,16 @@ const SellingAdmin = () => {
             <div className="product-info">
               <p className="product-name">{product.name}</p>
               <p className="product-category">{product.category}</p>
-              <p className="product-price">{product.price}</p>
+              <div className="product-details">
+                <div className="product-rating">
+                  <span className="star">&#9733;</span>
+                  <span className="star">&#9733;</span>
+                  <span className="star">&#9733;</span>
+                  <span className="star">&#9733;</span>
+                  <span className="star">&#9734;</span>
+                </div>
+                <p className="product-price">{product.price}</p>
+              </div>
             </div>
           </div>
         ))}

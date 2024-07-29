@@ -22,7 +22,7 @@ const GetAllAdmin = () => {
 
   const fetchAdmins = async (page, pageSize) => {
     setLoading(true);
-    const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc context
+    const token = localStorage.getItem("token");
     try {
       const response = await axios.get(
         "http://localhost:8080/api/v1/admin/getAllAdmins",
@@ -59,7 +59,7 @@ const GetAllAdmin = () => {
   };
 
   const handleDelete = async (id) => {
-    const token = localStorage.getItem("token"); // Lấy token từ localStorage hoặc context
+    const token = localStorage.getItem("token");
     try {
       await axios.delete(
         `http://localhost:8080/api/v1/admin/deleteUser/${id}`,

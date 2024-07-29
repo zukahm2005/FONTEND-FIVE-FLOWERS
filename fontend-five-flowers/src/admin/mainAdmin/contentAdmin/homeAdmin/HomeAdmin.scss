@@ -12,8 +12,8 @@
 }
 
 .content-container {
-  width: 70%; 
-  margin-left: 25rem; 
+  width: 80%; 
+  margin-left: 10rem; 
   padding: 20px;
   background-color: #fff;
   border-radius: 8px;
@@ -24,3 +24,13 @@
   gap: 2rem;
 }
 
+.dashboard-row {
+  display: flex;
+  gap: 3px; /* Add 3px gap between the sections */
+}
+
+.summary-section, .selling-section {
+  width: 50%; /* Ensure both sections take up equal width */
+  display: flex;
+  flex-direction: column;
+}
