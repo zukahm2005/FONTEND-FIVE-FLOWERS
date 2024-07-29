@@ -40,13 +40,13 @@
       button {
         padding: 10px 20px;
         border: none;
-        background-color: #1890ff;
+        background-color: #000000; /* Changed to black */
         color: white;
         cursor: pointer;
         transition: background-color 0.3s;
 
         &:hover {
-          background-color: #40a9ff;
+          background-color: #333333; /* Darker shade for hover effect */
         }
       }
     }
