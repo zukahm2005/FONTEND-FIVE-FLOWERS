@@ -1,12 +1,11 @@
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Checkbox, Image, Modal, Pagination, Upload, message as antMessage } from "antd";
 import axios from "axios";
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import CustomCKEditor from "../../CKEditorComponent/CKEditorComponent";
-import ReactHtmlParser from 'react-html-parser';
-import "./AddProductAdmin.scss";
+import "./addProductAdmin.scss";
 
 const AddProductAdmin = () => {
   const navigate = useNavigate();

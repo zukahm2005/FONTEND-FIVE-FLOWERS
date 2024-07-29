@@ -5,8 +5,6 @@ import React, { useEffect, useState } from "react";
 import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import CustomCKEditor from "../../CKEditorComponent/CKEditorComponent";
-import ReactHtmlParser from 'react-html-parser';
-import "./editProductAdmin.scss";
 
 const EditProductAdmin = () => {
   const { id } = useParams();

@@ -1,4 +1,4 @@
-import { motion } from "framer-motion";
+import { Layout, Menu } from "antd";
 import React from "react";
 import { AiOutlineComment, AiOutlineProduct } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
@@ -7,7 +7,9 @@ import { MdManageAccounts, MdOutlineHome, MdPayment } from "react-icons/md";
 import { RiBloggerLine } from "react-icons/ri";
 import { TbAddressBook, TbBrandAirbnb } from "react-icons/tb";
 import { Link, useLocation } from "react-router-dom";
-import "./sideBarAdmin.scss"; // Đảm bảo rằng bạn có file CSS cho thành phần này
+import "./sideBarAdmin.scss";
+
+const { Sider } = Layout;
 
 const SideBarAdmin = () => {
   const location = useLocation();
@@ -15,198 +17,45 @@ const SideBarAdmin = () => {
   const isActive = (path) => location.pathname.includes(path);
 
   return (
-    <div className="sidebar-container-admin">
-      {/* ==== home ======= */}
-      <Link to="home">
-        <motion.div
-          className={`side-bar-admin-link ${isActive("home") ? "active" : ""}`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
+    <div className="side-bar-admin-container">
+      <Sider width={200} className="site-layout-background">
+        <Menu
+          mode="inline"
+          defaultSelectedKeys={["1"]}
+          style={{ height: "100%", borderRight: 0 }}
         >
-          <div className="side-bar-admin-icon">
-            <p>
-              <MdOutlineHome />
-            </p>
-          </div>
-          <div className="side-bar-admin-page">
-            <p>Home</p>
-          </div>
-        </motion.div>
-      </Link>
-
-      {/* ==== product ======= */}
-      <Link to="product">
-        <motion.div
-          className={`side-bar-admin-link ${
-            isActive("product") ? "active" : ""
-          }`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <div className="side-bar-admin-icon">
-            <p>
-              <AiOutlineProduct />
-            </p>
-          </div>
-          <div className="side-bar-admin-page">
-            <p>Product</p>
-          </div>
-        </motion.div>
-      </Link>
-
-      {/* ==== address ======= */}
-      <Link to="address">
-        <motion.div
-          className={`side-bar-admin-link ${
-            isActive("address") ? "active" : ""
-          }`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <div className="side-bar-admin-icon">
-            <p>
-              <TbAddressBook />
-            </p>
-          </div>
-          <div className="side-bar-admin-page">
-            <p>Customer</p>
-          </div>
-        </motion.div>
-      </Link>
-
-      {/* ==== blog ======= */}
-      <Link to="blog">
-        <motion.div
-          className={`side-bar-admin-link ${isActive("blog") ? "active" : ""}`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <div className="side-bar-admin-icon">
-            <p>
-              <RiBloggerLine />
-            </p>
-          </div>
-          <div className="side-bar-admin-page">
-            <p>Blog</p>
-          </div>
-        </motion.div>
-      </Link>
-
-      {/* ==== brand ======= */}
-      <Link to="brand">
-        <motion.div
-          className={`side-bar-admin-link ${isActive("brand") ? "active" : ""}`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <div className="side-bar-admin-icon">
-            <p>
-              <TbBrandAirbnb />
-            </p>
-          </div>
-          <div className="side-bar-admin-page">
-            <p>Brand</p>
-          </div>
-        </motion.div>
-      </Link>
-
-      {/* ==== category ======= */}
-      <Link to="category">
-        <motion.div
-          className={`side-bar-admin-link ${
-            isActive("category") ? "active" : ""
-          }`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <div className="side-bar-admin-icon">
-            <p>
-              <BiCategory />
-            </p>
-          </div>
-          <div className="side-bar-admin-page">
-            <p>Category</p>
-          </div>
-        </motion.div>
-      </Link>
-
-      {/* ==== orders ======= */}
-      <Link to="orders">
-        <motion.div
-          className={`side-bar-admin-link ${
-            isActive("orders") ? "active" : ""
-          }`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <div className="side-bar-admin-icon">
-            <p>
-              <BsCart2 />
-            </p>
-          </div>
-          <div className="side-bar-admin-page">
-            <p>Order</p>
-          </div>
-        </motion.div>
-      </Link>
-
-      {/* ==== payment ======= */}
-      <Link to="payment">
-        <motion.div
-          className={`side-bar-admin-link ${
-            isActive("payment") ? "active" : ""
-          }`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <div className="side-bar-admin-icon">
-            <p>
-              <MdPayment />
-            </p>
-          </div>
-          <div className="side-bar-admin-page">
-            <p>Payment</p>
-          </div>
-        </motion.div>
-      </Link>
-
-      {/* ==== comment review ======= */}
-      <Link to="comment">
-        <motion.div
-          className={`side-bar-admin-link ${
-            isActive("comment") ? "active" : ""
-          }`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <div className="side-bar-admin-icon">
-            <p>
-              <AiOutlineComment />
-            </p>
-          </div>
-          <div className="side-bar-admin-page">
-            <p>Comment Review</p>
-          </div>
-        </motion.div>
-      </Link>
-      <Link to="manage-admin">
-        <motion.div
-          className={`side-bar-admin-link ${
-            isActive("manage-admin") ? "active" : ""
-          }`}
-          whileHover={{ scale: 1.05 }}
-          whileTap={{ scale: 0.95 }}
-        >
-          <div className="side-bar-admin-icon">
-            <p>
-              <MdManageAccounts />
-            </p>
-          </div>
-          <div className="side-bar-admin-page">
-            <p>Manage Admin</p>
-          </div>
-        </motion.div>
-      </Link>
+          <Menu.Item key="1" icon={<MdOutlineHome />}>
+            <Link to="/admin/home">Home</Link>
+          </Menu.Item>
+          <Menu.Item key="2" icon={<AiOutlineProduct />}>
+            <Link to="/admin/product">Product</Link>
+          </Menu.Item>
+          <Menu.Item key="3" icon={<TbAddressBook />}>
+            <Link to="/admin/address">Customer</Link>
+          </Menu.Item>
+          <Menu.Item key="4" icon={<RiBloggerLine />}>
+            <Link to="/admin/blog">Blog</Link>
+          </Menu.Item>
+          <Menu.Item key="5" icon={<TbBrandAirbnb />}>
+            <Link to="/admin/brand">Brand</Link>
+          </Menu.Item>
+          <Menu.Item key="6" icon={<BiCategory />}>
+            <Link to="/admin/category">Category</Link>
+          </Menu.Item>
+          <Menu.Item key="7" icon={<BsCart2 />}>
+            <Link to="/admin/orders">Order</Link>
+          </Menu.Item>
+          <Menu.Item key="8" icon={<MdPayment />}>
+            <Link to="/admin/payment">Payment</Link>
+          </Menu.Item>
+          <Menu.Item key="9" icon={<AiOutlineComment />}>
+            <Link to="/admin/comment">Comment Review</Link>
+          </Menu.Item>
+          <Menu.Item key="10" icon={<MdManageAccounts />}>
+            <Link to="/admin/manage-admin">Manage Admin</Link>
+          </Menu.Item>
+        </Menu>
+      </Sider>
     </div>
   );
 };

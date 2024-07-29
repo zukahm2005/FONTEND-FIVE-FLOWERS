@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { Route, Routes, useNavigate } from "react-router-dom";
+import { Layout } from "antd";
 import Error from "../error/Error";
 import "./admin.scss";
 import HeaderAdmin from "./headerAdmin/HeaderAdmin";
@@ -16,7 +17,6 @@ import PaymentAdmin from "./mainAdmin/contentAdmin/paymentAdmin/PaymentAdmin";
 import ProductAdmin from "./mainAdmin/contentAdmin/productAdmin/ProductAdmin";
 import SideBarAdmin from "./mainAdmin/sideBarAdmin/SideBarAdmin";
 
-
 const Admin = () => {
   const navigate = useNavigate();
 
@@ -28,13 +28,11 @@ const Admin = () => {
   }, [navigate]);
 
   return (
-    <div>
-      <HeaderAdmin />
-      <div className="bottom-container-admin">
-        <div className="side-bar-container-admin">
-          <SideBarAdmin />
-        </div>
-        <div className="content-container-admin">
+    <Layout style={{ minHeight: '100vh' }}>
+      <HeaderAdmin className="header-admin" />
+      <Layout className="bottom-container-admin">
+        <SideBarAdmin className="side-bar-container-admin" />
+        <Layout.Content className="content-container-admin">
           <Routes>
             <Route index element={<HomeAdmin />} />
             <Route path="home" element={<HomeAdmin />} />
@@ -48,12 +46,12 @@ const Admin = () => {
             <Route path="payment/*" element={<PaymentAdmin />} />
             <Route path="comment/*" element={<CommentReviewAdmin />} />
             <Route path="customer/*" element={<AddressAdmin />} />
-            <Route path="manage-admin/*" element={<ManagementAdmin/>}/>
+            <Route path="manage-admin/*" element={<ManagementAdmin />} />
             <Route path="*" element={<Error />} />
           </Routes>
-        </div>
-      </div>
-    </div>
+        </Layout.Content>
+      </Layout>
+    </Layout>
   );
 };
 

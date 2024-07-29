@@ -1,94 +1,113 @@
 .page-product-admin-full-width-container {
-    max-width: 70%;
-    margin: 0 auto;
-    margin-left: 20%;
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-    height: 150rem;
-    padding-top: 5rem;
+  max-width: 80%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  height: 55rem;
+  padding-top: 2rem;
+  background-color: white;
+  box-shadow: none;
 
-    @media(max-width:1382px){
-      margin-left: 22%;
+  @media(max-width:1497px){
+  }
+
+  @media(max-width:1232px){
+  }
+
+  @media(max-width:1191px){
+    max-width: 80%;
+  }
+
+  .header-product-admin-box {
+    max-width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.5rem;
+
+    .title-proadmin {
+      p {
+        font-size: 25px; /* Giảm kích thước chữ */
+        font-weight: bold;
+      }
     }
-    .header-product-admin-box {
+
+    .menu-proadmin-container {
       max-width: 100%;
       display: flex;
       flex-direction: row;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem;
-      .title-proadmin {
-        p {
-          font-size: 25px;
-          font-weight: bold;
-        }
+      gap: 0.5rem; /* Giảm khoảng cách giữa các phần tử */
+
+      select {
+        background-color: #ffffff;
+        padding: 0.2rem; /* Giảm padding */
+        border-radius: 10px;
+        text-align: left;
+        border: thin solid gray;
+        font-size: 14px; /* Giảm kích thước chữ */
       }
-      .menu-proadmin-container {
+
+      .button-create-proadmin {
         max-width: 100%;
-        display: flex;
-        flex-direction: row;
-        gap: 1rem;
-        select {
-          background-color: #e3e3e3;
-          padding: 0.3rem;
+        p {
+          background-color: #000000;
+          color: rgb(255, 255, 255);
+          padding: 3px 10px; /* Giảm padding */
+          border: none;
+          border-radius: 5px;
+          font-size: 14px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+      }
+
+      .search-proadmin-container {
+        max-width: 100%;
+
+        input {
+          padding: 0.2rem; /* Giảm padding */
+          outline: none;
+          border: none;
           border-radius: 10px;
-          text-align: center;
-        }
-  
-        .button-create-proadmin {
-          max-width: 100%;
-          p {
-            background-color: #000000;
-            color: rgb(255, 255, 255);
-            padding: 5px 20px;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1),
-              0 1px 3px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-          }
-        }
-        .search-proadmin-container {
-          max-width: 100%;
-          input {
-            padding: 0.35rem;
-            outline: none;
-            border: none;
-            border-radius: 10px;
-          }
+          border: thin solid gray;
+          font-size: 14px; /* Giảm kích thước chữ */
         }
       }
     }
-    .bottom-proadmin-container {
-    }
   }
-  
-  .custom-pagination-button {
-    cursor: pointer;
+
+  .bottom-proadmin-container {
   }
-  .read-more {
-    color: blue;
-    cursor: pointer;
-  }
-  .delete-confirm-modal .ant-modal-content {
-    width: 300px;
-    margin: 0 auto;
-    border-radius: 8px;
-    padding: 16px;
-    text-align: center;
-  }
-  .delete-confirm-modal .ant-modal-confirm-title {
-    font-size: 18px;
-    font-weight: bold;
-  }
-  .delete-confirm-modal .ant-modal-confirm-content {
-    margin: 12px 0;
-  }
-  .delete-confirm-modal .ant-modal-confirm-btns {
-    display: flex;
-    justify-content: space-around;
-  }
-  
+}
+
+.custom-pagination-button {
+cursor: pointer;
+}
+
+.read-more {
+color: blue;
+cursor: pointer;
+}
+
+.delete-confirm-modal .ant-modal-content {
+width: 300px;
+margin: 0 auto;
+border-radius: 8px;
+padding: 16px;
+text-align: center;
+}
+
+.delete-confirm-modal .ant-modal-confirm-title {
+font-size: 18px;
+font-weight: bold;
+}
+
+.delete-confirm-modal .ant-modal-confirm-content {
+margin: 12px 0;
+}
+
+.delete-confirm-modal .ant-modal-confirm-btns {
+display: flex;
+justify-content: space-around;
+}

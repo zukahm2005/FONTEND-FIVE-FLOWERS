@@ -1,25 +1,26 @@
 .header-admin-container {
     width: 100%;
-    height: 50px; // Chiều cao 100% chiều cao của cửa sổ trình duyệt
+    height: 50px; // Chiều cao của header
     display: flex;
     flex-direction: column;
     background-color: black;
     position: fixed;
+    top: 0; // Định vị cố định ở phía trên
     z-index: 10;
+    
     .header-main-admin {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         height: 100%; // Chiều cao 100% so với cha
         align-items: center;
-       
 
         .logo-header-admin {
             padding-left: 2rem;     
         }
         .profile-header-admin {
             padding-right: 3rem;
-            p{
+            p {
                 color: white;
             }
         }

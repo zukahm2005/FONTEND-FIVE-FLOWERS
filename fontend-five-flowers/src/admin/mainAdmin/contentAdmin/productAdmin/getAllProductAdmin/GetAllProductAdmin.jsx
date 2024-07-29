@@ -141,6 +141,7 @@ const GetAllProductAdmin = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      render: (text) => <span style={{ fontSize: '12px' }}>{text}</span>
     },
     {
       title: "Image",
@@ -153,7 +154,7 @@ const GetAllProductAdmin = () => {
               <img
                 src={`http://localhost:8080/api/v1/images/${productImages[0].imageUrl}`}
                 alt={record.name}
-                style={{ width: 50, height: 50 }}
+                style={{ width: 40, height: 40 }}
                 className="main-image"
               />
               {record.isOnSale && <span className="sale-badge">Sale</span>}
@@ -168,8 +169,8 @@ const GetAllProductAdmin = () => {
       key: "description",
       render: (text, record) => (
         <div>
-          {ReactHtmlParser(text.split(" ").slice(0, 20).join(" "))}
-          {text.split(" ").length > 20 && (
+          <span style={{ fontSize: '12px' }}>{ReactHtmlParser(text.split(" ").slice(0, 10).join(" "))}</span>
+          {text.split(" ").length > 10 && (
             <p
               type="link"
               onClick={() => handleReadMore(record)}
@@ -185,18 +186,19 @@ const GetAllProductAdmin = () => {
       title: "Price",
       dataIndex: "price",
       key: "price",
-      render: (text) => `$${text}`,
+      render: (text) => <span style={{ fontSize: '12px' }}>${text}</span>
     },
     {
       title: "Quantity",
       dataIndex: "quantity",
       key: "quantity",
+      render: (text) => <span style={{ fontSize: '12px' }}>{text}</span>
     },
     {
       title: "Status",
       key: "status",
       render: (text, record) => (
-        <Tag color={record.quantity > 0 ? "green" : "red"}>
+        <Tag color={record.quantity > 0 ? "green" : "red"} style={{ fontSize: '12px' }}>
           {record.quantity > 0 ? "In Stock" : "Out of Stock"}
         </Tag>
       ),
@@ -207,10 +209,10 @@ const GetAllProductAdmin = () => {
       render: (text, record) => (
         <Space size="middle">
           <Link to={`/admin/product/edit/${record.productId}`}>
-            <MdEdit />
+            <MdEdit style={{ fontSize: '16px' }} />
           </Link>
           <div onClick={() => confirmDelete(record.productId)}>
-            <MdDelete style={{ cursor: "pointer" }} />
+            <MdDelete style={{ cursor: "pointer", fontSize: '16px' }} />
           </div>
         </Space>
       ),
@@ -285,6 +287,7 @@ const GetAllProductAdmin = () => {
           pagination={{ ...pagination, itemRender }}
           onChange={handleTableChange}
           rowKey="productId"
+          size="small"
         />
       </div>
       <Modal
