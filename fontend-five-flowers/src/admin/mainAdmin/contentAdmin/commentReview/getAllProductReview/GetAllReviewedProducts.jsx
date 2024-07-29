@@ -108,22 +108,23 @@ const GetAllReviewedProducts = () => {
       title: "Description",
       dataIndex: "description",
       key: "description",
-      render: (text, record) => (
-        <div onClick={() => handleRowClick(record)}>
-          {text.split(" ").slice(0, 20).join(" ")}
-          {text.split(" ").length > 20 && (
-            <p
-              type="link"
-              onClick={() => handleRowClick(record)}
-              className="read-more"
-            >
-              ...Read more
-            </p>
-          )}
-        </div>
-      ),
+      render: (text, record) => {
+        const shortText = text.split(" ").slice(0, 20).join(" ");
+        const isLongText = text.split(" ").length > 20;
+  
+        const descriptionHtml = `${shortText}${isLongText ? '... <span class="read-more" type="link">Read more</span>' : ''}`;
+  
+        return (
+          <div
+            onClick={() => handleRowClick(record)}
+            dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+          />
+        );
+      },
     },
   ];
+  
+  
 
   const itemRender = (current, type, originalElement) => {
     if (type === "prev") {
