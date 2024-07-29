@@ -14,46 +14,32 @@ const { Sider } = Layout;
 const SideBarAdmin = () => {
   const location = useLocation();
 
-  const isActive = (path) => location.pathname.includes(path);
+  const menuItems = [
+    { key: "home", icon: <MdOutlineHome />, label: "Home", path: "/admin/home" },
+    { key: "product", icon: <AiOutlineProduct />, label: "Product", path: "/admin/product" },
+    { key: "address", icon: <TbAddressBook />, label: "Customer", path: "/admin/address" },
+    { key: "blog", icon: <RiBloggerLine />, label: "Blog", path: "/admin/blog" },
+    { key: "brand", icon: <TbBrandAirbnb />, label: "Brand", path: "/admin/brand" },
+    { key: "category", icon: <BiCategory />, label: "Category", path: "/admin/category" },
+    { key: "orders", icon: <BsCart2 />, label: "Order", path: "/admin/orders" },
+    { key: "payment", icon: <MdPayment />, label: "Payment", path: "/admin/payment" },
+    { key: "comment", icon: <AiOutlineComment />, label: "Comment Review", path: "/admin/comment" },
+    { key: "manage-admin", icon: <MdManageAccounts />, label: "Manage Admin", path: "/admin/manage-admin" },
+  ];
 
   return (
     <div className="side-bar-admin-container">
       <Sider width={200} className="site-layout-background">
         <Menu
           mode="inline"
-          defaultSelectedKeys={["1"]}
+          selectedKeys={[location.pathname.split("/").pop()]}
           style={{ height: "100%", borderRight: 0 }}
         >
-          <Menu.Item key="1" icon={<MdOutlineHome />}>
-            <Link to="/admin/home">Home</Link>
-          </Menu.Item>
-          <Menu.Item key="2" icon={<AiOutlineProduct />}>
-            <Link to="/admin/product">Product</Link>
-          </Menu.Item>
-          <Menu.Item key="3" icon={<TbAddressBook />}>
-            <Link to="/admin/address">Customer</Link>
-          </Menu.Item>
-          <Menu.Item key="4" icon={<RiBloggerLine />}>
-            <Link to="/admin/blog">Blog</Link>
-          </Menu.Item>
-          <Menu.Item key="5" icon={<TbBrandAirbnb />}>
-            <Link to="/admin/brand">Brand</Link>
-          </Menu.Item>
-          <Menu.Item key="6" icon={<BiCategory />}>
-            <Link to="/admin/category">Category</Link>
-          </Menu.Item>
-          <Menu.Item key="7" icon={<BsCart2 />}>
-            <Link to="/admin/orders">Order</Link>
-          </Menu.Item>
-          <Menu.Item key="8" icon={<MdPayment />}>
-            <Link to="/admin/payment">Payment</Link>
-          </Menu.Item>
-          <Menu.Item key="9" icon={<AiOutlineComment />}>
-            <Link to="/admin/comment">Comment Review</Link>
-          </Menu.Item>
-          <Menu.Item key="10" icon={<MdManageAccounts />}>
-            <Link to="/admin/manage-admin">Manage Admin</Link>
-          </Menu.Item>
+          {menuItems.map((item) => (
+            <Menu.Item key={item.key} icon={item.icon}>
+              <Link to={item.path}>{item.label}</Link>
+            </Menu.Item>
+          ))}
         </Menu>
       </Sider>
     </div>

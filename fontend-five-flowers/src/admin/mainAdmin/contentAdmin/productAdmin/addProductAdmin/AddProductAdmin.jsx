@@ -308,13 +308,12 @@ const AddProductAdmin = () => {
                             src={image}
                             alt={`New Image ${index}`}
                           />
-                          <Button
-                            type="text"
+                          <div
                             onClick={(e) => handleRemoveImage(image, e)}
                             className="button-delete-image"
                           >
                             X
-                          </Button>
+                          </div>
                         </div>
                       ))}
                       {selectedImages.map((image, index) => (
@@ -324,13 +323,12 @@ const AddProductAdmin = () => {
                             src={`http://localhost:8080/api/v1/images/${image}`}
                             alt={`Existing Image ${index}`}
                           />
-                          <Button
-                            type="text"
+                          <div
                             onClick={(e) => handleRemoveImage(image, e)}
                             className="button-delete-image"
                           >
                             X
-                          </Button>
+                          </div>
                         </div>
                       ))}
                     </>
@@ -338,9 +336,9 @@ const AddProductAdmin = () => {
                 </div>
               </div>
               <div className="info-button-container">
-                <button type="submit" className="custom-button">
+                <div className="custom-button" onClick={handleSubmit}>
                   <p>Push</p>
-                </button>
+                </div>
               </div>
             </div>
             <div className="right-proadmin-main">

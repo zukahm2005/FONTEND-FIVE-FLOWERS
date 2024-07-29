@@ -1,0 +1,261 @@
+.add-proadmin-container {
+  max-width: 80%;
+  margin: 0 auto;
+  height: 55rem;
+  padding-top: 2rem;
+
+  @media(max-width:1080px){
+    max-width: 100%;
+  }
+  input {
+    outline: none;
+  }
+
+  .layout-proadmin-container {
+    max-width: 100%;
+    padding: 3rem;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .header-proadmin-add-container {
+      max-width: 100%;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      align-items: center;
+      .back-arrow {
+        font-size: 24px;
+        margin-right: 10px;
+        cursor: pointer;
+        color: black;
+        box-shadow: 0 20px 13px rgba(187, 187, 187, 0.1);
+        border-radius: 50%;
+        padding: 5px;
+      }
+
+      p {
+        font-size: 20px;
+        font-weight: bold;
+      }
+    }
+
+    .bottom-proadmin-add-container {
+      max-width: 100%;
+      display: flex;
+      flex-direction: row;
+      gap: 1rem;
+      .left-proadmin-main {
+        background-color: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+        width: 100%;
+        .title-container-proadmin,
+        .desc-container-proadmin,
+        .info-proadmin-container {
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+
+          label {
+            font-size: 15px;
+            font-weight: bold;
+          }
+
+          input,
+          select,
+          textarea {
+            padding: 10px;
+            border: thin solid #ccc;
+            border-radius: 5px;
+            font-size: 15px;
+          }
+        }
+
+        .desc-container-proadmin {
+          border-radius: 10px;
+          .ck-editor__editable {
+            height: 10rem;
+            overflow-y: auto;
+            word-break: break-word;
+            white-space: pre-wrap;
+          }
+        }
+
+        .info-button-container {
+          display: flex;
+          justify-content: flex-end;
+          cursor: pointer;
+          .custom-button {
+            padding: 0.3rem;
+            border: none;
+            cursor: pointer;
+            background-color: #34a5fb;
+            border-radius: 10px;
+            p {
+              padding: 0.5px 5px;
+              color: #ffffff;
+              border: none;
+              border-radius: 5px;
+              cursor: pointer;
+              font-size: 14px;
+              font-weight: bold;
+            }
+            &:hover {
+              background-color: #196ef8 !important;
+
+              p{
+                color: white;
+              }
+            }
+          }
+        }
+
+        .info-proadmin-container {
+          display: grid;
+          grid-template-columns: 1fr 1fr 1fr;
+          @media(max-width:955px){
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+          }
+          input {
+            width: 100%;
+          }
+        }
+
+        .media-image-container {
+          p {
+            font-size: 15px;
+            font-weight: bold;
+          }
+          .upload-image-container {
+            text-align: center;
+            padding: 2rem;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            position: relative;
+
+            p {
+              font-weight: normal;
+            }
+
+            img {
+              border: 1px solid #ddd;
+              padding: 5px;
+              width: 100%;
+              height: 100%;
+            }
+
+            .selected-image {
+              position: relative;
+              .button-delete-image {
+                position: absolute;
+                top: 5px;
+                right: 5px;
+                color: red !important;
+                border: none !important;
+                background: none !important;
+                cursor: pointer !important;
+                z-index: 10 !important;
+              }
+            }
+          }
+
+          .images-container {
+            padding: 1rem;
+            border-radius: 10px;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+          }
+        }
+      }
+
+      .right-proadmin-main {
+        border-radius: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 40%;
+        .proadmin-components {
+          padding: 1rem;
+          max-width: 100%;
+          box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+          background-color: white;
+          display: flex;
+          flex-direction: column;
+          gap: 1rem;
+          border-radius: 10px;
+
+          p {
+            font-weight: bold;
+          }
+          select {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 13px;
+          }
+        }
+      }
+    }
+  }
+}
+
+.existing-images-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  max-width: 100%;
+  padding: 1rem;
+  border-radius: 10px;
+  height: auto;
+  .existing-images {
+    min-width: 100px;
+    text-align: center;
+    padding: 0.5rem;
+    border-radius: 10px;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 100px;
+      object-fit: cover;
+      margin-bottom: 0.5rem;
+    }
+
+    .button-delete-image {
+      position: absolute;
+      top: 0%;
+      left: 0%;
+      color: red !important;
+      border: none !important;
+      background: none !important;
+      cursor: pointer !important;
+      z-index: 10 !important;
+    }
+  }
+}
+
+.ant-modal {
+  width: calc(100% - 30rem) !important;
+  max-width: none !important;
+}
+
+.error {
+  color: red;
+  font-size: 0.8rem;
+}

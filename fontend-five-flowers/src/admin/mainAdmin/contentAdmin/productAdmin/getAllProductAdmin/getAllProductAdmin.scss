@@ -8,14 +8,13 @@
   background-color: white;
   box-shadow: none;
 
-  @media(max-width:1497px){
-  }
 
-  @media(max-width:1232px){
-  }
 
   @media(max-width:1191px){
-    max-width: 80%;
+    max-width: 90%;
+  }
+  @media(max-width:955px){
+    max-width: 100%;
   }
 
   .header-product-admin-box {
