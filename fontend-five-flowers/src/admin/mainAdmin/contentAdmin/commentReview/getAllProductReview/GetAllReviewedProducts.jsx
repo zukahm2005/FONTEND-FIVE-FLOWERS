@@ -3,6 +3,7 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { useLocation } from "react-router-dom";
 import "./getAllReviewedProducts.scss";
 
 const GetAllReviewedProducts = () => {
@@ -17,6 +18,8 @@ const GetAllReviewedProducts = () => {
     sort: "all",
     search: "",
   });
+
+  const location = useLocation();
 
   const fetchReviews = async (page = 1, pageSize = 10) => {
     setLoading(true);
@@ -59,7 +62,7 @@ const GetAllReviewedProducts = () => {
       setPagination({
         current: page,
         pageSize: pageSize,
-        total: allReviews.length,
+        total: response.data.totalElements,
       });
       setLoading(false);
     } catch (error) {
@@ -70,15 +73,11 @@ const GetAllReviewedProducts = () => {
 
   useEffect(() => {
     fetchReviews(pagination.current, pagination.pageSize);
-  }, [pagination.current, pagination.pageSize]);
+  }, [pagination.current, pagination.pageSize, location.key]);
 
   useEffect(() => {
     handleFilterAndSort();
-  }, [filter, reviews]);
-
-  useEffect(() => {
-    fetchReviews(pagination.current, pagination.pageSize);
-  }, []); // Ensure data is fetched again when component is remounted
+  }, [filter]);
 
   const handleFilterAndSort = () => {
     let filtered = [...reviews];
@@ -105,7 +104,7 @@ const GetAllReviewedProducts = () => {
           Authorization: `Bearer ${token}`, // Thêm token vào headers
         },
       });
-      fetchReviews(pagination.current, pagination.pageSize); // Refresh data after deletion
+      setReviews(reviews.filter(review => review.reviewId !== id)); // Update state directly after deletion
     } catch (error) {
       console.error("There was an error deleting the review!", error);
     }
@@ -209,7 +208,6 @@ const GetAllReviewedProducts = () => {
               value={filter.search}
               onChange={(e) => {
                 setFilter({ ...filter, search: e.target.value });
-                handleFilterAndSort();
               }}
             />
           </div>
