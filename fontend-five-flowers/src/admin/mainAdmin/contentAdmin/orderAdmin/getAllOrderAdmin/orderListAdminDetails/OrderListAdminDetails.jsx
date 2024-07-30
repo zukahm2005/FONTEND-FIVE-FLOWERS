@@ -301,31 +301,31 @@ const OrderDetails = () => {
                   </div>
                 </div>
               ))}
-            </div>
-          </div>
-          <div className="total-price-order-details-admin">
-            <div className="sub-price-ordtails">
-              <div className="price-title-sub">
-                <p>Subtotal</p>
+            </div>{" "}
+            <div className="total-price-order-details-admin">
+              <div className="sub-price-ordtails">
+                <div className="price-title-sub">
+                  <p>Subtotal</p>
+                </div>
+                <div className="price-title-sub">
+                  <p> ${subtotal}</p>
+                </div>
               </div>
-              <div className="price-title-sub">
-                <p> ${subtotal}</p>
+              <div className="sub-price-ordtails">
+                <div className="price-title-sub">
+                  <p>Shipping</p>
+                </div>
+                <div className="price-title-sub">
+                  <p> ${order.shippingCost}</p>
+                </div>
               </div>
-            </div>
-            <div className="sub-price-ordtails">
-              <div className="price-title-sub">
-                <p>Shipping</p>
-              </div>
-              <div className="price-title-sub">
-                <p> ${order.shippingCost}</p>
-              </div>
-            </div>
-            <div className="total-price-ordtails">
-              <div className="price-title">
-                <p>Total</p>
-              </div>
-              <div className="price-title">
-                <p> ${totalPrice}</p>
+              <div className="total-price-ordtails">
+                <div className="price-title">
+                  <p>Total</p>
+                </div>
+                <div className="price-title">
+                  <p> ${totalPrice}</p>
+                </div>
               </div>
             </div>
           </div>

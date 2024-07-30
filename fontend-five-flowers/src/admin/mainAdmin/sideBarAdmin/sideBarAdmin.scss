@@ -1,12 +1,33 @@
 .side-bar-admin-placeholder {
-    width: 10rem;
-        /* Chiều rộng của sidebar */
-    flex-shrink: 0; /* Đảm bảo nó không co lại */
+  width: 200px; /* Chiều rộng của sidebar */
+  flex-shrink: 0; /* Đảm bảo nó không co lại */
+}
+
+.side-bar-admin-container {
+  padding-top: 3rem;
+  border-right: thin solid rgb(231, 231, 231);
+  height: 100vh; /* Đảm bảo sidebar chiếm toàn bộ chiều cao */
+  display: flex;
+  flex-direction: column; /* Sử dụng Flexbox để sắp xếp các mục theo chiều dọc */
+
+  .ant-menu {
+    display: flex;
+    flex-direction: column; /* Sắp xếp các mục theo chiều dọc */
+    justify-content: space-between; /* Đặt khoảng cách đều giữa các mục */
   }
-  
-  .side-bar-admin-container {
-    padding-top: 3rem;
-    border-right: thin solid rgb(231, 231, 231);
-    height: 100vh; /* Đảm bảo sidebar chiếm toàn bộ chiều cao */
+
+  .ant-menu-item {
+    display: flex;
+    align-items: center;
+    padding: 12px 24px; /* Điều chỉnh khoảng cách giữa các mục */
+    
+    .anticon {
+      font-size: 18px; /* Điều chỉnh kích thước biểu tượng */
+      margin-right: 16px; /* Khoảng cách giữa biểu tượng và chữ */
+    }
+
+    .ant-menu-item-icon + span {
+      font-size: 16px; /* Điều chỉnh kích thước chữ */
+    }
   }
-  
+}

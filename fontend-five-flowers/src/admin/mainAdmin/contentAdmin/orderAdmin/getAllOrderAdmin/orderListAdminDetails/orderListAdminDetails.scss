@@ -1,13 +1,11 @@
 .ordtails-page-container {
-    max-width: 70%;
+    max-width: 80%;
     margin: 0 auto;
-    padding-top: 8rem;
-    text-align: left;
-    height: 100rem;
+    padding-top: 5rem;
+    height: 50rem;
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    padding-left: 10%;
 
     .ordtails-page-box {
         max-width: 100%;
@@ -79,7 +77,7 @@
                     0 1px 3px rgba(0, 0, 0, 0.1),
                     0 1px 2px rgba(0, 0, 0, 0.2);
                 padding: 1rem;
-                height: 27rem;
+                height: 30rem;
                 overflow-y: auto;
 
                 /* Hide scrollbar */
@@ -131,37 +129,32 @@
                         }
                     }
                 }
-            }
-
-            .total-price-order-details-admin {
-                padding-top: 1rem;
-                display: flex;
-                flex-direction: column;
-                gap: 0.5rem;
-                background-color: white;
-                border-radius: 20px;
-                box-shadow:
-                    0 1px 3px rgba(0, 0, 0, 0.1),
-                    0 1px 2px rgba(0, 0, 0, 0.2);
-                padding: 1rem;
-                .sub-price-ordtails {
+                .total-price-order-details-admin {
+                    padding-top: 1rem;
                     display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
+                    flex-direction: column;
+                    gap: 0.5rem;
+                    background-color: rgb(255, 255, 255);
 
-                    .price-title-sub {
-                        font-size: 0.9rem;
+                    .sub-price-ordtails {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+
+                        .price-title-sub {
+                            font-size: 0.9rem;
+                        }
                     }
-                }
-                .total-price-ordtails {
-                    display: flex;
-                    flex-direction: row;
-                    justify-content: space-between;
-                    .price-title {
-                        p {
-                            font-size: 1rem;
-                            color: blue;
-                            font-weight: bold;
+                    .total-price-ordtails {
+                        display: flex;
+                        flex-direction: row;
+                        justify-content: space-between;
+                        .price-title {
+                            p {
+                                font-size: 1rem;
+                                color: blue;
+                                font-weight: bold;
+                            }
                         }
                     }
                 }
@@ -232,8 +225,8 @@
                             display: flex;
                             flex-direction: column;
                             gap: 0.5rem;
-                            .title-shipping-cus{
-                                p{
+                            .title-shipping-cus {
+                                p {
                                     font-weight: bold;
                                 }
                             }
@@ -242,7 +235,7 @@
                             display: flex;
                             flex-direction: column;
                             gap: 0.5rem;
-                            .billing-title{
+                            .billing-title {
                                 font-weight: bold;
                             }
                         }
