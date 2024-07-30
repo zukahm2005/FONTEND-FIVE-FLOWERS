@@ -1,14 +1,12 @@
-import { Modal, Space, Table } from "antd";
+import { Space, Table, Rate, Modal } from "antd";
 import axios from "axios";
-import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
+import { MdDelete } from "react-icons/md";
 import "./getAllReviewedProducts.scss";
 
 const GetAllReviewedProducts = () => {
-  const [products, setProducts] = useState([]);
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const [reviews, setReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
     current: 1,
@@ -19,9 +17,8 @@ const GetAllReviewedProducts = () => {
     sort: "all",
     search: "",
   });
-  const navigate = useNavigate();
 
-  const fetchProducts = async (page = 1, pageSize = 10) => {
+  const fetchReviews = async (page = 1, pageSize = 10) => {
     setLoading(true);
     const token = localStorage.getItem("token"); // Lấy token từ localStorage
     try {
@@ -37,65 +34,108 @@ const GetAllReviewedProducts = () => {
           },
         }
       );
-      setProducts(response.data.content);
+
+      const allReviews = [];
+      for (const product of response.data.content) {
+        const commentsResponse = await axios.get(
+          `http://localhost:8080/api/v1/reviews/product/${product.productId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`, // Thêm token vào headers
+            },
+          }
+        );
+        const comments = commentsResponse.data || [];
+        comments.forEach(comment => {
+          allReviews.push({
+            ...comment,
+            productName: product.name,
+            productImage: product.productImages.length > 0 ? product.productImages[0].imageUrl : null,
+          });
+        });
+      }
+
+      setReviews(allReviews);
       setPagination({
         current: page,
         pageSize: pageSize,
-        total: response.data.totalElements,
+        total: allReviews.length,
       });
       setLoading(false);
     } catch (error) {
-      console.error("There was an error fetching the products!", error);
+      console.error("There was an error fetching the reviews!", error);
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchProducts(pagination.current, pagination.pageSize);
+    fetchReviews(pagination.current, pagination.pageSize);
   }, [pagination.current, pagination.pageSize]);
 
   useEffect(() => {
     handleFilterAndSort();
-  }, [filter, products]);
+  }, [filter, reviews]);
+
+  useEffect(() => {
+    fetchReviews(pagination.current, pagination.pageSize);
+  }, []); // Ensure data is fetched again when component is remounted
 
   const handleFilterAndSort = () => {
-    let filtered = [...products];
+    let filtered = [...reviews];
 
     // Handle search filter
     if (filter.search) {
-      filtered = filtered.filter((product) =>
-        product.name.toLowerCase().includes(filter.search.toLowerCase())
+      filtered = filtered.filter((review) =>
+        review.productName.toLowerCase().includes(filter.search.toLowerCase())
       );
     }
 
-    setFilteredProducts(filtered);
+    setReviews(filtered);
   };
 
   const handleTableChange = (pagination) => {
     setPagination(pagination);
   };
 
-  const handleRowClick = (product) => {
-    navigate(`/admin/comment/${product.productId}`);
+  const handleDeleteReview = async (id) => {
+    const token = localStorage.getItem("token"); // Lấy token từ localStorage
+    try {
+      await axios.delete(`http://localhost:8080/api/v1/reviews/delete/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Thêm token vào headers
+        },
+      });
+      fetchReviews(pagination.current, pagination.pageSize); // Refresh data after deletion
+    } catch (error) {
+      console.error("There was an error deleting the review!", error);
+    }
+  };
+
+  const confirmDelete = (id) => {
+    Modal.confirm({
+      title: "Are you sure you want to delete this review?",
+      content: "This action cannot be undone",
+      onOk: () => handleDeleteReview(id),
+    });
   };
 
   const columns = [
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Product Name",
+      dataIndex: "productName",
+      key: "productName",
     },
     {
-      title: "Image",
-      dataIndex: "productImages",
-      key: "productImages",
-      render: (productImages, record) => (
+      title: "Product Image",
+      dataIndex: "productImage",
+      key: "productImage",
+      render: (imageUrl) => (
         <Space size="middle">
-          {productImages && productImages[0] && (
+          {imageUrl && (
             <div className="image1-container">
               <img
-                src={`http://localhost:8080/api/v1/images/${productImages[0].imageUrl}`}
-                alt={record.name}
+                src={`http://localhost:8080/api/v1/images/${imageUrl}`}
+                alt="Product"
                 style={{ width: 50, height: 50 }}
                 className="main-image"
               />
@@ -105,26 +145,34 @@ const GetAllReviewedProducts = () => {
       ),
     },
     {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      render: (text, record) => {
-        const shortText = text.split(" ").slice(0, 20).join(" ");
-        const isLongText = text.split(" ").length > 20;
-  
-        const descriptionHtml = `${shortText}${isLongText ? '... <span class="read-more" type="link">Read more</span>' : ''}`;
-  
-        return (
-          <div
-            onClick={() => handleRowClick(record)}
-            dangerouslySetInnerHTML={{ __html: descriptionHtml }}
+      title: "User",
+      dataIndex: ["user", "userName"],
+      key: "userName",
+    },
+    {
+      title: "Comment",
+      dataIndex: "comment",
+      key: "comment",
+    },
+    {
+      title: "Rating",
+      dataIndex: "rating",
+      key: "rating",
+      render: (rating) => <Rate disabled defaultValue={rating} />,
+    },
+    {
+      title: "Delete Status",
+      key: "delete",
+      render: (text, record) => (
+        <Space size="middle">
+          <MdDelete
+            className="delete-icon"
+            onClick={() => confirmDelete(record.reviewId)}
           />
-        );
-      },
+        </Space>
+      ),
     },
   ];
-  
-  
 
   const itemRender = (current, type, originalElement) => {
     if (type === "prev") {
@@ -161,6 +209,7 @@ const GetAllReviewedProducts = () => {
               value={filter.search}
               onChange={(e) => {
                 setFilter({ ...filter, search: e.target.value });
+                handleFilterAndSort();
               }}
             />
           </div>
@@ -169,14 +218,11 @@ const GetAllReviewedProducts = () => {
       <div className="bottom-proadmin-container">
         <Table
           columns={columns}
-          dataSource={filteredProducts}
+          dataSource={reviews}
           loading={loading}
           pagination={{ ...pagination, itemRender }}
           onChange={handleTableChange}
-          rowKey="productId"
-          onRow={(record) => ({
-            onClick: () => handleRowClick(record), // Khi nhấn vào dòng sản phẩm sẽ chuyển đến trang chi tiết đánh giá
-          })}
+          rowKey="reviewId"
         />
       </div>
     </div>
