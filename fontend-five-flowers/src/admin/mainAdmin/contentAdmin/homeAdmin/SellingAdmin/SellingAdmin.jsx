@@ -49,7 +49,7 @@ const SellingAdmin = ({ selectedDate }) => {
                   <p className="product-name">{product.name}</p>
                 </div>
                 <div className="category-product-card">
-                  <p>{product.brand} /</p> <p>{product.category}</p>
+                  <p>{product.brand} / {product.category}</p>
                 </div>
               </div>
             </div>
