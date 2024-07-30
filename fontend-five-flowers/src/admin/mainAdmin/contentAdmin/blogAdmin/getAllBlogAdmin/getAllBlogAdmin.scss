@@ -3,16 +3,15 @@
   margin: 0 auto;
   display: flex;
   flex-direction: column;
+  height: 55rem;
   padding-top: 4rem;
   background-color: white;
   box-shadow: none;
-  height: 55rem;
 
-  @media(max-width: 1191px) {
+  @media (max-width: 1191px) {
     max-width: 90%;
   }
-
-  @media(max-width: 955px) {
+  @media (max-width: 955px) {
     max-width: 100%;
   }
 
@@ -26,7 +25,7 @@
 
     .title-blogadmin {
       p {
-        font-size: 25px; /* Adjusted to fit better with the overall layout */
+        font-size: 25px; /* Adjust font size */
         font-weight: bold;
       }
     }
@@ -35,18 +34,23 @@
       max-width: 100%;
       display: flex;
       flex-direction: row;
-      gap: 0.5rem; /* Adjusted to fit better with the overall layout */
+      gap: 0.5rem; /* Adjust gap */
 
-      button {
-        padding: 10px 20px;
-        border: none;
-        background-color: #000000; /* Changed to black */
-        color: white;
-        cursor: pointer;
-        transition: background-color 0.3s;
+      .create-blog-button {
+        max-width: 100%;
+        p {
+          background-color: #000000;
+          color: rgb(255, 255, 255);
+          padding: 3px 10px; /* Adjust padding */
+          border: none;
+          border-radius: 5px;
+          font-size: 14px;
+          cursor: pointer;
+          transition: all 0.3s ease;
 
-        &:hover {
-          background-color: #333333; /* Darker shade for hover effect */
+          &:hover {
+            background-color: #333333; /* Darker shade for hover effect */
+          }
         }
       }
     }

@@ -6,7 +6,7 @@ import './ChartAdmin.scss';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const ChartAdmin = () => {
+const ChartAdmin = ({ selectedDate }) => {
   const [data, setData] = useState({
     labels: [],
     datasets: [
@@ -20,12 +20,16 @@ const ChartAdmin = () => {
     ],
   });
 
-  const fetchDailySalesTotals = async () => {
+  const fetchDailySalesTotals = async (startDate, endDate) => {
     try {
       const token = localStorage.getItem('token');
       const response = await axios.get('/api/v1/orders/daily-sales-totals', {
         headers: {
           Authorization: `Bearer ${token}`,
+        },
+        params: {
+          startDate: startDate.format('YYYY-MM-DD'),
+          endDate: endDate.format('YYYY-MM-DD'),
         },
       });
       const dailySalesTotals = response.data;
@@ -51,8 +55,10 @@ const ChartAdmin = () => {
   };
 
   useEffect(() => {
-    fetchDailySalesTotals();
-  }, []);
+    const endDate = selectedDate;
+    const startDate = selectedDate.clone().subtract(6, 'days');
+    fetchDailySalesTotals(startDate, endDate);
+  }, [selectedDate]);
 
   const options = {
     responsive: true,

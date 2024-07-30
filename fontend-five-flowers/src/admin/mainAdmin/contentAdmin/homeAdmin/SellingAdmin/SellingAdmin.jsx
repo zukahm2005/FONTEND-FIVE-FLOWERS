@@ -2,19 +2,22 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './SellingAdmin.scss';
 
-const SellingAdmin = () => {
+const SellingAdmin = ({ selectedDate }) => {
   const [topSellingProducts, setTopSellingProducts] = useState([]);
 
   useEffect(() => {
-    fetchTopSellingProducts();
-  }, []);
+    fetchTopSellingProducts(selectedDate);
+  }, [selectedDate]);
 
-  const fetchTopSellingProducts = async () => {
+  const fetchTopSellingProducts = async (date) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('/api/v1/orders/top-selling-products-today', {
+      const response = await axios.get('/api/v1/orders/top-selling-products', {
         headers: {
           Authorization: `Bearer ${token}`,
+        },
+        params: {
+          date: date.format('YYYY-MM-DD'),
         },
       });
       setTopSellingProducts(response.data);

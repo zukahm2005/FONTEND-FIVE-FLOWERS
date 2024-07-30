@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Row, Col, Card, DatePicker } from "antd";
+import { Row, Col, Card } from "antd";
 import {
   DollarOutlined,
   PercentageOutlined,
@@ -12,7 +12,7 @@ import axios from "axios";
 import moment from "moment";
 import "./EcommerceDashboardAdmin.scss";
 
-const EcommerceDashboardAdmin = () => {
+const EcommerceDashboardAdmin = ({ selectedDate }) => {
   const [stats, setStats] = useState({
     totalSale: 0,
     newOrder: 0,
@@ -71,14 +71,9 @@ const EcommerceDashboardAdmin = () => {
   };
 
   useEffect(() => {
-    fetchStats(moment());
-    fetchAddToCartStats(moment());
-  }, []);
-
-  const onDateChange = (date) => {
-    fetchStats(date);
-    fetchAddToCartStats(date);
-  };
+    fetchStats(selectedDate);
+    fetchAddToCartStats(selectedDate);
+  }, [selectedDate]);
 
   const statsData = [
     {
@@ -121,14 +116,6 @@ const EcommerceDashboardAdmin = () => {
 
   return (
     <div className="ecommerce-dashboard-container">
-      <div className="header-ecommerce-dashboard-box">
-        <div className="title-ecommercedashboard">
-          <p>Dashboard</p>
-        </div>
-        <div className="date-picker-container">
-          <DatePicker onChange={(date) => onDateChange(date)} />
-        </div>
-      </div>
       <Row gutter={[16, 16]}>
         {statsData.map((stat, index) => (
           <Col key={index} xs={24} sm={12} md={8}>
