@@ -117,7 +117,7 @@ const GetAllBlogAdmin = () => {
           <p>Blogs</p>
         </div>
         <div className="menu-blogadmin-container">
-          <button onClick={() => navigate('/admin/blog/add')}>Create Blog Post</button>
+          <button onClick={() => navigate('/admin/blog/add')}>Create Blog Post</button> //sửa
         </div>
       </div>
       <div className="bottom-blogadmin-container">

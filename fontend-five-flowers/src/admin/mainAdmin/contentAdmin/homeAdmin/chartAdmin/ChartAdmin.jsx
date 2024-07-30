@@ -22,7 +22,12 @@ const ChartAdmin = () => {
 
   const fetchDailySalesTotals = async () => {
     try {
-      const response = await axios.get('/api/v1/sales/daily-totals');
+      const token = localStorage.getItem('token');
+      const response = await axios.get('/api/v1/orders/daily-sales-totals', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       const dailySalesTotals = response.data;
 
       const labels = Object.keys(dailySalesTotals);

@@ -11,7 +11,12 @@ const SellingAdmin = () => {
 
   const fetchTopSellingProducts = async () => {
     try {
-      const response = await axios.get('/api/v1/orders/top-selling-products');
+      const token = localStorage.getItem('token');
+      const response = await axios.get('/api/v1/orders/top-selling-products-today', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
       setTopSellingProducts(response.data);
     } catch (error) {
       console.error('Error fetching top selling products:', error);
@@ -27,16 +32,8 @@ const SellingAdmin = () => {
             <img src={product.imageUrl} alt={product.name} className="product-image" />
             <div className="product-info">
               <p className="product-name">{product.name}</p>
-              <p className="product-category">{product.category}</p>
               <div className="product-details">
-                <div className="product-rating">
-                  <span className="star">&#9733;</span>
-                  <span className="star">&#9733;</span>
-                  <span className="star">&#9733;</span>
-                  <span className="star">&#9733;</span>
-                  <span className="star">&#9734;</span>
-                </div>
-                <p className="product-price">{product.price}</p>
+                <p className="product-price">${product.price}</p>
               </div>
             </div>
           </div>
