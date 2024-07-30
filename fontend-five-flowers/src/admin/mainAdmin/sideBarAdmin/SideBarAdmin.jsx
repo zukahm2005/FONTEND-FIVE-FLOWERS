@@ -13,6 +13,7 @@ const { Sider } = Layout;
 
 const SideBarAdmin = () => {
   const location = useLocation();
+  const selectedKey = location.pathname.split("/")[2]; // Lấy key từ pathname
 
   const menuItems = [
     { key: "home", icon: <MdOutlineHome />, label: "Home", path: "/admin/home" },
@@ -33,7 +34,7 @@ const SideBarAdmin = () => {
       <Sider width={200} className="side-bar-admin-container" style={{ position: 'fixed', height: '100vh' }}>
         <Menu
           mode="inline"
-          selectedKeys={[location.pathname.split("/").pop()]}
+          selectedKeys={[selectedKey]}
           style={{ height: "100%", borderRight: 0 }}
         >
           {menuItems.map((item) => (
