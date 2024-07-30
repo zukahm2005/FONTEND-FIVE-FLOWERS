@@ -14,18 +14,26 @@
   .top-selling-products {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 1rem;
+    height: 21rem;
+    overflow: hidden;
+    overflow-y: auto;
 
+    &::-webkit-scrollbar{
+      display: none;
+    }
     .product-card {
-      display: flex;
-      align-items: center;
-      padding: 10px;
-      border-bottom: 1px solid #e0e0e0;
-
-      &:last-child {
-        border-bottom: none;
+      display: grid;
+      grid-template-columns: auto auto;
+      border-bottom: thin solid rgb(214, 214, 214);
+      justify-content: space-between;
+      margin-bottom: 2rem;
+      padding-bottom: 0.5rem;
+      .info-product-card{
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
       }
-
       .product-image {
         width: 60px;
         height: 60px;
