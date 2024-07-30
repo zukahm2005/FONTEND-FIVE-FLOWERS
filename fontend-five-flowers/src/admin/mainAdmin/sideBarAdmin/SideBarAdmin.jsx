@@ -28,8 +28,9 @@ const SideBarAdmin = () => {
   ];
 
   return (
-    <div className="side-bar-admin-container">
-      <Sider width={200} className="site-layout-background">
+    <>
+      <div className="side-bar-admin-placeholder"></div>
+      <Sider width={200} className="side-bar-admin-container" style={{ position: 'fixed', height: '100vh' }}>
         <Menu
           mode="inline"
           selectedKeys={[location.pathname.split("/").pop()]}
@@ -42,7 +43,7 @@ const SideBarAdmin = () => {
           ))}
         </Menu>
       </Sider>
-    </div>
+    </>
   );
 };
 

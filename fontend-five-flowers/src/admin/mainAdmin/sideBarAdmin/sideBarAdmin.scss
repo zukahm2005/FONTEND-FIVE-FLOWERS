@@ -1,7 +1,12 @@
-.side-bar-admin-container{
-    padding-top: 4rem;
+.side-bar-admin-placeholder {
+    width: 10rem;
+        /* Chiều rộng của sidebar */
+    flex-shrink: 0; /* Đảm bảo nó không co lại */
+  }
+  
+  .side-bar-admin-container {
+    padding-top: 3rem;
     border-right: thin solid rgb(231, 231, 231);
-    max-height: auto;
-    display: inline-block;
-    position: fixed;
-}
+    height: 100vh; /* Đảm bảo sidebar chiếm toàn bộ chiều cao */
+  }
+  
