@@ -101,6 +101,11 @@ const GetAllCategoryAdmin = () => {
     }
   };
 
+  const stripHtml = (html) => {
+    let doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
+  };
+
   const columns = [
     {
       title: "Name",
@@ -113,15 +118,15 @@ const GetAllCategoryAdmin = () => {
       key: "description",
       render: (text, record) => (
         <div>
-          {text.split(" ").slice(0, 20).join(" ")}
-          {text.split(" ").length > 20 && (
-            <p
+          {stripHtml(text).split(" ").slice(0, 20).join(" ")}
+          {stripHtml(text).split(" ").length > 20 && (
+            <span
               type="link"
               onClick={() => handleReadMore(record)}
               className="read-more"
             >
               ...Read more
-            </p>
+            </span>
           )}
         </div>
       ),

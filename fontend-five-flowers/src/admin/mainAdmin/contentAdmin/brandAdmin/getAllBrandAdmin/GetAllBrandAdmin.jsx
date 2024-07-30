@@ -100,6 +100,11 @@ const GetAllBrandAdmin = () => {
     }
   };
 
+  const stripHtml = (html) => {
+    let doc = new DOMParser().parseFromString(html, 'text/html');
+    return doc.body.textContent || "";
+  };
+
   const columns = [
     {
       title: "Name",
@@ -112,8 +117,8 @@ const GetAllBrandAdmin = () => {
       key: "description",
       render: (text, record) => (
         <div>
-          {text.split(" ").slice(0, 20).join(" ")}
-          {text.split(" ").length > 20 && (
+          {stripHtml(text).split(" ").slice(0, 20).join(" ")}
+          {stripHtml(text).split(" ").length > 20 && (
             <p
               type="link"
               onClick={() => handleReadMore(record)}
@@ -208,7 +213,7 @@ const GetAllBrandAdmin = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           >
-            {selectedBrand?.description}
+            <div dangerouslySetInnerHTML={{ __html: selectedBrand?.description }} />
           </motion.div>
         </AnimatePresence>
       </Modal>

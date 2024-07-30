@@ -6,21 +6,22 @@ const CKEditorComponent = ({ data, onChange }) => {
     return (
         <div className="App">
             <CKEditor
-                editor={ ClassicEditor }
+                editor={ClassicEditor}
                 data={data}
-                onReady={ editor => {
+                onReady={editor => {
                     console.log('Editor is ready to use!', editor);
-                } }
-                onChange={ (event, editor) => {
+                    editor.setData(data); // Ensure editor is initialized with the correct data
+                }}
+                onChange={(event, editor) => {
                     const data = editor.getData();
                     onChange(event, editor, data);
                 }}
-                onBlur={ (event, editor) => {
+                onBlur={(event, editor) => {
                     console.log('Blur.', editor);
-                } }
-                onFocus={ (event, editor) => {
+                }}
+                onFocus={(event, editor) => {
                     console.log('Focus.', editor);
-                } }
+                }}
                 config={{
                     toolbar: [
                         'heading', '|',
@@ -30,6 +31,6 @@ const CKEditorComponent = ({ data, onChange }) => {
             />
         </div>
     );
-}
+};
 
 export default CKEditorComponent;
