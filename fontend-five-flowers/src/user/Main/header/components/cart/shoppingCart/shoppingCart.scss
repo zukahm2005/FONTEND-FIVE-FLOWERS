@@ -193,15 +193,14 @@
 
                 .continue-shopping {
                     max-width: 100%;
-                    button {
-                        border-radius: 40px;
-                        p {
-                            padding: 0.4rem 1.5rem;
-                            font-weight: 400;
-                            color: white;
-                            font-size: 0.8rem;
-                            font-weight: bold;
-                        }
+                    display: flex;
+                    flex-direction: row;
+                    gap: 1rem;
+                    p {
+                        font-weight: 400;
+                        color: rgb(237, 67, 67);
+                        font-size: 0.8rem;
+                        font-weight: bold;
                     }
                 }
             }

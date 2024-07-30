@@ -1,6 +1,7 @@
 import { notification } from "antd";
 import axios from "axios";
 import React, { useContext, useEffect } from "react";
+import { FaArrowLeft } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import { CartContext } from "../cartContext/CartProvider";
 import "./shoppingCart.scss";
@@ -24,7 +25,9 @@ const ShoppingCart = () => {
 
   const handleQuantityChange = async (productId, quantity) => {
     const product = cart.find((item) => item.productId === productId);
-    const response = await axios.get(`http://localhost:8080/api/v1/products/get/${product.productId}`);
+    const response = await axios.get(
+      `http://localhost:8080/api/v1/products/get/${product.productId}`
+    );
     const availableQuantity = response.data.quantity;
 
     if (quantity > 0 && quantity <= availableQuantity) {
@@ -139,13 +142,20 @@ const ShoppingCart = () => {
                   </div>
                 </div>
               ))}
-              <div className="continue-shopping">
-                <button>
-                  <Link to="/shop">
+              <Link to="/shop">
+                {" "}
+                <div className="continue-shopping">
+                  {" "}
+                  <div className="arrow-back-continue-shopping">
+                    <p>
+                      <FaArrowLeft />
+                    </p>
+                  </div>
+                  <div className="text-back-continue-shopping">
                     <p>CONTINUE TO SHOPPING</p>
-                  </Link>
-                </button>
-              </div>
+                  </div>{" "}
+                </div>
+              </Link>
             </div>
           ) : (
             <p>Your cart is empty</p>
