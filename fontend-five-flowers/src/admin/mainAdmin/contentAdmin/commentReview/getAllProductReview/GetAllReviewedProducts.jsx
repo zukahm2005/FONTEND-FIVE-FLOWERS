@@ -8,6 +8,7 @@ import "./getAllReviewedProducts.scss";
 
 const GetAllReviewedProducts = () => {
   const [reviews, setReviews] = useState([]);
+  const [filteredReviews, setFilteredReviews] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
     current: 1,
@@ -59,10 +60,11 @@ const GetAllReviewedProducts = () => {
       }
 
       setReviews(allReviews);
+      setFilteredReviews(allReviews);
       setPagination({
         current: page,
         pageSize: pageSize,
-        total: response.data.totalElements,
+        total: allReviews.length,
       });
       setLoading(false);
     } catch (error) {
@@ -77,7 +79,7 @@ const GetAllReviewedProducts = () => {
 
   useEffect(() => {
     handleFilterAndSort();
-  }, [filter]);
+  }, [filter, reviews]);
 
   const handleFilterAndSort = () => {
     let filtered = [...reviews];
@@ -89,7 +91,7 @@ const GetAllReviewedProducts = () => {
       );
     }
 
-    setReviews(filtered);
+    setFilteredReviews(filtered);
   };
 
   const handleTableChange = (pagination) => {
@@ -104,7 +106,9 @@ const GetAllReviewedProducts = () => {
           Authorization: `Bearer ${token}`, // Thêm token vào headers
         },
       });
-      setReviews(reviews.filter(review => review.reviewId !== id)); // Update state directly after deletion
+      const updatedReviews = reviews.filter(review => review.reviewId !== id);
+      setReviews(updatedReviews);
+      handleFilterAndSort(); // Update filtered reviews after deletion
     } catch (error) {
       console.error("There was an error deleting the review!", error);
     }
@@ -216,7 +220,7 @@ const GetAllReviewedProducts = () => {
       <div className="bottom-proadmin-container">
         <Table
           columns={columns}
-          dataSource={reviews}
+          dataSource={filteredReviews}
           loading={loading}
           pagination={{ ...pagination, itemRender }}
           onChange={handleTableChange}
