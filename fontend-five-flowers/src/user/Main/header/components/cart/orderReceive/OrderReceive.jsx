@@ -41,7 +41,7 @@ const OrderReceive = () => {
           </div>
           <div className="woocommerce-order-overview__total order">
             <p>TOTAL:</p>
-            <p>₹{order.total}</p>
+            <p>${order.total}</p>
           </div>
           <div className="woocommerce-order-overview__payment-method order">
             <p>PAYMENT METHOD:</p>
@@ -80,7 +80,7 @@ const OrderReceive = () => {
                     </div>
                   </div>
                   <div className="total-each-order-receive">
-                    <p>₹{detail.total}</p>
+                    <p>${detail.total}</p>
                   </div>
                 </div>
               ))}
@@ -100,13 +100,13 @@ const OrderReceive = () => {
               </div>
               <div className="container-price-check-out">
                 <div className="sub-price-shopping-check-out">
-                  <p>₹{order.subtotal}</p>
+                  <p>${order.subtotal}</p>
                 </div>
                 <div className="sub-price-shopping-check-out">
-                  <p>₹{order.shippingCost}</p>
+                  <p>${order.shippingCost}</p>
                 </div>
                 <div className="total-money-shopping-check-out">
-                  <p>₹{order.total}</p>
+                  <p>${order.total}</p>
                 </div>
               </div>
             </div>
