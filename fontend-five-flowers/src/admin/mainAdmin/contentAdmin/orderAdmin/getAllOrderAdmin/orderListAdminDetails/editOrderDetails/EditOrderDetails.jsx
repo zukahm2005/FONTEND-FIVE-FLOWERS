@@ -10,7 +10,7 @@ import {
 } from "antd";
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { FaArrowLeft, FaPen } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight, FaPen } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 import "./editOrderDetails.scss";
@@ -44,6 +44,31 @@ const StyledSelect = styled(Select)`
     color: ${(props) => getStatusColor(props.status)} !important;
   }
 `;
+
+const itemRender = (_, type, originalElement) => {
+  if (type === "prev") {
+    return (
+      <div className="custom-pagination-button">
+        <FaArrowLeft />
+      </div>
+    );
+  }
+  if (type === "next") {
+    return (
+      <div className="custom-pagination-button">
+        <FaArrowRight />
+      </div>
+    );
+  }
+  if (type === "page") {
+    return (
+      <div className="custom-pagination-button">
+        {originalElement.props.children}
+      </div>
+    );
+  }
+  return originalElement;
+};
 
 const EditOrderDetails = () => {
   const { id } = useParams();
@@ -430,6 +455,7 @@ const EditOrderDetails = () => {
         visible={isModalVisible}
         onOk={handleAddProduct}
         onCancel={() => setIsModalVisible(false)}
+        footer={null}
       >
         <Table
           dataSource={searchResults}
@@ -438,11 +464,20 @@ const EditOrderDetails = () => {
             current: pagination.current,
             pageSize: pagination.pageSize,
             total: pagination.total,
+            itemRender,
             onChange: (page, pageSize) =>
               handleSearch(searchProduct, page, pageSize),
           }}
           rowKey="id"
         />
+        <div className="modal-footer">
+          <div className="cancel-button" onClick={() => setIsModalVisible(false)}>
+            <p>Cancel</p>
+          </div>
+          <div className="ok-button" onClick={handleAddProduct}>
+            <p>OK</p>
+          </div>
+        </div>
       </Modal>
     </div>
   );

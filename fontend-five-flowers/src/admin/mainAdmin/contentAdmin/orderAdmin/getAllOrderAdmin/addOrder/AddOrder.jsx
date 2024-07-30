@@ -1,16 +1,8 @@
-import {
-  Button,
-  Checkbox,
-  Input,
-  Modal,
-  Select,
-  Table,
-  notification,
-} from "antd";
+import { Checkbox, Input, Modal, Select, Table, notification } from "antd";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
 import React, { useEffect, useState } from "react";
-import { FaArrowLeft } from "react-icons/fa";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import "./addOrder.scss";
@@ -45,17 +37,38 @@ const StyledSelect = styled(Select)`
   }
 `;
 
+const itemRender = (_, type, originalElement) => {
+  if (type === "prev") {
+    return (
+      <div className="custom-pagination-button">
+        <FaArrowLeft />
+      </div>
+    );
+  }
+  if (type === "next") {
+    return (
+      <div className="custom-pagination-button">
+        <FaArrowRight />
+      </div>
+    );
+  }
+  if (type === "page") {
+    return (
+      <div className="custom-pagination-button">
+        {originalElement.props.children}
+      </div>
+    );
+  }
+  return originalElement;
+};
+
 const AddOrder = () => {
   const [orderDetails, setOrderDetails] = useState([]);
   const [searchProduct, setSearchProduct] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [selectedProducts, setSelectedProducts] = useState([]);
-  const [pagination, setPagination] = useState({
-    current: 1,
-    pageSize: 5,
-    total: 0,
-  });
+  const [pagination, setPagination] = useState({ current: 1, pageSize: 5, total: 0 });
   const [paymentMethod, setPaymentMethod] = useState("");
   const [paymentMethods, setPaymentMethods] = useState([]);
   const [address, setAddress] = useState({
@@ -75,9 +88,7 @@ const AddOrder = () => {
   useEffect(() => {
     const fetchPaymentMethods = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/api/v1/payments/all"
-        );
+        const response = await axios.get("http://localhost:8080/api/v1/payments/all");
         setPaymentMethods(response.data);
       } catch (error) {
         console.error("Error fetching payment methods:", error);
@@ -90,9 +101,7 @@ const AddOrder = () => {
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get(
-        `http://localhost:8080/api/v1/products/search?query=${value}&page=${
-          page - 1
-        }&size=${pageSize}`,
+        `http://localhost:8080/api/v1/products/search?query=${value}&page=${page - 1}&size=${pageSize}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -100,11 +109,7 @@ const AddOrder = () => {
         }
       );
       setSearchResults(response.data.content);
-      setPagination({
-        current: page,
-        pageSize: pageSize,
-        total: response.data.totalElements,
-      });
+      setPagination({ current: page, pageSize: pageSize, total: response.data.totalElements });
       setIsModalVisible(true);
     } catch (error) {
       console.error("Error searching products:", error);
@@ -127,9 +132,7 @@ const AddOrder = () => {
   };
 
   const handleRemoveOrderDetail = (orderDetailId) => {
-    setOrderDetails(
-      orderDetails.filter((detail) => detail.orderDetailId !== orderDetailId)
-    );
+    setOrderDetails(orderDetails.filter((detail) => detail.orderDetailId !== orderDetailId));
   };
 
   const calculateTotalPrice = () => {
@@ -269,11 +272,7 @@ const AddOrder = () => {
       key: "productImages",
       render: (productImages) =>
         productImages && productImages.length > 0 ? (
-          <img
-            src={`http://localhost:8080/api/v1/images/${productImages[0]?.imageUrl}`}
-            alt="Product"
-            style={{ width: 50, height: 50 }}
-          />
+          <img src={`http://localhost:8080/api/v1/images/${productImages[0]?.imageUrl}`} alt="Product" style={{ width: 50, height: 50 }} />
         ) : (
           <p>No Image</p>
         ),
@@ -287,11 +286,7 @@ const AddOrder = () => {
             if (e.target.checked) {
               setSelectedProducts([...selectedProducts, record]);
             } else {
-              setSelectedProducts(
-                selectedProducts.filter(
-                  (product) => product.productId !== record.productId
-                )
-              );
+              setSelectedProducts(selectedProducts.filter((product) => product.productId !== record.productId));
             }
           }}
         />
@@ -320,9 +315,7 @@ const AddOrder = () => {
           <div className="input-add-product">
             <Input.Search
               placeholder="Search product to add"
-              onSearch={(value) =>
-                handleSearch(value, pagination.current, pagination.pageSize)
-              }
+              onSearch={(value) => handleSearch(value, pagination.current, pagination.pageSize)}
               enterButton
             />
           </div>
@@ -331,8 +324,7 @@ const AddOrder = () => {
           <div key={detail.orderDetailId} className="add-product">
             <div className="product-info">
               <div className="image-ordtails">
-                {detail.product.productImages &&
-                detail.product.productImages.length > 0 ? (
+                {detail.product.productImages && detail.product.productImages.length > 0 ? (
                   <img
                     src={`http://localhost:8080/api/v1/images/${detail.product.productImages[0]?.imageUrl}`}
                     alt={detail.product.name}
@@ -367,9 +359,7 @@ const AddOrder = () => {
                 <p>${detail.price * detail.quantity}</p>
               </div>
               <div className="remove-detail">
-                <div
-                  onClick={() => handleRemoveOrderDetail(detail.orderDetailId)}
-                >
+                <div onClick={() => handleRemoveOrderDetail(detail.orderDetailId)}>
                   <p>X</p>
                 </div>
               </div>
@@ -480,15 +470,13 @@ const AddOrder = () => {
                 </option>
               ))}
             </select>
-            {errors.paymentMethod && (
-              <p className="error">{errors.paymentMethod}</p>
-            )}
+            {errors.paymentMethod && <p className="error">{errors.paymentMethod}</p>}
           </div>
         </div>
 
-        <Button type="primary" onClick={handleCreateOrder}>
-          <p> Create Order</p>{" "}
-        </Button>
+        <div className="create-order-button" onClick={handleCreateOrder}>
+          <p>Create Order</p>
+        </div>
       </div>
 
       <Modal
@@ -496,6 +484,7 @@ const AddOrder = () => {
         visible={isModalVisible}
         onOk={handleAddProduct}
         onCancel={() => setIsModalVisible(false)}
+        footer={null}
       >
         <Table
           dataSource={searchResults}
@@ -504,11 +493,19 @@ const AddOrder = () => {
             current: pagination.current,
             pageSize: pagination.pageSize,
             total: pagination.total,
-            onChange: (page, pageSize) =>
-              handleSearch(searchProduct, page, pageSize),
+            itemRender,
+            onChange: (page, pageSize) => handleSearch(searchProduct, page, pageSize),
           }}
-          rowKey="id"
+          rowKey="productId"
         />
+        <div className="modal-footer">
+          <div className="cancel-button" onClick={() => setIsModalVisible(false)}>
+            <p>Cancel</p>
+          </div>
+          <div className="ok-button" onClick={handleAddProduct}>
+            <p>OK</p>
+          </div>
+        </div>
       </Modal>
     </div>
   );
