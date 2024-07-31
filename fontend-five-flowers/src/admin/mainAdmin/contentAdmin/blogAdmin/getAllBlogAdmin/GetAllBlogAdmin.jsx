@@ -3,6 +3,7 @@ import axios from "axios";
 import { MdDelete, MdEdit } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import React, { useEffect, useState } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import "./getAllBlogAdmin.scss";
 
 const GetAllBlogAdmin = () => {
@@ -110,6 +111,27 @@ const GetAllBlogAdmin = () => {
     },
   ];
 
+  const itemRender = (current, type, originalElement) => {
+    if (type === "prev") {
+      return (
+        <p className="custom-pagination-button">
+          <FaArrowLeft />
+        </p>
+      );
+    }
+    if (type === "next") {
+      return (
+        <p className="custom-pagination-button">
+          <FaArrowRight />
+        </p>
+      );
+    }
+    if (type === "page") {
+      return <p className="custom-pagination-button">{current}</p>;
+    }
+    return originalElement;
+  };
+
   return (
     <div className="page-blog-admin-full-width-container">
       <div className="header-blog-admin-box">
@@ -127,7 +149,7 @@ const GetAllBlogAdmin = () => {
           columns={columns}
           dataSource={blogs}
           loading={loading}
-          pagination={pagination}
+          pagination={{ ...pagination, itemRender }}
           onChange={handleTableChange}
           rowKey="blogId"
         />
