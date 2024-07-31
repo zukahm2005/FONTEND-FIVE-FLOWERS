@@ -8,13 +8,15 @@
   box-shadow: none;
   height: 55rem;
 
+ 
   @media(max-width: 1191px) {
     max-width: 90%;
   }
 
   @media(max-width: 955px) {
-    max-width: 100%;
+    max-width: 95%;
   }
+
 
   .header-category-admin-box {
     max-width: 100%;

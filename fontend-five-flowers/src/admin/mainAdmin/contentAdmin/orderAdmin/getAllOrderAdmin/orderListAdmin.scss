@@ -1,12 +1,17 @@
 .orders-container {
-  max-width: 80%;
+  max-width: 85%;
   margin: 0 auto;
   padding-top: 7rem;
-  height: 50rem;
+  height: 40rem;
   display: flex;
   flex-direction: column;
   gap: 2rem;
-
+  @media(max-width:1376px){
+    max-width: 90%;
+  }
+  @media(max-width:1080px){
+    max-width: 95%;
+  }
   .header-orders-container {
     display: flex;
     flex-direction: row;

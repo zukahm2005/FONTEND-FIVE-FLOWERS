@@ -6,7 +6,13 @@
     display: flex;
     flex-direction: column;
     gap: 2rem;
-
+    @media(max-width:1150px){
+        max-width: 90%;
+    }
+    @media(max-width:1057px){
+        max-width: 95%;
+        
+    }
     .ordtails-page-box {
         max-width: 100%;
         display: flex;
@@ -63,7 +69,11 @@
         display: grid;
         grid-template-columns: 3fr 1fr;
         gap: 2rem;
-
+        @media(max-width:1041px){
+            display: flex;
+            flex-direction: column;
+            
+        }
         .left-box-layout {
             display: flex;
             flex-direction: column;
