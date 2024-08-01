@@ -36,6 +36,10 @@
   
       .ck-editor__editable {
         min-height: 200px;
+        max-height: 400px; /* Đặt chiều cao tối đa cho khung nội dung */
+        overflow-y: auto; /* Cho phép cuộn dọc khi nội dung vượt quá chiều cao tối đa */
+        border: 1px solid #ccc; /* Đường viền cho khung nội dung */
+        padding: 10px; /* Khoảng cách giữa nội dung và khung */
       }
     }
   
