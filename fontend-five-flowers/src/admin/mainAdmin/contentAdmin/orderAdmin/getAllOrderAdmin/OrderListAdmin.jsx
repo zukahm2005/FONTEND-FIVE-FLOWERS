@@ -1,12 +1,11 @@
-import { DatePicker, Input, Select, Table, Pagination } from "antd";
+import { DatePicker, Input, Select, Table } from "antd";
 import axios from "axios";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import "./orderListAdmin.scss";
-import { FaArrowLeft } from "react-icons/fa";
-import { FaArrowRight } from "react-icons/fa";
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -47,7 +46,7 @@ const StyledSelect = styled(Select)`
 const OrderListAdmin = () => {
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
-  const [sortOrder, setSortOrder] = useState("status");
+  const [sortOrder, setSortOrder] = useState("newest"); // Đặt giá trị mặc định là "newest"
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
@@ -82,7 +81,7 @@ const OrderListAdmin = () => {
       });
       applyFiltersAndSort(
         response.data.content,
-        sortOrder,
+        "newest", // Sử dụng giá trị "newest" để sắp xếp ngay khi tải trang
         dateRange,
         statusFilter,
         searchTerm
@@ -129,12 +128,12 @@ const OrderListAdmin = () => {
     searchTerm
   ) => {
     let filteredOrders = [...ordersList];
-
+  
     if (dateRange && dateRange.length === 2) {
       const [start, end] = dateRange;
       const startDate = new Date(start).getTime();
       const endDate = new Date(end).getTime();
-
+  
       filteredOrders = filteredOrders.filter((order) => {
         const orderDateArray = order.createdAt;
         const orderDate = new Date(
@@ -150,13 +149,13 @@ const OrderListAdmin = () => {
         return orderDate >= startDate && orderDate <= endDate;
       });
     }
-
+  
     if (statusFilter) {
       filteredOrders = filteredOrders.filter(
         (order) => order.status === statusFilter
       );
     }
-
+  
     if (searchTerm) {
       const lowerCaseSearchTerm = searchTerm.toLowerCase();
       filteredOrders = filteredOrders.filter(
@@ -170,7 +169,7 @@ const OrderListAdmin = () => {
             order.address.address.toLowerCase().includes(lowerCaseSearchTerm))
       );
     }
-
+  
     const statusPriority = {
       Pending: 1,
       Packaging: 2,
@@ -181,10 +180,16 @@ const OrderListAdmin = () => {
       Refunded: 7,
       Returned: 8,
     };
-
-    switch (sortOrder) {
-      case "newest":
-        filteredOrders.sort((a, b) => {
+  
+    // Sort based on status priority first, then other criteria
+    filteredOrders.sort((a, b) => {
+      const statusComparison = statusPriority[a.status] - statusPriority[b.status];
+      if (statusComparison !== 0) {
+        return statusComparison;
+      }
+  
+      switch (sortOrder) {
+        case "newest":
           const dateA = new Date(
             Date.UTC(
               a.createdAt[0],
@@ -206,11 +211,9 @@ const OrderListAdmin = () => {
             )
           ).getTime();
           return dateB - dateA;
-        });
-        break;
-      case "oldest":
-        filteredOrders.sort((a, b) => {
-          const dateA = new Date(
+  
+        case "oldest":
+          const dateAOldest = new Date(
             Date.UTC(
               a.createdAt[0],
               a.createdAt[1] - 1,
@@ -220,7 +223,7 @@ const OrderListAdmin = () => {
               a.createdAt[5]
             )
           ).getTime();
-          const dateB = new Date(
+          const dateBOldest = new Date(
             Date.UTC(
               b.createdAt[0],
               b.createdAt[1] - 1,
@@ -230,26 +233,23 @@ const OrderListAdmin = () => {
               b.createdAt[5]
             )
           ).getTime();
-          return dateA - dateB;
-        });
-        break;
-      case "price-low":
-        filteredOrders.sort((a, b) => a.price - b.price);
-        break;
-      case "price-high":
-        filteredOrders.sort((a, b) => b.price - a.price);
-        break;
-      case "status":
-        filteredOrders.sort(
-          (a, b) => statusPriority[a.status] - statusPriority[b.status]
-        );
-        break;
-      default:
-        break;
-    }
+          return dateAOldest - dateBOldest;
+  
+        case "price-low":
+          return a.price - b.price;
+  
+        case "price-high":
+          return b.price - a.price;
+  
+        default:
+          return 0;
+      }
+    });
+  
     console.log("Filtered and Sorted orders:", filteredOrders);
     setFilteredOrders(filteredOrders);
   };
+  
 
   const formatDate = (dateArray) => {
     if (!Array.isArray(dateArray) || dateArray.length !== 6) {
@@ -463,7 +463,7 @@ const OrderListAdmin = () => {
             <Select
               style={{ width: 100 }}
               onChange={handleSortChange}
-              defaultValue="status"
+              defaultValue="newest" // Đặt giá trị mặc định ở đây
               placeholder="Sort by"
               size="small"
             >

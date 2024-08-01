@@ -1,8 +1,11 @@
-import { Table, Tag } from "antd";
-import React from "react";
+import { Button, message, Modal, Table, Tag } from "antd";
+import axios from "axios";
+import React, { useState } from "react";
 import "./cartUserDetails.scss";
 
-const CartUserDetails = ({ order }) => {
+const CartUserDetails = ({ order, fetchUserOrders }) => {
+  const [isModalVisible, setIsModalVisible] = useState(false);
+
   const totalOrderDetailsPrice = order.orderDetails.reduce(
     (total, detail) => total + detail.product.price * detail.quantity,
     0
@@ -54,6 +57,53 @@ const CartUserDetails = ({ order }) => {
     return <Tag color={color}>{status}</Tag>;
   };
 
+  const handleCancelOrder = async () => {
+    if (order.status !== "Pending") {
+      message.error("Order can only be cancelled if it is pending.");
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("token");
+      const response = await axios.put(
+        `http://localhost:8080/api/v1/orders/${order.orderId}/status`,
+        { status: "Cancelled" },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      
+      if (response.status === 200) {
+        message.success("Order cancelled successfully.");
+        window.location.reload(); // Reload page after successful cancellation
+      } else {
+        message.error("Failed to cancel order.");
+      }
+    } catch (error) {
+      console.error("Error cancelling order:", error);
+      if (error.response) {
+        message.error(error.response.data.message || "Failed to cancel order.");
+      } else {
+        message.error("Failed to cancel order.");
+      }
+    }
+  };
+
+  const showModal = () => {
+    setIsModalVisible(true);
+  };
+
+  const handleOk = () => {
+    setIsModalVisible(false);
+    handleCancelOrder();
+  };
+
+  const handleCancel = () => {
+    setIsModalVisible(false);
+  };
+
   const columns = [
     {
       title: "#",
@@ -87,7 +137,7 @@ const CartUserDetails = ({ order }) => {
       title: "Price",
       dataIndex: "product",
       key: "productPrice",
-      render: (product) => `$${parseInt(product.price)}`,  // Hiển thị giá gốc
+      render: (product) => `$${parseInt(product.price)}`, // Hiển thị giá gốc
     },
     {
       title: "Qty",
@@ -100,7 +150,7 @@ const CartUserDetails = ({ order }) => {
       dataIndex: "total",
       key: "total",
       render: (text, record) =>
-        `$${parseInt(record.product.price * record.quantity)}`,  // Tính tổng
+        `$${parseInt(record.product.price * record.quantity)}`, // Tính tổng
     },
     {
       title: "Status",
@@ -121,9 +171,31 @@ const CartUserDetails = ({ order }) => {
         pagination={false}
       />
       <div className="order-summary">
-        <p>
-          <strong>Total:</strong> ${totalPrice}
-        </p>
+        <div className="summary-total-order">
+          <div className="title-summary-total">
+            <p>Total:</p>
+          </div>
+          <div className="price-total-summary-total">
+            <p>${totalPrice}</p>
+          </div>
+        </div>
+        <div className="button-cancel-order">
+          {order.status === "Pending" && (
+            <>
+              <Button type="danger" onClick={showModal}>
+                <p>Cancel</p>
+              </Button>
+              <Modal
+                title="Confirm Cancellation"
+                visible={isModalVisible}
+                onOk={handleOk}
+                onCancel={handleCancel}
+              >
+                <span>Are you sure you want to cancel this order?</span>
+              </Modal>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );

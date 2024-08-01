@@ -12,7 +12,8 @@
     border-collapse: collapse;
     margin-bottom: 20px;
 
-    th, td {
+    th,
+    td {
       padding: 10px;
       text-align: left;
       border-bottom: 1px solid #ddd;
@@ -30,21 +31,36 @@
       box-shadow: none;
     }
 
-    td:nth-child(2), td:nth-child(3) {
+    td:nth-child(2),
+    td:nth-child(3) {
       text-align: left;
     }
   }
 
   .order-summary {
     display: flex;
-    justify-content: flex-end;
-    flex-direction: column;
-    align-items: flex-end;
-    font-size: 16px;
+    flex-direction: row;
+    gap: 3rem;
+    text-align: right;
+    align-items: center;
 
-    p {
-      margin: 0;
-      padding: 5px 0;
+    .summary-total-order {
+      display: flex;
+      flex-direction: row;
+      gap: 0.3rem;
+      font-weight: bold;
+      .title-sumary-total {
+        display: flex;
+        flex-direction: row;
+        p {
+          font-weight: bold;
+        }
+      }
+    }
+    .button-cancel-order {
+      p {
+        color: red;
+      }
     }
   }
 }
