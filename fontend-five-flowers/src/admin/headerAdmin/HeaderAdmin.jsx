@@ -6,7 +6,7 @@ const HeaderAdmin = () => {
       <div className="header-main-admin">
         <div className="logo-header-admin">
           <img
-            src="https://bikex-club.myshopify.com/cdn/shop/files/logo_1_300x300.png?v=1629277962"
+            src="/logoeco02.png"
             alt=""
           />
         </div>

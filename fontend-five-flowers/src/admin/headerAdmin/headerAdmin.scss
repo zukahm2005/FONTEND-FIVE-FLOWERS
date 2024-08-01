@@ -16,7 +16,10 @@
         align-items: center;
 
         .logo-header-admin {
-            padding-left: 2rem;     
+            padding-left: 2rem;
+            img{
+                max-height: 4.5rem;
+            }    
         }
         .profile-header-admin {
             padding-right: 3rem;

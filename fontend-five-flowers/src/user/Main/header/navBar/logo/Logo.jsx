@@ -6,7 +6,7 @@ const Logo = () => {
     <div className="logo-container">
       <Link to="/">
         <img
-          src="https://bikex-club.myshopify.com/cdn/shop/files/logo_1_300x300.png?v=1629277962"
+          src="/logoeco.png"
           alt="logo"
         />
       </Link>
