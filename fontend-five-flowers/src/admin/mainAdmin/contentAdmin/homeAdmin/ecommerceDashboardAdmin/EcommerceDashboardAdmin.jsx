@@ -6,10 +6,11 @@ import {
   ShoppingCartOutlined,
   EyeOutlined,
   OrderedListOutlined,
-  UserAddOutlined,
+  ClockCircleOutlined,
 } from '@ant-design/icons';
 import axios from 'axios';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 import './EcommerceDashboardAdmin.scss';
 
 const EcommerceDashboardAdmin = ({ selectedDate, totalSale }) => {
@@ -19,13 +20,15 @@ const EcommerceDashboardAdmin = ({ selectedDate, totalSale }) => {
     addToCart: 0,
     conversionRate: '0%',
     visitor: 0,
-    newUser: 0,
+    orderPending: 0,
   });
+
+  const navigate = useNavigate();
 
   const fetchStats = async (date) => {
     try {
       const token = localStorage.getItem('token');
-      const [visitResponse, orderResponse, userResponse] = await Promise.all([
+      const [visitResponse, orderResponse, pendingOrderResponse] = await Promise.all([
         axios.get('/api/analytics/visit-count', {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -42,7 +45,7 @@ const EcommerceDashboardAdmin = ({ selectedDate, totalSale }) => {
             date: date.format('YYYY-MM-DD'),
           },
         }),
-        axios.get('/api/v1/user/new-users', {
+        axios.get('/api/v1/orders/pending-orders', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -54,11 +57,11 @@ const EcommerceDashboardAdmin = ({ selectedDate, totalSale }) => {
 
       console.log('Visit Response:', visitResponse.data);
       console.log('Order Response:', orderResponse.data);
-      console.log('User Response:', userResponse.data);
+      console.log('Pending Order Response:', pendingOrderResponse.data);
 
       const visitCount = visitResponse.data.visitCount;
       const newOrdersCount = orderResponse.data.newOrdersCount;
-      const newUsersCount = userResponse.data.newUsersCount;
+      const orderPendingsCount = pendingOrderResponse.data.pendingOrdersCount;
 
       const conversionRate = visitCount > 0 ? ((newOrdersCount / visitCount) * 100).toFixed(2) : '0';
 
@@ -66,7 +69,7 @@ const EcommerceDashboardAdmin = ({ selectedDate, totalSale }) => {
         ...prevStats,
         newOrder: newOrdersCount,
         visitor: visitCount,
-        newUser: newUsersCount,
+        orderPending: orderPendingsCount,
         conversionRate: `${conversionRate}%`,
       }));
     } catch (error) {
@@ -120,6 +123,7 @@ const EcommerceDashboardAdmin = ({ selectedDate, totalSale }) => {
       value: stats.newOrder,
       icon: <OrderedListOutlined />,
       color: '#722ed1',
+      onClick: () => navigate('/admin/orders?status=new'),
     },
     {
       title: 'Add To Cart',
@@ -140,10 +144,11 @@ const EcommerceDashboardAdmin = ({ selectedDate, totalSale }) => {
       color: '#f5222d',
     },
     {
-      title: 'New User',
-      value: stats.newUser,
-      icon: <UserAddOutlined />,
+      title: 'Order Pending',
+      value: stats.orderPending,
+      icon: <ClockCircleOutlined />,
       color: '#eb2f96',
+      onClick: () => navigate('/admin/orders?status=pending'),
     },
   ];
 
@@ -154,7 +159,8 @@ const EcommerceDashboardAdmin = ({ selectedDate, totalSale }) => {
           <Col key={index} xs={24} sm={12} md={8}>
             <Card
               className='stat-card'
-              style={{ borderLeft: `4px solid ${stat.color}` }}
+              style={{ borderLeft: `4px solid ${stat.color}`, cursor: stat.onClick ? 'pointer' : 'default' }}
+              onClick={stat.onClick}
             >
               <div className='stat-card-body'>
                 <div className='stat-card-icon' style={{ color: stat.color }}>
