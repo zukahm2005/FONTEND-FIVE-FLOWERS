@@ -4,10 +4,12 @@ import moment from "moment";
 import EcommerceDashboardAdmin from "./ecommerceDashboardAdmin/EcommerceDashboardAdmin";
 import ChartAdmin from "./chartAdmin/ChartAdmin";
 import SellingAdmin from "./SellingAdmin/SellingAdmin";
+import { Link } from "react-router-dom";
 import "./HomeAdmin.scss";
 
 const HomeAdmin = () => {
   const [selectedDate, setSelectedDate] = useState(moment());
+  const [totalSale, setTotalSale] = useState(0);
 
   const onDateChange = (date) => {
     setSelectedDate(date);
@@ -24,11 +26,16 @@ const HomeAdmin = () => {
             <div className="date-picker-container">
               <DatePicker value={selectedDate} onChange={onDateChange} />
             </div>
+            <div className="button-create-orderadmin">
+              <Link to="/admin/orders/add">
+                <p>Create order</p>
+              </Link>
+            </div>
           </div>
-          <EcommerceDashboardAdmin selectedDate={selectedDate} />
+          <EcommerceDashboardAdmin selectedDate={selectedDate} totalSale={totalSale} />
           <div className="dashboard-row">
             <div className="summary-section">
-              <ChartAdmin selectedDate={selectedDate} />
+              <ChartAdmin selectedDate={selectedDate} setTotalSale={setTotalSale} />
             </div>
             <div className="selling-section">
               <SellingAdmin selectedDate={selectedDate} />

@@ -6,7 +6,7 @@ import './ChartAdmin.scss';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const ChartAdmin = ({ selectedDate }) => {
+const ChartAdmin = ({ selectedDate, setTotalSale }) => {
   const [data, setData] = useState({
     labels: [],
     datasets: [
@@ -36,6 +36,14 @@ const ChartAdmin = ({ selectedDate }) => {
 
       const labels = Object.keys(dailySalesTotals);
       const salesData = Object.values(dailySalesTotals);
+
+      // Set total sales for the selected date
+      const selectedDateString = selectedDate.format('YYYY-MM-DD');
+      if (dailySalesTotals[selectedDateString]) {
+        setTotalSale(dailySalesTotals[selectedDateString]);
+      } else {
+        setTotalSale(0); // Set to 0 if there's no sales data for the selected date
+      }
 
       setData({
         labels,
