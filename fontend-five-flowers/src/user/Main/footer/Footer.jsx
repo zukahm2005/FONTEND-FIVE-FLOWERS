@@ -13,7 +13,7 @@ const Footer = () => {
       <div className="footer-content">
         <div className="logo">
           <img
-            src="//bikex-club.myshopify.com/cdn/shop/files/logo_a64769da-d543-47d9-bcc5-2594dc90597f_250x_1_x58@2x.png?v=1614290807"
+            src="/logoeco.png"
             alt="Bike Club Logo"
           />
         </div>
