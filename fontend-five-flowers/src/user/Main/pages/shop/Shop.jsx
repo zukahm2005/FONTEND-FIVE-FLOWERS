@@ -21,7 +21,7 @@ const Shop = () => {
   const [displayType, setDisplayType] = useState("grid");
   const [searchTerm, setSearchTerm] = useState("");
   const [sortType, setSortType] = useState("featured");
-  const [itemsPerPage, setItemsPerPage] = useState(9);
+  const [itemsPerPage, setItemsPerPage] = useState(12); // Default to 12 items per page for grid
   const [currentPage, setCurrentPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
   const [drawerVisible, setDrawerVisible] = useState(false);
@@ -54,7 +54,7 @@ const Shop = () => {
       if (window.innerWidth <= 1000) {
         setItemsPerPage(displayType === "list" ? 5 : 4);
       } else {
-        setItemsPerPage(displayType === "list" ? 5 : 9);
+        setItemsPerPage(displayType === "list" ? 5 : 12); // Update to 12 items per page for grid
       }
     };
 
@@ -100,7 +100,7 @@ const Shop = () => {
 
   const handleDisplayChange = (type) => {
     setDisplayType(type);
-    setItemsPerPage(type === "list" ? 5 : (window.innerWidth <= 1000 ? 4 : 9));
+    setItemsPerPage(type === "list" ? 5 : 12); // Update to 12 items per page for grid
   };
 
   const handleSearchTermChange = (term) => {
