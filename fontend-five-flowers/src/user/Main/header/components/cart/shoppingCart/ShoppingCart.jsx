@@ -130,9 +130,8 @@ const ShoppingCart = () => {
                         <p>+</p>
                       </div>
                     </div>
-                    <div className="price-shcart">
+                    <div className="price-shcart2">
                       <p>Total: ${item.totalPrice}</p>{" "}
-                      {/* Hiển thị tổng giá sản phẩm */}
                     </div>
                     <div className="delete-button-shopping-cart">
                       <button onClick={() => removeFromCart(item.productId)}>

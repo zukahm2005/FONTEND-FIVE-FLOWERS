@@ -19,6 +19,8 @@ const OrderReceive = () => {
     return <div>Order not found</div>;
   }
 
+  console.log("Order details:", order); // In ra để kiểm tra dữ liệu
+
   return (
     <div className="order-receive-container">
       <div className="site-content">
@@ -80,7 +82,7 @@ const OrderReceive = () => {
                       </p>
                     </div>
                     <div className="color-pro-receive">
-                      <p>Color: {detail.product.color}</p>
+                      <p>Color: {detail.product.color || "N/A"}</p>
                     </div>
                     <div className="brand-category-pro-receive">
                       <p>

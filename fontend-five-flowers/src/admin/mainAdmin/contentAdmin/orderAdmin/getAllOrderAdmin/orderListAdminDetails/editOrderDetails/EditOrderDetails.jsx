@@ -366,7 +366,7 @@ const EditOrderDetails = () => {
               </div>
               <div className="product-details">
                 <div className="name-info-ordetails">
-                  <h3>{detail.product.name}</h3>
+                  <p>{detail.product.name}</p>
                 </div>
                 <div className="color-info-ordtails">
                   <p>Color: {detail.product.color}</p>

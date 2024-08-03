@@ -296,7 +296,7 @@ const CheckOut = () => {
         orderDetails: combinedCart.map((product) => ({
           product: {
             name: product.name,
-            color: product.color,
+            color: product.color, // Ensure the color attribute is included
             brand: product.brand,
             category: product.category,
           },

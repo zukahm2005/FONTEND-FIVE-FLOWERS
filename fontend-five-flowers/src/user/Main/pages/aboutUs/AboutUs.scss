@@ -1,6 +1,6 @@
 .aboutus-container {
   padding-top: 5rem;
-  width: 100%;
+  max-width: 100%;
   margin: 0 auto;
 
   .aboutus-header-container {
@@ -42,7 +42,7 @@
   }
 
   .aboutus-section-container {
-    width: 60%;
+    width: 80%;
     margin: auto;
 
     @media (max-width: 1024px) {

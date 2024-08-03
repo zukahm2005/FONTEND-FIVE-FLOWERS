@@ -86,7 +86,7 @@ const CollectionGrid = ({ displayType, products }) => {
                 </motion.div>
               </motion.div>
               <div className="product-info">
-                <h3>{product.name}</h3>
+                <p>{product.name}</p>
                 <div className="price">
                   <span className="current-price">${product.price}</span>
                   <span className="original-price">

@@ -3,8 +3,8 @@
   margin: 5rem 0 0 0;
   background-image: url(https://bikex-club.myshopify.com/cdn/shop/files/blog_detail-4.jpg?v=1598503894);
   background-size: 100% 100%;
-  height: auto; 
-  @media(max-width:884px){
+  height: auto;
+  @media (max-width: 884px) {
     background-size: 100% 50%;
   }
 
@@ -17,7 +17,7 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
-    @media(max-width: 940px){
+    @media (max-width: 940px) {
       height: 150px;
     }
     .name-top-shopping-container {
@@ -27,7 +27,7 @@
         font-size: 2rem;
         color: white;
       }
-      @media(max-width: 940px){
+      @media (max-width: 940px) {
         h1 {
           font-size: 1.8rem;
           color: white;
@@ -60,7 +60,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
 
-    @media(max-width: 883px){
+    @media (max-width: 883px) {
       display: flex;
       flex-direction: column;
     }
@@ -77,16 +77,16 @@
         display: flex;
         flex-direction: column;
         gap: 1rem;
-        @media(max-width:1388px){
+        @media (max-width: 1388px) {
           margin-left: 20%;
         }
-        @media(max-width:1170px){
+        @media (max-width: 1170px) {
           margin-left: 10%;
         }
-        @media(max-width:985px){
+        @media (max-width: 985px) {
           margin-left: 0%;
         }
-        @media(max-width:460px){
+        @media (max-width: 460px) {
           padding: 1rem;
         }
         input {
@@ -116,7 +116,7 @@
           grid-template-columns: auto auto;
           gap: 1rem;
 
-          @media(max-width:940px){
+          @media (max-width: 940px) {
             display: flex;
             flex-direction: column;
             gap: 1rem;
@@ -128,7 +128,7 @@
           display: grid;
           grid-template-columns: auto auto;
           gap: 1rem;
-          @media(max-width:940px){
+          @media (max-width: 940px) {
             display: flex;
             flex-direction: column;
             gap: 1rem;
@@ -140,7 +140,7 @@
           display: grid;
           grid-template-columns: auto auto;
           gap: 1rem;
-          @media(max-width:940px){
+          @media (max-width: 940px) {
             display: flex;
             flex-direction: column;
             gap: 1rem;
@@ -214,24 +214,19 @@
       max-width: 100%;
       background-color: #f5f5f5;
       height: auto;
-      
+
       .checkout-details {
         padding: 3rem;
-        max-width: 50%;
-        @media (max-width: 1388px) {
-          max-width: 60%;
+        max-width: 70%;
+
+        @media (max-width: 1231px) {
+          max-width: 90%;
         }
-        @media(max-width:1170px){
-          max-width: 70%;
-        }
-        @media(max-width: 985px){
-          max-width: 80%;
-        }
-        @media(max-width:883px){
+        @media (max-width: 883px) {
           max-width: 100%;
           background-color: white;
         }
-        @media(max-width:460px){
+        @media (max-width: 460px) {
           padding: 1rem;
         }
         .checkout-item {
@@ -240,6 +235,7 @@
           align-items: center;
           margin-bottom: 2rem;
           justify-content: space-between;
+          gap: 2rem;
           .info-details-checkout {
             display: flex;
             flex-direction: row;

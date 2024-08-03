@@ -30,10 +30,14 @@
       .product-card {
         max-width: 20rem;
 
-        .product-info {}
+       
       }
     }
-
+    .product-info {
+      p{
+        font-weight: bold;
+      }
+    }
     .product-card {
       width: 20rem;
       display: flex;
