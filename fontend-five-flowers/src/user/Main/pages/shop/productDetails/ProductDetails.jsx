@@ -84,6 +84,7 @@ const ProductDetail = () => {
     ref: thumbnailSlider,
     swipe: false,
     draggable: false,
+    beforeChange: (current, next) => setActiveSlide(next), // Update activeSlide when thumbnail changes
     // prevArrow: <div className="slick-prev" />,
     // nextArrow: <div className="slick-next" />,
   };
@@ -146,7 +147,7 @@ const ProductDetail = () => {
           </div>
           <div className="content-main-details-product">
             <div className="name-details-product">
-              <h1>{productDetails.name}</h1>
+              <p>{productDetails.name}</p>
             </div>
             <div className="content-below-details">
               <div className="title-content-below-details1">

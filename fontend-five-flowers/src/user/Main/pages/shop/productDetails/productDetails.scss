@@ -193,8 +193,8 @@
         grid-column-gap: 2rem; /* Giảm khoảng cách giữa các cột */
 
         .name-details-product {
-          h1 {
-            font-size: 2rem;
+          p {
+            font-size: 1.5rem;
           }
         }
       }
@@ -437,22 +437,23 @@
               height: auto;
               object-fit: cover;
               cursor: pointer;
-              border: 1px solid transparent; /* Default border color */
+              border: 1px solid transparent; // Default border color
             }
-
+        
             &.active img {
-              border: 1px solid #ff5947; /* Add border color when active */
+              border: 1px solid #ff5947; // Border color when active
             }
           }
-
+        
           .slick-slide {
-            padding: 2px; /* Giảm khoảng cách giữa các ảnh nhỏ */
+            padding: 2px; // Reduce spacing between small images
           }
-
+        
           .slick-list {
-            margin: 0 -2px; /* Giảm khoảng cách giữa các ảnh nhỏ */
+            margin: 0 -2px; // Reduce spacing between small images
           }
         }
+        
       }
 
       .content-main-details-product {
@@ -478,7 +479,10 @@
         }
 
         .name-details-product {
-          font-size: 1.5rem;
+          p{
+            font-size: 1.8rem;
+            font-weight: bold;
+          }
 
           @media (max-width: 1400px) {
             font-size: 1.2rem; /* Giảm kích thước font chữ */
