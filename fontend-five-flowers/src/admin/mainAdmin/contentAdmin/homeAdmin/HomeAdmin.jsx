@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { DatePicker } from "antd";
 import moment from "moment";
 import EcommerceDashboardAdmin from "./ecommerceDashboardAdmin/EcommerceDashboardAdmin";
@@ -7,12 +7,22 @@ import SellingAdmin from "./SellingAdmin/SellingAdmin";
 import { Link } from "react-router-dom";
 import "./HomeAdmin.scss";
 
+const { RangePicker } = DatePicker;
+
 const HomeAdmin = () => {
   const [selectedDate, setSelectedDate] = useState(moment());
   const [totalSale, setTotalSale] = useState(0);
 
-  const onDateChange = (date) => {
-    setSelectedDate(date);
+  useEffect(() => {
+    setSelectedDate(moment());
+  }, []);
+
+  const onDateChange = (dates) => {
+    if (dates && dates[1]) {
+      setSelectedDate(dates[1]);
+    } else {
+      setSelectedDate(moment()); // or set to null or any default value
+    }
   };
 
   return (
@@ -24,7 +34,12 @@ const HomeAdmin = () => {
               <p>Dashboard</p>
             </div>
             <div className="date-picker-container">
-              <DatePicker value={selectedDate} onChange={onDateChange} />
+              <RangePicker
+                defaultValue={[moment(), moment()]}
+                onChange={onDateChange}
+                size="small"
+                style={{ width: 150 }}
+              />
             </div>
             <div className="button-create-orderadmin">
               <Link to="/admin/orders/add">
