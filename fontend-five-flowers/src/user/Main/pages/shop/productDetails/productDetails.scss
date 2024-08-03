@@ -182,7 +182,12 @@
       grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
       background-color: white;
       grid-column-gap: 4rem; /* Tăng khoảng cách giữa các cột */
-
+      .name-details-product{
+        p{
+          font-size: 2rem;
+          font-weight: bold;
+        }
+      }
       @media (max-width: 1600px) {
         max-width: 80%;
       }
@@ -194,7 +199,7 @@
 
         .name-details-product {
           p {
-            font-size: 1.5rem;
+            font-size: 1.4rem;
           }
         }
       }
@@ -437,23 +442,22 @@
               height: auto;
               object-fit: cover;
               cursor: pointer;
-              border: 1px solid transparent; // Default border color
+              border: 1px solid transparent; /* Default border color */
             }
-        
+
             &.active img {
-              border: 1px solid #ff5947; // Border color when active
+              border: 1px solid #ff5947; /* Add border color when active */
             }
           }
-        
+
           .slick-slide {
-            padding: 2px; // Reduce spacing between small images
+            padding: 2px; /* Giảm khoảng cách giữa các ảnh nhỏ */
           }
-        
+
           .slick-list {
-            margin: 0 -2px; // Reduce spacing between small images
+            margin: 0 -2px; /* Giảm khoảng cách giữa các ảnh nhỏ */
           }
         }
-        
       }
 
       .content-main-details-product {
@@ -479,10 +483,7 @@
         }
 
         .name-details-product {
-          p{
-            font-size: 1.8rem;
-            font-weight: bold;
-          }
+          font-size: 1.5rem;
 
           @media (max-width: 1400px) {
             font-size: 1.2rem; /* Giảm kích thước font chữ */

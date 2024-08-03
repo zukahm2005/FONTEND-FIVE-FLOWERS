@@ -1,4 +1,4 @@
-import { Modal, Space, Table, Tag } from "antd";
+import { Modal, Popover, Space, Table, Tag } from "antd";
 import axios from "axios";
 import { AnimatePresence, motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
@@ -141,6 +141,7 @@ const GetAllProductAdmin = () => {
       title: "Name",
       dataIndex: "name",
       key: "name",
+      width: 250,
       render: (text) => <span style={{ fontSize: '12px' }}>{text}</span>
     },
     {
@@ -150,15 +151,20 @@ const GetAllProductAdmin = () => {
       render: (productImages, record) => (
         <Space size="middle">
           {productImages && productImages[0] && (
-            <div className="image1-container">
-              <img
-                src={`http://localhost:8080/api/v1/images/${productImages[0].imageUrl}`}
-                alt={record.name}
-                style={{ width: 40, height: 40 }}
-                className="main-image"
-              />
-              {record.isOnSale && <span className="sale-badge">Sale</span>}
-            </div>
+            <Popover
+              content={<img src={`http://localhost:8080/api/v1/images/${productImages[0].imageUrl}`} alt={record.name} style={{ width: 200, height: 200 }} />}
+              title={record.name}
+            >
+              <div className="image1-container">
+                <img
+                  src={`http://localhost:8080/api/v1/images/${productImages[0].imageUrl}`}
+                  alt={record.name}
+                  style={{ width: 60, height: 60 }}
+                  className="main-image"
+                />
+                {record.isOnSale && <span className="sale-badge">Sale</span>}
+              </div>
+            </Popover>
           )}
         </Space>
       ),
@@ -273,7 +279,7 @@ const GetAllProductAdmin = () => {
             />
           </div>
           <div className="button-create-proadmin">
-            <Link to="add">
+            <Link to="/admin/product/add">
               <p>Create product</p>
             </Link>
           </div>
