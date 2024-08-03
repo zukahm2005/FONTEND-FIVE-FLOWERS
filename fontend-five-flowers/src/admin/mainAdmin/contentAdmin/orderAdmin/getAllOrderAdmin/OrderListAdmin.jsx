@@ -1,11 +1,17 @@
-import { DatePicker, Input, Select, Table } from "antd";
+import { Button, DatePicker, Input, Select, Table } from "antd";
 import axios from "axios";
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
 import { motion } from "framer-motion";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import "./orderListAdmin.scss";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -55,6 +61,7 @@ const OrderListAdmin = () => {
   const [dateRange, setDateRange] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
+  const [isTodayFilter, setIsTodayFilter] = useState(false); // Add state for today filter
 
   const navigate = useNavigate();
 
@@ -105,8 +112,16 @@ const OrderListAdmin = () => {
   };
 
   const handleDateRangeChange = (dates) => {
-    setDateRange(dates);
-    applyFiltersAndSort(orders, sortOrder, dates, statusFilter, searchTerm);
+    if (dates && dates.length === 2) {
+      const start = dates[0].toDate(); // Chuyển đổi đối tượng Day.js thành Date
+      const end = dates[1].toDate(); // Chuyển đổi đối tượng Day.js thành Date
+      console.log("Selected Date Range: ", start, end);
+      setDateRange([start, end]);
+      applyFiltersAndSort(orders, sortOrder, [start, end], statusFilter);
+    } else {
+      setDateRange([]);
+      applyFiltersAndSort(orders, sortOrder, [], statusFilter);
+    }
   };
 
   const handleStatusFilterChange = (value) => {
@@ -120,6 +135,19 @@ const OrderListAdmin = () => {
     applyFiltersAndSort(orders, sortOrder, dateRange, statusFilter, value);
   };
 
+  const handleTodayFilter = () => {
+    setIsTodayFilter((prev) => !prev); // Toggle the today filter state
+    if (!isTodayFilter) {
+      const todayStart = dayjs().startOf("day").toDate();
+      const todayEnd = dayjs().endOf("day").toDate();
+      setDateRange([todayStart, todayEnd]);
+      applyFiltersAndSort(orders, sortOrder, [todayStart, todayEnd], statusFilter, searchTerm);
+    } else {
+      setDateRange([]);
+      applyFiltersAndSort(orders, sortOrder, [], statusFilter, searchTerm);
+    }
+  };
+
   const applyFiltersAndSort = (
     ordersList,
     sortOrder,
@@ -128,34 +156,27 @@ const OrderListAdmin = () => {
     searchTerm
   ) => {
     let filteredOrders = [...ordersList];
-  
+
     if (dateRange && dateRange.length === 2) {
       const [start, end] = dateRange;
-      const startDate = new Date(start).getTime();
-      const endDate = new Date(end).getTime();
-  
+      const startDate = dayjs(start).startOf('day').tz('Asia/Ho_Chi_Minh', true);
+      const endDate = dayjs(end).endOf('day').tz('Asia/Ho_Chi_Minh', true);
+
       filteredOrders = filteredOrders.filter((order) => {
         const orderDateArray = order.createdAt;
-        const orderDate = new Date(
-          Date.UTC(
-            orderDateArray[0],
-            orderDateArray[1] - 1,
-            orderDateArray[2],
-            orderDateArray[3],
-            orderDateArray[4],
-            orderDateArray[5]
-          )
-        ).getTime();
-        return orderDate >= startDate && orderDate <= endDate;
+        const orderDate = dayjs.utc(
+          new Date(Date.UTC(orderDateArray[0], orderDateArray[1] - 1, orderDateArray[2], orderDateArray[3], orderDateArray[4], orderDateArray[5]))
+        ).tz('Asia/Ho_Chi_Minh', true);
+        return orderDate.isAfter(startDate) && orderDate.isBefore(endDate);
       });
     }
-  
+
     if (statusFilter) {
       filteredOrders = filteredOrders.filter(
         (order) => order.status === statusFilter
       );
     }
-  
+
     if (searchTerm) {
       const lowerCaseSearchTerm = searchTerm.toLowerCase();
       filteredOrders = filteredOrders.filter(
@@ -169,7 +190,7 @@ const OrderListAdmin = () => {
             order.address.address.toLowerCase().includes(lowerCaseSearchTerm))
       );
     }
-  
+
     const statusPriority = {
       Pending: 1,
       Packaging: 2,
@@ -180,90 +201,52 @@ const OrderListAdmin = () => {
       Refunded: 7,
       Returned: 8,
     };
-  
+
     // Sort based on status priority first, then other criteria
     filteredOrders.sort((a, b) => {
       const statusComparison = statusPriority[a.status] - statusPriority[b.status];
       if (statusComparison !== 0) {
         return statusComparison;
       }
-  
+
       switch (sortOrder) {
         case "newest":
-          const dateA = new Date(
-            Date.UTC(
-              a.createdAt[0],
-              a.createdAt[1] - 1,
-              a.createdAt[2],
-              a.createdAt[3],
-              a.createdAt[4],
-              a.createdAt[5]
-            )
-          ).getTime();
-          const dateB = new Date(
-            Date.UTC(
-              b.createdAt[0],
-              b.createdAt[1] - 1,
-              b.createdAt[2],
-              b.createdAt[3],
-              b.createdAt[4],
-              b.createdAt[5]
-            )
-          ).getTime();
+          const dateA = dayjs.utc(new Date(Date.UTC(...a.createdAt))).tz('Asia/Ho_Chi_Minh', true);
+          const dateB = dayjs.utc(new Date(Date.UTC(...b.createdAt))).tz('Asia/Ho_Chi_Minh', true);
           return dateB - dateA;
-  
+
         case "oldest":
-          const dateAOldest = new Date(
-            Date.UTC(
-              a.createdAt[0],
-              a.createdAt[1] - 1,
-              a.createdAt[2],
-              a.createdAt[3],
-              a.createdAt[4],
-              a.createdAt[5]
-            )
-          ).getTime();
-          const dateBOldest = new Date(
-            Date.UTC(
-              b.createdAt[0],
-              b.createdAt[1] - 1,
-              b.createdAt[2],
-              b.createdAt[3],
-              b.createdAt[4],
-              b.createdAt[5]
-            )
-          ).getTime();
+          const dateAOldest = dayjs.utc(new Date(Date.UTC(...a.createdAt))).tz('Asia/Ho_Chi_Minh', true);
+          const dateBOldest = dayjs.utc(new Date(Date.UTC(...b.createdAt))).tz('Asia/Ho_Chi_Minh', true);
           return dateAOldest - dateBOldest;
-  
+
         case "price-low":
           return a.price - b.price;
-  
+
         case "price-high":
           return b.price - a.price;
-  
+
         default:
           return 0;
       }
     });
-  
+
     console.log("Filtered and Sorted orders:", filteredOrders);
     setFilteredOrders(filteredOrders);
   };
-  
 
   const formatDate = (dateArray) => {
     if (!Array.isArray(dateArray) || dateArray.length !== 6) {
       return "N/A";
     }
     const [year, month, day, hours, minutes, seconds] = dateArray;
-    const date = new Date(
-      Date.UTC(year, month - 1, day, hours, minutes, seconds)
-    );
-    if (isNaN(date)) {
+    const date = dayjs.utc(
+      new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds))
+    ).tz('Asia/Ho_Chi_Minh', true);
+    if (!date.isValid()) {
       return "N/A";
     }
-    const formattedDate = date.toISOString().slice(0, 19).replace("T", " ");
-    return formattedDate;
+    return date.format('YYYY-MM-DD HH:mm:ss');
   };
 
   const updateOrderStatus = async (orderId, status) => {
@@ -461,7 +444,7 @@ const OrderListAdmin = () => {
         <div className="menu-orders-container">
           <div className="sort-orders-menu">
             <Select
-              style={{ width: 100 }}
+              style={{ width: 120 }}
               onChange={handleSortChange}
               defaultValue="newest" // Đặt giá trị mặc định ở đây
               placeholder="Sort by"
@@ -473,6 +456,9 @@ const OrderListAdmin = () => {
               <Option value="price-high">Price, high to low</Option>
               <Option value="status">Status</Option>
             </Select>
+            <Button onClick={handleTodayFilter} size="small">
+              {isTodayFilter ? "Remove Today Filter" : "Today"}
+            </Button>
             <RangePicker
               style={{ width: 150 }}
               onChange={handleDateRangeChange}

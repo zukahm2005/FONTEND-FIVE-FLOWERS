@@ -1,10 +1,16 @@
 import { DatePicker, Select, Table, Tag } from "antd";
 import axios from "axios";
-import { jwtDecode } from "jwt-decode"; // Đúng cách
+import dayjs from "dayjs";
+import timezone from "dayjs/plugin/timezone";
+import utc from "dayjs/plugin/utc";
+import { jwtDecode } from "jwt-decode";
 import React, { useContext, useEffect, useState } from "react";
 import { CartContext } from "../../cart/cartContext/CartProvider";
 import "./cartUser.scss";
 import CartUserDetails from "./cartUserDetails/CartUserDetails";
+
+dayjs.extend(utc);
+dayjs.extend(timezone);
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -48,8 +54,16 @@ const CartUser = () => {
   };
 
   const handleDateRangeChange = (dates) => {
-    setDateRange(dates);
-    applyFiltersAndSort(orders, sortOrder, dates, statusFilter);
+    if (dates && dates.length === 2) {
+      const start = dates[0].toDate(); // Chuyển đổi đối tượng Day.js thành Date
+      const end = dates[1].toDate(); // Chuyển đổi đối tượng Day.js thành Date
+      console.log("Selected Date Range: ", start, end);
+      setDateRange([start, end]);
+      applyFiltersAndSort(orders, sortOrder, [start, end], statusFilter);
+    } else {
+      setDateRange([]);
+      applyFiltersAndSort(orders, sortOrder, [], statusFilter);
+    }
   };
 
   const handleSortOrderChange = (value) => {
@@ -70,45 +84,40 @@ const CartUser = () => {
 
   const applyFiltersAndSort = (ordersList, sortOrder, dateRange, statusFilter) => {
     let filteredOrders = [...ordersList];
-  
+
     if (dateRange && dateRange.length === 2) {
       const [start, end] = dateRange;
-      const startDate = new Date(start).setHours(0, 0, 0, 0);
-      const endDate = new Date(end).setHours(23, 59, 59, 999);
+      const startDate = dayjs(start).startOf('day').tz('Asia/Ho_Chi_Minh', true);
+      const endDate = dayjs(end).endOf('day').tz('Asia/Ho_Chi_Minh', true);
+      console.log("Filtering from:", startDate.toISOString(), "to:", endDate.toISOString());
       filteredOrders = filteredOrders.filter((order) => {
         const orderDateArray = order.createdAt;
-        const orderDate = new Date(
-          Date.UTC(
-            orderDateArray[0],
-            orderDateArray[1] - 1,
-            orderDateArray[2],
-            orderDateArray[3],
-            orderDateArray[4],
-            orderDateArray[5]
-          )
-        );
-        return orderDate >= startDate && orderDate <= endDate;
+        const orderDate = dayjs.utc(
+          new Date(Date.UTC(orderDateArray[0], orderDateArray[1] - 1, orderDateArray[2], orderDateArray[3], orderDateArray[4], orderDateArray[5]))
+        ).tz('Asia/Ho_Chi_Minh', true);
+        console.log("Order date:", orderDate.toISOString());
+        return orderDate.isAfter(startDate) && orderDate.isBefore(endDate);
       });
     }
-  
+
     if (statusFilter) {
       filteredOrders = filteredOrders.filter(
         (order) => order.status === statusFilter
       );
     }
-  
+
     switch (sortOrder) {
       case "newest":
         filteredOrders.sort((a, b) => {
-          const dateA = new Date(Date.UTC(...a.createdAt));
-          const dateB = new Date(Date.UTC(...b.createdAt));
+          const dateA = dayjs.utc(new Date(Date.UTC(...a.createdAt))).tz('Asia/Ho_Chi_Minh', true);
+          const dateB = dayjs.utc(new Date(Date.UTC(...b.createdAt))).tz('Asia/Ho_Chi_Minh', true);
           return dateB - dateA;
         });
         break;
       case "oldest":
         filteredOrders.sort((a, b) => {
-          const dateA = new Date(Date.UTC(...a.createdAt));
-          const dateB = new Date(Date.UTC(...b.createdAt));
+          const dateA = dayjs.utc(new Date(Date.UTC(...a.createdAt))).tz('Asia/Ho_Chi_Minh', true);
+          const dateB = dayjs.utc(new Date(Date.UTC(...b.createdAt))).tz('Asia/Ho_Chi_Minh', true);
           return dateA - dateB;
         });
         break;
@@ -124,43 +133,8 @@ const CartUser = () => {
       default:
         break;
     }
-  
-    setFilteredOrders(filteredOrders);
-  };
-  
-  
 
-  const getStatusTag = (status) => {
-    let color;
-    switch (status) {
-      case "Pending":
-        color = "orange";
-        break;
-      case "Paid":
-        color = "green";
-        break;
-      case "Packaging":
-        color = "blue";
-        break;
-      case "Shipping":
-        color = "purple";
-        break;
-      case "Delivered":
-        color = "cyan";
-        break;
-      case "Cancelled":
-        color = "red";
-        break;
-      case "Refunded":
-        color = "magenta";
-        break;
-      case "Returned":
-        color = "black";
-        break;
-      default:
-        color = "default";
-    }
-    return <Tag color={color}>{status}</Tag>;
+    setFilteredOrders(filteredOrders);
   };
 
   const formatDate = (dateArray) => {
@@ -168,14 +142,13 @@ const CartUser = () => {
       return "N/A"; // Default value when data is invalid
     }
     const [year, month, day, hours, minutes, seconds] = dateArray;
-    const date = new Date(
-      Date.UTC(year, month - 1, day, hours, minutes, seconds)
-    ); // Note month starts from 0 in JavaScript
-    if (isNaN(date)) {
+    const date = dayjs.utc(
+      new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds))
+    ).tz('Asia/Ho_Chi_Minh', true);
+    if (!date.isValid()) {
       return "N/A"; // Default value when data is invalid
     }
-    const formattedDate = date.toISOString().slice(0, 19).replace("T", " ");
-    return formattedDate;
+    return date.format('YYYY-MM-DD HH:mm:ss');
   };
 
   const columns = [
@@ -217,6 +190,39 @@ const CartUser = () => {
       render: (status) => getStatusTag(status),
     },
   ];
+
+  const getStatusTag = (status) => {
+    let color;
+    switch (status) {
+      case "Pending":
+        color = "orange";
+        break;
+      case "Paid":
+        color = "green";
+        break;
+      case "Packaging":
+        color = "blue";
+        break;
+      case "Shipping":
+        color = "purple";
+        break;
+      case "Delivered":
+        color = "cyan";
+        break;
+      case "Cancelled":
+        color = "red";
+        break;
+      case "Refunded":
+        color = "magenta";
+        break;
+      case "Returned":
+        color = "black";
+        break;
+      default:
+        color = "default";
+    }
+    return <Tag color={color}>{status}</Tag>;
+  };
 
   return (
     <div className="cart-user-container">
