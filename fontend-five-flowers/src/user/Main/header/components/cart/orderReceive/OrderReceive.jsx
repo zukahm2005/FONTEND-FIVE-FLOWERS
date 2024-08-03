@@ -1,10 +1,19 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./orderReceive.scss";
 
 const OrderReceive = () => {
   const location = useLocation();
   const { order } = location.state || {};
+
+  // useEffect để kiểm tra và reload trang một lần
+  useEffect(() => {
+    const isPageReloaded = sessionStorage.getItem("isPageReloaded");
+    if (!isPageReloaded) {
+      sessionStorage.setItem("isPageReloaded", "true");
+      window.location.reload();
+    }
+  }, []);
 
   if (!order) {
     return <div>Order not found</div>;

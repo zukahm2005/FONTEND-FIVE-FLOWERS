@@ -168,7 +168,7 @@ const ProductDetail = () => {
               </div>
               <div className="title-content-below-details2">
                 <div className="title1">
-                  <p>Rs. {productDetails.price}</p>
+                  <p>${productDetails.price}</p>
                 </div>
                 <div className="title">
                   <Tooltip

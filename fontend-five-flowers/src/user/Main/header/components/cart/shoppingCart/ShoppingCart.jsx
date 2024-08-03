@@ -103,7 +103,7 @@ const ShoppingCart = () => {
                       </p>
                     </div>
                     <div className="price-shcart">
-                      <p>Rs. {item.price}</p> {/* Hiển thị giá sản phẩm */}
+                      <p>${item.price}</p> {/* Hiển thị giá sản phẩm */}
                     </div>
                     <div className="quantity-controls">
                       <div
@@ -131,7 +131,7 @@ const ShoppingCart = () => {
                       </div>
                     </div>
                     <div className="price-shcart">
-                      <p>Total: Rs. {item.totalPrice}</p>{" "}
+                      <p>Total: ${item.totalPrice}</p>{" "}
                       {/* Hiển thị tổng giá sản phẩm */}
                     </div>
                     <div className="delete-button-shopping-cart">

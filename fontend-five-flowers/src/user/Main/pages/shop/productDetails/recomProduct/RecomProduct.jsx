@@ -176,10 +176,10 @@ const RecommentProduct = () => {
                   <h3>{product.name}</h3>
                   <div className="price">
                     <span className="current-price">
-                      Rs. {product.price}
+                      ${product.price}
                     </span>
                     <span className="original-price">
-                      Rs. {product.originalPrice}
+                      ${product.originalPrice}
                     </span>
                   </div>
                   {product.quantity === 0 && (

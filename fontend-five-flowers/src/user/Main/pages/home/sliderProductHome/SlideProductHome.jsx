@@ -180,9 +180,9 @@ const SlideProductHome = () => {
                 <div className="product-info">
                   <h3>{product.name}</h3>
                   <div className="price">
-                    <span className="current-price">Rs. {product.price}</span>
+                    <span className="current-price">${product.price}</span>
                     <span className="original-price">
-                      Rs. {product.originalPrice}
+                      ${product.originalPrice}
                     </span>
                   </div>
                   {product.quantity === 0 && (

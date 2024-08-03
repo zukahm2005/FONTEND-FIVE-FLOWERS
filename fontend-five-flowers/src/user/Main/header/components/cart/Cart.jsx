@@ -124,7 +124,7 @@ const Cart = () => {
                   </div>
                   <div className="cacul-container-content-cart">
                     <div className="total-each-product-cart">
-                      <p>$ {item.totalPrice}</p>
+                      <p>${item.totalPrice}</p>
                     </div>
                     <div className="cacul-cart">
                       <div
