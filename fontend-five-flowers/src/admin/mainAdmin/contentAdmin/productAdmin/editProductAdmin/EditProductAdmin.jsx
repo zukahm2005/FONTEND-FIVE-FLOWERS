@@ -405,7 +405,7 @@ const EditProductAdmin = () => {
               </div>
 
               <div className="info-button-container">
-                <div onClick={handleSubmit} className="save-button">
+                <div onClick={handleSubmit} className="custom-button">
                   <p>Save</p>
                 </div>
               </div>
