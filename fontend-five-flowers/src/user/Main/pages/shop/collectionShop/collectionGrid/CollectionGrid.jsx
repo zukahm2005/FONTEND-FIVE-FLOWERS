@@ -19,14 +19,19 @@ const CollectionGrid = ({ displayType, products }) => {
     navigate(`/product/${productId}`);
   };
 
+  const productsWithCalculatedPrice = products.map((product) => ({
+    ...product,
+    originalPrice: product.price * 2,
+  }));
+
   return (
     <div className={`collection-grid ${displayType}`}>
-      {products.length === 0 ? (
+      {productsWithCalculatedPrice.length === 0 ? (
         <div className="no-products">
           <p>No product in stock!</p>
         </div>
       ) : (
-        products.map((product) => (
+        productsWithCalculatedPrice.map((product) => (
           <div
             key={product.productId}
             className={`product-item ${displayType}-item`}

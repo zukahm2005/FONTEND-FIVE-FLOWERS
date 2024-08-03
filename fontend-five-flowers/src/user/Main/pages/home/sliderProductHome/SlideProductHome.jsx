@@ -26,14 +26,14 @@ const SlideProductHome = () => {
         headers: { Authorization: `Bearer ${token}` },
       })
       .then((response) => {
-        const productsWithDefaultPrice = response.data.content.map(
+        const productsWithCalculatedPrice = response.data.content.map(
           (product) => ({
             ...product,
-            originalPrice: product.originalPrice || 1000.0,
+            originalPrice: product.price * 2,
             isOnSale: true, // Mock the isOnSale property for testing
           })
         );
-        setProducts(productsWithDefaultPrice);
+        setProducts(productsWithCalculatedPrice);
       })
       .catch((error) => console.error("Error fetching products:", error));
   }, []);

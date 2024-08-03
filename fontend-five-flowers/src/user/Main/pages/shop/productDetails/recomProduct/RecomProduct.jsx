@@ -29,11 +29,11 @@ const RecommentProduct = () => {
           }
         });
 
-        const productsWithDefaultPrice = response.data.content.map(product => ({
+        const productsWithCalculatedPrice = response.data.content.map(product => ({
           ...product,
-          originalPrice: product.originalPrice || 1000.00
+          originalPrice: product.price * 2
         }));
-        setProducts(productsWithDefaultPrice);
+        setProducts(productsWithCalculatedPrice);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
