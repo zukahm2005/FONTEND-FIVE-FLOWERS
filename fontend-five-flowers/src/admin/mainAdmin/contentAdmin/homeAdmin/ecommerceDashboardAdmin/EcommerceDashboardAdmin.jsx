@@ -55,10 +55,6 @@ const EcommerceDashboardAdmin = ({ selectedDate, totalSale }) => {
         }),
       ]);
 
-      console.log('Visit Response:', visitResponse.data);
-      console.log('Order Response:', orderResponse.data);
-      console.log('Pending Order Response:', pendingOrderResponse.data);
-
       const visitCount = visitResponse.data.visitCount;
       const newOrdersCount = orderResponse.data.newOrdersCount;
       const orderPendingsCount = pendingOrderResponse.data.pendingOrdersCount;

@@ -37,12 +37,11 @@ const ChartAdmin = ({ selectedDate, setTotalSale }) => {
       const labels = Object.keys(dailySalesTotals);
       const salesData = Object.values(dailySalesTotals);
 
-      // Set total sales for the selected date
       const selectedDateString = selectedDate.format('YYYY-MM-DD');
       if (dailySalesTotals[selectedDateString]) {
         setTotalSale(dailySalesTotals[selectedDateString]);
       } else {
-        setTotalSale(0); // Set to 0 if there's no sales data for the selected date
+        setTotalSale(0);
       }
 
       setData({
@@ -51,8 +50,8 @@ const ChartAdmin = ({ selectedDate, setTotalSale }) => {
           {
             label: 'Sales',
             data: salesData,
-            backgroundColor: 'rgba(75, 192, 192, 0.5)',
-            borderColor: 'rgba(75, 192, 192, 1)',
+            backgroundColor: 'rgba(249, 115, 55, 0.85)',
+            borderColor: 'rgb(193, 98, 77)',
             borderWidth: 1,
           },
         ],
@@ -103,9 +102,9 @@ const ChartAdmin = ({ selectedDate, setTotalSale }) => {
         },
         beginAtZero: true,
         ticks: {
-          stepSize: 500,
+          stepSize: 1000,
         },
-        max: 4500,
+        max: 8000,
       },
     },
   };

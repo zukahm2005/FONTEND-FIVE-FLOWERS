@@ -21,7 +21,7 @@ const HomeAdmin = () => {
     if (dates && dates[1]) {
       setSelectedDate(dates[1]);
     } else {
-      setSelectedDate(moment()); // or set to null or any default value
+      setSelectedDate(moment());
     }
   };
 

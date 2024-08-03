@@ -19,9 +19,10 @@
     overflow: hidden;
     overflow-y: auto;
 
-    &::-webkit-scrollbar{
+    &::-webkit-scrollbar {
       display: none;
     }
+
     .product-card {
       display: grid;
       grid-template-columns: auto auto;
@@ -29,55 +30,43 @@
       justify-content: space-between;
       margin-bottom: 2rem;
       padding-bottom: 0.5rem;
-      .info-product-card{
+
+      .info-product-card {
         display: flex;
         flex-direction: row;
         gap: 0.5rem;
       }
+
       .product-image {
         width: 60px;
         height: 60px;
         margin-right: 10px;
       }
 
-      .product-info {
+      .details-product-card {
         display: flex;
         flex-direction: column;
-        flex-grow: 1;
 
-        .product-name {
+        .name-product-card {
           font-size: 16px;
           font-weight: bold;
         }
 
-        .product-category {
+        .category-product-card {
           font-size: 14px;
           color: #888;
         }
 
-        .product-details {
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          margin-top: 5px;
-
-          .product-rating {
-            display: flex;
-            align-items: center;
-
-            .star {
-              font-size: 14px;
-              color: #ffcc00;
-              margin-right: 2px;
-            }
-          }
-
-          .product-price {
-            font-size: 16px;
-            color: #1890ff;
-            margin-left: auto;
-          }
+        .quantity-product-card {
+          font-size: 14px;
+          color: #888;
         }
+      }
+
+      .price-product-card {
+        font-size: 16px;
+        color: #1890ff;
+        margin-left: auto;
       }
     }
   }
