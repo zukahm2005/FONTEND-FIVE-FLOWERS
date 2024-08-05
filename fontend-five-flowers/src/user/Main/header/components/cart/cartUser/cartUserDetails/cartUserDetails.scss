@@ -39,10 +39,10 @@
 
   .order-summary {
     display: flex;
-    flex-direction: row;
     gap: 3rem;
     text-align: right;
     align-items: center;
+    flex-direction: row !important;
 
     .summary-total-order {
       display: flex;

@@ -191,7 +191,7 @@ const CartUserDetails = ({ order, fetchUserOrders }) => {
                 onOk={handleOk}
                 onCancel={handleCancel}
               >
-                <span>Are you sure you want to cancel this order?</span>
+                <p>Are you sure you want to cancel this order?</p>
               </Modal>
             </>
           )}
