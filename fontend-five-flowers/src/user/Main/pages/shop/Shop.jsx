@@ -52,13 +52,15 @@ const Shop = () => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 700);
       if (window.innerWidth <= 1000) {
-        setItemsPerPage(displayType === "list" ? 5 : 4);
+        setItemsPerPage(4); // Hiển thị 4 sản phẩm mỗi trang khi kích thước màn hình <= 1000px cho cả grid và list
+      } else if (window.innerWidth <= 1333) {
+        setItemsPerPage(displayType === "list" ? 4 : 8); // Hiển thị 8 sản phẩm mỗi trang khi kích thước màn hình <= 1333px, 4 cho list
       } else {
-        setItemsPerPage(displayType === "list" ? 5 : 12); // Update to 12 items per page for grid
+        setItemsPerPage(displayType === "list" ? 4 : 12); // Hiển thị mặc định
       }
     };
 
-    handleResize(); // Set initial value
+    handleResize(); // Set giá trị ban đầu
     window.addEventListener("resize", handleResize);
 
     return () => {
@@ -100,7 +102,7 @@ const Shop = () => {
 
   const handleDisplayChange = (type) => {
     setDisplayType(type);
-    setItemsPerPage(type === "list" ? 5 : 12); // Update to 12 items per page for grid
+    setItemsPerPage(type === "list" ? 4 : 12); // Update to 12 items per page for grid
   };
 
   const handleSearchTermChange = (term) => {
@@ -230,7 +232,7 @@ const Shop = () => {
               />
             </div>
           )}
-          <div className={`collection-grid-container ${isMobile ? 'mobile-fullwidth' : ''}`}>
+          <div className={`collection-grid-container ${isMobile ? 'mobile-fullwidth' : ''} grid`}>
             <div className="header-collection-grid-container">
               <CollectionHeader
                 onDisplayChange={handleDisplayChange}
