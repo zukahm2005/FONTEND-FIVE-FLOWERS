@@ -38,7 +38,7 @@ const HomeAdmin = () => {
                 defaultValue={[moment(), moment()]}
                 onChange={onDateChange}
                 size="small"
-                style={{ width: 150 }}
+                style={{ width: 250 }}
               />
             </div>
             <div className="button-create-orderadmin">
