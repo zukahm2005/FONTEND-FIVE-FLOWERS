@@ -35,6 +35,7 @@ const HomeAdmin = () => {
             </div>
             <div className="date-picker-container">
               <RangePicker
+              defaultValue={[moment(), moment()]}
                 onChange={onDateChange}
                 size="small"
                 style={{ width: 150 }}
