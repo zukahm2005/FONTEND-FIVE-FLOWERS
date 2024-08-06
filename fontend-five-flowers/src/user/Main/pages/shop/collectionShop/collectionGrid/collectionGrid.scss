@@ -1,6 +1,5 @@
 .collection-grid {
   height: auto;
-
   &.grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
@@ -10,7 +9,7 @@
       grid-template-columns: repeat(3, 1fr); // Hiển thị 3 sản phẩm mỗi hàng khi kích thước màn hình >= 1800px
     }
     @media(max-width:1617px){
-      gap: 4rem;
+      gap: 3rem;
     }
    
   }
