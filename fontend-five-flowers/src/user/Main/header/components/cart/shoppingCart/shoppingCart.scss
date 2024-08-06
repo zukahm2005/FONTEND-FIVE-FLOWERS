@@ -2,7 +2,7 @@
     max-width: 100%;
     margin: 5rem 0;
     background-image: url(https://bikex-club.myshopify.com/cdn/shop/files/blog_detail-4.jpg?v=1598503894);
-    background-size: 100% 70%;
+    background-size: 100% 100%;
     height: auto;
 
     .top-shopping-container {
@@ -44,17 +44,16 @@
     .background-bot-shopping-cart-container {
         background-color: white;
         max-width: 100%;
-        height: auto;
-        padding-bottom: 5rem;
+        height: 40rem;
+        padding-bottom: 10rem;
 
         .shopping-cart-session-main {
             padding: 5rem;
-            max-width: 70%;
+            max-width: 80%;
             margin: 0 auto;
             display: grid;
             grid-template-columns: 3.5fr 1.5fr;
             gap: 1rem;
-
             @media (max-width: 1354px) {
                 max-width: 80% !important;
             }
@@ -85,7 +84,10 @@
                 overflow-y: auto;
                 scrollbar-width: none; /* Firefox */
                 -ms-overflow-style: none; /* Internet Explorer 10+ */
-
+                @media(max-width:937px){
+                    height: 20rem;
+                    padding-bottom: 10rem;
+                }
                 .shopping-cart-header {
                     p {
                         font-size: 24px;
@@ -213,13 +215,21 @@
 
             .total-price-container-cart {
                 max-width: 100%;
-
+                display: flex;
+                flex-direction: column;
+                gap: 2rem;
+                .title-price-checkout-shoppingcart-container{
+                    p{
+                        font-weight: bold;
+                        font-size: 1.5rem;
+                    }
+                }
                 .total-price-cart {
                     max-width: 100%;
                     display: flex;
                     flex-direction: column;
                     gap: 1rem;
-
+                    padding-top: 1rem;
                     .title-price-cart {
                         p {
                             font-size: 24px;

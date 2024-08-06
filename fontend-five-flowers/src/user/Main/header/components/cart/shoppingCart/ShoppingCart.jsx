@@ -160,6 +160,9 @@ const ShoppingCart = () => {
             <p>Your cart is empty</p>
           )}
           <div className="total-price-container-cart">
+            <div className="title-price-checkout-shoppingcart-container">
+              <p>Checkout</p>
+            </div>
             <div className="total-price-cart">
               <div className="info-price-total-container-shopping-cart">
                 <div className="container-title-price-shopping-cart">
