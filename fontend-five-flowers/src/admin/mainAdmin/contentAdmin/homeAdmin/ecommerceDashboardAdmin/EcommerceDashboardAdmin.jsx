@@ -143,7 +143,7 @@ const EcommerceDashboardAdmin = ({ selectedDate, totalSale }) => {
       title: 'Order Pending',
       value: stats.orderPending,
       icon: <ClockCircleOutlined />,
-      color: '#eb2f96',
+      color: '#faad14',
       onClick: () => navigate('/admin/orders?status=pending'),
     },
   ];
