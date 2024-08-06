@@ -1,13 +1,35 @@
-import React, { useEffect } from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./orderReceive.scss";
 
 const OrderReceive = () => {
   const location = useLocation();
   const { order } = location.state || {};
+  const [email, setEmail] = useState("");
 
-  // useEffect để kiểm tra và reload trang một lần
   useEffect(() => {
+    const fetchUserEmail = async () => {
+      const token = localStorage.getItem("token");
+      if (token) {
+        try {
+          const response = await axios.get(
+            "http://localhost:8080/api/v1/user/me",
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          setEmail(response.data.email);
+        } catch (error) {
+          console.error("Error fetching user email:", error);
+        }
+      }
+    };
+
+    fetchUserEmail();
+
     const isPageReloaded = sessionStorage.getItem("isPageReloaded");
     if (!isPageReloaded) {
       sessionStorage.setItem("isPageReloaded", "true");
@@ -19,7 +41,7 @@ const OrderReceive = () => {
     return <div>Order not found</div>;
   }
 
-  console.log("Order details:", order); // In ra để kiểm tra dữ liệu
+  console.log("Order details:", order);
 
   return (
     <div className="order-receive-container">
@@ -35,12 +57,42 @@ const OrderReceive = () => {
             <p> Order received</p>
           </div>
         </div>
-        <div className="checkout-or-header">
-          <p>Checkout</p>
+        <div className="checkout-or-header-container">
+          <div className="title-checkout-header-container">
+            <div className="checkout-or-header">
+              <p>Order details</p>
+            </div>{" "}
+            <div className="title-or-header">
+              <p>Thank you. Your order has been received.</p>
+            </div>
+          </div>
+          <div className="info-details-user-checkout-container">
+            <div className="customer-name-container-checkout">
+              <div className="customer-name-bill">
+                <p>Customer name</p>
+              </div>
+              <div className="info-customer-name">
+                <p>{order.user?.name || "N/A"}</p>
+              </div>
+
+              <div className="info-email">
+                <p>{email || "Email not provided"}</p>
+              </div>
+            </div>
+            <div className="address-bill-container">
+              <div className="address-bill">
+                <p>Shipping address</p>
+              </div>
+              <div className="info-address-bill">
+                <p>{order.user?.address || "N/A"}</p>
+              </div>
+              <div className="info-phone">
+                <p>{order.user?.phone || "N/A"}</p>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="title-or-header">
-          <p>Thank you. Your order has been received.</p>
-        </div>
+
         <div className="woocommerce-order-overview">
           <div className="woocommerce-order-overview__order order">
             <p>ORDER NUMBER:</p>
@@ -60,9 +112,6 @@ const OrderReceive = () => {
           </div>
         </div>
         <div className="info-receive-container">
-          <div className="title-info">
-            <p>Order details</p>
-          </div>
           <div className="info-details-receive-container">
             <div className="product-name-total">
               <div className="product-name">

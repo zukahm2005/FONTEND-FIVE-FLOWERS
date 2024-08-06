@@ -199,15 +199,15 @@ const CheckOut = () => {
       });
       return;
     }
-
+  
     try {
       const decodedToken = JSON.parse(atob(token.split(".")[1]));
       const userId = decodedToken.userId;
-
+  
       const selectedPaymentMethod = paymentMethods.find(
         (method) => method.paymentId === parseInt(formFields.paymentMethod)
       );
-
+  
       if (!selectedPaymentMethod && !paypalApproved) {
         notification.error({
           message: "Payment Error",
@@ -215,7 +215,7 @@ const CheckOut = () => {
         });
         return;
       }
-
+  
       const addressPayload = {
         country: formFields.country,
         firstName: formFields.firstName,
@@ -227,7 +227,7 @@ const CheckOut = () => {
         postalCode: formFields.postalCode,
         user: { id: userId },
       };
-
+  
       const addressResponse = await axios.post(
         "http://localhost:8080/api/v1/addresses/add",
         addressPayload,
@@ -237,15 +237,15 @@ const CheckOut = () => {
           },
         }
       );
-
+  
       const addressId = addressResponse.data.addressId;
-
+  
       const orderDetails = combinedCart.map((product) => ({
         product: { productId: product.productId },
         quantity: product.quantity,
         price: product.price,
       }));
-
+  
       const orderPayload = {
         user: { id: userId },
         orderDetails: orderDetails,
@@ -255,7 +255,7 @@ const CheckOut = () => {
           : { paymentId: formFields.paymentMethod },
         status: paypalApproved ? "Paid" : "Pending",
       };
-
+  
       const orderResponse = await axios.post(
         "http://localhost:8080/api/v1/orders/add",
         orderPayload,
@@ -265,7 +265,7 @@ const CheckOut = () => {
           },
         }
       );
-
+  
       await Promise.all(
         combinedCart.map((product) =>
           axios.put(
@@ -277,13 +277,13 @@ const CheckOut = () => {
           )
         )
       );
-
+  
       await axios.delete("http://localhost:8080/api/v1/cart/clear", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       });
-
+  
       const orderData = {
         orderId: orderResponse.data.orderId,
         orderDate: new Date().toLocaleDateString(),
@@ -304,13 +304,19 @@ const CheckOut = () => {
           price: product.price,
           total: product.totalPrice,
         })),
+        user: {
+          name: `${formFields.firstName} ${formFields.lastName}`,
+          email: formFields.email, // Include email
+          address: formFields.address,
+          phone: formFields.phone,
+        }
       };
-
+  
       notification.success({
         message: "Order Placed",
         description: "Your order has been placed successfully!",
       });
-
+  
       setCart([]);
       localStorage.removeItem("cartItems"); // Clear localStorage cart
       navigate("/order-receive", { state: { order: orderData } });
@@ -322,6 +328,8 @@ const CheckOut = () => {
       });
     }
   };
+  
+  
 
   const handleSubmit = (e) => {
     e.preventDefault();

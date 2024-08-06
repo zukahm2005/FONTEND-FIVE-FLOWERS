@@ -91,11 +91,13 @@
                     }
                 }
                 .shopping-cart-row-container {
-                    max-height: 40rem;
+                    max-height: 25rem;
                     overflow: hidden;
                     overflow-y: auto;
                     scrollbar-width: none; /* Firefox */
                     -ms-overflow-style: none; /* Internet Explorer 10+ */
+                    border-bottom: thin solid rgb(238, 238, 238);
+                    border-top: thin solid rgb(237, 237, 237);
                     .shopping-cart-row {
                         border: thin solid #e4e4e4;
                         display: grid;
