@@ -3,10 +3,16 @@
 
   &.grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(25rem, 1fr));
+    gap: 3rem;
 
-   
+    @media(max-width:1500px){
+      grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr));
+
+    }
+    @media (min-width: 1501px) {
+      grid-template-columns: repeat(3, 1fr); // Hiển thị 3 sản phẩm mỗi hàng khi kích thước màn hình >= 1800px
+    }
   }
 
   &.list {
