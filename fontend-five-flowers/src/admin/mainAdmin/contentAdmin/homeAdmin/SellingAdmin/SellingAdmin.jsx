@@ -1,18 +1,20 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import moment from "moment";
 import "./SellingAdmin.scss";
 
-const SellingAdmin = ({ selectedDate }) => {
+const SellingAdmin = ({ selectedDates }) => {
   const [topSellingProducts, setTopSellingProducts] = useState([]);
   const [noOrdersMessage, setNoOrdersMessage] = useState("");
 
   useEffect(() => {
-    if (selectedDate) {
-      fetchTopSellingProducts(selectedDate);
+    if (selectedDates) {
+      fetchTopSellingProducts(selectedDates);
     }
-  }, [selectedDate]);
+  }, [selectedDates]);
 
-  const fetchTopSellingProducts = async (date) => {
+  const fetchTopSellingProducts = async (dates) => {
+    const [startDate, endDate] = dates;
     try {
       const token = localStorage.getItem("token");
       const response = await axios.get("/api/v1/orders/top-selling-products", {
@@ -20,12 +22,13 @@ const SellingAdmin = ({ selectedDate }) => {
           Authorization: `Bearer ${token}`,
         },
         params: {
-          date: date.format("YYYY-MM-DD"),
+          startDate: startDate.format("YYYY-MM-DD"),
+          endDate: endDate.format("YYYY-MM-DD"),
         },
       });
 
       if (response.data.length === 0) {
-        setNoOrdersMessage("No orders for today.");
+        setNoOrdersMessage("No orders for the selected date range.");
       } else {
         setNoOrdersMessage("");
       }

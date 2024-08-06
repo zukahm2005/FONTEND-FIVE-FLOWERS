@@ -9,11 +9,10 @@ import {
   ClockCircleOutlined,
 } from '@ant-design/icons';
 import axios from 'axios';
-import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import './EcommerceDashboardAdmin.scss';
 
-const EcommerceDashboardAdmin = ({ selectedDate, totalSale }) => {
+const EcommerceDashboardAdmin = ({ selectedDates, totalSale }) => {
   const [stats, setStats] = useState({
     totalSale: 0,
     newOrder: 0,
@@ -25,87 +24,50 @@ const EcommerceDashboardAdmin = ({ selectedDate, totalSale }) => {
 
   const navigate = useNavigate();
 
-  const fetchStats = async (date) => {
+  const fetchSummary = async (startDate, endDate) => {
     try {
       const token = localStorage.getItem('token');
-      const [visitResponse, orderResponse, pendingOrderResponse] = await Promise.all([
-        axios.get('/api/analytics/visit-count', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            date: date.format('YYYY-MM-DD'),
-          },
-        }),
-        axios.get('/api/v1/orders/new-orders', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            date: date.format('YYYY-MM-DD'),
-          },
-        }),
-        axios.get('/api/v1/orders/pending-orders', {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-          params: {
-            date: date.format('YYYY-MM-DD'),
-          },
-        }),
-      ]);
-
-      const visitCount = visitResponse.data.visitCount;
-      const newOrdersCount = orderResponse.data.newOrdersCount;
-      const orderPendingsCount = pendingOrderResponse.data.pendingOrdersCount;
-
-      const conversionRate = visitCount > 0 ? ((newOrdersCount / visitCount) * 100).toFixed(2) : '0';
-
-      setStats((prevStats) => ({
-        ...prevStats,
-        newOrder: newOrdersCount,
-        visitor: visitCount,
-        orderPending: orderPendingsCount,
-        conversionRate: `${conversionRate}%`,
-      }));
-    } catch (error) {
-      console.error('Error fetching stats:', error);
-    }
-  };
-
-  const fetchAddToCartStats = async (date) => {
-    try {
-      const token = localStorage.getItem('token');
-      const response = await axios.get('/api/v1/cart/stats', {
+      const response = await axios.get('/api/v1/orders/summary', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
         params: {
-          date: date.format('YYYY-MM-DD'),
+          startDate: startDate.format('YYYY-MM-DD'),
+          endDate: endDate.format('YYYY-MM-DD'),
         },
       });
 
       const data = response.data;
-      setStats((prevStats) => ({
-        ...prevStats,
-        addToCart: data.addToCart,
-      }));
+
+      const cartResponse = await axios.get('/api/v1/cart/stats/range', {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        params: {
+          startDate: startDate.format('YYYY-MM-DD'),
+          endDate: endDate.format('YYYY-MM-DD'),
+        },
+      });
+
+      const conversionRate = data.visitors > 0 ? ((data.newOrders / data.visitors) * 100).toFixed(1) : '0.0';
+
+      setStats({
+        totalSale: `$${data.totalSales}`,
+        newOrder: data.newOrders,
+        addToCart: cartResponse.data.addToCart,
+        conversionRate: `${conversionRate}%`,
+        visitor: data.visitors,
+        orderPending: data.pendingOrders,
+      });
     } catch (error) {
-      console.error('Error fetching add to cart stats:', error);
+      console.error('Error fetching summary:', error);
     }
   };
 
   useEffect(() => {
-    fetchStats(selectedDate);
-    fetchAddToCartStats(selectedDate);
-  }, [selectedDate]);
-
-  useEffect(() => {
-    setStats((prevStats) => ({
-      ...prevStats,
-      totalSale: `$${totalSale}`,
-    }));
-  }, [totalSale]);
+    const [startDate, endDate] = selectedDates;
+    fetchSummary(startDate, endDate);
+  }, [selectedDates]);
 
   const statsData = [
     {
@@ -125,7 +87,7 @@ const EcommerceDashboardAdmin = ({ selectedDate, totalSale }) => {
       title: 'Add To Cart',
       value: stats.addToCart,
       icon: <ShoppingCartOutlined />,
-      color: '#faad14',
+      color: '#eb2f96',
     },
     {
       title: 'Conversion Rate',

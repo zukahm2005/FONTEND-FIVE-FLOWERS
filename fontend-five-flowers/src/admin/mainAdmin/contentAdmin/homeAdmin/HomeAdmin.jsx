@@ -10,18 +10,18 @@ import "./HomeAdmin.scss";
 const { RangePicker } = DatePicker;
 
 const HomeAdmin = () => {
-  const [selectedDate, setSelectedDate] = useState(moment());
+  const [selectedDates, setSelectedDates] = useState([moment(), moment()]);
   const [totalSale, setTotalSale] = useState(0);
 
   useEffect(() => {
-    setSelectedDate(moment());
+    setSelectedDates([moment(), moment()]);
   }, []);
 
   const onDateChange = (dates) => {
     if (dates && dates[1]) {
-      setSelectedDate(dates[1]);
+      setSelectedDates(dates);
     } else {
-      setSelectedDate(moment());
+      setSelectedDates([moment(), moment()]);
     }
   };
 
@@ -35,7 +35,7 @@ const HomeAdmin = () => {
             </div>
             <div className="date-picker-container">
               <RangePicker
-              defaultValue={[moment(), moment()]}
+                defaultValue={[moment(), moment()]}
                 onChange={onDateChange}
                 size="small"
                 style={{ width: 150 }}
@@ -47,13 +47,13 @@ const HomeAdmin = () => {
               </Link>
             </div>
           </div>
-          <EcommerceDashboardAdmin selectedDate={selectedDate} totalSale={totalSale} />
+          <EcommerceDashboardAdmin selectedDates={selectedDates} totalSale={totalSale} />
           <div className="dashboard-row">
             <div className="summary-section">
-              <ChartAdmin selectedDate={selectedDate} setTotalSale={setTotalSale} />
+              <ChartAdmin selectedDates={selectedDates} setTotalSale={setTotalSale} />
             </div>
             <div className="selling-section">
-              <SellingAdmin selectedDate={selectedDate} />
+              <SellingAdmin selectedDates={selectedDates} />
             </div>
           </div>
         </div>

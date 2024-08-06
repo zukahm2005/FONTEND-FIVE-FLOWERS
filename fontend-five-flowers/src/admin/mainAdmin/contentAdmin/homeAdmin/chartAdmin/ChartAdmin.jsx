@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Bar } from 'react-chartjs-2';
 import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend } from 'chart.js';
 import axios from 'axios';
+import moment from 'moment';
 import './ChartAdmin.scss';
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
-const ChartAdmin = ({ selectedDate, setTotalSale }) => {
+const ChartAdmin = ({ selectedDates, setTotalSale }) => {
   const [data, setData] = useState({
     labels: [],
     datasets: [
@@ -37,35 +38,37 @@ const ChartAdmin = ({ selectedDate, setTotalSale }) => {
       const labels = Object.keys(dailySalesTotals);
       const salesData = Object.values(dailySalesTotals);
 
-      const selectedDateString = selectedDate.format('YYYY-MM-DD');
-      if (dailySalesTotals[selectedDateString]) {
-        setTotalSale(dailySalesTotals[selectedDateString]);
-      } else {
-        setTotalSale(0);
-      }
+      const displayedLabels = labels.length > 7 ? labels.slice(-7) : labels;
+      const displayedSalesData = salesData.length > 7 ? salesData.slice(-7) : salesData;
 
       setData({
-        labels,
+        labels: displayedLabels,
         datasets: [
           {
             label: 'Sales',
-            data: salesData,
+            data: displayedSalesData,
             backgroundColor: 'rgba(249, 115, 55, 0.85)',
             borderColor: 'rgb(193, 98, 77)',
             borderWidth: 1,
           },
         ],
       });
+
+      if (dailySalesTotals[endDate.format('YYYY-MM-DD')]) {
+        setTotalSale(dailySalesTotals[endDate.format('YYYY-MM-DD')]);
+      } else {
+        setTotalSale(0);
+      }
     } catch (error) {
       console.error('Error fetching daily sales totals:', error);
     }
   };
 
   useEffect(() => {
-    const endDate = selectedDate;
-    const startDate = selectedDate.clone().subtract(6, 'days');
+    const endDate = selectedDates[1];
+    const startDate = endDate.clone().subtract(6, 'days');
     fetchDailySalesTotals(startDate, endDate);
-  }, [selectedDate]);
+  }, [selectedDates]);
 
   const options = {
     responsive: true,
