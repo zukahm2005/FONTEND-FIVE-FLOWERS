@@ -8,10 +8,9 @@
     @media (min-width: 1501px) {
       grid-template-columns: repeat(3, 1fr); // Hiển thị 3 sản phẩm mỗi hàng khi kích thước màn hình >= 1800px
     }
-    @media(max-width:1617px){
+    @media (max-width: 1617px) {
       gap: 3rem;
     }
-   
   }
 
   &.list {
@@ -23,19 +22,31 @@
     @media (max-width: 700px) {
       margin: 0; /* Loại bỏ margin khi hiển thị danh sách dạng list trên màn hình max-width: 700px */
     }
+    @media (min-width: 1501px) {
+      max-width: 25rem;
+    }
   }
 
   .product-item {
     &.grid-item {
       width: 22rem;
+      @media (min-width: 1501px) {
+        max-width: 25rem;
+      }
     }
 
     &.list-item {
       display: flex;
       max-width: 22rem;
+      @media (min-width: 1501px) {
+        max-width: 25rem;
+      }
 
       .product-card {
         max-width: 22rem;
+        @media (min-width: 1501px) {
+          max-width: 25rem;
+        }
       }
     }
     .product-info {
@@ -48,7 +59,9 @@
       display: flex;
       flex-direction: column;
       transition: transform 0.3s ease-in-out;
-
+      @media (min-width: 1501px) {
+        max-width: 25rem;
+      }
       &:hover {
         transform: translateY(-2px);
       }
