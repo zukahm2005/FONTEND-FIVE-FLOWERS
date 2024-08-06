@@ -50,13 +50,13 @@ const Shop = () => {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 700);
-      if (window.innerWidth <= 1000) {
+      setIsMobile(window.innerWidth <= 750);
+      if (window.innerWidth <= 1100) {
         setItemsPerPage(4); // Hiển thị 4 sản phẩm mỗi trang khi kích thước màn hình <= 1000px cho cả grid và list
-      } else if (window.innerWidth <= 1333) {
+      } else if (window.innerWidth <= 1500) {
         setItemsPerPage(displayType === "list" ? 4 : 8); // Hiển thị 8 sản phẩm mỗi trang khi kích thước màn hình <= 1333px, 4 cho list
       } else {
-        setItemsPerPage(displayType === "list" ? 4 : 12); // Hiển thị mặc định
+        setItemsPerPage(displayType === "list" ? 4 : 12  ); // Hiển thị mặc định
       }
     };
 
