@@ -177,12 +177,12 @@
     .content-container-details-product {
       max-width: 70%;
       margin: 0 auto;
-      padding-top: 3rem;
+      padding: 3rem 0.5rem 0 0.5rem;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
       background-color: white;
       grid-column-gap: 3rem; /* Tăng khoảng cách giữa các cột */
-      padding: 0.2rem;
+      
       .name-details-product {
         p {
           font-size: 2rem;

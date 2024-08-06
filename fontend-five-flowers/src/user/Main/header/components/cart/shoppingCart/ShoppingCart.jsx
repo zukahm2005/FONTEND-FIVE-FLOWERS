@@ -73,74 +73,77 @@ const ShoppingCart = () => {
               <div className="shopping-cart-header">
                 <p>Products</p>
               </div>
-              {cart.map((item, index) => (
-                <div className="shopping-cart-row" key={index}>
-                  <div
-                    className="shopping-cart-image"
-                    onClick={() =>
-                      handleNavigateToProductDetails(item.productId)
-                    }
-                  >
-                    {item.imageUrl && (
-                      <img
-                        src={`http://localhost:8080/api/v1/images/${item.imageUrl}`}
-                        alt={item.name}
-                      />
-                    )}
-                  </div>
-                  <div className="shopping-cart-info">
+              <div className="shopping-cart-row-container">
+                {cart.map((item, index) => (
+                  <div className="shopping-cart-row" key={index}>
                     <div
-                      className="name-shcart"
+                      className="shopping-cart-image"
                       onClick={() =>
                         handleNavigateToProductDetails(item.productId)
                       }
                     >
-                      <p>{item.name}</p>
+                      {item.imageUrl && (
+                        <img
+                          src={`http://localhost:8080/api/v1/images/${item.imageUrl}`}
+                          alt={item.name}
+                        />
+                      )}
                     </div>
-                    <div className="category-shcart">
-                      <p>
-                        {item.category} / {item.brand}
-                      </p>
-                    </div>
-                    <div className="price-shcart">
-                      <p>${item.price}</p> {/* Hiển thị giá sản phẩm */}
-                    </div>
-                    <div className="quantity-controls">
+                    <div className="shopping-cart-info">
                       <div
-                        className="button-quantity"
+                        className="name-shcart"
                         onClick={() =>
-                          handleQuantityChange(
-                            item.productId,
-                            item.quantity - 1
-                          )
+                          handleNavigateToProductDetails(item.productId)
                         }
                       >
-                        <p>-</p>
+                        <p>{item.name}</p>
                       </div>
-                      <span>{item.quantity}</span>
-                      <div
-                        className="button-quantity"
-                        onClick={() =>
-                          handleQuantityChange(
-                            item.productId,
-                            item.quantity + 1
-                          )
-                        }
-                      >
-                        <p>+</p>
+                      <div className="category-shcart">
+                        <p>
+                          {item.category} / {item.brand}
+                        </p>
                       </div>
-                    </div>
-                    <div className="price-shcart2">
-                      <p>Total: ${item.totalPrice}</p>{" "}
-                    </div>
-                    <div className="delete-button-shopping-cart">
-                      <button onClick={() => removeFromCart(item.productId)}>
-                        <p>X</p>
-                      </button>
+                      <div className="price-shcart">
+                        <p>${item.price}</p> {/* Hiển thị giá sản phẩm */}
+                      </div>
+                      <div className="quantity-controls">
+                        <div
+                          className="button-quantity"
+                          onClick={() =>
+                            handleQuantityChange(
+                              item.productId,
+                              item.quantity - 1
+                            )
+                          }
+                        >
+                          <p>-</p>
+                        </div>
+                        <span>{item.quantity}</span>
+                        <div
+                          className="button-quantity"
+                          onClick={() =>
+                            handleQuantityChange(
+                              item.productId,
+                              item.quantity + 1
+                            )
+                          }
+                        >
+                          <p>+</p>
+                        </div>
+                      </div>
+                      <div className="price-shcart2">
+                        <p>Total: ${item.totalPrice}</p>{" "}
+                      </div>
+                      <div className="delete-button-shopping-cart">
+                        <button onClick={() => removeFromCart(item.productId)}>
+                          <p>X</p>
+                        </button>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+
               <Link to="/shop">
                 {" "}
                 <div className="continue-shopping">
