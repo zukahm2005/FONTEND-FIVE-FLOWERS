@@ -6,7 +6,7 @@ const HeaderAdmin = () => {
       <div className="header-main-admin">
         <div className="logo-header-admin">
           <img
-            src="/logoeco02.png"
+            src="/logocam02.png"
             alt=""
           />
         </div>

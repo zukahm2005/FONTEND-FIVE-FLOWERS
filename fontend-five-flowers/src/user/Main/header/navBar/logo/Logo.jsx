@@ -6,7 +6,7 @@ const Logo = () => {
     <div className="logo-container">
       <Link to="/">
         <img
-          src="/logoeco.png"
+          src="/logocam01.png"
           alt="logo"
         />
       </Link>

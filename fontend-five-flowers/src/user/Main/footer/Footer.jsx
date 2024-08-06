@@ -13,7 +13,7 @@ const Footer = () => {
       <div className="footer-content">
         <div className="logo">
           <img
-            src="/logoeco.png"
+            src="/logocam01.png"
             alt="Bike Club Logo"
           />
         </div>
