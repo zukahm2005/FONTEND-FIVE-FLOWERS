@@ -129,7 +129,9 @@ const GetAllProductAdmin = () => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete(`http://localhost:8080/api/v1/products/delete/${id}`);
+      console.log(`Deleting product with id: ${id}`);
+      const response = await axios.put(`http://localhost:8080/api/v1/products/delete/${id}`);
+      console.log('Delete response:', response);
       fetchProducts(pagination.current, pagination.pageSize);
     } catch (error) {
       console.error("There was an error deleting the product!", error);
@@ -206,6 +208,15 @@ const GetAllProductAdmin = () => {
       render: (text, record) => (
         <Tag color={record.quantity > 0 ? "green" : "red"} style={{ fontSize: '12px' }}>
           {record.quantity > 0 ? "In Stock" : "Out of Stock"}
+        </Tag>
+      ),
+    },
+    {
+      title: "Deleted",
+      key: "isDeleted",
+      render: (text, record) => (
+        <Tag color={record.isDeleted ? "red" : "green"} style={{ fontSize: '12px' }}>
+          {record.isDeleted ? "Deleted" : "Active"}
         </Tag>
       ),
     },
