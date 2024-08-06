@@ -102,7 +102,7 @@ const Shop = () => {
 
   const handleDisplayChange = (type) => {
     setDisplayType(type);
-    setItemsPerPage(type === "list" ? 4 : 12); // Update to 12 items per page for grid
+    setItemsPerPage(type === "list" ? 4 : 9); // Update to 12 items per page for grid
   };
 
   const handleSearchTermChange = (term) => {

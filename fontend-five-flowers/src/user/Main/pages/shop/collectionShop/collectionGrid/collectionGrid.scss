@@ -121,7 +121,11 @@
       .product-info {
         text-align: center;
         margin-top: 1rem;
-
+        .name-product-info{
+          p{
+            font-weight: lighter;
+          }
+        }
         h3 {
           font-size: 1.2rem;
           color: #333;
@@ -134,8 +138,8 @@
           margin-top: 0.5rem;
 
           .current-price {
-            color: #fa422d;
-            font-weight: bold;
+            color: #fc6555;
+            font-weight: lighter;
           }
 
           .original-price {

@@ -88,11 +88,11 @@
     @media (max-width: 1250px) {
       width: 80%; /* Giảm kích thước width xuống 80% */
     }
-    
+
     @media (max-width: 1116px) {
       padding: 10px 20px; /* Điều chỉnh padding để kiểm soát chiều cao của input */
     }
-    
+
     @media (max-width: 734px) {
       width: 90%; /* Giảm kích thước width xuống 90% */
     }
@@ -135,12 +135,12 @@
 
     .container-text-center-product-details {
       text-align: center;
-      padding-top: 3rem;
-      height: 175px;
+      padding-top: 2rem;
+      height: 150px;
       display: flex;
       flex-direction: column;
       gap: 0.5rem;
-      background-color: rgba(92, 90, 92, 0.7);
+      background-color: rgba(154, 154, 154, 0.7);
       margin: 0 auto;
 
       .main-text-center {
@@ -181,9 +181,10 @@
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
       background-color: white;
-      grid-column-gap: 4rem; /* Tăng khoảng cách giữa các cột */
-      .name-details-product{
-        p{
+      grid-column-gap: 3rem; /* Tăng khoảng cách giữa các cột */
+      padding: 0.2rem;
+      .name-details-product {
+        p {
           font-size: 2rem;
           font-weight: bold;
         }
@@ -208,16 +209,11 @@
       }
 
       .img-details-product {
-        max-width: 100%;
-        margin-left: 2rem;
-
-        @media (max-width: 1400px) {
-          margin-left: 4rem; /* Tăng khoảng cách bên trái */
-        }
+        max-width: 40rem;
 
         .main-slider,
         .thumbnail-slider {
-          width: 100%; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
+          width: 40rem; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
         }
 
         @media (max-width: 1400px) {
@@ -253,7 +249,7 @@
         @media (max-width: 1116px) {
           .main-slider,
           .thumbnail-slider {
-            width: 100%; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
+            width: 30rem; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
           }
 
           .thumbnail-slide {
@@ -280,10 +276,10 @@
             margin: 0 -10px; /* Giảm khoảng cách giữa các ảnh nhỏ */
           }
         }
-        @media (max-width: 821px) {
+        @media (max-width: 954px) {
           .main-slider,
           .thumbnail-slider {
-            width: 100%; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
+            width: 28rem; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
           }
 
           .thumbnail-slide {
@@ -313,7 +309,7 @@
         @media (max-width: 734px) {
           .main-slider,
           .thumbnail-slider {
-            width: 20rem; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
+            width: 25rem; /* Đặt chiều rộng là 100% để nó co dãn theo kích thước màn hình */
           }
 
           .thumbnail-slide {
@@ -464,7 +460,7 @@
         max-width: 100%;
         display: flex;
         flex-direction: column;
-        gap: 3rem;
+        gap: 2rem;
         margin-left: 7rem;
 
         @media (max-width: 1400px) {
@@ -502,7 +498,7 @@
           .title-content-below-details1 {
             display: flex;
             flex-direction: column;
-            gap: 2.5rem;
+            gap: 1.75rem;
 
             @media (max-width: 1000px) {
               gap: 1.5rem; /* Giảm khoảng cách giữa các phần tử */
@@ -511,7 +507,6 @@
             .title-content {
               p {
                 font-size: 20px;
-                font-weight: 600;
                 color: #3c3a3b;
 
                 @media (max-width: 1400px) {
@@ -528,7 +523,7 @@
           .title-content-below-details2 {
             display: flex;
             flex-direction: column;
-            gap: 2.7rem;
+            gap: 2rem;
 
             @media (max-width: 1000px) {
               gap: 1.5rem; /* Giảm khoảng cách giữa các phần tử */
@@ -694,7 +689,7 @@
         max-width: 90%;
         margin: 0 auto;
       }
-      @media(max-width: 672px){
+      @media (max-width: 672px) {
         width: 100%;
         margin: 0 auto;
         padding-left: 0;
@@ -722,7 +717,7 @@
               font-size: 0.6rem; /* Giảm kích thước font chữ */
               width: 100%;
             }
-            @media(max-width:900px){
+            @media (max-width: 900px) {
               font-size: 0.5rem;
               padding: 0.4rem 1.8rem;
             }
