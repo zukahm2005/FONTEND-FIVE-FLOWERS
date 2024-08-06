@@ -18,7 +18,7 @@
   }
 
   .container-main-show-cart {
-    min-height: 35rem;
+    min-height: 40rem;
     border-bottom: thin solid rgb(211, 211, 211);
     overflow-y: auto;
     scrollbar-width: none; /* Firefox */
@@ -187,7 +187,6 @@
 
   .button-checkout-cart {
     max-width: 100%;
-
     button {
       display: inline-block;
       background: linear-gradient(

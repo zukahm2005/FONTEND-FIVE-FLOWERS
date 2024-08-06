@@ -127,7 +127,7 @@ const SlideProductHome = () => {
                 initial="rest"
                 animate="rest"
                 variants={{
-                  hover: { scale: 1.05 },
+                  hover: { scale: 1.02 },
                   rest: { scale: 1 },
                 }}
                 onClick={() =>
