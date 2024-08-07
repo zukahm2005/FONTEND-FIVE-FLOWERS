@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaPen } from "react-icons/fa";
 import { useNavigate, useParams } from "react-router-dom";
 import "./orderListAdminDetails.scss";
+import PrintableOrder from "./printOrder/PrintableOrder";
 
 const { Option } = Select;
 
@@ -37,7 +38,6 @@ const OrderDetails = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const [editableFields, setEditableFields] = useState({});
   const navigate = useNavigate();
-  const shippingCost = 5; // Định nghĩa phí vận chuyển cố định
 
   useEffect(() => {
     const fetchOrderDetails = async () => {
@@ -52,6 +52,7 @@ const OrderDetails = () => {
           }
         );
         setOrder(response.data);
+        console.log(response.data); // Log the response data to verify it
         setEditableFields({
           firstName: response.data.address.firstName,
           lastName: response.data.address.lastName,
@@ -74,8 +75,43 @@ const OrderDetails = () => {
   };
 
   const handlePrint = () => {
-    window.print();
+    const printContent = document.getElementById("printable-order").innerHTML;
+    const printWindow = window.open("", "", "height=600,width=800");
+  
+    // Sao chép tất cả các liên kết đến các tệp CSS
+    const styles = Array.from(document.querySelectorAll("link[rel='stylesheet'], style")).map((style) => style.outerHTML).join("");
+  
+    // Thêm CSS cho việc in
+    const printStyles = `
+      <style>
+        body {
+          background: none !important;
+          -webkit-print-color-adjust: exact; /* For Chrome */
+          color-adjust: exact; /* For Firefox and Edge */
+        }
+        @page {
+          margin: 0;
+        }
+        @media print {
+          body {
+            margin: 1.6cm;
+          }
+        }
+      </style>
+    `;
+  
+    printWindow.document.write('<html><head><title>Print Order</title>');
+    printWindow.document.write(styles); // Chèn các kiểu CSS vào tài liệu mới
+    printWindow.document.write(printStyles); // Chèn các kiểu in vào tài liệu mới
+    printWindow.document.write('</head><body>');
+    printWindow.document.write(printContent);
+    printWindow.document.write('</body></html>');
+    printWindow.document.close();
+    printWindow.print();
   };
+  
+    
+  
 
   const formatDateTime = (dateArray) => {
     if (!Array.isArray(dateArray) || dateArray.length !== 6) {
@@ -193,11 +229,26 @@ const OrderDetails = () => {
 
   const orderEditable = isOrderEditable(order.status);
   const subtotal = order.orderDetails.reduce(
-    (acc, detail) => acc + detail.product.price * detail.quantity,
+    (acc, detail) => acc + detail.price * detail.quantity,
     0
   );
   const totalPrice = subtotal + order.shippingCost;
-
+  const saveOrderChanges = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      await axios.put(
+        `http://localhost:8080/api/v1/orders/update/${id}`,
+        order,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error saving order changes:", error);
+    }
+  };
   return (
     <div className="ordtails-page-container">
       <div className="ordtails-page-box">
@@ -266,17 +317,16 @@ const OrderDetails = () => {
                     </div>
                     <div className="price-info-ordtails">
                       <p>
-                        ${detail.product.price} x{" "}
+                        ${detail.price} x{" "}
                         {orderEditable &&
                         editableQuantityId === detail.orderDetailId ? (
                           <InputNumber
-                            min={1}
-                            value={detail.quantity}
-                            onChange={(value) =>
-                              handleQuantityChange(detail.orderDetailId, value)
-                            }
-                            onBlur={() => setEditableQuantityId(null)}
-                          />
+                          min={1}
+                          value={detail.quantity}
+                          onChange={(value) => handleQuantityChange(detail.orderDetailId, value)}
+                          onBlur={saveOrderChanges}
+                        />
+                        
                         ) : (
                           <>
                             {detail.quantity}
@@ -296,19 +346,19 @@ const OrderDetails = () => {
                       {renderStatusText(detail.status)}
                     </div>
                     <div className="product-price">
-                      <p>${detail.product.price * detail.quantity}</p>
+                      <p>${detail.price * detail.quantity}</p>
                     </div>
                   </div>
                 </div>
               ))}
-            </div>{" "}
+            </div>
             <div className="total-price-order-details-admin">
               <div className="sub-price-ordtails">
                 <div className="price-title-sub">
                   <p>Subtotal</p>
                 </div>
                 <div className="price-title-sub">
-                  <p> ${subtotal}</p>
+                  <p>${subtotal}</p>
                 </div>
               </div>
               <div className="sub-price-ordtails">
@@ -316,7 +366,7 @@ const OrderDetails = () => {
                   <p>Shipping</p>
                 </div>
                 <div className="price-title-sub">
-                  <p> ${order.shippingCost}</p>
+                  <p>${order.shippingCost}</p>
                 </div>
               </div>
               <div className="total-price-ordtails">
@@ -324,13 +374,12 @@ const OrderDetails = () => {
                   <p>Total</p>
                 </div>
                 <div className="price-title">
-                  <p> ${totalPrice}</p>
+                  <p>${totalPrice}</p>
                 </div>
               </div>
             </div>
           </div>
         </div>
-
         <div className="right-box-layout">
           <div className="info-user-ordtails-container">
             <div className="customer-ordtails">
@@ -338,7 +387,6 @@ const OrderDetails = () => {
                 <div className="title">
                   <p>Customer</p>{" "}
                 </div>
-
                 {orderEditable && (
                   <div>
                     <p>
@@ -360,7 +408,7 @@ const OrderDetails = () => {
                 </div>
                 <div className="contact-info-cus">
                   <div className="title-contact-info-cus">
-                    <p>Contact infomation</p>
+                    <p>Contact information</p>
                   </div>
                   <div className="email-info-cus">
                     <p>{editableFields.email}</p>
@@ -370,7 +418,6 @@ const OrderDetails = () => {
                   </div>
                   <div className="first-name-cus">
                     <p>
-                      {" "}
                       {editableFields.firstName} {editableFields.lastName}
                     </p>
                   </div>
@@ -459,6 +506,16 @@ const OrderDetails = () => {
           />
         </div>
       </Modal>
+      <div id="printable-order" style={{ display: 'none' }}>
+        <PrintableOrder
+          order={order}
+          email={editableFields.email}
+          orderDate={formatDateTime(order.createdAt)}
+          total={totalPrice}
+          subtotal={subtotal}  // Ensure subtotal is passed correctly
+          paymentMethod={order.payment.paymentMethod}
+        />
+      </div>
     </div>
   );
 };
