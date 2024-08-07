@@ -1,14 +1,52 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
+import QRCode from "qrcode.react";
 import "./printableOrder.scss";
 
-const PrintableOrder = ({ order, email, orderDate, total, subtotal, paymentMethod, firstName, lastName }) => {
+const PrintableOrder = ({
+  order,
+  email,
+  orderDate,
+  total,
+  subtotal,
+  paymentMethod,
+}) => {
+  const [qrImageUrl, setQrImageUrl] = useState(null);
+  const qrRef = useRef();
+
+  // Kiểm tra và lấy thông tin khách hàng từ order
+  const firstName = order?.address?.firstName || "First Name";
+  const lastName = order?.address?.lastName || "Last Name";
+
+  // In ra đối tượng order để kiểm tra
+  console.log('Order Object:', order);
+
+  // Tạo chuỗi thông tin khách hàng để mã hóa QR
+  const qrValue = `Order ID: ${order.orderId}
+Email: ${email}
+Order Date: ${orderDate}
+Total: $${total}
+Customer Name: ${firstName} ${lastName}
+Shipping Address: ${order.address.address}, ${order.address.city}, ${order.address.postalCode}
+Phone: ${order.address.phone}
+Payment Method: ${paymentMethod}`;
+
+  useEffect(() => {
+    if (qrRef.current) {
+      const canvas = qrRef.current.querySelector("canvas");
+      if (canvas) {
+        const imgUrl = canvas.toDataURL();
+        setQrImageUrl(imgUrl);
+      }
+    }
+  }, [qrValue]);
+
   if (!order) {
     return <div>Order not found</div>;
   }
 
   return (
     <div className="order-receive-container" id="printable-order">
-      <div className="site-content">
+      <div className="site-content1">
         <div className="checkout-or-header-container">
           <div className="title-checkout-header-container">
             <div className="checkout-or-header">
@@ -26,7 +64,6 @@ const PrintableOrder = ({ order, email, orderDate, total, subtotal, paymentMetho
               <div className="info-customer-name">
                 <p>{firstName} {lastName}</p> {/* Show first name and last name */}
               </div>
-
               <div className="info-email">
                 <p>{email || "Email not provided"}</p>
               </div>
@@ -124,6 +161,13 @@ const PrintableOrder = ({ order, email, orderDate, total, subtotal, paymentMetho
               </div>
             </div>
           </div>
+        </div>
+        <div className="qr-code-container" ref={qrRef}>
+          {qrImageUrl ? (
+            <img src={qrImageUrl} alt="QR Code" />
+          ) : (
+            <QRCode value={qrValue} size={150} />
+          )}
         </div>
       </div>
     </div>
