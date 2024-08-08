@@ -105,9 +105,9 @@ const ChartAdmin = ({ selectedDates, setTotalSale }) => {
         },
         beginAtZero: true,
         ticks: {
-          stepSize: 1000,
+          stepSize: 10000,
         },
-        max: 8000,
+        max: 80000,
       },
     },
   };
