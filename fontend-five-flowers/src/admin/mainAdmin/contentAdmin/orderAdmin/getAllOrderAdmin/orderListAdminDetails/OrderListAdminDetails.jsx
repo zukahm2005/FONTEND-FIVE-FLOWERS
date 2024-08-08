@@ -110,9 +110,6 @@ const OrderDetails = () => {
     printWindow.print();
   };
   
-    
-  
-
   const formatDateTime = (dateArray) => {
     if (!Array.isArray(dateArray) || dateArray.length !== 6) {
       return "N/A";
@@ -229,7 +226,7 @@ const OrderDetails = () => {
 
   const orderEditable = isOrderEditable(order.status);
   const subtotal = order.orderDetails.reduce(
-    (acc, detail) => acc + detail.price * detail.quantity,
+    (acc, detail) => acc + detail.product.price * detail.quantity,
     0
   );
   const totalPrice = subtotal + order.shippingCost;
@@ -317,16 +314,17 @@ const OrderDetails = () => {
                     </div>
                     <div className="price-info-ordtails">
                       <p>
-                        ${detail.price} x{" "}
+                        ${detail.product.price} x{" "}
                         {orderEditable &&
                         editableQuantityId === detail.orderDetailId ? (
                           <InputNumber
-                          min={1}
-                          value={detail.quantity}
-                          onChange={(value) => handleQuantityChange(detail.orderDetailId, value)}
-                          onBlur={saveOrderChanges}
-                        />
-                        
+                            min={1}
+                            value={detail.quantity}
+                            onChange={(value) =>
+                              handleQuantityChange(detail.orderDetailId, value)
+                            }
+                            onBlur={saveOrderChanges}
+                          />
                         ) : (
                           <>
                             {detail.quantity}
@@ -346,7 +344,7 @@ const OrderDetails = () => {
                       {renderStatusText(detail.status)}
                     </div>
                     <div className="product-price">
-                      <p>${detail.price * detail.quantity}</p>
+                      <p>${detail.product.price * detail.quantity}</p>
                     </div>
                   </div>
                 </div>
@@ -521,3 +519,4 @@ const OrderDetails = () => {
 };
 
 export default OrderDetails;
+    

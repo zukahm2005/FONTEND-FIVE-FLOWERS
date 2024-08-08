@@ -2,12 +2,12 @@
   background-image: url("https://bikex-club.myshopify.com/cdn/shop/files/img-4.jpg?v=1614291618");
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: top;
   height: 50rem;
   max-width: 100%;
   margin: 10rem 0;
   position: relative;
-
+  
   .info-big-sale-container {
     max-width: 100%;
     position: absolute;
@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
-    left: 20%;
+    left: 15%;
 
     .name-big-sale {
       max-width: 100%;
