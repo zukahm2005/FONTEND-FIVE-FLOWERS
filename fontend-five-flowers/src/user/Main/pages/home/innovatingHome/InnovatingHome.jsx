@@ -19,10 +19,7 @@ const InnovatingHome = () => {
         </div>
         <div className="innova-content">
           <p>
-            Phasellus eget condimentum nibh. Nunc id enim id velit commodo
-            efficitur. Duis auctor, mauris in maximus cursus, purus neque
-            ultricies velit Vivamus a turpis nisi. Fusce feugiat feugiat congue
-            in mauris id sollicitudin.
+          Discover how we innovate to reimagine the cycling experience. With advanced designs and cutting-edge technology, we offer a more comfortable and efficient way to ride. Join us as we step into the future of cycling, where every journey is remarkable and unforgettable.
           </p>
         </div>
         <div className="innova-button">
