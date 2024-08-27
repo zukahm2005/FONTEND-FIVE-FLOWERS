@@ -15,8 +15,8 @@ import BlogDetail from "./Main/pages/news/Blog/BlogDetail";
 import News from "./Main/pages/news/News";
 import Shop from "./Main/pages/shop/Shop";
 import ProductDetail from "./Main/pages/shop/productDetails/ProductDetails";
-// import AnalyticsTrackVisit from "../admin/mainAdmin/contentAdmin/homeAdmin/analyticsadmin/AnalyticsTrackVisit";
 import LoginAdmin from "./Main/header/components/profile/login/loginAdmin/LoginAdmin";
+import YourBike from "./Main/header/components/yourBike/YourBike";
 import "./user.scss";
 
 const User = () => {
@@ -31,7 +31,6 @@ const User = () => {
       <div className="user-container">
         <Header cart={cart} setCart={setCart} />
         <div>
-          {/* <AnalyticsTrackVisit /> Đặt component ở đây để đảm bảo chỉ render một lần */}
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/home" element={<Home setCart={setCart} cart={cart} />} />
@@ -45,6 +44,7 @@ const User = () => {
             <Route path="/checkout" element={<CheckOut />} />
             <Route path="/cart-user" element={<CartUser />} />
             <Route path="/order-receive" element={<OrderReceive />} />
+            <Route path="/your-bike" element={<YourBike />} /> {/* Add this line */}
             <Route path="*" element={<Error />} />
             <Route path="/loginadmin" element={<LoginAdmin />} />
           </Routes>

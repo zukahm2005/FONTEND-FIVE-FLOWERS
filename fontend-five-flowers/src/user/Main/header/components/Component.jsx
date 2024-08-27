@@ -18,17 +18,22 @@ const Component = ({ showDrawer, cart }) => {
     if (e.key === 'logout') {
       logout();
     } else if (e.key === 'profile') {
-      navigate('/cart-user'); // Navigate to /cart-user page
+      navigate('/cart-user'); // Điều hướng đến trang Cart User
+    } else if (e.key === 'your-bike') {
+      navigate('/your-bike'); // Điều hướng đến trang Your Bike
     }
-    setVisible(false);
+    setVisible(false); // Ẩn dropdown sau khi nhấp
   };
+  
 
   const menu = (
     <Menu onClick={handleMenuClick}>
+      <Menu.Item key="your-bike">Your Bike</Menu.Item> {/* Thêm mục "Your Bike" */}
       <Menu.Item key="profile">Orders</Menu.Item>
       <Menu.Item key="logout">Logout</Menu.Item>
     </Menu>
   );
+  
 
   return (
     <div className="component-container">

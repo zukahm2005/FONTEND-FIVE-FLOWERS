@@ -1,0 +1,50 @@
+.small-map-container {
+    height: 500px; /* Chiều cao của bản đồ */
+    width: 50%;    /* Chiều rộng của bản đồ */
+    margin: 0 auto; /* Căn giữa bản đồ */
+  }
+  
+  .custom-bike-icon {
+    font-size: 2rem; /* Kích thước của icon */
+    color: black;    /* Màu sắc của icon */
+  }
+  
+  .map-container {  
+    margin-top: 10rem;
+    max-width: 100%;
+    max-height: 100%;
+    margin-bottom: 200px;
+    display: flex;           /* Sử dụng flexbox để căn giữa nội dung */
+    justify-content: center; /* Căn giữa theo chiều ngang */
+    align-items: center;     /* Căn giữa theo chiều dọc nếu có chiều cao cụ thể */
+  }
+  
+  .mapboxgl-ctrl-group button {
+      background: white !important;
+      color: black !important;
+      border: none !important;
+      box-shadow: none !important;
+      box-sizing: border-box !important;
+      cursor: pointer !important;
+      display: block !important;
+      height: 29px !important;
+      outline: none !important;
+      overflow: hidden !important;
+      padding: 0 !important;
+      width: 29px !important;
+      transition: background-color 0.3s ease !important;
+  }
+  
+  .mapboxgl-ctrl-group button:hover {
+      background-color: #f0f0f0 !important; /* Màu nền khi hover */
+      color: black !important;
+  }
+  
+  .mapboxgl-ctrl-group {
+      background-color: white !important;
+      border-radius: 4px !important;
+      padding: 2px !important;
+      display: flex;
+      flex-direction: column;
+  }
+  
