@@ -8,6 +8,7 @@ import { CartContext } from './cart/cartContext/CartProvider';
 import "./component.scss";
 import IconContextCart from "./iconContextCart/IconContextCart";
 import Profile from "./profile/Profile";
+import CalorieChart from '../../../../admin/mainAdmin/contentAdmin/calorieConsumption/CalorieChart';
 
 const Component = ({ showDrawer, cart }) => {
   const { isLoggedIn, logout } = useContext(CartContext);
@@ -18,22 +19,17 @@ const Component = ({ showDrawer, cart }) => {
     if (e.key === 'logout') {
       logout();
     } else if (e.key === 'profile') {
-      navigate('/cart-user'); // Điều hướng đến trang Cart User
-    } else if (e.key === 'your-bike') {
-      navigate('/your-bike'); // Điều hướng đến trang Your Bike
+      navigate('/cart-user'); // Navigate to /cart-user page
     }
-    setVisible(false); // Ẩn dropdown sau khi nhấp
+    setVisible(false);
   };
-  
 
   const menu = (
     <Menu onClick={handleMenuClick}>
-      <Menu.Item key="your-bike">Your Bike</Menu.Item> {/* Thêm mục "Your Bike" */}
       <Menu.Item key="profile">Orders</Menu.Item>
       <Menu.Item key="logout">Logout</Menu.Item>
     </Menu>
   );
-  
 
   return (
     <div className="component-container">
