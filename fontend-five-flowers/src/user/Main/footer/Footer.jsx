@@ -5,6 +5,7 @@ import {
   FaPinterestP,
   FaTwitter,
 } from "react-icons/fa";
+import SendWebhookEvent from "../../chatBot/SendWebhookEvent";
 import "./footer.scss";
 
 const Footer = () => {
@@ -64,6 +65,7 @@ const Footer = () => {
           © 2024 Bikex Club (password: buddha) Design Themes
         </div>
       </div>
+      <SendWebhookEvent/>
     </footer>
   );
 };

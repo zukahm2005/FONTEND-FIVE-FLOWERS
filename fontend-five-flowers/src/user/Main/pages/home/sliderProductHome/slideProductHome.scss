@@ -31,14 +31,17 @@
   .slide-product-home-content {
     max-width: 85%;
     margin: 0 auto;
-
+    
+    @media(max-width:1500px){
+      max-width: 90%;
+    }
     .product-card {
       position: relative;
       overflow: hidden;
       text-align: center;
       background-color: white;
       transition: background-color 0.3s ease-in-out;
-
+      
       .image-container {
         position: relative;
         width: 100%;
@@ -46,6 +49,9 @@
         overflow: hidden;
         cursor: pointer;
         height: 17rem;
+        @media(max-width:1400px){
+          
+        }
         img {
           position: absolute;
           top: 0;
