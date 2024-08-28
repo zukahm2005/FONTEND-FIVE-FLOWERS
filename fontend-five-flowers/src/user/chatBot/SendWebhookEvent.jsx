@@ -9,19 +9,21 @@ const Chatbot = () => {
 
   const sendMessage = async (type) => {
     if (type === "ask" && input.trim() === "") return;
-  
-    setMessages([
+
+    const updatedMessages = [
       ...messages,
       {
         role: "user",
         content: type === "learn_image" ? "Đang học từ hình ảnh..." : input,
       },
-    ]);
-  
+    ];
+
+    setMessages(updatedMessages);
+
     try {
       let response;
       let botResponse;
-  
+
       if (type === "learn") {
         response = await axios.post(
           "http://localhost:8080/api/v1/bot/learn",
@@ -48,50 +50,44 @@ const Chatbot = () => {
       } else if (type === "load_json" || type === "upload_file") {
         const formData = new FormData();
         formData.append("file", file);
-  
+
         if (!file) {
           console.error("Chưa chọn file");
           return;
         }
-  
-        // Điều chỉnh endpoint dựa trên loại file
-        const file_ext = file.name.split('.').pop().toLowerCase();
-        const endpoint = file_ext === 'json' ? "/upload_file" : "/upload_file"; // Cùng một endpoint; xử lý được đảm nhận bởi backend
-  
+
         response = await axios.post(
-          `http://localhost:8080/api/v1/bot${endpoint}`,
+          "http://localhost:8080/api/v1/bot/upload_file",
           formData,
           {
             headers: { "Content-Type": "multipart/form-data" },
           }
         );
-  
+
         botResponse = response.data.message;
       } else {
+        // Giới hạn số lượng tin nhắn gửi đi (chỉ gửi 5 tin nhắn gần nhất)
+        const historyToSend = updatedMessages.slice(-5);
         response = await axios.post(
           "http://localhost:8080/api/v1/bot/ask",
-          { question: input },
+          { history: historyToSend },
           {
             headers: { "Content-Type": "application/json" },
           }
         );
         botResponse = response.data.response;
       }
-  
+
       setMessages([
-        ...messages,
-        { role: "user", content: input },
+        ...updatedMessages,
         { role: "bot", content: botResponse },
       ]);
     } catch (error) {
       console.error("Lỗi khi gửi tin nhắn:", error);
     }
-  
+
     setInput("");
   };
-  
-  
-  
 
   return (
     <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
