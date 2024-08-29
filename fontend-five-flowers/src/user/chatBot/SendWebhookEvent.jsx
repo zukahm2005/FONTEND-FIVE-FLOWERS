@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useState } from "react";
+import "./sendWebhookEvent.scss";
 
 const Chatbot = () => {
   const [input, setInput] = useState("");
@@ -15,10 +16,14 @@ const Chatbot = () => {
       {
         role: "user",
         content: type === "learn_image" ? "Đang học từ hình ảnh..." : input,
+        time: new Date().toLocaleTimeString(),
       },
     ];
 
     setMessages(updatedMessages);
+
+    // Trống ô input ngay sau khi gửi tin nhắn
+    setInput("");
 
     try {
       let response;
@@ -80,74 +85,48 @@ const Chatbot = () => {
 
       setMessages([
         ...updatedMessages,
-        { role: "bot", content: botResponse },
+        { role: "bot", content: botResponse, time: new Date().toLocaleTimeString() },
       ]);
     } catch (error) {
       console.error("Lỗi khi gửi tin nhắn:", error);
     }
+  };
 
-    setInput("");
+  const handleKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      sendMessage("ask");
+    }
   };
 
   return (
-    <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
-      <h2>Chatbot</h2>
-      <div
-        style={{
-          border: "1px solid #ccc",
-          padding: "10px",
-          minHeight: "400px",
-          overflowY: "scroll",
-        }}
-      >
+    <div className="chat-container">
+      <div className="chat-box">
         {messages.map((msg, index) => (
-          <div key={index} style={{ marginBottom: "10px" }}>
-            <strong>{msg.role === "user" ? "You" : "Bot"}:</strong>{" "}
-            {msg.content}
+          <div key={index} className={`chat-message ${msg.role}`}>
+            <div className="message-content">{msg.content}</div>
+            <div className="message-time">{msg.time}</div>
           </div>
         ))}
       </div>
-      <div style={{ marginTop: "20px" }}>
+      <div className="chat-input-container">
         <input
           type="text"
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message..."
-          style={{ width: "60%", padding: "10px", marginRight: "10px" }}
+          placeholder="Type your message and press enter..."
+          onKeyPress={handleKeyPress}
+          className="chat-input"
         />
-        <input
-          type="file"
-          onChange={(e) => setFile(e.target.files[0])}
-          style={{ marginRight: "10px" }}
-          placeholder="file"
-        />
-        <button
-          onClick={() => sendMessage("load_json")}
-          style={{ padding: "10px 20px" }}
-        >
-          Load JSON
-        </button>
-        <input
-          type="file"
-          onChange={(e) => setImage(e.target.files[0])}
-          style={{ marginRight: "10px" }}
-          placeholder="image"
-        />{" "}
-        <button
-          onClick={() => sendMessage("learn_image")}
-          style={{ padding: "10px 20px", marginRight: "5px" }}
-        >
-          Learn Image
-        </button>
         <button
           onClick={() => sendMessage("ask")}
-          style={{ padding: "10px 20px", marginRight: "5px" }}
+          disabled={!input.trim()}
+          className="send-button"
         >
-          Ask
+          Send
         </button>
         <button
           onClick={() => sendMessage("learn")}
-          style={{ padding: "10px 20px", marginRight: "5px" }}
+          className="learn-button"
         >
           Learn Text
         </button>
