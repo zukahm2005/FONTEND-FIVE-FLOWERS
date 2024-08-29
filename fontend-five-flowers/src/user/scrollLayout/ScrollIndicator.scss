@@ -1,0 +1,67 @@
+.scroll-indicator-container {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    background-color: transparent;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    z-index: 10;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+
+    &.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+  
+    
+    .scroll-svg {
+      position: absolute;
+      width: 70%;
+      height: 70%;
+      transform: rotate(-90deg);
+    }
+  
+    .scroll-static {
+      fill: none;
+      stroke: #f15e4b;
+      stroke-width: 1.5;
+    }
+
+    .scroll-bg {
+      fill: white;
+      stroke: white;
+      stroke-width: 2.8;
+    }
+  
+    .scroll-progress {
+      fill: none;
+      stroke: #f15e4b;
+      stroke-width: 2.8;
+      stroke-linecap: round;
+      transition: none;
+    }
+  
+    .scroll-icon {  
+      position: absolute;
+      color: #f15e4b;
+      font-size: 1rem;
+      z-index: 1;
+    }
+  
+    &:hover {
+      .scroll-progress {
+        stroke: #f15e4b;
+      }
+  
+      .scroll-icon {
+        color: #f15e4b;
+      }
+    }
+}

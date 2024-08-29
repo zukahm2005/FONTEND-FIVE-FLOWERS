@@ -17,6 +17,7 @@ import Shop from "./Main/pages/shop/Shop";
 import ProductDetail from "./Main/pages/shop/productDetails/ProductDetails";
 import LoginAdmin from "./Main/header/components/profile/login/loginAdmin/LoginAdmin";
 import YourBike from "./Main/header/components/yourBike/YourBike";
+import ScrollIndicator from "./scrollLayout/ScrollIndicator";
 import "./user.scss";
 
 const User = () => {
@@ -49,6 +50,7 @@ const User = () => {
             <Route path="/loginadmin" element={<LoginAdmin />} />
           </Routes>
         </div>
+        <ScrollIndicator />
         <Footer />
       </div>
     </CartProvider>
