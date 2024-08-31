@@ -1,6 +1,8 @@
 import axios from "axios";
 import React, { useState } from "react";
-import "./sendWebhookEvent.scss";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm"; // Import gfm để có các tính năng markdown mở rộng
+import "./sendWebhookEvent.scss"; // Import file CSS
 
 const Chatbot = () => {
   const [input, setInput] = useState("");
@@ -21,9 +23,7 @@ const Chatbot = () => {
     ];
 
     setMessages(updatedMessages);
-
-    // Trống ô input ngay sau khi gửi tin nhắn
-    setInput("");
+    setInput(""); // Trống ô input ngay sau khi gửi tin nhắn
 
     try {
       let response;
@@ -71,8 +71,7 @@ const Chatbot = () => {
 
         botResponse = response.data.message;
       } else {
-        // Giới hạn số lượng tin nhắn gửi đi (chỉ gửi 5 tin nhắn gần nhất)
-        const historyToSend = updatedMessages.slice(-5);
+        const historyToSend = updatedMessages.slice(-5); // Giới hạn số lượng tin nhắn gửi đi (chỉ gửi 5 tin nhắn gần nhất)
         response = await axios.post(
           "http://localhost:8080/api/v1/bot/ask",
           { history: historyToSend },
@@ -85,7 +84,11 @@ const Chatbot = () => {
 
       setMessages([
         ...updatedMessages,
-        { role: "bot", content: botResponse, time: new Date().toLocaleTimeString() },
+        {
+          role: "bot",
+          content: botResponse,
+          time: new Date().toLocaleTimeString(),
+        },
       ]);
     } catch (error) {
       console.error("Lỗi khi gửi tin nhắn:", error);
@@ -93,7 +96,7 @@ const Chatbot = () => {
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       sendMessage("ask");
     }
   };
@@ -103,7 +106,40 @@ const Chatbot = () => {
       <div className="chat-box">
         {messages.map((msg, index) => (
           <div key={index} className={`chat-message ${msg.role}`}>
-            <div className="message-content">{msg.content}</div>
+            <div className="message-content">
+              <ReactMarkdown
+                remarkPlugins={[remarkGfm]}
+                components={{
+                  p: ({ node, ...props }) => (
+                    <p style={{ margin: "0.5em 0", color: "#fff" }} {...props} />
+                  ),
+                  h1: ({ node, ...props }) => (
+                    <h1 style={{ fontSize: "1.5em", color: "#fff" }} {...props} />
+                  ),
+                  img: ({ node, ...props }) => (
+                    <img
+                      style={{
+                        maxWidth: "100%",
+                        height: "auto",
+                        borderRadius: "10px",
+                        marginTop: "5px",
+                      }}
+                      {...props}
+                    />
+                  ),
+                  a: ({ node, ...props }) => (
+                    <a
+                      style={{ color: "#007bff", textDecoration: "none" }}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      {...props}
+                    />
+                  ),
+                }}
+              >
+                {msg.content}
+              </ReactMarkdown>
+            </div>
             <div className="message-time">{msg.time}</div>
           </div>
         ))}
@@ -114,20 +150,17 @@ const Chatbot = () => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message and press enter..."
-          onKeyPress={handleKeyPress}
+          onKeyPress={(e) => e.key === "Enter" && sendMessage()}
           className="chat-input"
         />
         <button
-          onClick={() => sendMessage("ask")}
+          onClick={sendMessage}
           disabled={!input.trim()}
           className="send-button"
         >
           Send
         </button>
-        <button
-          onClick={() => sendMessage("learn")}
-          className="learn-button"
-        >
+        <button onClick={() => sendMessage("learn")} className="learn-button">
           Learn Text
         </button>
       </div>

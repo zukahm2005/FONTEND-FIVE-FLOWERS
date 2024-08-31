@@ -1,99 +1,152 @@
 .chat-container {
-    display: flex;
-    flex-direction: column;
-    max-width: 600px;
-    margin: 0 auto;
-    height: 80vh;
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    overflow: hidden;
-    background-color: #f4f4f4;
-    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-  }
-  
-  .chat-box {
-    flex-grow: 1;
-    padding: 20px;
-    overflow-y: auto;
-    background-color: #e5e5ea;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .chat-message {
-    margin-bottom: 15px;
-    max-width: 70%;
-    display: flex;
-    flex-direction: column;
-    border-radius: 20px;
-    padding: 10px 20px;
-    position: relative;
-    word-wrap: break-word;
-    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
-  }
-  
-  .chat-message.user {
-    align-self: flex-end;
-    background-color: #0078fe;
-    color: white;
-    border-radius: 20px 20px 0px 20px;
-  }
-  
-  .chat-message.bot {
-    align-self: flex-start;
-    background-color: #f1f0f0;
-    color: black;
-    border-radius: 20px 20px 20px 0px;
-  }
-  
-  .message-content {
-    font-size: 16px;
-    margin-bottom: 5px;
-  }
-  
-  .message-time {
-    font-size: 12px;
-    text-align: right;
-    opacity: 0.6;
-  }
-  
-  .chat-input-container {
-    display: flex;
-    padding: 10px;
-    background-color: #fff;
-    border-top: 1px solid #ddd;
-    align-items: center;
-  }
-  
-  .chat-input {
-    flex-grow: 1;
-    border: none;
-    border-radius: 25px;
-    padding: 10px 20px;
-    margin-right: 10px;
-    background-color: #f1f0f0;
-  }
-  
-  .send-button,
-  .learn-button {
-    border: none;
-    background-color: #0078fe;
-    color: white;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    margin-left: 10px;
-  }
-  
-  .send-button:disabled {
-    background-color: #a0a0a0;
-  }
-  
-  .learn-button {
-    background-color: #28a745;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  max-width: 400px;
+  margin: 0 auto;
+  height: 70vh;
+  border: 1px solid #343a40;
+  border-radius: 10px;
+  overflow: hidden;
+  background-color: #1c1e21;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.chat-box {
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background-color: #1c1e21;
+  display: flex;
+  flex-direction: column;
+}
+
+
+.chat-message {
+  margin-bottom: 8px; /* Giảm khoảng cách giữa các tin nhắn */
+  max-width: 100%; /* Đảm bảo tin nhắn không vượt quá chiều rộng */
+  display: flex;
+  flex-direction: column;
+  border-radius: 18px;
+  padding: 10px 15px; /* Tăng padding để tránh lòi chữ */
+  position: relative;
+  word-wrap: break-word;
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease;
+  color: #fff; /* Đặt màu chữ thành màu trắng */
+  background-color: #343a40; /* Đảm bảo màu nền đẹp hơn */
+}
+
+.chat-message.user {
+  align-self: flex-end;
+  background-color: #007bff;
+  color: white;
+  border-radius: 18px 18px 0px 18px;
+  max-width: 20rem;
+
+}
+
+.chat-message.bot {
+  align-self: flex-start;
+  background-color: #343a40;
+  color: white;
+  border-radius: 18px 18px 18px 0px;
+  max-width: 20rem;
+}
+
+.message-content {
+  font-size: 15px;
+  margin-bottom: 2.5px; /* Giảm khoảng cách dưới */
+  text-align: left;
+  color: #fff; /* Đặt màu chữ thành màu trắng */
+}
+
+.message-time {
+  font-size: 12px;
+  text-align: right;
+  opacity: 0.7;
+  margin-top: 3px; /* Giảm khoảng cách trên */
+}
+
+.chat-input-container {
+  display: flex;
+  padding: 10px; /* Điều chỉnh padding để input không cách xa khung chat */
+  background-color: #242526;
+  border-top: 1px solid #343a40;
+  align-items: center;
+}
+
+.chat-input {
+  flex-grow: 1;
+  border: none;
+  border-radius: 25px;
+  padding: 10px 15px;
+  margin-right: 10px;
+  background-color: #3a3b3c;
+  color: white;
+  transition: background-color 0.3s ease;
+}
+
+.chat-input:focus {
+  background-color: #495057;
+}
+
+.send-button,
+.learn-button {
+  border: none;
+  background-color: #007bff;
+  color: white;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  margin-left: 10px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.send-button:disabled {
+  background-color: #6c757d;
+}
+
+.send-button:hover {
+  background-color: #0056b3;
+  transform: scale(1.1);
+}
+
+.learn-button {
+  background-color: #28a745;
+}
+
+.learn-button:hover {
+  background-color: #218838;
+  transform: scale(1.1);
+}
+
+/* Styling for images within messages */
+.message-content img {
+  max-width: 100%;  /* Đảm bảo hình ảnh không vượt quá kích thước tin nhắn */
+  height: auto;     /* Đảm bảo tỷ lệ hình ảnh không bị méo */
+  border-radius: 10px; /* Tạo góc bo tròn cho hình ảnh */
+  margin-top: 5px;  /* Giảm khoảng cách giữa chữ và hình ảnh */
+}
+
+/* Tùy chỉnh thêm cho các thành phần cụ thể nếu cần */
+.message-content h1,
+.message-content h2,
+.message-content h3,
+.message-content p {
+  margin: 0; /* Đảm bảo không có khoảng cách thừa */
+  padding: 0; /* Đảm bảo không có khoảng cách thừa */
+}
+
+.message-content a {
+  color: #007bff;
+  text-decoration: none;
+  word-wrap: break-word; /* Đảm bảo liên kết không vượt quá kích thước */
+}
+
+.message-content a:hover {
+  text-decoration: underline;
+}
