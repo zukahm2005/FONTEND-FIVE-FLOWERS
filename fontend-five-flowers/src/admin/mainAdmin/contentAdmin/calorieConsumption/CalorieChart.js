@@ -15,6 +15,7 @@ import {
 import { Bar, Line } from 'react-chartjs-2';
 import moment from 'moment';
 import './CalorieChart.css';
+import DistanceTracker from './mapComponent';
 
 // Registering the necessary Chart.js components
 ChartJS.register(
@@ -136,6 +137,7 @@ const CalorieChart = () => {
 
   return (
     <div className='caloChar'>
+      <DistanceTracker />
       {Object.keys(chartData).length > 0 ? (
         <>
           <Line data={chartData} />
