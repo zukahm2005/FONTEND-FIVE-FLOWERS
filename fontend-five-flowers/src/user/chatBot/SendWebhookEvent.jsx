@@ -1,12 +1,25 @@
 import axios from "axios";
 import React, { useState } from "react";
+import { IoMdClose, IoMdSend } from "react-icons/io";
+import { RiCustomerService2Fill } from "react-icons/ri";
 import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm"; // Import gfm để có các tính năng markdown mở rộng
-import "./sendWebhookEvent.scss"; // Import file CSS
+import remarkGfm from "remark-gfm";
+import "./sendWebhookEvent.scss";
+import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 
-const Chatbot = () => {
+const Chatbot = ({ onClose }) => {
   const [input, setInput] = useState("");
-  const [messages, setMessages] = useState([]);
+  
+  // Khởi tạo với tin nhắn chào và câu hỏi tư vấn
+  const [messages, setMessages] = useState([
+    {
+      role: "bot",
+      content: "Xin chào! Tôi có thể giúp gì cho bạn hôm nay? Bạn muốn tư vấn gì về xe đạp?",
+      time: new Date().toLocaleTimeString(),
+    },
+  ]);
+
+  // Thêm các state cho image và file
   const [file, setFile] = useState(null);
   const [image, setImage] = useState(null);
 
@@ -23,7 +36,7 @@ const Chatbot = () => {
     ];
 
     setMessages(updatedMessages);
-    setInput(""); // Trống ô input ngay sau khi gửi tin nhắn
+    setInput("");
 
     try {
       let response;
@@ -40,7 +53,7 @@ const Chatbot = () => {
         botResponse = response.data.message;
       } else if (type === "learn_image") {
         const formData = new FormData();
-        formData.append("file", image);
+        formData.append("file", image); // Sử dụng state image
         response = await axios.post(
           "http://localhost:8080/api/v1/bot/learn_image",
           formData,
@@ -54,7 +67,7 @@ const Chatbot = () => {
           response.data.extracted_text;
       } else if (type === "load_json" || type === "upload_file") {
         const formData = new FormData();
-        formData.append("file", file);
+        formData.append("file", file); // Sử dụng state file
 
         if (!file) {
           console.error("Chưa chọn file");
@@ -71,7 +84,7 @@ const Chatbot = () => {
 
         botResponse = response.data.message;
       } else {
-        const historyToSend = updatedMessages.slice(-5); // Giới hạn số lượng tin nhắn gửi đi (chỉ gửi 5 tin nhắn gần nhất)
+        const historyToSend = updatedMessages.slice(-5);
         response = await axios.post(
           "http://localhost:8080/api/v1/bot/ask",
           { history: historyToSend },
@@ -103,6 +116,18 @@ const Chatbot = () => {
 
   return (
     <div className="chat-container">
+      <div className="header-chatbox-container">
+        <div className="icon-customer-chat">
+          <p>
+            <RiCustomerService2Fill />
+          </p>
+        </div>
+        <div className="icon-close-chat">
+          <p onClick={onClose}>
+            <IoMdClose />
+          </p>
+        </div>
+      </div>
       <div className="chat-box">
         {messages.map((msg, index) => (
           <div key={index} className={`chat-message ${msg.role}`}>
@@ -114,7 +139,10 @@ const Chatbot = () => {
                     <p style={{ margin: "0.5em 0", color: "#fff" }} {...props} />
                   ),
                   h1: ({ node, ...props }) => (
-                    <h1 style={{ fontSize: "1.5em", color: "#fff" }} {...props} />
+                    <h1
+                      style={{ fontSize: "1.5em", color: "#fff" }}
+                      {...props}
+                    />
                   ),
                   img: ({ node, ...props }) => (
                     <img
@@ -158,10 +186,9 @@ const Chatbot = () => {
           disabled={!input.trim()}
           className="send-button"
         >
-          Send
-        </button>
-        <button onClick={() => sendMessage("learn")} className="learn-button">
-          Learn Text
+          <p>
+            <IoMdSend />
+          </p>
         </button>
       </div>
     </div>
