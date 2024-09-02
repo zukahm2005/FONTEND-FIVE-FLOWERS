@@ -3,7 +3,7 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Admin from './admin/Admin';
 import User from './user/User';
 import usePageTracking from './usePageTracking';
-import CalorieChart from './admin/mainAdmin/contentAdmin/calorieConsumption/CalorieChart';
+import CalorieChart from './user/Main/header/components/calorieConsumption/CalorieChart';
 
 const TrackingComponent = () => {
   usePageTracking();
@@ -19,7 +19,6 @@ const App = () => {
         <Route path="/*" element={<User />} />
         <Route path='/calo' element={<CalorieChart />} />
 
-        
       </Routes>
     </Router>
   );

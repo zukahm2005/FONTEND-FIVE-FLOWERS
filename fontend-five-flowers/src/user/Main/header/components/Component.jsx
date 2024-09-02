@@ -8,7 +8,7 @@ import { CartContext } from './cart/cartContext/CartProvider';
 import "./component.scss";
 import IconContextCart from "./iconContextCart/IconContextCart";
 import Profile from "./profile/Profile";
-import CalorieChart from '../../../../admin/mainAdmin/contentAdmin/calorieConsumption/CalorieChart';
+import CalorieChart from './calorieConsumption/CalorieChart';
 
 const Component = ({ showDrawer, cart }) => {
   const { isLoggedIn, logout } = useContext(CartContext);

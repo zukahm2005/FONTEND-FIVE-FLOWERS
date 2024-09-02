@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import "./navBar.scss";
-import CalorieChart from '../../../../admin/mainAdmin/contentAdmin/calorieConsumption/CalorieChart';
+import CalorieChart from '../components/calorieConsumption/CalorieChart';
 
 const NavBar = () => {
   const location = useLocation();

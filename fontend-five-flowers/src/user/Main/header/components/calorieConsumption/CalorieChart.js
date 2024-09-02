@@ -10,14 +10,13 @@ import {
   Title,
   Tooltip,
   Legend,
-  TimeScale, // Import TimeScale
+  TimeScale,
 } from 'chart.js';
 import { Bar, Line } from 'react-chartjs-2';
 import moment from 'moment';
 import './CalorieChart.css';
 import DistanceTracker from './mapComponent';
 
-// Registering the necessary Chart.js components
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -27,12 +26,13 @@ ChartJS.register(
   Title,
   Tooltip,
   Legend,
-  TimeScale // Register TimeScale
+  TimeScale
 );
 
 const CalorieChart = () => {
   const [chartData, setChartData] = useState({});
   const [chartTime, setChartTime] = useState({});
+  const [todayDistance, setTodayDistance] = useState(0);
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -52,9 +52,8 @@ const CalorieChart = () => {
             const data = response.data;
 
             if (Array.isArray(data) && data.length > 0) {
-              // Group data by date
               const aggregatedDataByDate = data.reduce((acc, entry) => {
-                const date = moment(entry.createdAt).format('DD-MM');
+                const date = moment(entry.createdAt).format('YYYY-MM-DD');
                 if (!acc[date]) {
                   acc[date] = { calories: 0, time: 0, distance: 0 };
                 }
@@ -64,11 +63,13 @@ const CalorieChart = () => {
                 return acc;
               }, {});
 
-              // Prepare data for the chart
+              const today = moment().format('YYYY-MM-DD'); // Ensure date format is consistent
               const dates = Object.keys(aggregatedDataByDate).slice(-15);
               const calories = dates.map(date => aggregatedDataByDate[date].calories);
               const time = dates.map(date => aggregatedDataByDate[date].time);
               const distance = dates.map(date => aggregatedDataByDate[date].distance);
+
+              setTodayDistance(aggregatedDataByDate[today]?.distance || 0); // Set today's distance
 
               setChartTime({
                 labels: dates,
@@ -93,14 +94,13 @@ const CalorieChart = () => {
                 options: {
                   scales: {
                     x: {
-                      type: 'time', // Use the time scale
+                      type: 'time',
                       time: {
                         unit: 'day'
                       }
                     }
                   }
                 },
-                
               });
 
               setChartData({
@@ -138,48 +138,51 @@ const CalorieChart = () => {
   return (
     <div className='caloChar'>
       <DistanceTracker />
+      <div style={{ margin: '20px 0', textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>
+        Total Distance Traveled Today: {todayDistance} Km
+      </div>
       {Object.keys(chartData).length > 0 ? (
         <>
           <Line data={chartData} />
           <Bar data={chartTime} />
         </>
       ) : (
-        <div style={{ textAlign: 'center'}}>
+        <div style={{ textAlign: 'center' }}>
           <img style={{
             width: '100%',
             margin: '30px 0'
-          }}  src='https://vn1.vdrive.vn/nghiahai.com/2018/10/S%E1%BB%B1-luy%E1%BB%87n-t%E1%BA%ADp-v%E1%BB%81-t%E1%BB%91c-%C4%91%E1%BB%99-gi%C3%BAp-b%E1%BA%A1n-tr%E1%BB%9F-th%C3%A0nh-m%E1%BB%99t-tay-%C4%91ua-xe-%C4%91%E1%BA%A1p-t%E1%BB%91t-h%C6%A1n-nh%C6%B0-th%E1%BA%BF-n%C3%A0o-2.jpg' />
-    <p style={{
-        fontSize: '18px',
-        fontWeight: 'bold',
-        color: '#ff6347',
-        padding: '10px',
-        borderRadius: '8px',
-        backgroundColor: '#f0f0f0',
-    }}>
-        Start the training process
-    </p>
-    <button 
-        style={{
-            marginTop: '20px',
-            padding: '10px 20px',
-            fontSize: '16px',
+          }} src='https://vn1.vdrive.vn/nghiahai.com/2018/10/S%E1%BB%B1-luy%E1%BB%87n-t%E1%BA%ADp-v%E1%BB%81-t%E1%BB%91c-%C4%91%E1%BB%99-gi%C3%BAp-b%E1%BA%A1n-tr%E1%BB%9F-th%C3%A0nh-m%E1%BB%99t-tay-%C4%91ua-xe-%C4%91%E1%BA%A1p-t%E1%BB%91t-h%C6%A1n-nh%C6%B0-th%E1%BA%BF-n%C3%A0o-2.jpg' />
+          <p style={{
+            fontSize: '18px',
             fontWeight: 'bold',
-            color: '#ffffff',
-            backgroundColor: '#ff6347',
-            border: 'none',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-            transition: 'background-color 0.3s ease',
-        }}
-        type="submit"
-        onMouseOver={(e) => e.target.style.backgroundColor = '#ff7f50'}
-        onMouseOut={(e) => e.target.style.backgroundColor = '#ff6347'}
-    >
-        Start
-    </button>
-</div>
+            color: '#ff6347',
+            padding: '10px',
+            borderRadius: '8px',
+            backgroundColor: '#f0f0f0',
+          }}>
+            Start the training process
+          </p>
+          <button
+            style={{
+              marginTop: '20px',
+              padding: '10px 20px',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              color: '#ffffff',
+              backgroundColor: '#ff6347',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+              transition: 'background-color 0.3s ease',
+            }}
+            type="submit"
+            onMouseOver={(e) => e.target.style.backgroundColor = '#ff7f50'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#ff6347'}
+          >
+            Start
+          </button>
+        </div>
       )}
     </div>
   );
