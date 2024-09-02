@@ -6,7 +6,7 @@
   height: 0;
   overflow: hidden;
   transition: width 0.3s ease, height 0.3s ease; /* Thêm transition cho width và height */
-  z-index: 1000;
+  z-index: 2000;
 }
 
 .chatbox-container.open {

@@ -1,23 +1,32 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IoMdClose, IoMdSend } from "react-icons/io";
 import { RiCustomerService2Fill } from "react-icons/ri";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import "./sendWebhookEvent.scss";
-import { IoChatbubbleEllipsesOutline } from "react-icons/io5";
 
 const Chatbot = ({ onClose }) => {
   const [input, setInput] = useState("");
-  
-  // Khởi tạo với tin nhắn chào và câu hỏi tư vấn
-  const [messages, setMessages] = useState([
-    {
-      role: "bot",
-      content: "Xin chào! Tôi có thể giúp gì cho bạn hôm nay? Bạn muốn tư vấn gì về xe đạp?",
-      time: new Date().toLocaleTimeString(),
-    },
-  ]);
+
+  // Lấy các tin nhắn đã lưu trong sessionStorage hoặc khởi tạo với tin nhắn chào
+  const [messages, setMessages] = useState(() => {
+    const savedMessages = sessionStorage.getItem("chatMessages");
+    return savedMessages
+      ? JSON.parse(savedMessages)
+      : [
+          {
+            role: "bot",
+            content: "Xin chào! Tôi có thể giúp gì cho bạn hôm nay? Bạn muốn tư vấn gì về xe đạp?",
+            time: new Date().toLocaleTimeString(),
+          },
+        ];
+  });
+
+  // Lưu các tin nhắn vào sessionStorage mỗi khi có thay đổi
+  useEffect(() => {
+    sessionStorage.setItem("chatMessages", JSON.stringify(messages));
+  }, [messages]);
 
   // Thêm các state cho image và file
   const [file, setFile] = useState(null);
@@ -189,6 +198,9 @@ const Chatbot = ({ onClose }) => {
           <p>
             <IoMdSend />
           </p>
+        </button>
+        <button onClick={() => sendMessage("learn")} className="learn-button">
+          Learn Text
         </button>
       </div>
     </div>
