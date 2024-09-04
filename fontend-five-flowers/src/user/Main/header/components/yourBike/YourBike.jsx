@@ -411,7 +411,7 @@ const YourBike = () => {
                   id="routeLayer"
                   type="line"
                   layout={{ "line-join": "round", "line-cap": "round" }}
-                  paint={{ "line-color": "#4058f5", "line-width": 8 }}
+                  paint={{ "line-color": "#f28b50", "line-width": 8 }}
                 />
               </Source>
               <Source
@@ -435,7 +435,7 @@ const YourBike = () => {
                     "circle-radius": 5,
                     "circle-color": "#FFFFFF",
                     "circle-stroke-width": 2,
-                    "circle-stroke-color": "#4058f5",
+                    "circle-stroke-color": "#de7345",
                   }}
                 />
               </Source>
@@ -467,7 +467,7 @@ const YourBike = () => {
           <ul>
             {history.map((entry, index) => (
               <li key={index}>
-                Start: ({entry.startLocation.latitude}, {entry.startLocation.longitude}) <br />
+                Start: ({entry.startLocation.latitude}, {entry.startLocation.longitude}) - <br/>
                 End: ({entry.endLocation.latitude}, {entry.endLocation.longitude}) <br />
                 Date: {new Date(entry.journeyDate).toLocaleString()}
               </li>
