@@ -1,50 +1,95 @@
-.small-map-container {
-    height: 500px; /* Chiều cao của bản đồ */
-    width: 50%;    /* Chiều rộng của bản đồ */
-    margin: 0 auto; /* Căn giữa bản đồ */
-  }
-  
-  .custom-bike-icon {
-    font-size: 2rem; /* Kích thước của icon */
-    color: black;    /* Màu sắc của icon */
-  }
-  
-  .map-container {  
-    margin-top: 10rem;
-    max-width: 100%;
-    max-height: 100%;
-    margin-bottom: 200px;
-    display: flex;           /* Sử dụng flexbox để căn giữa nội dung */
-    justify-content: center; /* Căn giữa theo chiều ngang */
-    align-items: center;     /* Căn giữa theo chiều dọc nếu có chiều cao cụ thể */
-  }
-  
-  .mapboxgl-ctrl-group button {
-      background: white !important;
-      color: black !important;
-      border: none !important;
-      box-shadow: none !important;
-      box-sizing: border-box !important;
-      cursor: pointer !important;
-      display: block !important;
-      height: 29px !important;
-      outline: none !important;
-      overflow: hidden !important;
-      padding: 0 !important;
-      width: 29px !important;
-      transition: background-color 0.3s ease !important;
-  }
-  
-  .mapboxgl-ctrl-group button:hover {
-      background-color: #f0f0f0 !important; /* Màu nền khi hover */
-      color: black !important;
-  }
-  
-  .mapboxgl-ctrl-group {
-      background-color: white !important;
-      border-radius: 4px !important;
-      padding: 2px !important;
-      display: flex;
-      flex-direction: column;
-  }
-  
+.your-bike-container {
+  display: flex;
+  padding-top: 5rem;
+  flex-direction: row;
+  height: 100vh; /* Full screen height */
+}
+
+.bike-list {
+  position: absolute;
+  top: 5rem;
+  left: 0;
+  width: 30%;
+  height: calc(100% - 5rem); /* Height adjusted to exclude the top padding */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+  overflow-y: auto;
+  z-index: 2;
+  display: none; /* Hidden by default */
+}
+
+.small-map-container .bike-list {
+  display: block; /* Show bike list when toggled */
+}
+
+.map-container {
+  flex-grow: 1;
+  height: calc(100vh - 5rem); /* Adjusted map height */
+  transition: width 0.3s ease; /* Smooth width transition */
+  margin-bottom: 0;
+  position: relative;
+  z-index: 1; /* Ensure map is beneath the bike list */
+}
+
+.custom-user-icon {
+  color: red;
+  cursor: pointer;
+  font-size: 25px;
+}
+
+.custom-bike-icon {
+  color: black;
+  cursor: pointer; /* Cursor changes to pointer on hover */
+  font-size: 25px;
+}
+
+.bike-image {
+  width: 100%; /* Ensure the image takes full width */
+  height: auto;
+  margin-bottom: 10px; /* Space between image and other content */
+}
+
+.mapboxgl-ctrl-logo, 
+.mapboxgl-ctrl-attrib-inner {
+  display: none !important;
+}
+
+.history-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  padding: 10px 20px;
+  background-color: #f36c3d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+}
+
+.history-list {
+  position: fixed;
+  bottom: 80px;
+  right: 20px;
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  z-index: 999;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.history-list h3 {
+  margin: 0 0 10px 0;
+}
+
+.history-list ul {
+  list-style: none;
+  padding: 0;
+}
+
+.history-list ul li {
+  margin-bottom: 8px;
+}
