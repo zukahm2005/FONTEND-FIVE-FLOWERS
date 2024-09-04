@@ -35,6 +35,7 @@ function DistanceTracker() {
     trackingRef.current = tracking;  // Update the ref whenever tracking state changes
   }, [tracking]);
 
+  //Mô Phỏng Chuyển Động
   useEffect(() => {
     if (isSimulating) {
       // Bắt đầu mô phỏng
@@ -56,47 +57,59 @@ function DistanceTracker() {
     };
   }, [isSimulating]);
   
-
   useEffect(() => {
+    // Khởi tạo bản đồ
     const map = new mapboxgl.Map({
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v11',
       center: [105.83416, 21.027764],
       zoom: 17,
     });
-
+  
     mapRef.current = map;
-
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          const lat = position.coords.latitude;
-          const lon = position.coords.longitude;
-          setInitialPosition([lat, lon]);
-
-          map.flyTo({
-            center: [lon, lat],
-            zoom: 17,
-          });
-
-          const fixedMarker = new mapboxgl.Marker({ color: 'blue' })
-            .setLngLat([lon, lat])
-            .addTo(map);
-
-          fixedMarker.current = fixedMarker;
-        },
-        (error) => console.error('Error retrieving initial position:', error),
-        {
-          enableHighAccuracy: true,
-          timeout: 5000,
-          maximumAge: 0,
-        }
-      );
-    } else {
-      alert("This browser does not support Geolocation.");
-    }
+  
+    // Đợi bản đồ tải xong
+    map.on('load', () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            setInitialPosition([lat, lon]);
+  
+            map.flyTo({
+              center: [lon, lat],
+              zoom: 17,
+            });
+  
+            // Thêm đánh dấu vào vị trí hiện tại
+            const fixedMarker = new mapboxgl.Marker({ color: 'blue' })
+              .setLngLat([lon, lat])
+              .addTo(map);
+  
+            fixedMarker.current = fixedMarker;
+          },
+          (error) => console.error('Error retrieving initial position:', error),
+          {
+            enableHighAccuracy: true,
+            timeout: 5000,
+            maximumAge: 0,
+          }
+        );
+      } else {
+        alert("This browser does not support Geolocation.");
+      }
+    });
+  
+    // Dọn dẹp bản đồ khi component unmount
+    return () => {
+      if (mapRef.current) {
+        mapRef.current.remove();
+      }
+    };
   }, []);
 
+  // Theo Dõi Vị Trí
   useEffect(() => {
     if (tracking && initialPosition) {
       watchIdRef.current = navigator.geolocation.watchPosition(trackPosition, handleError, {
@@ -297,18 +310,37 @@ const getRandomDestination = (startLat, startLon, range = 0.01) => {
   return [destinationLat, destinationLon];
 };
 
-const elementRef = useRef();
 
-const takeScreenshot = () => {
-  const element = elementRef.current;
-  html2canvas(element).then((canvas) => {
-    const base64image = canvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.href = base64image;
-    link.download = 'screenshot.png';
-    link.click();
-  });
+
+const takeMapScreenshot = () => {
+  if (!initialPosition || !destination) {
+    console.error("Position or destination is missing");
+    return;
+  }
+
+  const [startLat, startLon] = initialPosition;
+  const [destLat, destLon] = destination;
+  const zoom = 15;  // Điều chỉnh mức zoom để bao gồm toàn bộ đường chỉ dẫn
+  const width = 1000;  // Kích thước ảnh chụp màn hình
+  const height = 1000;
+  const pathColor = '0000ff';  // Màu của đường chỉ dẫn
+  const pathWidth = 5;  // Độ rộng của đường chỉ dẫn
+
+  // Tạo URL cho ảnh bản đồ tĩnh với đường chỉ dẫn
+  const mapboxImageUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/pin-l-s+000(${startLon},${startLat}),pin-l-d+ff0000(${destLon},${destLat})/${startLon},${startLat},${zoom}/${width}x${height}?path=${pathWidth}+${pathColor}-1(${startLon},${startLat};${destLon},${destLat})&access_token=${mapboxgl.accessToken}`;
+
+  console.log(mapboxImageUrl);  // Log URL để kiểm tra
+
+  // Tạo liên kết để tải xuống ảnh
+  const link = document.createElement('a');
+  link.href = mapboxImageUrl;
+  link.download = 'map-screenshot.png';
+  link.click();  // Tự động kích hoạt tải xuống
 };
+
+
+
+
 
 const handleStart = async () => {
   if (!tracking) {
@@ -414,75 +446,88 @@ const handleStart = async () => {
 };
 
   
-  const handleStop = () => {
-    setTracking(false);
-    setIsSimulating(false);
+ const handleStop = () => {
+  setTracking(false);
+  setIsSimulating(false);
 
-    if (simulationInterval) {
-      clearInterval(simulationInterval);
-      simulationInterval = null;
-    }
+  if (simulationInterval) {
+    clearInterval(simulationInterval);
+    simulationInterval = null;
+  }
 
-    setPositions((prevPositions) => {
-      if (prevPositions.length > 0) {
-        const lastPosition = prevPositions[prevPositions.length - 1];
+  setPositions((prevPositions) => {
+    if (prevPositions.length > 0) {
+      const lastPosition = prevPositions[prevPositions.length - 1];
 
-        if (mapRef.current && markerRef.current) {
-          markerRef.current.setLngLat(lastPosition);
-        }
-
-        if (isSimulating) {
-          const newDistance = calculateDistance(
-            prevPositions[prevPositions.length - 2],
-            lastPosition
-          );
-          setTotalDistance((prevTotal) => prevTotal + newDistance);
-        }
-
-        return prevPositions;
+      if (mapRef.current && markerRef.current) {
+        markerRef.current.setLngLat(lastPosition);
       }
+
+      if (isSimulating && prevPositions.length > 1) {
+        const newDistance = calculateDistance(
+          prevPositions[prevPositions.length - 2],
+          lastPosition
+        );
+        setTotalDistance((prevTotal) => prevTotal + newDistance);
+      }
+
       return prevPositions;
-    });
+    }
+    return prevPositions;
+  });
 
-    const km = totalDistance.toFixed(2)
-    const time =  (elapsedTime / 10000).toFixed(2);
-
-    const token = localStorage.getItem("token");
-
-    const user = JSON.parse(atob(token.split('.')[1]));
-    const userId = user.userId;
-
-    const postData = {
-      userInfo: {
-        id: userId
-      },
-      weight: 55,
-      distance: km,
-      time: time
-    };
-
+  // Update destination to the last position
+  if (positions.length > 0) {
+    // Lấy tọa độ cuối cùng
+    const lastPosition = positions[positions.length - 1];
+    
+    // Đổi chỗ các tham số tọa độ
+    const swappedPosition = [lastPosition[1], lastPosition[0]];
   
+    // Cập nhật destination với tọa độ đã đổi chỗ
+    setDestination(swappedPosition);
+    console.log('Swapped Position:', swappedPosition);
+  }
+  
+  const km = totalDistance.toFixed(2);
+  const time = (elapsedTime / 10000).toFixed(2);
 
-axios.post('http://localhost:8080/api/v1/calorie-consumption', postData,
-  {
+  const token = localStorage.getItem("token");
+
+  const user = JSON.parse(atob(token.split('.')[1]));
+  const userId = user.userId;
+
+  const postData = {
+    userInfo: {
+      id: userId
+    },
+    weight: 55,
+    distance: km,
+    time: time
+  };
+
+  axios.post('http://localhost:8080/api/v1/calorie-consumption', postData, {
     headers: {
       'Authorization': `Bearer ${token}`
     }
-  }
-)
+  })
   .then(response => {
     console.log('POST Response:', response.data);
   })
-  };
+  .catch(error => {
+    console.error('POST Error:', error);
+  });
+};
+
 
 
   return (
-    <div ref={elementRef}>
+    <div>
       <div id="map" style={{ width: '100%', height: '700px' }} />
       <div style={{ marginTop: '20px' }}>
         <button onClick={handleStart} disabled={tracking}>Start</button>
         <button onClick={handleStop} disabled={!tracking}>Stop</button>
-        <button onClick={takeScreenshot}>Chụp màn hình</button>
+        <button onClick={takeMapScreenshot}>Chụp màn hình</button>
        </div>
       <div style={{ marginTop: '20px' }}>
         <p>Total Distance: {totalDistance.toFixed(2)} km</p>
