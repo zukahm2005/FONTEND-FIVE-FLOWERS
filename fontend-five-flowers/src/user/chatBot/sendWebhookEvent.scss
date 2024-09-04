@@ -93,7 +93,7 @@
   background-color: #007bff;
   color: white;
   border-radius: 18px 18px 0px 18px;
-  max-width: 14rem;
+  max-width: 15rem;
 }
 
 .chat-message.bot {
@@ -101,7 +101,7 @@
   background-color: #343a40;
   color: white;
   border-radius: 18px 18px 18px 0px;
-  max-width: 14rem;
+  max-width: 15rem;
 }
 
 .message-content {
@@ -109,7 +109,7 @@
   margin-bottom: 2.5px; /* Giảm khoảng cách dưới */
   text-align: left;
   color: #fff; /* Đặt màu chữ thành màu trắng */
-  padding:0 0.2rem;;
+  padding:0 0 0 0.4rem;;
 }
 
 .message-time {

@@ -17,7 +17,7 @@ const Chatbot = ({ onClose }) => {
       : [
           {
             role: "bot",
-            content: "Xin chào! Tôi có thể giúp gì cho bạn hôm nay? Bạn muốn tư vấn gì về xe đạp?",
+            content: "Hello! How can i help you about cycle today?",
             time: new Date().toLocaleTimeString(),
           },
         ];
