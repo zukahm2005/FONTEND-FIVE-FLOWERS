@@ -33,7 +33,7 @@
       position: absolute;
       max-width: 35%;
       @media(min-width:1450px){
-        max-width: 40%;
+        max-width: 36%;
         right: 5%;
       }
       .name-swiper-details {
@@ -117,6 +117,10 @@
       right: 10%;
       max-width: 35%;
       padding: 10px;
+      max-width: 36%;
+      .name-swiper-details{
+        height: 8rem;
+      }
       .name-swiper-details p {
         font-size: 3rem;
       }

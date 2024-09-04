@@ -199,9 +199,9 @@ const Chatbot = ({ onClose }) => {
             <IoMdSend />
           </p>
         </button>
-        <button onClick={() => sendMessage("learn")} className="learn-button">
+        {/* <button onClick={() => sendMessage("learn")} className="learn-button">
           Learn Text
-        </button>
+        </button> */}
       </div>
     </div>
   );
