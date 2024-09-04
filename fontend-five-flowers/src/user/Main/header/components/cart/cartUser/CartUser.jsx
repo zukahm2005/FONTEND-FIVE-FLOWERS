@@ -22,6 +22,15 @@ const CartUser = () => {
   const [statusFilter, setStatusFilter] = useState("");
   const [dateRange, setDateRange] = useState([]);
   const [sortOrder, setSortOrder] = useState("status");
+  const [orderCountsByStatus, setOrderCountsByStatus] = useState({});
+
+  const calculateOrderCountsByStatus = (ordersList) => {
+    const counts = ordersList.reduce((acc, order) => {
+      acc[order.status] = (acc[order.status] || 0) + 1;
+      return acc;
+    }, {});
+    setOrderCountsByStatus(counts);
+  };
 
   const fetchUserOrders = async () => {
     if (!isLoggedIn) return;
@@ -38,6 +47,7 @@ const CartUser = () => {
         }
       );
       setOrders(response.data);
+      calculateOrderCountsByStatus(response.data);
       applyFiltersAndSort(response.data, sortOrder, dateRange, statusFilter);
     } catch (error) {
       console.error("Error fetching user orders:", error);
@@ -55,9 +65,8 @@ const CartUser = () => {
 
   const handleDateRangeChange = (dates) => {
     if (dates && dates.length === 2) {
-      const start = dates[0].toDate(); // Chuyển đổi đối tượng Day.js thành Date
-      const end = dates[1].toDate(); // Chuyển đổi đối tượng Day.js thành Date
-      console.log("Selected Date Range: ", start, end);
+      const start = dates[0].toDate();
+      const end = dates[1].toDate();
       setDateRange([start, end]);
       applyFiltersAndSort(orders, sortOrder, [start, end], statusFilter);
     } else {
@@ -87,37 +96,50 @@ const CartUser = () => {
 
     if (dateRange && dateRange.length === 2) {
       const [start, end] = dateRange;
-      const startDate = dayjs(start).startOf('day').tz('Asia/Ho_Chi_Minh', true);
-      const endDate = dayjs(end).endOf('day').tz('Asia/Ho_Chi_Minh', true);
-      console.log("Filtering from:", startDate.toISOString(), "to:", endDate.toISOString());
+      const startDate = dayjs(start).startOf("day").tz("Asia/Ho_Chi_Minh", true);
+      const endDate = dayjs(end).endOf("day").tz("Asia/Ho_Chi_Minh", true);
       filteredOrders = filteredOrders.filter((order) => {
         const orderDateArray = order.createdAt;
         const orderDate = dayjs.utc(
-          new Date(Date.UTC(orderDateArray[0], orderDateArray[1] - 1, orderDateArray[2], orderDateArray[3], orderDateArray[4], orderDateArray[5]))
-        ).tz('Asia/Ho_Chi_Minh', true);
-        console.log("Order date:", orderDate.toISOString());
+          new Date(
+            Date.UTC(
+              orderDateArray[0],
+              orderDateArray[1] - 1,
+              orderDateArray[2],
+              orderDateArray[3],
+              orderDateArray[4],
+              orderDateArray[5]
+            )
+          )
+        ).tz("Asia/Ho_Chi_Minh", true);
         return orderDate.isAfter(startDate) && orderDate.isBefore(endDate);
       });
     }
 
     if (statusFilter) {
-      filteredOrders = filteredOrders.filter(
-        (order) => order.status === statusFilter
-      );
+      filteredOrders = filteredOrders.filter((order) => order.status === statusFilter);
     }
 
     switch (sortOrder) {
       case "newest":
         filteredOrders.sort((a, b) => {
-          const dateA = dayjs.utc(new Date(Date.UTC(...a.createdAt))).tz('Asia/Ho_Chi_Minh', true);
-          const dateB = dayjs.utc(new Date(Date.UTC(...b.createdAt))).tz('Asia/Ho_Chi_Minh', true);
+          const dateA = dayjs
+            .utc(new Date(Date.UTC(...a.createdAt)))
+            .tz("Asia/Ho_Chi_Minh", true);
+          const dateB = dayjs
+            .utc(new Date(Date.UTC(...b.createdAt)))
+            .tz("Asia/Ho_Chi_Minh", true);
           return dateB - dateA;
         });
         break;
       case "oldest":
         filteredOrders.sort((a, b) => {
-          const dateA = dayjs.utc(new Date(Date.UTC(...a.createdAt))).tz('Asia/Ho_Chi_Minh', true);
-          const dateB = dayjs.utc(new Date(Date.UTC(...b.createdAt))).tz('Asia/Ho_Chi_Minh', true);
+          const dateA = dayjs
+            .utc(new Date(Date.UTC(...a.createdAt)))
+            .tz("Asia/Ho_Chi_Minh", true);
+          const dateB = dayjs
+            .utc(new Date(Date.UTC(...b.createdAt)))
+            .tz("Asia/Ho_Chi_Minh", true);
           return dateA - dateB;
         });
         break;
@@ -139,16 +161,16 @@ const CartUser = () => {
 
   const formatDate = (dateArray) => {
     if (!Array.isArray(dateArray) || dateArray.length !== 6) {
-      return "N/A"; // Default value when data is invalid
+      return "N/A"; 
     }
     const [year, month, day, hours, minutes, seconds] = dateArray;
-    const date = dayjs.utc(
-      new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds))
-    ).tz('Asia/Ho_Chi_Minh', true);
+    const date = dayjs
+      .utc(new Date(Date.UTC(year, month - 1, day, hours, minutes, seconds)))
+      .tz("Asia/Ho_Chi_Minh", true);
     if (!date.isValid()) {
-      return "N/A"; // Default value when data is invalid
+      return "N/A"; 
     }
-    return date.format('YYYY-MM-DD HH:mm:ss');
+    return date.format("YYYY-MM-DD HH:mm:ss");
   };
 
   const columns = [
@@ -162,7 +184,7 @@ const CartUser = () => {
       title: "Total",
       dataIndex: "price",
       key: "price",
-      render: (price) => `$${price}`, // Không cộng phí vận chuyển ở đây
+      render: (price) => `$${price}`,
     },
     {
       title: "Address",
@@ -233,6 +255,23 @@ const CartUser = () => {
         <div className="filters-cart-user">
           <Select
             style={{ width: 140 }}
+            onChange={handleStatusFilterChange}
+            defaultValue=""
+            placeholder="Filter by Status"
+          >
+            <Option value="">All</Option>
+            <Option value="Pending">Pending ({orderCountsByStatus.Pending || 0})</Option>
+            <Option value="Paid">Paid ({orderCountsByStatus.Paid || 0})</Option>
+            <Option value="Packaging">Packaging ({orderCountsByStatus.Packaging || 0})</Option>
+            <Option value="Shipping">Shipping ({orderCountsByStatus.Shipping || 0})</Option>
+            <Option value="Delivered">Delivered ({orderCountsByStatus.Delivered || 0})</Option>
+            <Option value="Cancelled">Cancelled ({orderCountsByStatus.Cancelled || 0})</Option>
+            <Option value="Refunded">Refunded ({orderCountsByStatus.Refunded || 0})</Option>
+            <Option value="Returned">Returned ({orderCountsByStatus.Returned || 0})</Option>
+          </Select>
+
+          <Select
+            style={{ width: 140 }}
             onChange={handleSortOrderChange}
             defaultValue="status"
             placeholder="Sort by"
@@ -243,23 +282,8 @@ const CartUser = () => {
             <Option value="price-high">Price, high to low</Option>
             <Option value="status">Status</Option>
           </Select>
+
           <RangePicker onChange={handleDateRangeChange} />
-          <Select
-            style={{ width: 140 }}
-            onChange={handleStatusFilterChange}
-            defaultValue=""
-            placeholder="Filter by Status"
-          >
-            <Option value="">All</Option>
-            <Option value="Pending">Pending</Option>
-            <Option value="Paid">Paid</Option>
-            <Option value="Packaging">Packaging</Option>
-            <Option value="Shipping">Shipping</Option>
-            <Option value="Delivered">Delivered</Option>
-            <Option value="Cancelled">Cancelled</Option>
-            <Option value="Refunded">Refunded</Option>
-            <Option value="Returned">Returned</Option>
-          </Select>
         </div>
       </div>
 

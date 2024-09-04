@@ -2,9 +2,11 @@
   max-width: 80%;
   margin: 10rem auto;
   height: auto;
-  @media(max-width:1300px){
+
+  @media(max-width: 1300px) {
     max-width: 90%;
   }
+
   .cart-user-header-container {
     display: flex;
     justify-content: space-between;
@@ -18,10 +20,20 @@
     .filters-cart-user {
       display: flex;
       gap: 10px;
+      flex-wrap: wrap;
 
       .ant-select,
       .ant-picker {
         width: 140px;
+      }
+
+      .status-filter-buttons {
+        display: flex;
+        gap: 10px;
+
+        .ant-btn {
+          margin-right: 8px;
+        }
       }
     }
   }

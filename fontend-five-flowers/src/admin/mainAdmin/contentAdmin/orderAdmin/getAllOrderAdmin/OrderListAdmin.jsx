@@ -52,7 +52,7 @@ const StyledSelect = styled(Select)`
 const OrderListAdmin = () => {
   const [orders, setOrders] = useState([]);
   const [filteredOrders, setFilteredOrders] = useState([]);
-  const [sortOrder, setSortOrder] = useState("newest"); // Đặt giá trị mặc định là "newest"
+  const [sortOrder, setSortOrder] = useState("newest"); 
   const [pagination, setPagination] = useState({
     current: 1,
     pageSize: 10,
@@ -61,9 +61,19 @@ const OrderListAdmin = () => {
   const [dateRange, setDateRange] = useState([]);
   const [statusFilter, setStatusFilter] = useState("");
   const [searchTerm, setSearchTerm] = useState("");
-  const [isTodayFilter, setIsTodayFilter] = useState(false); // Add state for today filter
+  const [isTodayFilter, setIsTodayFilter] = useState(false); 
+  const [orderCountsByStatus, setOrderCountsByStatus] = useState({});
 
   const navigate = useNavigate();
+
+  // Hàm tính toán số lượng đơn hàng theo trạng thái
+  const calculateOrderCountsByStatus = (ordersList) => {
+    const counts = ordersList.reduce((acc, order) => {
+      acc[order.status] = (acc[order.status] || 0) + 1;
+      return acc;
+    }, {});
+    setOrderCountsByStatus(counts);
+  };
 
   const fetchOrders = async () => {
     try {
@@ -79,8 +89,8 @@ const OrderListAdmin = () => {
           },
         }
       );
-      console.log("Fetched orders:", response.data.content);
       setOrders(response.data.content);
+      calculateOrderCountsByStatus(response.data.content);  // Tính số lượng đơn hàng theo trạng thái
       setPagination({
         current: 1,
         pageSize: 10,
@@ -88,7 +98,7 @@ const OrderListAdmin = () => {
       });
       applyFiltersAndSort(
         response.data.content,
-        "newest", // Sử dụng giá trị "newest" để sắp xếp ngay khi tải trang
+        "newest",
         dateRange,
         statusFilter,
         searchTerm
@@ -113,9 +123,8 @@ const OrderListAdmin = () => {
 
   const handleDateRangeChange = (dates) => {
     if (dates && dates.length === 2) {
-      const start = dates[0].toDate(); // Chuyển đổi đối tượng Day.js thành Date
-      const end = dates[1].toDate(); // Chuyển đổi đối tượng Day.js thành Date
-      console.log("Selected Date Range: ", start, end);
+      const start = dates[0].toDate(); 
+      const end = dates[1].toDate();
       setDateRange([start, end]);
       applyFiltersAndSort(orders, sortOrder, [start, end], statusFilter);
     } else {
@@ -136,7 +145,7 @@ const OrderListAdmin = () => {
   };
 
   const handleTodayFilter = () => {
-    setIsTodayFilter((prev) => !prev); // Toggle the today filter state
+    setIsTodayFilter((prev) => !prev);
     if (!isTodayFilter) {
       const todayStart = dayjs().startOf("day").toDate();
       const todayEnd = dayjs().endOf("day").toDate();
@@ -202,7 +211,6 @@ const OrderListAdmin = () => {
       Returned: 8,
     };
 
-    // Sort based on status priority first, then other criteria
     filteredOrders.sort((a, b) => {
       const statusComparison = statusPriority[a.status] - statusPriority[b.status];
       if (statusComparison !== 0) {
@@ -231,7 +239,6 @@ const OrderListAdmin = () => {
       }
     });
 
-    console.log("Filtered and Sorted orders:", filteredOrders);
     setFilteredOrders(filteredOrders);
   };
 
@@ -446,7 +453,7 @@ const OrderListAdmin = () => {
             <Select
               style={{ width: 120 }}
               onChange={handleSortChange}
-              defaultValue="newest" // Đặt giá trị mặc định ở đây
+              defaultValue="newest" 
               placeholder="Sort by"
               size="small"
             >
@@ -465,21 +472,21 @@ const OrderListAdmin = () => {
               size="small"
             />
             <Select
-              style={{ width: 100 }}
+              style={{ width: 120 }}
               onChange={handleStatusFilterChange}
               defaultValue=""
               placeholder="Filter by Status"
               size="small"
             >
               <Option value="">All</Option>
-              <Option value="Pending">Pending</Option>
-              <Option value="Paid">Paid</Option>
-              <Option value="Packaging">Packaging</Option>
-              <Option value="Shipping">Shipping</Option>
-              <Option value="Delivered">Delivered</Option>
-              <Option value="Returned">Returned</Option>
-              <Option value="Cancelled">Cancelled</Option>
-              <Option value="Refunded">Refunded</Option>
+              <Option value="Pending">Pending ({orderCountsByStatus.Pending || 0})</Option>
+              <Option value="Paid">Paid ({orderCountsByStatus.Paid || 0})</Option>
+              <Option value="Packaging">Packaging ({orderCountsByStatus.Packaging || 0})</Option>
+              <Option value="Shipping">Shipping ({orderCountsByStatus.Shipping || 0})</Option>
+              <Option value="Delivered">Delivered ({orderCountsByStatus.Delivered || 0})</Option>
+              <Option value="Cancelled">Cancelled ({orderCountsByStatus.Cancelled || 0})</Option>
+              <Option value="Refunded">Refunded ({orderCountsByStatus.Refunded || 0})</Option>
+              <Option value="Returned">Returned ({orderCountsByStatus.Returned || 0})</Option>
             </Select>
             <Input
               placeholder="Search something"
