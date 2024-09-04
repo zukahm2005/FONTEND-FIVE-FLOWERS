@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import {
   Chart as ChartJS,
@@ -29,11 +29,13 @@ ChartJS.register(
   TimeScale
 );
 
+
 const CalorieChart = () => {
   const [chartData, setChartData] = useState({});
   const [chartTime, setChartTime] = useState({});
   const [todayDistance, setTodayDistance] = useState(0);
   const [error, setError] = useState(null);
+
 
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -136,7 +138,7 @@ const CalorieChart = () => {
   }
 
   return (
-    <div className='caloChar'>
+    <div className='caloChar' >
       <DistanceTracker />
       <div style={{ margin: '20px 0', textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>
         Total Distance Traveled Today: {todayDistance} Km

@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxDirections from '@mapbox/mapbox-sdk/services/directions';
-import axios, { Axios } from 'axios';
+import axios from 'axios';
+import html2canvas from 'html2canvas';
+
 
 mapboxgl.accessToken = 'pk.eyJ1IjoienVrYWhtMms1IiwiYSI6ImNtMGNvb2wwZzAwdTcybHM2ODFpZ3p3Z3MifQ.UPYPfCuIQeqUWDyt1SspVQ';
 
@@ -295,6 +297,19 @@ const getRandomDestination = (startLat, startLon, range = 0.01) => {
   return [destinationLat, destinationLon];
 };
 
+const elementRef = useRef();
+
+const takeScreenshot = () => {
+  const element = elementRef.current;
+  html2canvas(element).then((canvas) => {
+    const base64image = canvas.toDataURL('image/png');
+    const link = document.createElement('a');
+    link.href = base64image;
+    link.download = 'screenshot.png';
+    link.click();
+  });
+};
+
 const handleStart = async () => {
   if (!tracking) {
     setTracking(true);
@@ -461,84 +476,14 @@ axios.post('http://localhost:8080/api/v1/calorie-consumption', postData,
   };
 
 
-
-  const resetMap = () => {
-    setTracking(false);
-    setIsSimulating(false);
-  
-    // Reset all states to initial values
-    setTotalDistance(0);
-    setElapsedTime(0);
-    setPositions([]);
-    setDestination(null);
-    setEstimatedTime(null);
-    setDistanceToDestination(null);
-    setInitialPosition(null);
-  
-    if (mapRef.current) {
-      // Remove old layers and sources
-      ['start-point-icon', 'route', 'track'].forEach((layer) => {
-        if (mapRef.current.getLayer(layer)) {
-          mapRef.current.removeLayer(layer);
-        }
-        if (mapRef.current.getSource(layer)) {
-          mapRef.current.removeSource(layer);
-        }
-      });
-  
-      // Remove existing marker
-      if (markerRef.current) {
-        markerRef.current.remove();
-        markerRef.current = null;
-      }
-  
-      // Re-center the map at the user's current position
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            const lat = position.coords.latitude;
-            const lon = position.coords.longitude;
-  
-            // Reset initial position with current coordinates
-            setInitialPosition([lat, lon]);
-  
-            mapRef.current.flyTo({
-              center: [lon, lat],
-              zoom: 17,
-            });
-  
-            // Add a new marker at the user's current location
-            const newMarker = new mapboxgl.Marker({ color: 'blue' })
-              .setLngLat([lon, lat])
-              .addTo(mapRef.current);
-            markerRef.current = newMarker;
-          },
-          (error) => {
-            console.error('Error getting current location:', error);
-            alert('Could not retrieve your location. Please try again.');
-          },
-          {
-            enableHighAccuracy: true,
-            timeout: 5000,
-            maximumAge: 0,
-          }
-        );
-      } else {
-        alert('Your browser does not support geolocation.');
-      }
-    }
-    window.location.reload();
-  };
-  
-
   return (
-    <div>
+    <div ref={elementRef}>
       <div id="map" style={{ width: '100%', height: '700px' }} />
       <div style={{ marginTop: '20px' }}>
         <button onClick={handleStart} disabled={tracking}>Start</button>
         <button onClick={handleStop} disabled={!tracking}>Stop</button>
-        <button onClick={resetMap}>Reset</button>
-      </div>
+        <button onClick={takeScreenshot}>Chụp màn hình</button>
+       </div>
       <div style={{ marginTop: '20px' }}>
         <p>Total Distance: {totalDistance.toFixed(2)} km</p>
         <p>Elapsed Time: {(elapsedTime / 10000).toFixed(2)} minutes</p>
