@@ -32,14 +32,26 @@
       right: 10%;
       position: absolute;
       max-width: 35%;
-
+      @media(min-width:1450px){
+        max-width: 40%;
+        right: 5%;
+      }
       .name-swiper-details {
         height: 10rem;
+        @media(min-width:1450px){
+          height: 12rem;
+        }
         p {
           font-size: 4rem;
           color: #f97c37;
           font-weight: 700;
+          
+          @media(min-width:1450px){
+            font-size: 4.7rem;
+
+          }
         }
+
       }
 
       .desc-swiper-details {
@@ -47,6 +59,11 @@
         p {
           font-size: 15px;
           color: gray;
+
+          @media(min-width:1450px){
+            font-size: 20px;
+
+          }
         }
       }
 
@@ -98,10 +115,10 @@
     .main-swiper .swiper-details {
       top: 5%;
       right: 10%;
-      max-width: 40%;
-      padding: 15px;
+      max-width: 35%;
+      padding: 10px;
       .name-swiper-details p {
-        font-size: 3.5rem;
+        font-size: 3rem;
       }
       .desc-swiper-details p {
         font-size: 13px;
@@ -114,17 +131,41 @@
     }
   }
 
-  @media (max-width: 980px) {
+  @media (max-width: 1000px) {
     .main-swiper .swiper-details {
       top: 5%;
       right: 5%;
       max-width: 40%;
-      padding: 15px;
+      padding: 10px;
+      height: 12rem;
       .name-swiper-details p {
         font-size: 3rem;
+        padding-bottom: 1rem;
       }
       .desc-swiper-details p {
-        font-size: 14px;
+        font-size: 15px;
+      }
+      .button-swiper-details .button-swiper {
+        padding: 10px 25px;
+        p {
+          font-size: 14px;
+        }
+      }
+    }
+  }
+  @media (max-width: 924px) {
+    .main-swiper .swiper-details {
+      top: 5%;
+      right: 5%;
+      max-width: 40%;
+      padding: 10px;
+      height: 12rem;
+      .name-swiper-details p {
+        font-size: 3rem;
+        padding-bottom: 1rem;
+      }
+      .desc-swiper-details p {
+        font-size: 15px;
       }
       .button-swiper-details .button-swiper {
         padding: 10px 25px;
@@ -138,8 +179,7 @@
   @media (max-width: 900px) {
     .main-swiper {
       .image-swiper {
-        filter: blur(3px); /* Blur the image */
-        z-index: -1;
+        filter: blur(6px); /* Blur the image */
         img {
           width: 100%;
           height: auto;
@@ -156,22 +196,49 @@
 
         .name-swiper-details {
           width: 100%;
-          height: 5rem;
+          height: 6rem;
           p {
-            font-size: 3rem;
+            font-size: 3.5rem;
             height: auto;
           }
         }
         .desc-swiper-details {
           width: 100%;
           p {
-            font-size: 15px;
+            font-size: 17px;
             color: #252525;
           }
         }
         .button-swiper-details .button-swiper {
-          padding: 8px 20px;
+          padding: 13px 24px;
         }
+      }
+    }
+    .swiper {
+      max-width: 50%;
+      left: 25%;
+      .swiper-slide img {
+      }
+      .swiper-slide .underline {
+        display: block; /* Ensure underline is visible */
+      }
+    }
+  }
+  @media (max-width: 666px) {
+    .main-swiper .swiper-details {
+      top: 5%;
+      left: 5%;
+      max-width: 90%;
+      padding: 10px;
+      margin: 0 auto;
+      .name-swiper-details p {
+        font-size: 2.5rem;
+      }
+      .desc-swiper-details p {
+        font-size: 15px;
+      }
+      .button-swiper-details .button-swiper {
+        padding: 10px 22px;
       }
     }
     .swiper {
@@ -186,7 +253,6 @@
       }
     }
   }
-
   @media (max-width: 600px) {
     .main-swiper .swiper-details {
       top: 5%;
