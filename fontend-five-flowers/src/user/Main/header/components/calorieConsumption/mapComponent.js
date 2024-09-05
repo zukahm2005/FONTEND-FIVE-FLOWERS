@@ -3,15 +3,17 @@ import mapboxgl from 'mapbox-gl';
 import MapboxDirections from '@mapbox/mapbox-sdk/services/directions';
 import axios from 'axios';
 import polyline from '@mapbox/polyline';
+import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from 'react-share';
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoienVrYWhtMms1IiwiYSI6ImNtMGNvb2wwZzAwdTcybHM2ODFpZ3p3Z3MifQ.UPYPfCuIQeqUWDyt1SspVQ';
 
-const fixedLat = 21.0487471;  // Vĩ độ cố định (Hà Nội)
-const fixedLon = 105.7330973;  // Kinh độ cố định (Hà Nội)
+const fixedLat = 21.028511;  // Vĩ độ cố định (Hà Nội)
+const fixedLon = 105.782098;  // Kinh độ cố định (Hà Nội)
 
 
 function DistanceTracker() {
+  const [screenshotUrl, setScreenshotUrl] = useState(null);  // Ensure hooks like this are called inside components
   // State variables
   const [positions, setPositions] = useState([]);
   const [totalDistance, setTotalDistance] = useState(0);
@@ -145,7 +147,6 @@ function DistanceTracker() {
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
     const newPosition = [lon, lat];
-    console.log(lat, lon)
 
     setPositions((prevPositions) => {
 
@@ -200,7 +201,7 @@ function DistanceTracker() {
             },
             paint: {
               'line-color': 'blue',
-              'line-width': 3,
+              'line-width': 5,
             },
           });
         }
@@ -240,50 +241,55 @@ function DistanceTracker() {
   };
 
   
-    const simulateMovement = (route, duration) => {
-      setIsSimulating(true);
-
-      const routeCoordinates = route.coordinates;
-      const totalPoints = routeCoordinates.length;
-
-      let currentPointIndex = 0;
-      const startTime = Date.now();
-      const frameRate = 60;
-      const updateInterval = 1000 / frameRate;
-
-      const speedMultiplier = 3;
-      const adjustedDuration = duration / speedMultiplier;
-
-      simulationInterval = setInterval(() => {
-          const elapsedTime = Date.now() - startTime;
-          const progress = elapsedTime / adjustedDuration;
-
-          if (progress >= 1 || currentPointIndex >= totalPoints - 1) {
-              clearInterval(simulationInterval);
-              setIsSimulating(false);
-              return;
-          }
-
-          const start = routeCoordinates[currentPointIndex];
-          const end = routeCoordinates[currentPointIndex + 1];
-          const segmentProgress = progress * (totalPoints - 1) - currentPointIndex;
-
-          const currentLat = start[1] + (end[1] - start[1]) * segmentProgress;
-          const currentLon = start[0] + (end[0] - start[0]) * segmentProgress;
-
-          trackPosition({
-              coords: {
-                  latitude: currentLat,
-                  longitude: currentLon,
-              },
-          });
-
-          if (segmentProgress >= 1) {
-              currentPointIndex += 1;
-          }
-      }, updateInterval);
+  const simulateMovement = (route, duration) => {
+    setIsSimulating(true);
+  
+    const routeCoordinates = route.coordinates;  // Lấy danh sách các tọa độ trên tuyến đường
+    const totalPoints = routeCoordinates.length; // Tổng số điểm trên tuyến đường
+  
+    let currentPointIndex = 0; // Điểm bắt đầu từ chỉ số 0
+    const startTime = Date.now(); // Thời gian bắt đầu
+    const frameRate = 60; // Số lần cập nhật mỗi giây
+    const updateInterval = 1000 / frameRate; // Khoảng thời gian giữa các lần cập nhật
+  
+    const speedMultiplier = 3; // Hệ số tốc độ di chuyển
+    const adjustedDuration = duration / speedMultiplier; // Điều chỉnh thời gian di chuyển
+  
+    simulationInterval = setInterval(() => {
+      const elapsedTime = Date.now() - startTime; // Tính thời gian đã trôi qua
+      const progress = elapsedTime / adjustedDuration; // Tiến trình di chuyển theo thời gian
+  
+      // Dừng mô phỏng nếu hoàn thành tuyến đường hoặc đã đi hết thời gian
+      if (progress >= 1 || currentPointIndex >= totalPoints - 1) {
+        clearInterval(simulationInterval);
+        setIsSimulating(false);
+        return;
+      }
+  
+      // Tính toán vị trí hiện tại giữa hai điểm của tuyến đường
+      const start = routeCoordinates[currentPointIndex];
+      const end = routeCoordinates[currentPointIndex + 1];
+      const segmentProgress = progress * (totalPoints - 1) - currentPointIndex;
+  
+      const currentLat = start[1] + (end[1] - start[1]) * segmentProgress;
+      const currentLon = start[0] + (end[0] - start[0]) * segmentProgress;
+  
+      // Gọi hàm trackPosition để cập nhật vị trí trên bản đồ
+      trackPosition({
+        coords: {
+          latitude: currentLat,
+          longitude: currentLon,
+        },
+      });
+  
+      // Tăng chỉ số khi hoàn thành di chuyển đến điểm tiếp theo
+      if (segmentProgress >= 1) {
+        currentPointIndex += 1;
+      }
+    }, updateInterval);
   };
-
+  
+  
 
   const deg2rad = (deg) => {
     return deg * (Math.PI / 180);
@@ -314,7 +320,7 @@ const takeMapScreenshot = async () => {
 
   const [startLat, startLon] = initialPosition;
   const [destLat, destLon] = destination;
-  const width = 700;  // Kích thước ảnh chụp màn hình (rộng)
+  const width = 900;  // Kích thước ảnh chụp màn hình (rộng)
   const height = 700;  // Kích thước ảnh chụp màn hình (cao)
   const pathColor = '0000FF';  // Màu của đường chỉ dẫn (giống với mã mẫu)
   const pathWidth = 7;  // Độ rộng của đường chỉ dẫn
@@ -339,14 +345,13 @@ const takeMapScreenshot = async () => {
     // Tạo URL cho ảnh bản đồ tĩnh với đường chỉ dẫn
     const mapboxImageUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/pin-m-a+0000FF(${startLon},${startLat}),pin-m-b+FF0000(${destLon},${destLat}),path-${pathWidth}+${pathColor}-0.5(${encodedPath})/auto/${width}x${height}?access_token=${mapboxgl.accessToken}`;
 
-    console.log(mapboxImageUrl);  // Log URL để kiểm tra
+    setScreenshotUrl(mapboxImageUrl);  // Log URL để kiểm tra
 
     // Tạo liên kết để tải xuống ảnh
     const link = document.createElement('a');
     link.href = mapboxImageUrl;
     link.download = 'map-screenshot.png';
     document.body.appendChild(link); // Thêm link vào body
-    link.click();  // Kích hoạt tải xuống
     document.body.removeChild(link);  // Loại bỏ link sau khi tải xuống
 
   } catch (error) {
@@ -362,11 +367,11 @@ const handleStart = async () => {
   }
 
   if (initialPosition) {
-    const startLat = fixedLat;  // Tọa độ cố định cho vị trí bắt đầu
-    const startLon = fixedLon;  // Tọa độ cố định cho vị trí bắt đầu
+    const startLat = fixedLat;  // Tọa độ bắt đầu cố định
+    const startLon = fixedLon;  // Tọa độ bắt đầu cố định
 
     if (mapRef.current) {
-      // Di chuyển đến vị trí bắt đầu cố định
+      // Di chuyển bản đồ đến vị trí bắt đầu cố định
       mapRef.current.flyTo({
         center: [startLon, startLat],
         essential: true,
@@ -381,7 +386,7 @@ const handleStart = async () => {
         mapRef.current.removeSource('start-point');
       }
 
-      // Thêm điểm bắt đầu cố định
+      // Thêm điểm bắt đầu
       mapRef.current.addSource('start-point', {
         type: 'geojson',
         data: {
@@ -412,8 +417,9 @@ const handleStart = async () => {
       // Tạo điểm đến ngẫu nhiên
       const [destinationLat, destinationLon] = getRandomDestination(startLat, startLon);
 
+      // Lấy tuyến đường từ Mapbox Directions API
       const directions = await directionsService.getDirections({
-        profile: 'cycling',
+        profile: 'driving',
         waypoints: [
           { coordinates: [startLon, startLat] },
           { coordinates: [destinationLon, destinationLat] }
@@ -423,7 +429,7 @@ const handleStart = async () => {
 
       const route = directions.body.routes[0].geometry;
 
-      // Xóa lớp và nguồn 'route' nếu đã tồn tại
+      // Thêm tuyến đường lên bản đồ
       if (mapRef.current.getSource('route')) {
         mapRef.current.getSource('route').setData(route);
       } else {
@@ -439,26 +445,21 @@ const handleStart = async () => {
             'line-cap': 'round'
           },
           paint: {
-            'line-color': 'none',  // Màu của tuyến đường
+            'line-color': 'none',  // Màu tuyến đường
             'line-width': 5
           }
         });
       }
 
-      // Đặt trạng thái ban đầu
-      setPositions([[startLat, startLon]]);  // Đặt tọa độ bắt đầu cố định
-      setTotalDistance(0);
-      setElapsedTime(0);
-
-      // Tính khoảng cách đến điểm đến
+      // Tính toán khoảng cách và thời gian di chuyển
       const distanceToDest = calculateDistance([startLon, startLat], [destinationLon, destinationLat]);
       setDistanceToDestination(distanceToDest);
 
-      const speed = 5;  // Tốc độ di chuyển giả lập
+      const speed = 4;  // Tốc độ di chuyển giả lập
       const timeToDestination = (distanceToDest / speed) * 3600000;  // Tính thời gian đến đích
       setEstimatedTime(timeToDestination);
 
-      // Gọi hàm simulateMovement để bắt đầu mô phỏng di chuyển
+      // Bắt đầu mô phỏng di chuyển
       simulateMovement(route, timeToDestination);
     }
   }
@@ -589,10 +590,31 @@ const handleStop = async () => {
         <button onClick={handleStart} disabled={tracking}>Start</button>
         <button onClick={handleStop} disabled={!tracking}>Stop</button>
         <button onClick={takeMapScreenshot}>Chụp màn hình</button>
+        {screenshotUrl && (
+        <div style={{ marginTop: '20px', border: '1px solid #ccc', padding: '10px' }}>
+          <h3>Ảnh chụp màn hình</h3>
+          <img src={screenshotUrl} alt="Screenshot" style={{ width: '100%', maxWidth: '700px' }} />
+
+          <div style={{ marginTop: '10px' }}>
+            <h4>Chia sẻ ảnh này:</h4>
+            <FacebookShareButton url={screenshotUrl}>
+              <button>Chia sẻ trên Facebook</button>
+            </FacebookShareButton>
+
+            <TwitterShareButton url={screenshotUrl}>
+              <button>Chia sẻ trên Twitter</button>
+            </TwitterShareButton>
+
+            <WhatsappShareButton url={screenshotUrl}>
+              <button>Chia sẻ qua WhatsApp</button>
+            </WhatsappShareButton>
+          </div>
+        </div>
+      )}
        </div>
       <div style={{ marginTop: '20px' }}>
         <p>Total Distance: {totalDistance.toFixed(2)} km</p>
-        <p>Elapsed Time: {(elapsedTime / 10000).toFixed(2)} minutes</p>
+        <p>Elapsed Time: {(elapsedTime / 9000).toFixed(2)} minutes</p>
       </div>
       
     </div>
