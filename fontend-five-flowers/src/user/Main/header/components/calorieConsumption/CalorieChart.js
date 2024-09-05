@@ -140,9 +140,6 @@ const CalorieChart = () => {
   return (
     <div className='caloChar' >
       <DistanceTracker />
-      <div style={{ margin: '20px 0', textAlign: 'center', fontSize: '20px', fontWeight: 'bold' }}>
-        Total Distance Traveled Today: {todayDistance} Km
-      </div>
       {Object.keys(chartData).length > 0 ? (
         <>
           <Line data={chartData} />

@@ -10,6 +10,7 @@
     "@emotion/styled": "^11.13.0",
     "@mapbox/mapbox-gl-directions": "^4.3.1",
     "@mapbox/mapbox-sdk": "^0.16.0",
+    "@mapbox/polyline": "^1.2.1",
     "@mui/icons-material": "^6.0.1",
     "@mui/material": "^6.0.2",
     "@paypal/react-paypal-js": "^8.5.0",
