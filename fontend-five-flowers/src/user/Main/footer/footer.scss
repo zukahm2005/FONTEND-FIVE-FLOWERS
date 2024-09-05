@@ -1,6 +1,6 @@
 .footer {
   background-color: #f5e1dc;
-  padding: 25px 10px; 
+  padding: 10px 10px;
   text-align: center;
 
   .footer-content {
@@ -8,36 +8,35 @@
     margin: 0 auto;
 
     .logo img {
-      max-width: 300px; 
-      margin-bottom: 50px;
+      max-width: 12rem;
     }
 
     .subscribe-title {
-      font-size: 28px; 
-      margin-bottom: 30px; 
+      font-size: 28px;
+      margin-bottom: 30px;
     }
 
     .subscribe-form {
       display: flex;
       justify-content: center;
       align-items: center;
-      margin-bottom: 30px; 
-    
+      margin-bottom: 30px;
+
       .subscribe-group {
         display: flex;
         background: white;
         border-radius: 30px;
-        overflow: hidden; 
-    
+        overflow: hidden;
+
         input[type="email"] {
-          padding: 15px 25px; 
+          padding: 15px 25px;
           border: none;
           outline: none;
-          width: 350px; 
-          font-size: 18px; 
+          width: 350px;
+          font-size: 18px;
           border-radius: 30px;
         }
-    
+
         button {
           padding: 15px 25px;
           background: linear-gradient(45deg, #f46b45, #eea849);
@@ -45,19 +44,17 @@
           border-radius: 30px;
           color: white;
           cursor: pointer;
-          font-size: 18px; 
+          font-size: 18px;
         }
       }
     }
-    
-    
 
     .social-links {
-      margin: 30px 0; 
+      margin: 30px 0;
 
       a {
-        margin: 0 30px; 
-        font-size: 20px; 
+        margin: 0 30px;
+        font-size: 20px;
         color: #333;
         text-decoration: none;
 
@@ -69,11 +66,11 @@
 
     .footer-links {
       font-weight: 600;
-      font-size: 18px; 
-      margin-bottom: 30px; 
+      font-size: 18px;
+      margin-bottom: 30px;
 
       a {
-        margin: 0 15px; 
+        margin: 0 15px;
         color: #333;
         text-decoration: none;
 
@@ -92,13 +89,12 @@
 
     .horizontal-line {
       border-top: 1px solid #de5115;
-      margin: 30px 0; 
+      margin: 30px 0;
     }
 
     .copyright {
-      font-size: 15px; 
+      font-size: 15px;
       color: #292828;
-
     }
   }
 }

@@ -45,6 +45,10 @@
         @media(min-width:1450px){
           height: 12rem;
         }
+        @media(min-width:1780px){
+          height: 14rem;
+
+        }
         p {
           font-size: 4rem;
           color: #f97c37;
@@ -53,6 +57,10 @@
           @media(min-width:1450px){
             font-size: 4.7rem;
 
+          }
+          @media(min-width:1780px){
+            font-size: 5rem;
+  
           }
         }
 
@@ -68,6 +76,10 @@
             font-size: 20px;
 
           }
+          @media(min-width:1780px){
+            font-size: 23px;
+  
+          }
         }
       }
 
@@ -80,6 +92,16 @@
           p {
             color: white;
           }
+          
+          @media(min-width:1780px){
+            padding: 20px 50px;
+            
+            p {
+              color: white;
+              font-size: 1.1rem;
+            }
+          }
+        
         }
       }
     }

@@ -7,6 +7,7 @@ import SlideProductHome from "./sliderProductHome/SlideProductHome";
 import SpecialHome from "./specialHome/SpecialHome";
 import SwiperHome from "./swiperHome/SwiperHome";
 import VideoHome from "./videoHome/VideoHome";
+import BikeWithHotspots from "./bikeWithHotspots/BikeWithHotspots";
 
 const Home = ({ cart, setCart }) => {
   return (
@@ -19,6 +20,9 @@ const Home = ({ cart, setCart }) => {
       </div>
       <div className="home-special-main">
         <SpecialHome />
+      </div>
+      <div className="home-bike-spots-main">
+        <BikeWithHotspots />
       </div>
       <div className="home-video-main">
         <VideoHome />
