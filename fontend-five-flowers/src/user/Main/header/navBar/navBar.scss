@@ -6,8 +6,22 @@
     gap: 4rem;
     text-align: center;
 
-    p {
-        font-size: 1.3rem;
+    .nav-item {
+        position: relative;
+        p {
+            font-size: 1.3rem;
+            
+        }
+
+        .underline {
+            position: absolute;
+            bottom: -5px;
+            left: 50%; /* Căn giữa theo chiều ngang */
+            height: 2px;
+            width: 20%; /* Hiển thị 1 nửa */
+            background-color: #f39590;
+            transform: translateX(-50%); /* Dịch chuyển để đảm bảo nó nằm giữa */
+        }
     }
 }
 

@@ -32,7 +32,7 @@ const PriceShop = ({ onPriceFilterChange, maxPrice }) => {
       </div>
       <div className="content-below-price">
         <div className="title-price">
-          <p>The highest price is Rs. {maxPrice}</p>
+          <p>The highest price is {maxPrice}$</p>
         </div>
         <div className="input-price">
           <div className="label-input">
