@@ -16,7 +16,7 @@
           display: block;
           width: 30px;
           height: 3px;
-          background-color: #f96733;
+          background-color: rgb(250, 120, 55);
           margin-bottom: 1rem;
           margin-left: 48%;
         }
@@ -74,7 +74,7 @@
           position: absolute;
           top: 10px;
           left: 10px;
-          background: #fa3e2c;
+          background: rgb(250, 85, 47);
           color: #fff;
           padding: 10px 5px;
           border-radius: 50%;
@@ -94,7 +94,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background: #fa3e2c;
+            background: rgb(250, 85, 47);
             border-radius: 50%;
             width: 40px;
             height: 40px;
@@ -113,7 +113,7 @@
         padding: 10px 15px;
         .out-of-stock {
           p {
-            color: #fa3e2c;
+            color: rgb(250, 85, 47);
           }
         }
         h3 {
@@ -128,7 +128,7 @@
 
           .current-price {
             font-size: 1.2rem;
-            color: #e74c3c;
+            color: rgb(250, 85, 47);
             margin-right: 10px;
           }
 
@@ -153,7 +153,7 @@
       transform: translateY(-50%);
       width: 40px; /* Tăng kích thước nút */
       height: 40px; /* Tăng kích thước nút */
-      background: #fa3e2c;
+      background: rgb(250, 85, 47);
       color: #fff;
       border-radius: 50%;
       display: flex;

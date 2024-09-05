@@ -1,110 +1,120 @@
 .bike-container {
     position: relative;
-    width: 100%; /* Chiếm toàn bộ chiều rộng của màn hình */
-    height: 100%; /* Chiều cao tự động theo tỉ lệ ảnh */
+    width: 100%;
+    height: 100%;
     overflow: hidden;
     margin-top: 10rem;
-}
-
-.bike-image {
+  }
+  
+  .bike-image {
     width: 100%;
-    height: auto; /* Đảm bảo ảnh giữ đúng tỉ lệ */
+    height: auto;
     object-fit: contain;
-}
-
-.hotspot {
+  }
+  
+  .hotspot {
     position: absolute;
     width: 20px;
     height: 20px;
-    background-color: #fa422d;
+    background-color: rgb(250, 85, 47);
     border-radius: 50%;
     cursor: pointer;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border: 2px solid white;
-
+    z-index: 10;
+  
     &:hover {
       transform: scale(1.1);
       box-shadow: 0 0 15px rgba(250, 66, 45, 0.5);
     }
-
+  
     .tooltip {
       display: none;
       position: absolute;
       top: -40px;
       left: 30px;
-      background-color: #fa422d;
+      background-color: rgb(250, 85, 47);
       color: white;
       padding: 8px;
       border-radius: 5px;
       font-size: 12px;
       text-align: center;
-      white-space: normal; /* Cho phép xuống dòng */
+      white-space: normal;
       box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
       z-index: 1;
-      width: 10rem; /* Đặt giới hạn chiều rộng cho tooltip */
-      word-wrap: break-word; /* Đảm bảo nội dung không bị tràn */
+      width: 10rem;
+      word-wrap: break-word;
     }
-
+  
     &:hover .tooltip {
       display: block;
     }
-}
-
-.tooltip {
-    p {
-        margin: 0;
+  
+    .pulse {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(250, 85, 47, 0.7);
+      border-radius: 50%;
+      animation: pulse 2s infinite;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: -1;
     }
-}
-
-/* Định vị cho các điểm trên xe đạp */
-.hotspot-1 {
-    top: 18%; 
-    left: 69%; 
-}
-
-.hotspot-2 {
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(2);
+      opacity: 0;
+    }
+  }
+  
+  /* Định vị cho các điểm trên xe đạp */
+  .hotspot-1 {
+    top: 18%;
+    left: 69%;
+  }
+  
+  .hotspot-2 {
     top: 18%;
     left: 40%;
-}
-
-.hotspot-3 {
-    top: 5%;   
+  }
+  
+  .hotspot-3 {
+    top: 5%;
     left: 58%;
-}
-
-.hotspot-4 {
+  }
+  
+  .hotspot-4 {
     top: 56%;
     left: 23%;
-}
-
-.hotspot-5 {
+  }
+  
+  .hotspot-5 {
     top: 62%;
     left: 50%;
-}
-
-/* Các điểm đánh dấu bổ sung */
-.hotspot-6 {
-    top: 25%; 
+  }
+  
+  /* Các điểm đánh dấu bổ sung */
+  .hotspot-6 {
+    top: 25%;
     left: 30%;
-}
-
-.hotspot-7 {
+  }
+  
+  .hotspot-7 {
     top: 40%;
     left: 78%;
-}
-
-.hotspot-8 {
+  }
+  
+  .hotspot-8 {
     top: 50%;
     left: 45%;
-}
-
-.hotspot-9 {
-    top: 85%; 
-    left: 40%;
-}
-
-.hotspot-10 {
-    top: 85%; 
-    left: 60%;
-}
+  }
+  

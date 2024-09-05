@@ -1,5 +1,7 @@
+import CloseIcon from "@mui/icons-material/Close";
+import { Dialog, DialogContent, DialogTitle, IconButton } from "@mui/material";
 import { motion } from "framer-motion";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { IoIosSearch } from "react-icons/io";
 import { IoCartOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
@@ -9,6 +11,8 @@ import "./collectionGrid.scss";
 const CollectionGrid = ({ displayType, products }) => {
   const { addToCart } = useContext(CartContext);
   const navigate = useNavigate();
+  const [open, setOpen] = useState(false); // State to control Dialog open/close
+  const [selectedDescription, setSelectedDescription] = useState(""); // State to store selected product description
 
   const handleAddToCart = async (e, product) => {
     e.stopPropagation();
@@ -17,6 +21,15 @@ const CollectionGrid = ({ displayType, products }) => {
 
   const handleNavigateToProductDetails = (productId) => {
     navigate(`/product/${productId}`);
+  };
+
+  const handleOpenDialog = (description) => {
+    setSelectedDescription(description);
+    setOpen(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpen(false);
   };
 
   const productsWithCalculatedPrice = products.map((product) => ({
@@ -100,11 +113,53 @@ const CollectionGrid = ({ displayType, products }) => {
                     <p>Out of Stock</p>
                   </span>
                 )}
+
+                {/* Updated Read More logic */}
+                {displayType === 'list' && (
+                  <div className="description">
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: `${product.description.substring(0, 200)}...`
+                      }}
+                    />
+                    <span
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        handleOpenDialog(product.description);
+                      }}
+                      style={{ color: "#fa3e2c", textDecoration: "underline", cursor: "pointer" }}
+                    >
+                      Read more
+                    </span>
+                  </div>
+                )}
               </div>
             </motion.div>
           </div>
         ))
       )}
+
+      {/* Dialog to display full product description */}
+      <Dialog open={open} onClose={handleCloseDialog} fullWidth maxWidth="md">
+        <DialogTitle>
+          Product Description
+          <IconButton
+            aria-label="close"
+            onClick={handleCloseDialog}
+            sx={{
+              position: 'absolute',
+              right: 8,
+              top: 8,
+              color: (theme) => theme.palette.grey[500],
+            }}
+          >
+            <CloseIcon />
+          </IconButton>
+        </DialogTitle>
+        <DialogContent>
+          <div dangerouslySetInnerHTML={{ __html: selectedDescription }} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

@@ -1,12 +1,13 @@
 .collection-grid {
   height: auto;
+
   &.grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
     gap: 4rem;
 
     @media (min-width: 1601px) {
-      grid-template-columns: repeat(3, 1fr); // Hiển thị 3 sản phẩm mỗi hàng khi kích thước màn hình >= 1800px
+      grid-template-columns: repeat(3, 1fr);
     }
     @media (max-width: 1617px) {
       gap: 3rem;
@@ -14,16 +15,74 @@
   }
 
   &.list {
-    max-width: 22rem;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    max-width: 100%;
+    .product-item {
+      display: flex;
+      padding: 1rem;
 
-    @media (max-width: 700px) {
-      margin: 0; /* Loại bỏ margin khi hiển thị danh sách dạng list trên màn hình max-width: 700px */
-    }
-    @media (min-width: 1601px) {
-      max-width: 25rem;
+      .product-card {
+        display: grid;
+        grid-template-columns: auto auto;
+        gap: 3rem;
+        height: 16rem;
+        @media (max-width:1120px){
+          display: flex;
+          flex-direction: column;
+          height: auto;
+          gap: 0rem;
+
+        }
+        .image-container {
+          flex-shrink: 0;
+          max-width: 100%;
+          width: 22rem;
+          height: 16rem;
+        }
+
+        .product-info {
+          cursor: pointer;
+          display: flex;
+          flex-direction: column;
+          text-align: left;
+          gap: 1rem;
+        
+          h3 {
+            font-size: 1.5rem;
+            margin: 0;
+          }
+
+          .price {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Align left */
+            @media(max-width:1120px){
+              text-align: center;
+              justify-content: center;
+            }
+            .current-price {
+              color: #fc6555;
+              font-weight: bold;
+            }
+
+            .original-price {
+              color: #777;
+              text-decoration: line-through;
+            }
+          }
+
+          .description {
+            color: #555;
+            font-size: 0.9rem;
+            line-height: 1.4;
+          }
+        
+         
+          
+        }
+      }
     }
   }
 
@@ -37,31 +96,19 @@
 
     &.list-item {
       display: flex;
-      max-width: 22rem;
-      @media (min-width: 1601px) {
-        width: 25rem;
-      }
-
-      .product-card {
-        width: 22rem;
-        @media (min-width: 1601px) {
-          width: 25rem;
-        }
-      }
+      width: 100%;
     }
+
     .product-info {
       p {
         font-weight: bold;
       }
     }
+
     .product-card {
-      width: 22rem;
       display: flex;
       flex-direction: column;
       transition: transform 0.3s ease-in-out;
-      @media (min-width: 1601px) {
-        width: 25rem;
-      }
       &:hover {
         transform: translateY(-2px);
       }
@@ -71,14 +118,11 @@
         position: relative;
         cursor: pointer;
 
-        .image1-container,
-        .image2-container {
-          .main-image,
-          .hover-image {
-            width: 100%;
-            height: 16rem;
-            transition: opacity 0.3s ease-in-out;
-          }
+        .main-image,
+        .hover-image {
+          width: 100%;
+          height: 16rem;
+          transition: opacity 0.3s ease-in-out;
         }
 
         .hover-image {
@@ -187,7 +231,7 @@
 
   .pagination {
     display: flex;
-    justify-content: center; // Center the pagination
+    justify-content: center;
     margin-top: 2rem;
     list-style: none;
     padding: 0;
@@ -197,7 +241,7 @@
       cursor: pointer;
 
       &.active a {
-        background-color: #fa3e2c; // Dark color for the current page
+        background-color: #fa3e2c;
         color: #fff;
         border-radius: 50%;
         width: 2rem;
@@ -209,7 +253,7 @@
       }
 
       &.page a {
-        background-color: #f66153; // Light color for other pages
+        background-color: #f66153;
         color: #fff;
         border-radius: 50%;
         width: 2rem;
@@ -257,6 +301,29 @@
 
       &.disabled {
         cursor: not-allowed;
+      }
+    }
+  }
+
+  @media (max-width: 1120px) {
+    .product-item .product-card {
+      display: flex;
+      flex-direction: column; /* Hiển thị tên và giá bên dưới hình */
+      align-items: center;
+
+      .image-container {
+        width: 100%;
+      }
+
+      .product-info {
+        display: flex;
+        flex-direction: column;
+        text-align: center;
+
+        /* Ẩn phần mô tả khi màn hình dưới 1120px */
+        .description {
+          display: none;
+        }
       }
     }
   }
