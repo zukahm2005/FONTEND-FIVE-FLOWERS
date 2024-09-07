@@ -37,7 +37,6 @@ const NavBar = () => {
           </Link>
         </div>
       ))}
-      <h1><Link to="/calo">jldjgsl</Link></h1>
     </div>
   );
 };

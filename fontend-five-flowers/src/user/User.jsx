@@ -20,6 +20,8 @@ import YourBike from "./Main/header/components/yourBike/YourBike";
 import ScrollIndicator from "./scrollLayout/ScrollIndicator";
 import "./user.scss";
 import ScreenshotPage from "./Main/header/components/calorieConsumption/ScreenshotPage ";
+import CalorieChart from "./Main/header/components/calorieConsumption/CalorieChart";
+import DistanceTracker from "./Main/header/components/calorieConsumption/mapComponent";
 
 const User = () => {
   const [cart, setCart] = useState([]);
@@ -49,6 +51,8 @@ const User = () => {
             <Route path="/your-bike" element={<YourBike />} /> {/* Add this line */}
             <Route path="*" element={<Error />} />
             <Route path="/loginadmin" element={<LoginAdmin />} />
+            <Route path='/calo' element={<CalorieChart />} />
+            <Route path='/practice' element={<DistanceTracker />} />
           </Routes>
         </div>
         <ScrollIndicator />

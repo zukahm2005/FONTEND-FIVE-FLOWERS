@@ -1,0 +1,62 @@
+
+.screenshot-container {
+    text-align: center;
+    width: 100%;
+    height: auto;
+    padding: 1% 0;
+    margin: 0 auto;
+    background-color: rgb(59, 56, 53);
+  }
+  
+  .screenshot-container h3 {
+    padding: 1% 0;
+    color: white;
+    font-size: 30px;
+  }
+  
+  .screenshot-container img {
+    width: 49%;
+    height: 100%;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(63, 62, 62, 0.1);
+  }
+  
+  .screenshot-container h4 {
+    font-size: 18px;
+    margin-bottom: 10px;
+  }
+  
+  .screenshot-container button {
+    display: inline-block;
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 16px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .screenshot-container button:hover {
+    background-color: #0056b3;
+  }
+  
+  .screenshot-container .share-button {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .screenshot-container .share-button button {
+    margin-right: 10px;
+  }
+  
+  .screenshot-container .download-button {
+    margin-top: 10px;
+  }
+  .screenshot-container button span {
+    margin-right: 8px;
+  }
+  

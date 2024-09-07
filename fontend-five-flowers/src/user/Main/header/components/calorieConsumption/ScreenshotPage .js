@@ -1,6 +1,7 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from 'react-share';
+import './SecreenshotPage.css'
 
 const ScreenshotPage = () => {
   const location = useLocation();
@@ -12,47 +13,43 @@ const ScreenshotPage = () => {
   }
 
   return (
-    <div>
-      <h3>Ảnh chụp màn hình</h3>
-      <img src={screenshotUrl} alt="Screenshot" style={{ width: '100%', maxWidth: '700px' }} />
-      
-      <div style={{ marginTop: '10px' }}>
-        <h4>Chia sẻ ảnh này:</h4>
+    <div className="screenshot-container">
+  <h3>Screenshot</h3>
+  <img src={screenshotUrl} alt="Screenshot" />
 
-        <FacebookShareButton url={screenshotUrl}>
-          <button>Chia sẻ trên Facebook</button>
-        </FacebookShareButton>
+  <div className="share-button">
+    <FacebookShareButton url={screenshotUrl}>
+      <button>share on Facebook</button>
+    </FacebookShareButton>
 
-        <TwitterShareButton url={screenshotUrl}>
-          <button>Chia sẻ trên Twitter</button>
-        </TwitterShareButton>
+    <TwitterShareButton url={screenshotUrl}>
+      <button>share on Twitter</button>
+    </TwitterShareButton>
 
-        <WhatsappShareButton url={screenshotUrl}>
-          <button>Chia sẻ qua WhatsApp</button>
-        </WhatsappShareButton>
-      </div>
+    <WhatsappShareButton url={screenshotUrl}>
+      <button>share on WhatsApp</button>
+    </WhatsappShareButton>
+  </div>
 
-      {/* Nút tải xuống ảnh */}
-      <div style={{ marginTop: '10px' }}>
-        <button
-          onClick={() => {
-            const link = document.createElement('a');
-            link.href = screenshotUrl;
-            link.download = 'map-screenshot.png';
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-          }}
-        >
-          <span style={{ marginRight: '8px' }}>📥</span> Tải xuống ảnh
-        </button>
-      </div>
+  <div className="download-button">
+    <button
+      onClick={() => {
+        const link = document.createElement('a');
+        link.href = screenshotUrl;
+        link.download = 'map-screenshot.png';
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      }}
+    >
+      <span>📥</span> Download Image
+    </button>
+    <button onClick={() => navigate(-1)}>Back</button>
+  </div>
 
-      {/* Nút quay lại trang DistanceTracker */}
-      <div style={{ marginTop: '20px' }}>
-        <button onClick={() => navigate(-1)}>Quay lại</button>
-      </div>
-    </div>
+ 
+</div>
+
   );
 };
 

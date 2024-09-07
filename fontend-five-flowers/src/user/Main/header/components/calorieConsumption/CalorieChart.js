@@ -15,7 +15,7 @@ import {
 import { Bar, Line } from 'react-chartjs-2';
 import moment from 'moment';
 import './CalorieChart.css';
-import DistanceTracker from './mapComponent';
+import { Link } from 'react-router-dom';
 
 ChartJS.register(
   CategoryScale,
@@ -55,7 +55,7 @@ const CalorieChart = () => {
 
             if (Array.isArray(data) && data.length > 0) {
               const aggregatedDataByDate = data.reduce((acc, entry) => {
-                const date = moment(entry.createdAt).format('YYYY-MM-DD');
+                const date = moment(entry.createdAt).format('DD-MM');
                 if (!acc[date]) {
                   acc[date] = { calories: 0, time: 0, distance: 0 };
                 }
@@ -65,7 +65,7 @@ const CalorieChart = () => {
                 return acc;
               }, {});
 
-              const today = moment().format('YYYY-MM-DD'); // Ensure date format is consistent
+              const today = moment().format('DD-MM'); // Ensure date format is consistent
               const dates = Object.keys(aggregatedDataByDate).slice(-15);
               const calories = dates.map(date => aggregatedDataByDate[date].calories);
               const time = dates.map(date => aggregatedDataByDate[date].time);
@@ -139,15 +139,51 @@ const CalorieChart = () => {
 
   return (
     <div className='caloChar' >
-      <DistanceTracker />
       {Object.keys(chartData).length > 0 ? (
         <>
+          <h1 style={{marginTop:'7%', marginBottom: '2%'}}>Calorie Consumption Chart</h1>
           <Line data={chartData} />
+          <h1 style={{marginTop:'6%', marginBottom: '2%'}}>Number Of Kilometers And Travel Time</h1>
           <Bar data={chartTime} />
+
+          <button style={{padding: '10px 50px',margin: '20px 20px'}}><Link style={{color: 'white',padding: '10px 50px'}} to='/practice'>Back</Link></button>
         </>
       ) : (
-        <div style={{ textAlign: 'center' }}>
-
+        <div style={{ textAlign: 'center'}}>
+          <img style={{
+            width: '100%',
+            margin: '30px 0'
+          }} src='https://vn1.vdrive.vn/nghiahai.com/2018/10/S%E1%BB%B1-luy%E1%BB%87n-t%E1%BA%ADp-v%E1%BB%81-t%E1%BB%91c-%C4%91%E1%BB%99-gi%C3%BAp-b%E1%BA%A1n-tr%E1%BB%9F-th%C3%A0nh-m%E1%BB%99t-tay-%C4%91ua-xe-%C4%91%E1%BA%A1p-t%E1%BB%91t-h%C6%A1n-nh%C6%B0-th%E1%BA%BF-n%C3%A0o-2.jpg' />
+          <p style={{
+            fontSize: '18px',
+            fontWeight: 'bold',
+            color: '#ff6347',
+            padding: '10px',
+            borderRadius: '8px',
+            backgroundColor: '#f0f0f0',
+          }}>
+            Start the training process
+          </p>
+          <button
+            style={{
+              marginTop: '20px',
+              padding: '10px 20px',
+              fontSize: '16px',
+              fontWeight: 'bold',
+              color: '#ffffff',
+              backgroundColor: '#ff6347',
+              border: 'none',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
+              transition: 'background-color 0.3s ease',
+            }}
+            type="submit"
+            onMouseOver={(e) => e.target.style.backgroundColor = '#ff7f50'}
+            onMouseOut={(e) => e.target.style.backgroundColor = '#ff6347'}
+          >
+           <Link to='/practice' style={{color:'white'}}>Start</Link>
+          </button>
         </div>
       )}
     </div>
