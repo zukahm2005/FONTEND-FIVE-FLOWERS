@@ -147,40 +147,7 @@ const CalorieChart = () => {
         </>
       ) : (
         <div style={{ textAlign: 'center' }}>
-          <img style={{
-            width: '100%',
-            margin: '30px 0'
-          }} src='https://vn1.vdrive.vn/nghiahai.com/2018/10/S%E1%BB%B1-luy%E1%BB%87n-t%E1%BA%ADp-v%E1%BB%81-t%E1%BB%91c-%C4%91%E1%BB%99-gi%C3%BAp-b%E1%BA%A1n-tr%E1%BB%9F-th%C3%A0nh-m%E1%BB%99t-tay-%C4%91ua-xe-%C4%91%E1%BA%A1p-t%E1%BB%91t-h%C6%A1n-nh%C6%B0-th%E1%BA%BF-n%C3%A0o-2.jpg' />
-          <p style={{
-            fontSize: '18px',
-            fontWeight: 'bold',
-            color: '#ff6347',
-            padding: '10px',
-            borderRadius: '8px',
-            backgroundColor: '#f0f0f0',
-          }}>
-            Start the training process
-          </p>
-          <button
-            style={{
-              marginTop: '20px',
-              padding: '10px 20px',
-              fontSize: '16px',
-              fontWeight: 'bold',
-              color: '#ffffff',
-              backgroundColor: '#ff6347',
-              border: 'none',
-              borderRadius: '5px',
-              cursor: 'pointer',
-              boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-              transition: 'background-color 0.3s ease',
-            }}
-            type="submit"
-            onMouseOver={(e) => e.target.style.backgroundColor = '#ff7f50'}
-            onMouseOut={(e) => e.target.style.backgroundColor = '#ff6347'}
-          >
-            Start
-          </button>
+
         </div>
       )}
     </div>

@@ -4,6 +4,8 @@ import MapboxDirections from '@mapbox/mapbox-sdk/services/directions';
 import axios from 'axios';
 import polyline from '@mapbox/polyline';
 import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from 'react-share';
+import { useNavigate } from 'react-router-dom';
+
 
 
 mapboxgl.accessToken = 'pk.eyJ1IjoienVrYWhtMms1IiwiYSI6ImNtMGNvb2wwZzAwdTcybHM2ODFpZ3p3Z3MifQ.UPYPfCuIQeqUWDyt1SspVQ';
@@ -14,6 +16,7 @@ const fixedLon = 105.782098;  // Kinh độ cố định (Hà Nội)
 
 function DistanceTracker() {
   const [screenshotUrl, setScreenshotUrl] = useState(null);  // Ensure hooks like this are called inside components
+  const navigate = useNavigate();
   // State variables
   const [positions, setPositions] = useState([]);
   const [totalDistance, setTotalDistance] = useState(0);
@@ -312,52 +315,85 @@ const getRandomDestination = (startLat, startLon, range = 0.01) => {
 };
 
 
-const takeMapScreenshot = async () => {
-  if (!initialPosition || !destination) {
-    console.error("Position or destination is missing");
-    return;
-  }
-
-  const [startLat, startLon] = initialPosition;
-  const [destLat, destLon] = destination;
-  const width = 900;  // Kích thước ảnh chụp màn hình (rộng)
-  const height = 700;  // Kích thước ảnh chụp màn hình (cao)
-  const pathColor = '0000FF';  // Màu của đường chỉ dẫn (giống với mã mẫu)
-  const pathWidth = 7;  // Độ rộng của đường chỉ dẫn
-
-  try {
-    // Gọi Directions API để lấy đường đi
-    const directionsUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/${startLon},${startLat};${destLon},${destLat}?geometries=geojson&access_token=${mapboxgl.accessToken}`;
-    const response = await fetch(directionsUrl);
-    const data = await response.json();
-
-    if (!data.routes || data.routes.length === 0) {
-      console.error("No route found");
+  const takeMapScreenshot = async () => {
+    if (!initialPosition || !destination) {
+      console.error("Position or destination is missing");
       return;
     }
-
-    // Lấy tọa độ của tuyến đường từ phản hồi API
-    const routeCoordinates = data.routes[0].geometry.coordinates;
-
-    // Mã hóa tọa độ thành polyline (Mapbox sử dụng định dạng polyline)
-    const encodedPath = polyline.encode(routeCoordinates.map(coord => [coord[1], coord[0]])); // [lat, lon]
-
-    // Tạo URL cho ảnh bản đồ tĩnh với đường chỉ dẫn
-    const mapboxImageUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/pin-m-a+0000FF(${startLon},${startLat}),pin-m-b+FF0000(${destLon},${destLat}),path-${pathWidth}+${pathColor}-0.5(${encodedPath})/auto/${width}x${height}?access_token=${mapboxgl.accessToken}`;
-
-    setScreenshotUrl(mapboxImageUrl);  // Log URL để kiểm tra
-
-    // Tạo liên kết để tải xuống ảnh
-    const link = document.createElement('a');
-    link.href = mapboxImageUrl;
-    link.download = 'map-screenshot.png';
-    document.body.appendChild(link); // Thêm link vào body
-    document.body.removeChild(link);  // Loại bỏ link sau khi tải xuống
-
-  } catch (error) {
-    console.error("Error fetching directions or creating map image:", error);
-  }
-};
+  
+    const [startLat, startLon] = initialPosition;
+    const [destLat, destLon] = destination;
+    const width = 900;  // Kích thước ảnh chụp màn hình (rộng)
+    const height = 700;  // Kích thước ảnh chụp màn hình (cao)
+    const pathColor = '0000FF';  // Màu của đường chỉ dẫn
+    const pathWidth = 7;  // Độ rộng của đường chỉ dẫn
+  
+    try {
+      // Gọi Directions API để lấy đường đi
+      const directionsUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/${startLon},${startLat};${destLon},${destLat}?geometries=geojson&access_token=${mapboxgl.accessToken}`;
+      console.log('Fetching directions from:', directionsUrl);
+  
+      const response = await fetch(directionsUrl);
+      const data = await response.json();
+  
+      if (!data.routes || data.routes.length === 0) {
+        console.error("No route found");
+        return;
+      }
+  
+      // Lấy tọa độ của tuyến đường từ phản hồi API
+      const route = data.routes[0];
+      const routeCoordinates = route.geometry.coordinates;
+  
+      const distanceInKm = totalDistance.toFixed(2); // Đổi sang km
+      const durationInMinutes = (elapsedTime / 10000).toFixed(2); // Đổi sang phút
+  
+      const encodedPath = polyline.encode(routeCoordinates.map(coord => [coord[1], coord[0]]));
+  
+      // Tạo URL cho ảnh bản đồ tĩnh với đường chỉ dẫn
+      const mapboxImageUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/pin-l-a+0000FF(${startLon},${startLat}),pin-l-b+FF0000(${destLon},${destLat}),path-${pathWidth}+${pathColor}-0.5(${encodedPath})/auto/${width}x${height}?access_token=${mapboxgl.accessToken}`;
+  
+      console.log('Generated Mapbox Image URL:', mapboxImageUrl);
+  
+      const img = new Image();
+      img.crossOrigin = "anonymous";  // Đảm bảo hình ảnh từ bên ngoài có thể vẽ trên canvas
+      img.src = mapboxImageUrl;
+  
+      img.onload = () => {
+        console.log("Image loaded successfully");
+  
+        const canvas = document.createElement('canvas');
+        canvas.width = width;
+        canvas.height = height;
+        const ctx = canvas.getContext('2d');
+        
+        // Vẽ hình ảnh từ Mapbox lên canvas
+        ctx.drawImage(img, 0, 0, width, height);
+  
+        // Thêm văn bản thông tin về tuyến đường (khoảng cách và thời gian)
+        ctx.font = "16px Arial";
+        ctx.fillStyle = "black";
+        ctx.fillText("Bản đồ tuyến đường", 10, 50);
+        ctx.fillText(`Khoảng cách: ${distanceInKm} km`, 10, 80); // Hiển thị số km
+        ctx.fillText(`Thời gian dự kiến: ${durationInMinutes} phút`, 10, 110); // Hiển thị thời gian chạy
+  
+        // Tạo URL từ canvas để tải ảnh xuống
+        const imageUrl = canvas.toDataURL('image/png', 0.001);
+        setScreenshotUrl(imageUrl);  // Cập nhật URL ảnh để có thể tải xuống
+  
+        // Sau khi URL ảnh được tạo, điều hướng sang trang ScreenshotPage
+        navigate('/screenshot', { state: { screenshotUrl: imageUrl } });
+      };
+  
+      img.onerror = () => {
+        console.error("Error loading image from Mapbox URL");
+      };
+  
+    } catch (error) {
+      console.error("Error fetching directions or creating map image:", error);
+    }
+  };
+  
   
 
 const handleStart = async () => {
@@ -579,10 +615,6 @@ const handleStop = async () => {
     console.error('POST Error:', error);
   });
 };
-
-
-
-
   return (
     <div>
       <div id="map" style={{ width: '100%', height: '700px' }} />
@@ -590,27 +622,6 @@ const handleStop = async () => {
         <button onClick={handleStart} disabled={tracking}>Start</button>
         <button onClick={handleStop} disabled={!tracking}>Stop</button>
         <button onClick={takeMapScreenshot}>Chụp màn hình</button>
-        {screenshotUrl && (
-        <div style={{ marginTop: '20px', border: '1px solid #ccc', padding: '10px' }}>
-          <h3>Ảnh chụp màn hình</h3>
-          <img src={screenshotUrl} alt="Screenshot" style={{ width: '100%', maxWidth: '700px' }} />
-
-          <div style={{ marginTop: '10px' }}>
-            <h4>Chia sẻ ảnh này:</h4>
-            <FacebookShareButton url={screenshotUrl}>
-              <button>Chia sẻ trên Facebook</button>
-            </FacebookShareButton>
-
-            <TwitterShareButton url={screenshotUrl}>
-              <button>Chia sẻ trên Twitter</button>
-            </TwitterShareButton>
-
-            <WhatsappShareButton url={screenshotUrl}>
-              <button>Chia sẻ qua WhatsApp</button>
-            </WhatsappShareButton>
-          </div>
-        </div>
-      )}
        </div>
       <div style={{ marginTop: '20px' }}>
         <p>Total Distance: {totalDistance.toFixed(2)} km</p>

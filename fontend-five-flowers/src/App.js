@@ -4,6 +4,7 @@ import Admin from './admin/Admin';
 import User from './user/User';
 import usePageTracking from './usePageTracking';
 import CalorieChart from './user/Main/header/components/calorieConsumption/CalorieChart';
+import ScreenshotPage from './user/Main/header/components/calorieConsumption/ScreenshotPage ';
 
 const TrackingComponent = () => {
   usePageTracking();
@@ -18,6 +19,7 @@ const App = () => {
         <Route path="/admin/*" element={<Admin />} />
         <Route path="/*" element={<User />} />
         <Route path='/calo' element={<CalorieChart />} />
+        <Route path="/screenshot" element={<ScreenshotPage />} />
 
       </Routes>
     </Router>

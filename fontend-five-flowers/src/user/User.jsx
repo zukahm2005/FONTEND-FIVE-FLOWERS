@@ -19,6 +19,7 @@ import LoginAdmin from "./Main/header/components/profile/login/loginAdmin/LoginA
 import YourBike from "./Main/header/components/yourBike/YourBike";
 import ScrollIndicator from "./scrollLayout/ScrollIndicator";
 import "./user.scss";
+import ScreenshotPage from "./Main/header/components/calorieConsumption/ScreenshotPage ";
 
 const User = () => {
   const [cart, setCart] = useState([]);
