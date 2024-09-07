@@ -1,102 +1,172 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Map, { Marker, NavigationControl, Source, Layer, Popup } from 'react-map-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
-import { IoLocation, IoCloseCircleOutline } from "react-icons/io5";
-import mapboxSdk from '@mapbox/mapbox-sdk/services/directions';
-import mapboxgl from 'mapbox-gl';
-import "./yourBike.scss";
-import BikeInfoPopup from './bikeInfo/BikeInfoPopup';
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import Map, {
+  Marker, // Thêm Marker trên bản đồ để hiển thị vị trí của người dùng và xe đạp
+  NavigationControl, // Điều khiển zoom và điều hướng trên bản đồ
+  Source, // Dùng để truyền dữ liệu vào các layer trên bản đồ
+  Layer, // Hiển thị các tuyến đường trên bản đồ
+  Popup, // Hiển thị thông tin về xe đạp hoặc vị trí khi hover chuột
+} from "react-map-gl";
+import "mapbox-gl/dist/mapbox-gl.css";
+import { IoLocation, IoCloseCircleOutline } from "react-icons/io5"; // Icon để biểu thị vị trí của người dùng và xe đạp
+import mapboxSdk from "@mapbox/mapbox-sdk/services/directions"; // SDK Mapbox để tính toán hướng đi
+import mapboxgl from "mapbox-gl"; // Thêm thư viện mapbox
+import "./yourBike.scss"; // Import file CSS cho component
+import BikeInfoPopup from "./bikeInfo/BikeInfoPopup"; // Component hiển thị thông tin của xe đạp khi hover vào vị trí của nó
 
-const mapboxToken = 'pk.eyJ1IjoienVrYWhtMms1IiwiYSI6ImNtMGNvb2wwZzAwdTcybHM2ODFpZ3p3Z3MifQ.UPYPfCuIQeqUWDyt1SspVQ';
-const directionsClient = mapboxSdk({ accessToken: mapboxToken });
+const mapboxToken =
+  "pk.eyJ1IjoiYm9pZGVwdHJhaSIsImEiOiJjbTBxY2RwOTEwODVvMmxwbHBzOHN4aXdsIn0.k8BEQC40NN144dVoYENrRQ"; // Token Mapbox để sử dụng API Mapbox
+const directionsClient = mapboxSdk({ accessToken: mapboxToken }); // Khởi tạo client để gọi API directions của Mapbox
 
 const YourBike = () => {
+  // Trạng thái của bản đồ, quản lý vị trí và mức zoom
   const [viewState, setViewState] = useState({
     longitude: 105.782098,
     latitude: 21.028511,
-    zoom: 13
+    zoom: 13,
   });
+
+  // Trạng thái lưu danh sách các xe đạp và vị trí của người dùng
   const [bikes, setBikes] = useState([]);
   const [userLocation, setUserLocation] = useState({
     longitude: 105.782098,
     latitude: 21.028511,
   });
+
+  // Trạng thái lưu thông tin về lộ trình và các dấu chấm trên lộ trình
   const [route, setRoute] = useState(null);
   const [routeDots, setRouteDots] = useState([]);
+
+  // Trạng thái để quản lý hiển thị danh sách xe đạp và các thông tin liên quan
   const [showBikeList, setShowBikeList] = useState(false);
   const [selectedBikeLocation, setSelectedBikeLocation] = useState(null);
   const [hoveredBike, setHoveredBike] = useState(null);
   const [hoveredCoordinates, setHoveredCoordinates] = useState(null);
   const [userMarkerClicked, setUserMarkerClicked] = useState(false);
   const [intervalId, setIntervalId] = useState(null);
-  const [history, setHistory] = useState([]); // State để lưu lịch sử hành trình
-  const [showHistory, setShowHistory] = useState(false); // State để hiển thị lịch sử
+  const [history, setHistory] = useState([]); // Lưu lịch sử hành trình
+  const [historyWithAddresses, setHistoryWithAddresses] = useState([]); // Lưu lịch sử hành trình với địa chỉ đã giải mã
+  const [showHistory, setShowHistory] = useState(false); // Trạng thái hiển thị lịch sử hành trình
 
+  // Hàm lấy danh sách các xe đạp của người dùng từ server khi component được load lần đầu
   useEffect(() => {
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem("token");
 
-    axios.get('/api/v1/user/bikes', {
-      headers: {
-        'Authorization': `Bearer ${token}`
-      }
-    })
-    .then(response => {
-      const updatedBikes = response.data.map(bike => {
-        const randomPosition = getRandomPosition(userLocation);
-        return {
-          ...bike,
-          longitude: randomPosition.longitude,
-          latitude: randomPosition.latitude
-        };
-      });
-      setBikes(updatedBikes);
-    })  
-    .catch(error => {
-      console.error('Error fetching bikes:', error);
-    });
-  }, []);
-
-  useEffect(() => {
-    fetchHistory(); // Fetch history on component mount
-  }, []);
-
-  const fetchHistory = async () => {
-    const token = localStorage.getItem('token');
-    try {
-      const response = await axios.get('http://localhost:8080/api/v1/routes', {
+    axios
+      .get("/api/v1/user/bikes", {
         headers: {
-          'Authorization': `Bearer ${token}`
-        }
+          Authorization: `Bearer ${token}`, // Gửi token JWT để xác thực
+        },
+      })
+      .then((response) => {
+        const updatedBikes = response.data.map((bike) => {
+          const randomPosition = getRandomPosition(userLocation); // Lấy vị trí ngẫu nhiên cho xe đạp
+          return {
+            ...bike,
+            longitude: randomPosition.longitude,
+            latitude: randomPosition.latitude,
+          };
+        });
+        setBikes(updatedBikes); // Cập nhật danh sách xe đạp
+      })
+      .catch((error) => {
+        console.error("Error fetching bikes:", error);
       });
-      setHistory(response.data);
+  }, []);
+
+  // Hàm lấy lịch sử hành trình từ server khi component được load lần đầu
+  useEffect(() => {
+    fetchHistory();
+  }, []);
+
+  // Hàm fetch lịch sử hành trình từ server và lưu vào state
+  const fetchHistory = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get("http://localhost:8080/api/v1/routes", {
+        headers: {
+          Authorization: `Bearer ${token}`, // Gửi token JWT để xác thực
+        },
+      });
+      const historyData = response.data;
+      setHistory(historyData); // Lưu lịch sử hành trình vào state
+
+      // Giải mã địa chỉ của vị trí bắt đầu và kết thúc của mỗi hành trình
+      const updatedHistory = await Promise.all(
+        historyData.map(async (entry) => {
+          const startAddress = await getGeocodedAddress(
+            entry.startLocation.latitude,
+            entry.startLocation.longitude
+          );
+          const endAddress = await getGeocodedAddress(
+            entry.endLocation.latitude,
+            entry.endLocation.longitude
+          );
+          return {
+            ...entry,
+            startAddress,
+            endAddress,
+          };
+        })
+      );
+
+      setHistoryWithAddresses(updatedHistory); // Cập nhật lịch sử hành trình với địa chỉ
     } catch (error) {
-      console.error('Error fetching history:', error);
+      console.error("Error fetching history:", error);
     }
   };
 
+  // Hàm lấy địa chỉ dựa trên tọa độ latitude và longitude, dùng dịch vụ Nominatim của OpenStreetMap
+  const getGeocodedAddress = async (latitude, longitude) => {
+    try {
+      const response = await axios.get(
+        "https://nominatim.openstreetmap.org/reverse",
+        {
+          params: {
+            lat: latitude,
+            lon: longitude,
+            format: "json",
+          },
+        }
+      );
+
+      return response.data.display_name || "Unknown location"; // Trả về tên địa chỉ hoặc "Unknown location" nếu không tìm thấy
+    } catch (error) {
+      console.error("Error getting geocoded address:", error);
+      return "Unknown location";
+    }
+  };
+
+  // Hàm để tạo ra vị trí ngẫu nhiên cho xe đạp xung quanh vị trí người dùng
   const getRandomPosition = (userLocation) => {
-    const R = 6371; // Earth's radius in km
-    const maxDist = 4; // Max distance in km
+    const R = 6371; // Bán kính Trái Đất tính bằng km
+    const maxDist = 3; // Khoảng cách tối đa từ vị trí người dùng (km)
     const distance = Math.random() * maxDist;
     const bearing = Math.random() * 2 * Math.PI;
 
-    const userLatRad = userLocation.latitude * Math.PI / 180;
-    const userLngRad = userLocation.longitude * Math.PI / 180;
+    const userLatRad = (userLocation.latitude * Math.PI) / 180;
+    const userLngRad = (userLocation.longitude * Math.PI) / 180;
 
-    const newLatRad = Math.asin(Math.sin(userLatRad) * Math.cos(distance / R) +
-      Math.cos(userLatRad) * Math.sin(distance / R) * Math.cos(bearing));
-    const newLngRad = userLngRad + Math.atan2(Math.sin(bearing) * Math.sin(distance / R) * Math.cos(userLatRad),
-      Math.cos(distance / R) - Math.sin(userLatRad) * Math.sin(newLatRad));
+    const newLatRad = Math.asin(
+      Math.sin(userLatRad) * Math.cos(distance / R) +
+        Math.cos(userLatRad) * Math.sin(distance / R) * Math.cos(bearing)
+    );
+    const newLngRad =
+      userLngRad +
+      Math.atan2(
+        Math.sin(bearing) * Math.sin(distance / R) * Math.cos(userLatRad),
+        Math.cos(distance / R) - Math.sin(userLatRad) * Math.sin(newLatRad)
+      );
 
     return {
-      latitude: newLatRad * 180 / Math.PI,
-      longitude: newLngRad * 180 / Math.PI
+      latitude: (newLatRad * 180) / Math.PI,
+      longitude: (newLngRad * 180) / Math.PI,
     };
   };
 
+  // Hàm xử lý khi người dùng nhấn vào Marker của xe đạp hoặc người dùng
   const handleMarkerClick = (location) => {
-    if (location === 'user') {
+    if (location === "user") {
       const isClickedAgain = !userMarkerClicked;
       setUserMarkerClicked(isClickedAgain);
 
@@ -105,7 +175,7 @@ const YourBike = () => {
 
         bounds.extend([userLocation.longitude, userLocation.latitude]);
 
-        bikes.forEach(bike => {
+        bikes.forEach((bike) => {
           bounds.extend([bike.longitude, bike.latitude]);
         });
 
@@ -113,7 +183,7 @@ const YourBike = () => {
           ...viewState,
           longitude: userLocation.longitude,
           latitude: userLocation.latitude,
-          zoom: 13
+          zoom: 13,
         });
         setShowBikeList(false);
       } else {
@@ -126,7 +196,10 @@ const YourBike = () => {
       } else {
         setSelectedBikeLocation(bikeLocation);
 
-        const sortedBikes = [bikeLocation, ...bikes.filter(bike => bike.id !== bikeLocation.id)];
+        const sortedBikes = [
+          bikeLocation,
+          ...bikes.filter((bike) => bike.id !== bikeLocation.id),
+        ];
 
         setBikes(sortedBikes);
 
@@ -135,202 +208,239 @@ const YourBike = () => {
         setViewState({
           longitude: bikeLocation.longitude,
           latitude: bikeLocation.latitude,
-          zoom: 15
+          zoom: 15,
         });
       }
     }
   };
 
+  // Hàm xử lý khi người dùng nhấn vào nút Directions để tính toán hướng đi từ vị trí người dùng đến vị trí xe đạp
   const handleDirectionClick = (bikeLocation) => {
     if (userLocation && bikeLocation) {
-      directionsClient.getDirections({
-        profile: 'driving',
-        geometries: 'geojson',
-        waypoints: [
-          {
-            coordinates: [userLocation.longitude, userLocation.latitude]
-          },
-          {
-            coordinates: [bikeLocation.longitude, bikeLocation.latitude]
-          }
-        ]
-      })
-      .send()
-      .then(response => {
-        const directions = response.body.routes[0];
-        setRoute(directions.geometry);
+      directionsClient
+        .getDirections({
+          profile: "walking", // Chế độ di chuyển là đi bộ
+          geometries: "geojson", // Hình dạng tuyến đường dưới dạng GeoJSON
+          waypoints: [
+            {
+              coordinates: [userLocation.longitude, userLocation.latitude], // Tọa độ của người dùng
+            },
+            {
+              coordinates: [bikeLocation.longitude, bikeLocation.latitude], // Tọa độ của xe đạp
+            },
+          ],
+        })
+        .send()
+        .then((response) => {
+          const directions = response.body.routes[0];
+          setRoute(directions.geometry); // Cập nhật lộ trình trên bản đồ
 
-        setSelectedBikeLocation(bikeLocation);
+          setSelectedBikeLocation(bikeLocation);
 
-        const sortedBikes = [bikeLocation, ...bikes.filter(bike => bike.id !== bikeLocation.id)];
+          const sortedBikes = [
+            bikeLocation,
+            ...bikes.filter((bike) => bike.id !== bikeLocation.id),
+          ];
 
-        setBikes(sortedBikes);
+          setBikes(sortedBikes);
 
-        const coords = directions.geometry.coordinates;
-        const dots = coords.filter((coord, index) => index % 3 === 0);
-        setRouteDots(dots);
+          const coords = directions.geometry.coordinates;
+          const dots = coords.filter((coord, index) => index % 3 === 0); // Chia lộ trình thành các chấm nhỏ
+          setRouteDots(dots);
 
-        const midPoint = {
-          longitude: (userLocation.longitude + bikeLocation.longitude) / 2,
-          latitude: (userLocation.latitude + bikeLocation.latitude) / 2,
-        };
+          const midPoint = {
+            longitude: (userLocation.longitude + bikeLocation.longitude) / 2,
+            latitude: (userLocation.latitude + bikeLocation.latitude) / 2,
+          };
 
-        setViewState({
-          longitude: midPoint.longitude,
-          latitude: midPoint.latitude,
-          zoom: 13
+          setViewState({
+            longitude: midPoint.longitude,
+            latitude: midPoint.latitude,
+            zoom: 13,
+          });
+
+          console.log("Route:", directions.geometry);
+        })
+        .catch((error) => {
+          console.error("Error fetching directions:", error);
         });
-
-        console.log('Route:', directions.geometry);
-
-      })
-      .catch(error => {
-        console.error('Error fetching directions:', error);
-      });
     } else {
-      console.error('User location or bike location is missing');
+      console.error("User location or bike location is missing");
     }
   };
 
+  // Hàm tính khoảng cách giữa hai điểm tọa độ (longitude, latitude)
   const getDistance = (start, end) => {
     const [lng1, lat1] = start;
     const [lng2, lat2] = end;
 
     const R = 6371;
-    const dLat = (lat2 - lat1) * Math.PI / 180;
-    const dLng = (lng2 - lng1) * Math.PI / 180;
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLng = ((lng2 - lng1) * Math.PI) / 180;
 
-    const a = 
-      Math.sin(dLat/2) * Math.sin(dLat/2) +
-      Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
-      Math.sin(dLng/2) * Math.sin(dLng/2);
+    const a =
+      Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+      Math.cos((lat1 * Math.PI) / 180) *
+        Math.cos((lat2 * Math.PI) / 180) *
+        Math.sin(dLng / 2) *
+        Math.sin(dLng / 2);
 
-    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
     const distance = R * c;
 
     return distance;
   };
 
+  // Hàm bắt đầu mô phỏng chuyển động từ vị trí người dùng đến vị trí xe đạp
   const handleStartNavigation = async () => {
-    console.log('Starting navigation...');
-    
     if (!selectedBikeLocation || !userLocation) {
-        console.log('Missing selectedBikeLocation or userLocation');
-        return;
+      console.log("Missing selectedBikeLocation or userLocation");
+      return;
     }
 
-    const directions = await directionsClient.getDirections({
-        profile: 'cycling',
+    const directions = await directionsClient
+      .getDirections({
+        profile: "cycling", // Chế độ di chuyển là đi xe đạp
         waypoints: [
-            { coordinates: [userLocation.longitude, userLocation.latitude] },
-            { coordinates: [selectedBikeLocation.longitude, selectedBikeLocation.latitude] }
+          { coordinates: [userLocation.longitude, userLocation.latitude] },
+          {
+            coordinates: [
+              selectedBikeLocation.longitude,
+              selectedBikeLocation.latitude,
+            ],
+          },
         ],
-        geometries: 'geojson'
-    }).send();
+        geometries: "geojson",
+      })
+      .send();
 
     const route = directions.body.routes[0].geometry;
     setRoute(route);
 
-    const currentDate = new Date(); // Lấy ngày giờ hiện tại
+    const currentDate = new Date();
 
-    // Bắt đầu di chuyển và lưu sau khi hoàn thành
     simulateMovement(route, 30000, async () => {
-        await saveRouteToDatabase(userLocation, selectedBikeLocation, currentDate);
-        fetchHistory(); // Fetch history after saving new route
+      await saveRouteToDatabase(
+        userLocation,
+        selectedBikeLocation,
+        currentDate
+      );
+      fetchHistory();
     });
   };
 
+  // Hàm mô phỏng chuyển động của người dùng dọc theo tuyến đường đã tính toán
   const simulateMovement = (route, duration, onComplete) => {
     const routeCoordinates = route.coordinates;
     const totalPoints = routeCoordinates.length;
 
     let currentPointIndex = 0;
     const totalDistance = routeCoordinates.reduce((acc, coord, index) => {
-        if (index < totalPoints - 1) {
-            return acc + getDistance(coord, routeCoordinates[index + 1]);
-        }
-        return acc;
+      if (index < totalPoints - 1) {
+        return acc + getDistance(coord, routeCoordinates[index + 1]);
+      }
+      return acc;
     }, 0);
 
-    const speed = totalDistance / (duration / 1000);
+    const speed = totalDistance / (duration / 1000); // Tính tốc độ di chuyển
     const startTime = Date.now();
     const frameRate = 60;
     const updateInterval = 1000 / frameRate;
 
     clearInterval(intervalId);
     const newIntervalId = setInterval(() => {
-        const elapsedTime = (Date.now() - startTime) / 1000;
-        const traveledDistance = speed * elapsedTime;
+      const elapsedTime = (Date.now() - startTime) / 1000;
+      const traveledDistance = speed * elapsedTime;
 
-        let accumulatedDistance = 0;
-        for (let i = 0; i < totalPoints - 1; i++) {
-            const segmentDistance = getDistance(routeCoordinates[i], routeCoordinates[i + 1]);
-            accumulatedDistance += segmentDistance;
+      let accumulatedDistance = 0;
+      for (let i = 0; i < totalPoints - 1; i++) {
+        const segmentDistance = getDistance(
+          routeCoordinates[i],
+          routeCoordinates[i + 1]
+        );
+        accumulatedDistance += segmentDistance;
 
-            if (accumulatedDistance >= traveledDistance) {
-                const previousPoint = routeCoordinates[i];
-                const nextPoint = routeCoordinates[i + 1];
-                const segmentTraveled = traveledDistance - (accumulatedDistance - segmentDistance);
-                const segmentProgress = segmentTraveled / segmentDistance;
+        if (accumulatedDistance >= traveledDistance) {
+          const previousPoint = routeCoordinates[i];
+          const nextPoint = routeCoordinates[i + 1];
+          const segmentTraveled =
+            traveledDistance - (accumulatedDistance - segmentDistance);
+          const segmentProgress = segmentTraveled / segmentDistance;
 
-                const currentLat = previousPoint[1] + (nextPoint[1] - previousPoint[1]) * segmentProgress;
-                const currentLon = previousPoint[0] + (nextPoint[0] - previousPoint[0]) * segmentProgress;
+          const currentLat =
+            previousPoint[1] +
+            (nextPoint[1] - previousPoint[1]) * segmentProgress;
+          const currentLon =
+            previousPoint[0] +
+            (nextPoint[0] - previousPoint[0]) * segmentProgress;
 
-                setUserLocation({
-                    latitude: currentLat,
-                    longitude: currentLon
-                });
+          setUserLocation({
+            latitude: currentLat,
+            longitude: currentLon,
+          });
 
-                setViewState(prevState => ({
-                    ...prevState,
-                    latitude: currentLat,
-                    longitude: currentLon,
-                    zoom: 17,
-                    pitch: 45,
-                    transitionDuration: updateInterval
-                }));
-                break;
-            }
+          setViewState((prevState) => ({
+            ...prevState,
+            latitude: currentLat,
+            longitude: currentLon,
+            zoom: 17,
+            pitch: 45,
+            transitionDuration: updateInterval,
+          }));
+          break;
         }
+      }
 
-        if (traveledDistance >= totalDistance) {
-            clearInterval(newIntervalId);
-            setIntervalId(null);
-            if (onComplete) onComplete(); // Gọi onComplete khi hoàn thành
-            return;
-        }
+      if (traveledDistance >= totalDistance) {
+        clearInterval(newIntervalId);
+        setIntervalId(null);
+        if (onComplete) onComplete(); // Gọi onComplete khi hoàn thành hành trình
+        return;
+      }
     }, updateInterval);
 
     setIntervalId(newIntervalId);
   };
 
-  const saveRouteToDatabase = async (startLocation, endLocation, journeyDate) => {
+  // Hàm lưu thông tin lộ trình vào database
+  const saveRouteToDatabase = async (
+    startLocation,
+    endLocation,
+    journeyDate
+  ) => {
     try {
-        const token = localStorage.getItem('token');
-        const postData = {
-            startLocation: {
-                latitude: startLocation.latitude,
-                longitude: startLocation.longitude
-            },
-            endLocation: {
-                latitude: endLocation.latitude,
-                longitude: endLocation.longitude
-            },
-            journeyDate: journeyDate.toISOString() // Chuyển thành định dạng ISO
-        };
+      const token = localStorage.getItem("token");
+      const postData = {
+        startLocation: {
+          latitude: startLocation.latitude,
+          longitude: startLocation.longitude,
+        },
+        endLocation: {
+          latitude: endLocation.latitude,
+          longitude: endLocation.longitude,
+        },
+        journeyDate: journeyDate.toISOString(), // Định dạng ngày tháng thành chuỗi ISO
+      };
 
-        const response = await axios.post('http://localhost:8080/api/v1/routes', postData, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+      console.log("Saving route with data:", postData);
 
-        console.log('Route saved successfully:', response.data);
+      const response = await axios.post(
+        "http://localhost:8080/api/v1/routes",
+        postData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Route saved successfully:", response.data);
     } catch (error) {
-        console.error('Error saving route:', error);
+      console.error("Error saving route:", error);
     }
   };
 
+  // Hàm đóng lại thông tin chỉ đường
   const handleCloseDirectionClick = () => {
     setRoute(null);
     setRouteDots([]);
@@ -338,16 +448,21 @@ const YourBike = () => {
     clearInterval(intervalId);
   };
 
+  // Hàm hiển thị lịch sử hành trình
   const toggleHistory = () => {
-    setShowHistory(!showHistory); // Toggle visibility of history
+    setShowHistory(!showHistory);
   };
 
   return (
-    <div className={`your-bike-container ${showBikeList ? 'small-map-container' : ''}`}>
+    <div
+      className={`your-bike-container ${
+        showBikeList ? "small-map-container" : ""
+      }`}
+    >
       {showBikeList && (
         <div className="bike-list">
           {bikes.length > 0 ? (
-            bikes.map(bike => (
+            bikes.map((bike) => (
               <div key={bike.id} className="bike-item">
                 <h3>{bike.name}</h3>
                 <img
@@ -357,15 +472,22 @@ const YourBike = () => {
                 />
                 {bike.longitude && bike.latitude ? (
                   <div className="button-container">
-                    {route && selectedBikeLocation && selectedBikeLocation.id === bike.id ? (
+                    {route &&
+                    selectedBikeLocation &&
+                    selectedBikeLocation.id === bike.id ? (
                       <>
                         <button onClick={handleStartNavigation}>Start</button>
-                        <button className="close-directions-button" onClick={handleCloseDirectionClick}>
+                        <button
+                          className="close-directions-button"
+                          onClick={handleCloseDirectionClick}
+                        >
                           <IoCloseCircleOutline size={24} />
                         </button>
                       </>
                     ) : (
-                      <button onClick={() => handleDirectionClick(bike)}>Directions</button>
+                      <button onClick={() => handleDirectionClick(bike)}>
+                        Directions
+                      </button>
                     )}
                   </div>
                 ) : (
@@ -381,29 +503,52 @@ const YourBike = () => {
       <div className="map-container">
         <Map
           {...viewState}
-          style={{ width: '100%', height: '75vh' }}
+          style={{ width: "100%", height: "75vh" }}
           mapStyle="mapbox://styles/mapbox/streets-v12"
-          onMove={evt => setViewState(evt.viewState)}
+          onMove={(evt) => setViewState(evt.viewState)}
           mapboxAccessToken={mapboxToken}
         >
-          {userLocation && (
-            <Marker longitude={userLocation.longitude} latitude={userLocation.latitude} color="blue" onClick={() => handleMarkerClick('user')}>
-              <div className="custom-user-icon"><IoLocation /></div>
+          {userLocation && userLocation.longitude && userLocation.latitude && (
+            <Marker
+              longitude={userLocation.longitude}
+              latitude={userLocation.latitude}
+              color="blue"
+              onClick={() => handleMarkerClick("user")}
+            >
+              <div className="custom-user-icon">
+                <IoLocation />
+              </div>
             </Marker>
           )}
-          {bikes.map(bike => (
-            bike.longitude && bike.latitude && (
-              <Marker 
-                key={bike.id} 
-                longitude={bike.longitude} 
-                latitude={bike.latitude}
-                onMouseEnter={() => { setHoveredBike(bike); setHoveredCoordinates({ longitude: bike.longitude, latitude: bike.latitude }); }}
-                onMouseLeave={() => { setHoveredBike(null); setHoveredCoordinates(null); }}
-              >
-                <div className="custom-bike-icon" onClick={() => handleMarkerClick(bike)}><IoLocation /></div>
-              </Marker>
-            )
-          ))}
+          {bikes.map(
+            (bike) =>
+              bike.longitude &&
+              bike.latitude && (
+                <Marker
+                  key={bike.id}
+                  longitude={bike.longitude}
+                  latitude={bike.latitude}
+                  onMouseEnter={() => {
+                    setHoveredBike(bike);
+                    setHoveredCoordinates({
+                      longitude: bike.longitude,
+                      latitude: bike.latitude,
+                    });
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredBike(null);
+                    setHoveredCoordinates(null);
+                  }}
+                >
+                  <div
+                    className="custom-bike-icon"
+                    onClick={() => handleMarkerClick(bike)}
+                  >
+                    <IoLocation />
+                  </div>
+                </Marker>
+              )
+          )}
           {route && (
             <>
               <Source id="route" type="geojson" data={route}>
@@ -419,7 +564,7 @@ const YourBike = () => {
                 type="geojson"
                 data={{
                   type: "FeatureCollection",
-                  features: routeDots.map(dot => ({
+                  features: routeDots.map((dot) => ({
                     type: "Feature",
                     geometry: {
                       type: "Point",
@@ -448,7 +593,10 @@ const YourBike = () => {
               closeButton={false}
               offsetTop={-10}
             >
-              <BikeInfoPopup bike={hoveredBike} coordinates={hoveredCoordinates} />
+              <BikeInfoPopup
+                bike={hoveredBike}
+                coordinates={hoveredCoordinates}
+              />
             </Popup>
           )}
           <NavigationControl position="top-left" />
@@ -457,7 +605,7 @@ const YourBike = () => {
 
       {/* Nút để hiển thị lịch sử hành trình */}
       <button className="history-button" onClick={toggleHistory}>
-        {showHistory ? 'Hide History' : 'Show History'}
+        {showHistory ? "Hide History" : "Show History"}
       </button>
 
       {/* Phần hiển thị lịch sử nếu showHistory == true */}
@@ -465,10 +613,10 @@ const YourBike = () => {
         <div className="history-container">
           <h3>History of Your Journeys</h3>
           <ul>
-            {history.map((entry, index) => (
+            {historyWithAddresses.map((entry, index) => (
               <li key={index}>
-                Start: ({entry.startLocation.latitude}, {entry.startLocation.longitude}) - <br/>
-                End: ({entry.endLocation.latitude}, {entry.endLocation.longitude}) <br />
+                Start: {entry.startAddress} - <br />
+                End: {entry.endAddress} <br />
                 Date: {new Date(entry.journeyDate).toLocaleString()}
               </li>
             ))}
