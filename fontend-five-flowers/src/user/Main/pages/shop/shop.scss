@@ -75,7 +75,7 @@
             cursor: pointer;
 
             &.active a {
-              background-color: #fa3e2c;
+              background-color: rgb(250, 60, 50);
               color: #fff;
               border-radius: 50%;
               width: 2rem;
@@ -142,37 +142,30 @@
     }
   }
 
-  @media (max-width: 700px) {
-    background-size: 100vw 40vh;
+  
+  
 
-    .bot-shop-container {
-      max-width: 100%;
-      grid-template-columns: 1fr;
-      padding: 0; /* Loại bỏ padding */
+  /* Nút mũi tên nằm giữa màn hình */
+  .drawer-button {
+    position: fixed;
+    top: 50%; /* Đặt ở giữa theo chiều dọc của màn hình */
+    left: 10px; /* Khoảng cách từ cạnh trái của màn hình */
+    transform: translateY(-50%); /* Đảm bảo căn giữa theo chiều dọc */
+    z-index: 1000; /* Đảm bảo hiển thị phía trên các thành phần khác */
+    background-color: white;
+    border-radius: 50%;
+    border: 1px solid #ccc;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    color: #f66153;
+    border: thin solid #f66153;
+    &:hover {
+      color: #f66153;
+      border: thin solid #f66153;
     }
 
-    .drawer-button {
-      display: flex;
-      position: fixed;
-      top: 50%;
-      left: 0.5rem;
-      transform: translateY(-50%);
-      z-index: 1000;
-    }
-
-    .ant-drawer-body {
-      padding: 1rem;
-    }
-
-    .collection-header-container,
-    .collection-grid {
-      width: 100%;
-      margin: 0;
-      padding: 0 1rem;
-    }
-
-    .collection-grid-container {
-      width: 100%;
+    .anticon {
+      font-size: 16px; /* Kích thước biểu tượng */
+      color: black; /* Màu của biểu tượng */
     }
   }
 
@@ -185,14 +178,26 @@
     }
   }
 
+  @media(max-width:750px){
+    .background-bot-shop-container {
+      .bot-shop-container {
+        display: flex;
+        flex-direction: column;
+        max-width: 100%;
+        width: 100%;
+        padding: 2rem 0.5rem;
+      }
+    }
+  }
+
   @media (max-width: 1000px) {
     background-size: 100% 50%;
 
     .background-bot-shop-container {
       .bot-shop-container {
-        max-width: 90%;
-        width: 90%;
-        padding: 1rem;
+        max-width: 95%;
+        width: 95%;
+        padding: 2rem 0.5rem;
       }
     }
 

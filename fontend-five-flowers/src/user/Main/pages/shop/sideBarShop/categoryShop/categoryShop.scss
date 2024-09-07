@@ -5,12 +5,38 @@
   gap: 1rem;
 
   .title-category {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    border-bottom: 1px solid #fa3e2c; // Thinner line
+    padding-bottom: 1rem;
+    position: relative;
+
     p {
       color: #231f1e;
       font-size: 1.5rem;
       font-weight: 800;
-      border-bottom: 1px solid #fa3e2c;
-      padding-bottom: 1rem;
+      margin: 0;
+    }
+
+    .arrow-icon {
+      transition: transform 0.3s ease;
+      font-size: 1.3rem;
+      color: #fa3e2c;
+    }
+
+    .arrow-icon.open {
+      transform: rotate(180deg); // Rotate the arrow icon when open
+    }
+
+    &::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      border-bottom: 1px solid #fa3e2c; // Thinner horizontal line extended under arrow
     }
   }
 

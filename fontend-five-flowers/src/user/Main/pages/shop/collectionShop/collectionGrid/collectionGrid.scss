@@ -144,7 +144,7 @@
           position: absolute;
           top: 10px;
           left: 10px;
-          background: #fa3e2c;
+          background: rgb(250, 93, 50);
           color: #fff;
           padding: 9px 5px;
           border-radius: 50%;
@@ -209,7 +209,7 @@
 
         .out-of-stock {
           p {
-            color: #fa3e2c;
+            color: rgb(250, 93, 50);
             font-weight: bold;
             margin-top: 0.5rem;
           }
@@ -225,7 +225,7 @@
 
     p {
       font-size: 1.5rem;
-      color: #fa3e2c;
+      color: rgb(250, 93, 50);
     }
   }
 
@@ -241,7 +241,7 @@
       cursor: pointer;
 
       &.active a {
-        background-color: #fa3e2c;
+        background-color: rgb(250, 93, 50);
         color: #fff;
         border-radius: 50%;
         width: 2rem;
@@ -296,7 +296,7 @@
       justify-content: center;
 
       &:hover {
-        background-color: #fa3e2c;
+        background-color: rgb(250, 93, 50);
       }
 
       &.disabled {

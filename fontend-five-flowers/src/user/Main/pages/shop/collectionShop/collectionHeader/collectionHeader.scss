@@ -8,7 +8,11 @@
     align-items: center;
     padding: 0 0.5rem; /* Thêm padding để tránh khoảng trắng */
     
-  
+    @media(max-width: 992px){
+        width: 100%;
+        grid-template-columns: repeat(auto-fit, minmax(2rem,1fr))
+
+    }
     @media (max-width: 700px) {
         width: 100%;
         grid-template-columns: repeat(auto-fit, minmax(5rem, 1fr));

@@ -127,7 +127,7 @@ const CollectionGrid = ({ displayType, products }) => {
                         e.stopPropagation();
                         handleOpenDialog(product.description);
                       }}
-                      style={{ color: "#fa3e2c", textDecoration: "underline", cursor: "pointer" }}
+                      style={{ color: "rgb(250, 93, 50)", textDecoration: "underline", cursor: "pointer" }}
                     >
                       Read more
                     </span>

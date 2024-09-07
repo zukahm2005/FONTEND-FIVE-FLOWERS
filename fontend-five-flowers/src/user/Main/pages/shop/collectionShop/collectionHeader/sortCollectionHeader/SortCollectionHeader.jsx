@@ -13,14 +13,13 @@ const SortCollectionHeader = ({ onSortChange }) => {
     <div className="sort-collect-container">
       <div className="sort-collect-header">
         <div className="title-sort">
-          <p>Sort by</p>
         </div>
         <div className="select-sort">
           <Select
             defaultValue="featured"
             style={{ width: 120 }} // Chiều rộng nhỏ hơn cho Select
             onChange={handleSortChange}
-            dropdownStyle={{ border: '1px solid #fa422d', color: 'black' }}
+            dropdownStyle={{ border: '1px solid #ff6347', color: 'black' }}
           >
             <Option value="featured">
               <Tooltip title="Sort by Featured" placement="right">

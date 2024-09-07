@@ -31,23 +31,32 @@
         color: black;
         border-radius: 5px;
         font-size: 0.8rem;
-        border: 1px solid #fa422d; /* Viền cam mặc định */
+        border: 1px solid #ff6347; /* Viền cam mặc định */
         transition: border-color 0.3s ease;
-        width: 120px; /* Chiều rộng nhỏ hơn cho Select */
+        width: 100%; /* Chiều rộng nhỏ hơn cho Select */
+        text-align: left; /* Căn chữ về bên trái khi chưa chọn */
+
+        display: flex;
+        align-items: center; /* Căn giữa theo chiều dọc */
 
         &:hover, &:focus {
-          border-color: #fa422d !important; /* Viền cam khi hover và focus */
+          border-color: #ff6347 !important; /* Viền cam khi hover và focus */
           box-shadow: 0 0 0 2px rgba(250, 66, 45, 0.2); /* Hiệu ứng shadow cam nhẹ khi focus */
         }
       }
 
       .ant-select-focused .ant-select-selector {
-        border-color: #fa422d !important; /* Viền cam khi Select được focus */
+        border-color: #ff6347 !important; /* Viền cam khi Select được focus */
         box-shadow: 0 0 0 2px rgba(250, 66, 45, 0.2); /* Loại bỏ viền xanh focus */
+        text-align: left; /* Căn trái khi focus */
+      }
+
+      .ant-select-selection-item {
+        text-align: left; /* Đảm bảo chữ căn trái khi chọn */
       }
 
       .ant-select-dropdown {
-        border: 1px solid #fa422d; /* Viền cam cho dropdown */
+        border: 1px solid #ff6347; /* Viền cam cho dropdown */
         background-color: white; /* Nền trắng */
       }
 
