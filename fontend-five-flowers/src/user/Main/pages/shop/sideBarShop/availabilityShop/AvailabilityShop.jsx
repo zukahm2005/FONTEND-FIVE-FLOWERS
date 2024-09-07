@@ -15,7 +15,7 @@ const AvailabilityShop = ({ onAvailabilityFilterChange }) => {
         const productResponse = await axios.get("http://localhost:8080/api/v1/products/all", {
           params: {
             page: 0,
-            size: 1000, // Lấy đủ số lượng sản phẩm để tính toán
+            size: 1000,
           }
         });
         const products = productResponse.data.content;
@@ -33,7 +33,6 @@ const AvailabilityShop = ({ onAvailabilityFilterChange }) => {
           { inStock: 0, outOfStock: 0 }
         );
 
-        console.log("Calculated availability counts:", counts); // Kiểm tra kết quả tính toán
         setAvailabilityCounts(counts);
       } catch (error) {
         console.error("Error fetching products:", error);
@@ -56,33 +55,23 @@ const AvailabilityShop = ({ onAvailabilityFilterChange }) => {
         <p>Availability</p>
       </div>
 
-      <label
-        className="input-stock-container"
-        onClick={() => handleCheckboxChange("inStock")}
-      >
-        <div className="checkbox-stock">
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange("inStock")}
-            checked={selectedAvailability === "inStock"}
-          />
-        </div>
+      <label className="input-stock-container">
+        <input
+          type="checkbox"
+          onChange={() => handleCheckboxChange("inStock")}
+          checked={selectedAvailability === "inStock"}
+        />
         <div className="label-checkbox-stock">
           <p>In stock ({availabilityCounts.inStock})</p>
         </div>
       </label>
 
-      <label
-        className="input-stock-container"
-        onClick={() => handleCheckboxChange("outOfStock")}
-      >
-        <div className="checkbox-stock">
-          <input
-            type="checkbox"
-            onChange={() => handleCheckboxChange("outOfStock")}
-            checked={selectedAvailability === "outOfStock"}
-          />
-        </div>
+      <label className="input-stock-container">
+        <input
+          type="checkbox"
+          onChange={() => handleCheckboxChange("outOfStock")}
+          checked={selectedAvailability === "outOfStock"}
+        />
         <div className="label-checkbox-stock">
           <p>Out of stock ({availabilityCounts.outOfStock})</p>
         </div>

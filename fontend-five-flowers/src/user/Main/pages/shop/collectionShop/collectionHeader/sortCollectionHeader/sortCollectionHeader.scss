@@ -1,51 +1,70 @@
 .sort-collect-container {
-    max-width: 100%;
-    text-align: right;
-  
-    .sort-collect-header {
-      padding: 1rem;
-      width: 100%;
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 0.5rem;
-  
-      .title-sort {
-        padding-top: 0.2rem;
-        p {
-          font-size: 1rem;
-          color: rgb(0, 0, 0); /* Màu đen cho văn bản "Sort by" */
-        }
-      }
-  
-      .select-sort {
-        position: relative;
-        display: flex;
-        align-items: center;
-  
-        select {
-          cursor: pointer;
-          background-color: #fa422d;
-          padding: 0.3rem;
-          outline: none;
-          border-radius: 5px;
-          border: none;
-          color: white; /* Màu trắng cho văn bản trong select */
-          font-size: 0.8rem;
-          width: 100%;
-  
-          option {
-            background-color: #fa422d;
-            color: white;
-            cursor: pointer; /* Thêm cursor pointer cho option */
-          }
-        }
+  max-width: 100%;
+  text-align: right;
+
+  .sort-collect-header {
+    padding: 1rem;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 0.5rem;
+
+    .title-sort {
+      padding-top: 0.2rem;
+      p {
+        font-size: 1rem;
+        color: rgb(0, 0, 0); /* Màu đen cho văn bản "Sort by" */
       }
     }
-  
-    @media (max-width: 1250px) {
-      .select-sort select {
-        font-size: 0.6rem;
+
+    .select-sort {
+      position: relative;
+      display: flex;
+      align-items: center;
+
+      .ant-select {
+        width: 100%;
+      }
+
+      .ant-select-selector {
+        background-color: white; /* Nền trắng */
+        color: black;
+        border-radius: 5px;
+        font-size: 0.8rem;
+        border: 1px solid #fa422d; /* Viền cam mặc định */
+        transition: border-color 0.3s ease;
+        width: 120px; /* Chiều rộng nhỏ hơn cho Select */
+
+        &:hover, &:focus {
+          border-color: #fa422d !important; /* Viền cam khi hover và focus */
+          box-shadow: 0 0 0 2px rgba(250, 66, 45, 0.2); /* Hiệu ứng shadow cam nhẹ khi focus */
+        }
+      }
+
+      .ant-select-focused .ant-select-selector {
+        border-color: #fa422d !important; /* Viền cam khi Select được focus */
+        box-shadow: 0 0 0 2px rgba(250, 66, 45, 0.2); /* Loại bỏ viền xanh focus */
+      }
+
+      .ant-select-dropdown {
+        border: 1px solid #fa422d; /* Viền cam cho dropdown */
+        background-color: white; /* Nền trắng */
+      }
+
+      .ant-select-item {
+        color: black;
+        text-align: left; /* Căn trái các Option */
+        &:hover {
+          background-color: #ff6347; /* Nền khi hover vào option */
+          color: white; /* Màu chữ khi hover vào option */
+        }
       }
     }
   }
-  
+
+  @media (max-width: 1250px) {
+    .select-sort .ant-select-selector {
+      font-size: 0.6rem;
+    }
+  }
+}

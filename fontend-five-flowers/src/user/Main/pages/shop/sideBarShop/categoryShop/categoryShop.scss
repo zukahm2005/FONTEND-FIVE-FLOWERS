@@ -1,70 +1,65 @@
 .category-container {
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  .title-category {
+    p {
+      color: #231f1e;
+      font-size: 1.5rem;
+      font-weight: 800;
+      border-bottom: 1px solid #fa3e2c;
+      padding-bottom: 1rem;
+    }
+  }
+
+  .list-category {
+    padding-top: 1rem;
     max-width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
-  
-    .title-category {
-      p {
-        color: #231f1e;
-        font-size: 1.5rem;
-        font-weight: 800;
-        border-bottom: 1px solid #fa3e2c;
-        padding-bottom: 1rem;
-      }
-    }
-  
-    .list-category {
-      padding-top: 1rem;
-      max-width: 100%;
+    gap: 1.4rem;
+
+    .check-box-container {
       display: flex;
-      flex-direction: column;
-      gap: 1.4rem;
-  
-      .check-box-container {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 1rem;
+      flex-direction: row;
+      align-items: center;
+      gap: 1rem;
+      cursor: pointer;
+
+      input {
+        width: 16px;
+        height: 16px;
+        border: thin solid #fa3e2c;
+        border-radius: 50%;
+        appearance: none;
         cursor: pointer;
-  
-        .check-box-category {
-          max-width: 100%;
-  
-          input {
-            width: 16px;
-            height: 16px;
-            border: thin solid #fa3e2c;
-            border-radius: 50%;
-            appearance: none;
-            cursor: pointer;
-  
-            &:checked {
-              background-color: #fa3e2c;
-              border-color: #fa3e2c;
-            }
-  
-            &:checked::before {
-              content: "";
-              display: block;
-              width: 6px;
-              height: 6px;
-              margin: 4px;
-              border-radius: 50%;
-              background-color: #fff;
-            }
-          }
+
+        &:checked {
+          background-color: #fa3e2c;
+          border-color: #fa3e2c;
         }
-  
-        .name-category {
-          p {
-            margin: 0;
-            font-size: 1rem;
-            color: #231f1e;
-            cursor: pointer;
-          }
+
+        &:checked::before {
+          content: "";
+          display: block;
+          width: 6px;
+          height: 6px;
+          margin: 4px;
+          border-radius: 50%;
+          background-color: #fff;
+        }
+      }
+
+      .name-category {
+        p {
+          margin: 0;
+          font-size: 1rem;
+          color: #231f1e;
+          cursor: pointer;
         }
       }
     }
   }
-  
+}

@@ -67,16 +67,13 @@ const BrandShop = ({ onBrandFilterChange, selectedBrand }) => {
           <label
             key={brand.brandId}
             className="check-box-container"
-            onClick={() => handleCheckboxChange(brand.brandId)}
           >
-            <div className="check-box-brand">
-              <input
-                type="checkbox"
-                value={brand.brandId}
-                onChange={() => handleCheckboxChange(brand.brandId)}
-                checked={selectedBrand === brand.brandId}
-              />
-            </div>
+            <input
+              type="checkbox"
+              value={brand.brandId}
+              onChange={() => handleCheckboxChange(brand.brandId)}
+              checked={selectedBrand === brand.brandId}
+            />
             <div className="name-brand">
               <p>{brand.name} ({productCounts[brand.brandId] || 0})</p>
             </div>
