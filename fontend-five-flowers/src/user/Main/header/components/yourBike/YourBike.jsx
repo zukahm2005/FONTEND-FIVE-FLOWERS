@@ -11,6 +11,7 @@ import "mapbox-gl/dist/mapbox-gl.css";
 import { IoLocation, IoCloseCircleOutline } from "react-icons/io5"; // Icon để biểu thị vị trí của người dùng và xe đạp
 import mapboxSdk from "@mapbox/mapbox-sdk/services/directions"; // SDK Mapbox để tính toán hướng đi
 import mapboxgl from "mapbox-gl"; // Thêm thư viện mapbox
+import moment from 'moment';
 import "./yourBike.scss"; // Import file CSS cho component
 import BikeInfoPopup from "./bikeInfo/BikeInfoPopup"; // Component hiển thị thông tin của xe đạp khi hover vào vị trí của nó
 
@@ -83,7 +84,7 @@ const YourBike = () => {
   const fetchHistory = async () => {
     const token = localStorage.getItem("token");
     try {
-      const response = await axios.get("http://localhost:8080/api/v1/routes", {
+      const response = await axios.get("http://localhost:8080/api/v1/routes/get-route", {
         headers: {
           Authorization: `Bearer ${token}`, // Gửi token JWT để xác thực
         },
@@ -219,7 +220,7 @@ const YourBike = () => {
     if (userLocation && bikeLocation) {
       directionsClient
         .getDirections({
-          profile: "walking", // Chế độ di chuyển là đi bộ
+          profile: "cycling", // Chế độ di chuyển là đi bộ
           geometries: "geojson", // Hình dạng tuyến đường dưới dạng GeoJSON
           waypoints: [
             {
@@ -300,7 +301,7 @@ const YourBike = () => {
 
     const directions = await directionsClient
       .getDirections({
-        profile: "cycling", // Chế độ di chuyển là đi xe đạp
+        profile: "walking",// Chế độ di chuyển là đi xe đạp
         waypoints: [
           { coordinates: [userLocation.longitude, userLocation.latitude] },
           {
@@ -403,42 +404,43 @@ const YourBike = () => {
   };
 
   // Hàm lưu thông tin lộ trình vào database
-  const saveRouteToDatabase = async (
+const saveRouteToDatabase = async (
     startLocation,
     endLocation,
     journeyDate
-  ) => {
+) => {
     try {
-      const token = localStorage.getItem("token");
-      const postData = {
-        startLocation: {
-          latitude: startLocation.latitude,
-          longitude: startLocation.longitude,
-        },
-        endLocation: {
-          latitude: endLocation.latitude,
-          longitude: endLocation.longitude,
-        },
-        journeyDate: journeyDate.toISOString(), // Định dạng ngày tháng thành chuỗi ISO
-      };
+        const token = localStorage.getItem("token");
+        const postData = {
+            startLocation: {
+                latitude: startLocation.latitude,
+                longitude: startLocation.longitude,
+            },
+            endLocation: {
+                latitude: endLocation.latitude,
+                longitude: endLocation.longitude,
+            },
+            journeyDate: moment(journeyDate).format('YYYY-MM-DD HH:mm:ss'), // Định dạng ngày tháng thành chuỗi "yyyy-MM-dd HH:mm:ss"
+        };
 
-      console.log("Saving route with data:", postData);
+        console.log("Saving route with data:", postData);
 
-      const response = await axios.post(
-        "http://localhost:8080/api/v1/routes",
-        postData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+        const response = await axios.post(
+            "http://localhost:8080/api/v1/routes/post-route",
+            postData,
+            {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            }
+        );
 
-      console.log("Route saved successfully:", response.data);
+        console.log("Route saved successfully:", response.data);
     } catch (error) {
-      console.error("Error saving route:", error);
+        console.error("Error saving route:", error);
     }
-  };
+};
+
 
   // Hàm đóng lại thông tin chỉ đường
   const handleCloseDirectionClick = () => {
