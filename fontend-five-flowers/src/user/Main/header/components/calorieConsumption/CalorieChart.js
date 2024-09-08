@@ -146,14 +146,16 @@ const CalorieChart = () => {
           <h1 style={{marginTop:'6%', marginBottom: '2%'}}>Number Of Kilometers And Travel Time</h1>
           <Bar data={chartTime} />
 
-          <button style={{padding: '10px 50px',margin: '20px 20px'}}><Link style={{color: 'white',padding: '10px 50px'}} to='/practice'>Back</Link></button>
+          <button style={{padding: '10px 50px',margin: '3% 20px'}}><Link style={{color: 'white',padding: '10px 50px'}} to='/practice'>Back</Link></button>
         </>
       ) : (
-        <div style={{ textAlign: 'center'}}>
+        <div style={{ textAlign: 'center', margin: '6% 0'}}>
           <img style={{
             width: '100%',
-            margin: '30px 0'
-          }} src='https://vn1.vdrive.vn/nghiahai.com/2018/10/S%E1%BB%B1-luy%E1%BB%87n-t%E1%BA%ADp-v%E1%BB%81-t%E1%BB%91c-%C4%91%E1%BB%99-gi%C3%BAp-b%E1%BA%A1n-tr%E1%BB%9F-th%C3%A0nh-m%E1%BB%99t-tay-%C4%91ua-xe-%C4%91%E1%BA%A1p-t%E1%BB%91t-h%C6%A1n-nh%C6%B0-th%E1%BA%BF-n%C3%A0o-2.jpg' />
+            height: '800px',
+            borderRadius: '10px',
+            marginBottom:'1%'
+                      }} src='https://vn1.vdrive.vn/nghiahai.com/2018/10/S%E1%BB%B1-luy%E1%BB%87n-t%E1%BA%ADp-v%E1%BB%81-t%E1%BB%91c-%C4%91%E1%BB%99-gi%C3%BAp-b%E1%BA%A1n-tr%E1%BB%9F-th%C3%A0nh-m%E1%BB%99t-tay-%C4%91ua-xe-%C4%91%E1%BA%A1p-t%E1%BB%91t-h%C6%A1n-nh%C6%B0-th%E1%BA%BF-n%C3%A0o-2.jpg' />
           <p style={{
             fontSize: '18px',
             fontWeight: 'bold',

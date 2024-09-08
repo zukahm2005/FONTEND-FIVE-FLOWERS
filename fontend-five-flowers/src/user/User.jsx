@@ -19,9 +19,9 @@ import LoginAdmin from "./Main/header/components/profile/login/loginAdmin/LoginA
 import YourBike from "./Main/header/components/yourBike/YourBike";
 import ScrollIndicator from "./scrollLayout/ScrollIndicator";
 import "./user.scss";
-import ScreenshotPage from "./Main/header/components/calorieConsumption/ScreenshotPage ";
 import CalorieChart from "./Main/header/components/calorieConsumption/CalorieChart";
 import DistanceTracker from "./Main/header/components/calorieConsumption/mapComponent";
+import Service from "./Main/header/components/calorieConsumption/Service";
 
 const User = () => {
   const [cart, setCart] = useState([]);
@@ -53,6 +53,7 @@ const User = () => {
             <Route path="/loginadmin" element={<LoginAdmin />} />
             <Route path='/calo' element={<CalorieChart />} />
             <Route path='/practice' element={<DistanceTracker />} />
+            <Route path="/service" element={<Service />} />
           </Routes>
         </div>
         <ScrollIndicator />

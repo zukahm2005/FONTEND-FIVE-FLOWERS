@@ -3,7 +3,6 @@ import { Route, BrowserRouter as Router, Routes } from 'react-router-dom';
 import Admin from './admin/Admin';
 import User from './user/User';
 import usePageTracking from './usePageTracking';
-import CalorieChart from './user/Main/header/components/calorieConsumption/CalorieChart';
 import ScreenshotPage from './user/Main/header/components/calorieConsumption/ScreenshotPage ';
 
 const TrackingComponent = () => {
@@ -19,7 +18,6 @@ const App = () => {
         <Route path="/admin/*" element={<Admin />} />
         <Route path="/*" element={<User />} />
         <Route path="/screenshot" element={<ScreenshotPage />} />
-
       </Routes>
     </Router>
   );

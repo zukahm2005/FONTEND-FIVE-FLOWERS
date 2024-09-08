@@ -24,6 +24,8 @@ const Component = ({ showDrawer, cart }) => {
       navigate('/your-bike'); // Điều hướng đến trang Your Bike
     }else if (e.key === 'practice') {
       navigate('/practice'); // Điều hướng đến trang Your Bike
+    }else if (e.key === 'service') {
+      navigate('/service'); // Điều hướng đến trang Your Bike
     }
     setVisible(false);
   };
@@ -32,6 +34,7 @@ const Component = ({ showDrawer, cart }) => {
     <Menu onClick={handleMenuClick}>
       <Menu.Item key="your-bike">Your Bike</Menu.Item>
       <Menu.Item key="practice">Practice</Menu.Item>
+      <Menu.Item key="service">Service</Menu.Item>
       <Menu.Item key="profile">Orders</Menu.Item>
       <Menu.Item key="logout">Logout</Menu.Item>
     </Menu>

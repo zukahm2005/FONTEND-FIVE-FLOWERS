@@ -1,0 +1,60 @@
+/* Service.css */
+
+/* Sidebar styles */
+.sidebar {
+  width: 250px;
+  background-color: #f8f8f8;
+  padding: 20px;
+  border-right: 1px solid #ccc;
+  transition: width 0.3s ease;
+}
+
+/* Map container */
+.map-container {
+  flex: 1;
+  height: 80vh;
+}
+
+/* Toggle icon styles */
+.toggle-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background-color: #007BFF;
+  color: white;
+  cursor: pointer;
+  margin: 10px;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+}
+
+.toggle-icon:hover {
+  background-color: #0056b3;
+}
+.map-label {
+  font-size: 14px;
+}
+/* Định dạng cho popup */
+.mapboxgl-popup {
+  width: 200px; /* Chiều rộng tối đa của popup */
+  height: 20px;
+}
+
+.mapboxgl-popup-content {
+  background: rgba(255, 255, 255, 0.9); /* Nền trắng với độ trong suốt nhẹ */
+  border: 1px solid rgba(0, 0, 0, 0.2); /* Viền xám nhạt */
+  padding: 10px; /* Khoảng cách giữa nội dung và viền */
+  border-radius: 5px; /* Bo tròn các góc của popup */
+  font-size: 14px; /* Kích thước chữ */
+  color: #333; /* Màu chữ tối để tương phản với nền */
+  text-align: center; /* Căn giữa văn bản */
+}
+
+.mapboxgl-popup-tip {
+  background: rgba(255, 255, 255, 0.9); /* Nền trắng với độ trong suốt nhẹ */
+  border: 1px solid rgba(0, 0, 0, 0.2); /* Viền xám nhạt */
+  border-radius: 5px; /* Bo tròn các góc của tip */
+}
+

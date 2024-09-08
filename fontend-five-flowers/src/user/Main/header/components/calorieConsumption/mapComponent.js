@@ -3,7 +3,6 @@ import mapboxgl from 'mapbox-gl';
 import MapboxDirections from '@mapbox/mapbox-sdk/services/directions';
 import axios from 'axios';
 import polyline from '@mapbox/polyline';
-import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from 'react-share';
 import { Link, useNavigate } from 'react-router-dom';
 import './mapComponent.css';
 
@@ -16,9 +15,9 @@ const fixedLon = 105.782098;  // Kinh độ cố định (Hà Nội)
 
 
 function DistanceTracker() {
-  const [screenshotUrl, setScreenshotUrl] = useState(null);  // Ensure hooks like this are called inside components
+  const [screenshotUrl, setScreenshotUrl] = useState(null);  // Đảm bảo các hook như thế này được gọi bên trong các thành phần
   const navigate = useNavigate();
-  // State variables
+  // Biến trạng thái
   const [positions, setPositions] = useState([]);
   const [totalDistance, setTotalDistance] = useState(0);
   const [tracking, setTracking] = useState(false);
@@ -34,15 +33,15 @@ function DistanceTracker() {
   // Refs
   const mapRef = useRef(null);
   const markerRef = useRef(null);
-  const trackingRef = useRef(tracking); // Create a ref to store the tracking state
-  const watchIdRef = useRef(null); // Create a ref to store the watchId
-  let simulationInterval;  // Declare simulationInterval here
+  const trackingRef = useRef(tracking); // Tạo một tham chiếu để lưu trữ trạng thái theo dõi
+  const watchIdRef = useRef(null); // Tạo một ref để lưu trữ ID đồng hồ
+  let simulationInterval;  //Khai báo khoảng thời gian mô phỏng ở đây
 
 
   const directionsService = MapboxDirections({ accessToken: mapboxgl.accessToken });
 
   useEffect(() => {
-    trackingRef.current = tracking;  // Update the ref whenever tracking state changes
+    trackingRef.current = tracking;  //Cập nhật tham chiếu bất cứ khi nào trạng thái theo dõi thay đổi
   }, [tracking]);
 
   //Mô Phỏng Chuyển Động
@@ -154,7 +153,7 @@ function DistanceTracker() {
   }, [tracking, startTime]);
 
   const trackPosition = (position) => {
-    if (!trackingRef.current) return;  // Use the ref value
+    if (!trackingRef.current) return;  // Sử dụng giá trị tham chiếu
 
     const lat = position.coords.latitude;
     const lon = position.coords.longitude;
@@ -167,7 +166,6 @@ function DistanceTracker() {
         const distance = calculateDistance(lastPosition, newPosition);
 
         if (distance > 0.05) {
-          console.warn('Khoảng cách giữa hai điểm quá lớn, xóa điểm cuối và bỏ qua vị trí mới.');
           return prevPositions.slice(0, -1);
         }
 
@@ -312,7 +310,7 @@ function DistanceTracker() {
     console.error("Lỗi khi lấy vị trí:", error);
   };
 
-  // Function to generate a random destination point within a given range
+  //Hàm tạo điểm đích ngẫu nhiên trong phạm vi nhất định
   const getRandomDestination = (startLat, startLon, range = 0.01) => {
     const randomLatOffset = (Math.random() - 0.5) * range;
     const randomLonOffset = (Math.random() - 0.5) * range;
@@ -326,7 +324,7 @@ function DistanceTracker() {
 
   const takeMapScreenshot = async () => {
     if (!initialPosition || !destination) {
-      alert("bạn chưa di chuyển"); 
+      alert("No end point"); 
       return;
     }
 
@@ -340,8 +338,6 @@ function DistanceTracker() {
     try {
       // Gọi Directions API để lấy đường đi
       const directionsUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/${startLon},${startLat};${destLon},${destLat}?geometries=geojson&access_token=${mapboxgl.accessToken}`;
-      console.log('Fetching directions from:', directionsUrl);
-
       const response = await fetch(directionsUrl);
       const data = await response.json();
 
@@ -541,8 +537,6 @@ function DistanceTracker() {
       const lastPosition = positions[positions.length - 1];
       const swappedPosition = [lastPosition[1], lastPosition[0]];
       setDestination(swappedPosition);
-      console.log('Swapped Position:', swappedPosition);
-
       // Thêm chỉ đường đến đích
       if (initialPosition) {
         const [startLat, startLon] = initialPosition;
