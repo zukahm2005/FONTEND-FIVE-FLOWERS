@@ -9,7 +9,7 @@ const NavBar = () => {
 
   return (
     <div className='nav-main'>
-      {['home', 'shop', 'news', 'aboutUs'].map((item, index) => (
+      {['home', 'shop', 'news', 'aboutUs','contact'].map((item, index) => (
         <div key={index} className={`nav-${item}`}>
           <Link to={`/${item}`}>
             <motion.div

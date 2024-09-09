@@ -1,1001 +1,551 @@
-.aboutus-container {
-  padding-top: 5rem;
-  max-width: 100%;
-  margin: 0 auto;
+.aboutus-wrapper {
+  position: relative;
 
-  .aboutus-header-container {
-    margin-top: 0;
+  .aboutus-background {
     background-image: url("https://bikex-club.myshopify.com/cdn/shop/files/blog_detail-4.jpg?v=1598503894");
     background-size: cover;
-    background-position: top center;
-    text-align: center;
-    height: 300px;
-
-    .aboutus-header {
-      background: rgba(0, 0, 0, 0.7);
-      width: 100%;
-      height: 300px;
-
-      h1 {
-        padding-top: 5rem;
-        color: white;
-        margin-top: 0;
-        margin-bottom: 1rem;
-        font-size: 40px;
-      }
-
-      nav {
-        margin-top: 10px;
-
-        a {
-          font-size: 20px;
-          text-decoration: none;
-          color: white;
-        }
-
-        span {
-          font-size: 20px;
-          color: white;
-        }
-      }
-    }
+    background-position: top;
+    background-repeat: no-repeat;
+    height: 175px; /* Điều chỉnh chiều cao */
+    width: 100%;
+    position: absolute;
+    top: 0;
+    z-index: -1;
   }
 
-  .aboutus-section-container {
-    width: 80%;
-    margin: auto;
+  .aboutus-container {
+    margin-top: 5rem;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    margin-bottom: 150px;
 
-    @media (max-width: 1024px) {
-      width: 90%;
-    }
-
-    @media (max-width: 768px) {
-      width: 100%;
-    }
-  }
-
-  .aboutus-images {
-    padding-top: 2rem;
-    padding-bottom: 3rem;
-
-    .aboutus-section-container {
+    .top-aboutus-container {
+      max-width: 100%;
+      background-color: rgba(92, 90, 92, 0.8);
+      min-height: 175px;
       display: flex;
-      justify-content: space-between;
-      gap: 1rem;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
 
-      .aboutus-images-containe {
+      .name-top-aboutus-container {
+        max-width: 100%;
+
+        h1 {
+          margin-bottom: 10px;
+          font-size: 2rem;
+          color: white;
+        }
+      }
+
+      .name-bottom-aboutus-container {
+        max-width: 100%;
+        display: flex;
+        flex-direction: row;
+        gap: 0.3rem;
+
+        p {
+          color: white;
+        }
+
+        .home-aboutus {
+          &:hover {
+            p {
+              color: #fa422d;
+            }
+          }
+        }
+      }
+    }
+
+    .aboutus-images {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 2rem;
+
+      .image-container {
+        flex: 1;
+        margin-top: 5rem;
+        max-width: 23%;
         position: relative;
-        width: calc(33.33% - 1rem);
+        overflow: hidden;
 
         img {
           width: 100%;
-          height: auto;
-          display: block;
+          height: 100%;
+          object-fit: cover;
+          transition: transform 0.5s ease;
         }
 
-        .aboutus-images-container-content {
+        .image-overlay {
           position: absolute;
           top: 0;
           left: 0;
-          width: 100%;
-          height: 100%;
-          background-color: rgba(0, 0, 0, 0.7);
+          right: 0;
+          bottom: 0;
+          background: rgba(0, 0, 0, 0.8);
           display: flex;
           flex-direction: column;
           align-items: center;
           justify-content: center;
           opacity: 0;
-          transition: opacity 0.3s ease;
+          transition: opacity 1s ease;
 
-          h4 {
-            font-size: 30px;
-            padding-bottom: 1rem;
-            margin-bottom: 1rem;
-            text-decoration: underline;
-            text-decoration-color: red;
-            text-decoration-thickness: 0.2rem;
-            text-underline-offset: 2rem;
-            text-align: center;
-            color: #fff;
+          h2 {
+            color: white;
+            font-size: 2rem;
+            margin: 0;
           }
 
-          h6 {
-            font-size: 20px;
-            margin-bottom: 1rem;
-            color: #fff;
-            text-align: center;
+          h3 {
+            color: white;
+            font-size: 1.5rem;
+            margin: 10px 0;
+          }
+
+          .underline {
+            width: 50px;
+            height: 3px;
+            background-color: #fa422d;
+            margin: 10px 0;
           }
 
           p {
-            font-size: 18px;
-            padding-top: 2rem;
-            max-width: 80%;
-            margin-bottom: 1rem;
-            color: #fff;
+            color: white;
             text-align: center;
+            max-width: 90%;
           }
         }
 
-        &:hover .aboutus-images-container-content {
+        &:hover img {
+          transform: scale(1.15);
+        }
+
+        &:hover .image-overlay {
           opacity: 1;
         }
       }
     }
-  }
 
-  .aboutus-components {
-    padding-top: 6rem;
-    text-align: center;
-    margin-bottom: 150px;
-    position: relative;
-
-    .aboutus-section-title {
+    .suspension-container {
       position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      margin-top: 10rem;
+      text-align: center;
+      margin-bottom: 10rem;
 
-      .aboutus-section-container-subh2 {
-        p {
-          font-size: 14vw;
-          color: rgba(250, 250, 250, 0.9);
-          font-weight: bold;
-          margin-bottom: 0;
-          position: relative;
-          z-index: -1;
-        }
+      .title-background {
+        position: absolute;
+        top: 50%; 
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 280px;
+        color: rgba(0, 0, 0, 0.02);
+        z-index: -1;
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 700;
       }
 
-      h2 {
-        font-size: 40px;
-        margin-top: -9vw;
-        z-index: 1;
+      .underline-red {
+        width: 50px;
+        height: 3px;
+        background-color: #fa422d;
+        margin: 0 auto 0.5rem auto;
+      }
 
-        &:before {
-          content: "";
-          display: block;
-          width: 50px;
-          height: 4px;
-          background-color: red;
-          margin: 0 auto 1rem;
-        }
+      .title-main {
+        position: relative;
+        z-index: 1;
+        font-size: 48px;
+        color: #333;
+        margin-top: 0.5rem;
       }
     }
 
-    .aboutus-component-list {
-      margin-top: 6rem;
+    .components-list {
+      width: 65%;
+      margin: auto;
       display: flex;
       justify-content: center;
-      gap: 40px;
-
-      .aboutus-component {
-        width: 300px;
-        text-align: center;
-
-        img {
-          width: 100px;
-          height: 100px;
-          background-color: #f97c37;
-          border-radius: 50%;
-          padding: 20px;
-          transition: background-color 0.3s;
-
-          &:hover {
-            background-color: black;
-          }
-        }
-
-        h3 {
-          font-size: 25px;
-          margin: 10px 0;
-        }
-
-        p {
-          font-size: 20px;
-          color: #666;
-        }
-      }
-    }
-  }
-
-  .aboutus-join-us {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 40px;
-    background-color: #ffeceb;
-    padding-top: 70px;
-    padding-bottom: 70px;
-
-    .aboutus-join-content {
-      padding-top: 3rem;
-      padding-bottom: 3rem;
-      width: 100%;
-      justify-content: space-between;
-
-      .aboutus-join-text {
-        width: 100%;
-
-        h2 {
-          font-size: 45px;
-          margin-bottom: 20px;
-          color: #000;
-
-          .red-text {
-            color: #ff4040;
-          }
-        }
-
-        p {
-          line-height: 1.9;
-          max-width: 100%;
-          font-size: 16px;
-          color: #666;
-
-          @media (max-width: 1024px) {
-            font-size: 14px;
-          }
-
-          @media (max-width: 768px) {
-            font-size: 14px;
-            text-align: left;
-          }
-        }
-      }
-
-      .aboutus-join-button {
-        width: 90%;
-        margin-top: 50px;
+      gap: 2rem;
+      margin-top: 3rem;
+      text-align: center;
+      transition: all 0.3s linear;
+      
+      .component-item {
         display: flex;
-        justify-content: flex-end;
-
-        button {
-          padding: 15px 30px;
-          background-color: #ff4040;
-          color: #fff;
-          border: none;
-          font-size: 18px;
-          cursor: pointer;
-          transition: background-color 0.3s;
-          border-radius: 222px;
-
-          &:hover {
-            background-color: #cc0000;
-          }
-        }
-        .aboutus-team {
-  padding-top: 6rem;
-  margin-bottom: 6rem;
-  position: relative;
-  width: 100%;
-
-  .aboutus-section-title {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .aboutus-section-container-subh2 {
-      p {
-        font-size: 14vw;
-        color: rgba(250, 250, 250, 0.9);
-        font-weight: bold;
-        margin-bottom: 0;
-        position: relative;
-        z-index: -1;
-      }
-    }
-
-    h2 {
-      font-size: 40px;
-      margin-top: -9vw;
-      z-index: 1;
-
-      &:before {
-        content: "";
-        display: block;
-        width: 50px;
-        height: 4px;
-        background-color: red;
-        margin: 0 auto 1rem;
-      }
-    }
-  }
-
-  .aboutus-team-members {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 2rem;
-    margin-top: 6rem;
-
-    .aboutus-member {
-      text-align: center;
-      padding: 1rem;
-      border-radius: 8px;
-      img {
-        width: 100%;
-        height: auto;
-        border-radius: 50%;
-        margin-bottom: 1rem;
-      }
-
-      h3 {
-        font-size: 1.5rem;
-        color: #333;
-        margin-bottom: 0.5rem;
-      }
-
-      p {
-        font-size: 1rem;
-        color: #666;
-      }
-    }
-  }
-
-  @media (max-width: 768px) {
-    .aboutus-team-members {
-      grid-template-columns: 1fr;
-    }
-  }
-}
-.aboutus-team {
-  padding-top: 6rem;
-  margin-bottom: 6rem;
-  position: relative;
-  width: 100%;
-
-  .aboutus-section-title {
-    position: relative;
-    z-index: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    .aboutus-section-container-subh2 {
-      p {
-        font-size: 14vw;
-        color: rgba(250, 250, 250, 0.9);
-        font-weight: bold;
-        margin-bottom: 0;
-        position: relative;
-        z-index: -1;
-      }
-    }
-
-    h2 {
-      font-size: 40px;
-      margin-top: -9vw;
-      z-index: 1;
-
-      &:before {
-        content: "";
-        display: block;
-        width: 50px;
-        height: 4px;
-        background-color: red;
-        margin: 0 auto 1rem;
-      }
-    }
-  }
-
-  .aboutus-team-members {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
-    margin-top: 6rem;
-
-    .aboutus-member {
-      text-align: center;
-      padding: 1rem;
-      border-radius: 8px;
-
-      img {
-        width: 100%;
-        height: auto;
-        border-radius: 50%;
-        margin-bottom: 1rem;
-      }
-
-      h3 {
-        font-size: 1.5rem;
-        color: #333;
-        margin-bottom: 0.5rem;
-      }
-
-      p {
-        font-size: 1rem;
-        color: #666;
-      }
-    }
-  }
-
-  @media (max-width: 1024px) {
-    .aboutus-team-members {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (max-width: 768px) {
-    .aboutus-team-members {
-      grid-template-columns: 1fr;
-    }
-  }
-}
-      }
-    }
-
-    @media (max-width: 1024px) {
-      .aboutus-join-content {
         flex-direction: column;
         align-items: center;
         text-align: center;
+        transition: all 0.3s linear;
 
-        .aboutus-join-text {
-          width: 100%;
-
-          h2 {
-            font-size: 35px;
-          }
-
-          p {
-            font-size: 14px;
-          }
-        }
-
-        .aboutus-join-button {
-          width: 100%;
+        .icon-wrapper {
+          width: 170px;
+          height: 170px;
+          margin-bottom: 1rem;
+          background-color: #fa722d;
+          border-radius: 50%;
+          padding: 30px;
+          overflow: hidden;
           display: flex;
+          align-items: center;
           justify-content: center;
-          margin-top: 20px;
-          justify-content: flex-start;
-
-
-          button {
-            width: auto;
-            padding: 10px 20px;
-          }
+          transition: all 0.3s linear;
         }
-      }
-    }
-
-    @media (max-width: 768px) {
-      .aboutus-join-content {
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-
-        .aboutus-join-text {
-          width: 100%;
-
-          h2 {
-            font-size: 30px;
-          }
-
-          p {
-            margin-left: 20px;
-            font-size: 14px;
-            text-align: left;
-          }
-        }
-
-        .aboutus-join-button {
-          width: 100%;
-          display: flex;
-          justify-content: center;
-          margin-top: 20px;
-          justify-content: flex-start;
-
-
-          button {
-            margin-left: 20px;
-            width: auto;
-            padding: 10px 20px;
-            font-size: 14px;
-          }
-        }
-      }
-    }
-  }
-
-  .aboutus-king-of-bicycles {
-    padding-top: 6rem;
-    margin-bottom: 150px;
-    position: relative;
-    width: 100%;
-
-    .aboutus-section-title {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      .aboutus-section-container-subh2 {
-        p {
-          font-size: 14vw;
-          color: rgba(250, 250, 250, 0.9);
-          font-weight: bold;
-          margin-bottom: 0;
-          position: relative;
-          z-index: -1;
-        }
-      }
-
-      h2 {
-        font-size: 40px;
-        margin-top: -9vw;
-        z-index: 1;
-
-        &:before {
-          content: "";
-          display: block;
-          width: 50px;
-          height: 4px;
-          background-color: red;
-          margin: 0 auto 1rem;
-        }
-      }
-    }
-
-    .aboutus-bicycles {
-      display: grid;
-      margin-top: 100px;
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(2, auto);
-      gap: 20px;
-
-      .aboutus-bicycle {
-        position: relative;
 
         img {
           width: 100%;
-          height: auto;
+          height: 100%;
+          transition: transform 0.3s linear;
         }
 
-        .aboutus-bicycle_content_01,
-        .aboutus-bicycle_content_02,
-        .aboutus-bicycle_content_03,
-        .aboutus-bicycle_content_04 {
-          position: absolute;
-          top: 0.5rem;
-          width: 50%;
-          height: 95%;
-          background-color: rgba(255, 255, 255, 0.7);
-          padding: 20px;
-          box-sizing: border-box;
+        h3 {
+          font-size: 1.2rem;
+          color: #333;
+          margin-bottom: 1rem;
+        }
 
-          h3,
-          p {
-            margin: 0;
-            padding-bottom: 3rem;
+        p {
+          font-size: 1rem;
+          color: #777;
+        }
+
+        &:hover img {
+          transform: scale(1.3);
+          transition: all 0.3s linear;
+        }
+
+        &:hover .icon-wrapper {
+          background-color: #000;
+        }
+      }
+    }
+
+    /* Phần SCSS cho Join Us */
+    .join-us-section {
+      width: 100%;
+      height: 350px;
+      background-color: #fdece9; // Light pink background
+      padding: 5rem 1rem;
+      margin-top: 5rem;
+      margin-bottom: 5rem;
+      display: flex;
+      justify-content: center;
+    
+      .join-us-content {
+        width: 1300px;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+    
+        .text-content {
+          max-width: 70%; // Giới hạn chiều rộng của phần text để có khoảng trống cho button
+          .join-us-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #333;
+    
+            .highlight {
+              color: #fa422d; // Highlighted orange-red color
+            }
           }
-
-          h3 {
-            font-size: 35px;
+    
+          .join-us-description {
+            font-size: 1rem;
+            color: #777;
+            line-height: 2.0;
+            margin-bottom: 2rem;
           }
-
-          p {
-            font-size: 25px;
-            color: #666;
-          }
-
-          button {
-            position: absolute;
-            bottom: 2rem;
-            right: 2rem;
-            background-color: red;
+        }
+    
+        .button-wrapper {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          .shop-now-button {
+            background: linear-gradient(45deg, #fa422d, #ff734e);
             color: #fff;
+            padding: 1rem 2rem; // Tăng kích thước padding để nút lớn hơn
             border: none;
-            padding: 5px 10px;
-            font-size: 25px;
+            border-radius: 30px;
+            font-size: 1rem;
             cursor: pointer;
-            transition: background-color 0.3s;
-
+            transition: background 0.3s ease;
+    
             &:hover {
-              background-color: darkred;
+              background: linear-gradient(45deg, #ff734e, #fa422d);
             }
-          }
-        }
-
-        .aboutus-bicycle_content_01,
-        .aboutus-bicycle_content_02 {
-          left: 0.5rem;
-        }
-
-        .aboutus-bicycle_content_03,
-        .aboutus-bicycle_content_04 {
-          right: 0.5rem;
-        }
-      }
-    }
-
-    @media (max-width: 1024px) {
-      .aboutus-bicycles {
-        grid-template-columns: repeat(2, 1fr);
-        grid-template-rows: repeat(2, auto);
-
-        .aboutus-bicycle {
-          .aboutus-bicycle_content_01,
-          .aboutus-bicycle_content_02,
-          .aboutus-bicycle_content_03,
-          .aboutus-bicycle_content_04 {
-            h3 {
-              font-size: 25px;
-            }
-
-            p {
-              font-size: 20px;
-            }
-
-            width: calc(100% - 20px);
-          }
-
-          .aboutus-bicycle_content_03,
-          .aboutus-bicycle_content_04 {
-            left: 10px;
-          }
-        }
-      }
-    }
-
-    @media (max-width: 768px) {
-      .aboutus-bicycles {
-        grid-template-columns: 1fr;
-        grid-template-rows: repeat(4, auto);
-
-        .aboutus-bicycle {
-          .aboutus-bicycle_content_01,
-          .aboutus-bicycle_content_02,
-          .aboutus-bicycle_content_03,
-          .aboutus-bicycle_content_04 {
-            h3 {
-              font-size: 35px;
-            }
-
-            p {
-              font-size: 25px;
-            }
-
-            width: calc(100% - 20px);
-          }
-
-          .aboutus-bicycle_content_03,
-          .aboutus-bicycle_content_04 {
-            left: 10px;
           }
         }
       }
     }
   }
+ .bicycle-section {
+  position: relative;
+  padding-top: 1yrem;
+  text-align: center;
 
-  .aboutus-team {
-    padding-top: 6rem;
-    margin-bottom: 6rem;
+  .bicycle-top {
     position: relative;
-    width: 100%;
+    margin-top: 5rem;
+    .background-text {
+      font-size: 280px;
+      margin-top: -190px;
+      color: rgba(0, 0, 0, 0.02);
+      top: 50%;
+      left: 50%;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      z-index: -1;
+    }
 
-    .aboutus-section-title {
+    .section-title {
+      font-size: 48px;
+      z-index: 1;
+      position: relative;
+      color: #333;
+    }
+
+    .underline-red {
+      width: 50px;
+      height: 3px;
+      background-color: #fa422d;
+      margin: 0.5rem auto;
       position: relative;
       z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-
-      .aboutus-section-container-subh2 {
-        p {
-          font-size: 14vw;
-          color: rgba(250, 250, 250, 0.9);
-          font-weight: bold;
-          margin-bottom: 0;
-          position: relative;
-          z-index: -1;
-        }
-      }
-
-      h2 {
-        font-size: 40px;
-        margin-top: -9vw;
-        z-index: 1;
-
-        &:before {
-          content: "";
-          display: block;
-          width: 50px;
-          height: 4px;
-          background-color: red;
-          margin: 0 auto 1rem;
-        }
-      }
-    }
-
-    .aboutus-team-members {
-      display: flex;
-      justify-content: space-evenly;
-      gap: 2rem;
-      margin-top: 6rem;
-
-      .aboutus-member {
-        width: 200px;
-        text-align: center;
-        padding: 1rem;
-        border-radius: 8px;
-        img {
-          width: 100%;
-          height: auto;
-          border-radius: 50%;
-          margin-bottom: 1rem;
-        }
-
-        h3 {
-          font-size: 1.5rem;
-          color: #333;
-          margin-bottom: 0.5rem;
-        }
-
-        p {
-          font-size: 1rem;
-          color: #666;
-        }
-      }
-      @media (max-width: 1024px) {
-        display: grid;
-        margin-left: 130px;
-        grid-template-columns: repeat(2, 2fr);
-      }
-    
-      @media (max-width: 768px) {
-        grid-template-columns: 1fr;
-      }
-    }
-  }
-
-  @media (max-width: 1024px) {
-    .aboutus-images .aboutus-section-container {
-      flex-wrap: wrap;
-
-      .aboutus-images-containe {
-        width: calc(50% - 1rem);
-      }
-    }
-
-    .aboutus-bicycles {
-      grid-template-columns: repeat(2, 1fr);
-      grid-template-rows: repeat(2, auto);
-
-      .aboutus-bicycle .aboutus-bicycle_content_01,
-      .aboutus-bicycle_content_02,
-      .aboutus-bicycle_content_03,
-      .aboutus-bicycle_content_04 {
-        h3 {
-          font-size: 25px;
-        }
-
-        p {
-          font-size: 20px;
-        }
-
-        width: calc(100% - 20px);
-      }
-
-      .aboutus-bicycle_content_03,
-      .aboutus-bicycle_content_04 {
-        left: 10px;
-      }
-    }
-
-    .aboutus-component-list {
-      flex-wrap: wrap;
-
-      .aboutus-component {
-        width: calc(50% - 1rem);
-        margin-bottom: 2rem;
-
-        img {
-          width: 80px;
-          height: 80px;
-        }
-
-        h3 {
-          font-size: 20px;
-        }
-
-        p {
-          font-size: 16px;
-        }
-      }
-    }
-
-    .aboutus-section-title .aboutus-section-container-subh2 p {
-      font-size: 8vw;
-    }
-
-    .aboutus-section-title h2 {
-      margin-top: -14vw !important;
-    }
-
-    .aboutus-join-content {
-      flex-direction: column;
-
-      .aboutus-join-text {
-        width: 100%;
-        text-align: left;
-
-        h2 {
-          font-size: 30px;
-        }
-
-        p {
-          line-height: 1.6;
-          font-size: 16px;
-        }
-      }
-
-      .aboutus-join-button {
-        justify-content: left;
-
-        button {
-          width: auto;
-        }
-      }
-    }
-  }
-
-  @media (max-width: 768px) {
-    .aboutus-images .aboutus-section-container {
-      flex-wrap: wrap;
-
-      .aboutus-images-containe {
-        width: 100%;
-      }
-    }
-
-    .aboutus-section-title h2 {
-      font-size: 25px;
-      margin-top: -13vw;
-    }
-
-    .aboutus-bicycles {
-      grid-template-columns: 1fr;
-      grid-template-rows: repeat(4, auto);
-
-      .aboutus-bicycle .aboutus-bicycle_content_01,
-      .aboutus-bicycle_content_02,
-      .aboutus-bicycle_content_03,
-      .aboutus-bicycle_content_04 {
-        h3 {
-          font-size: 35px;
-        }
-
-        p {
-          font-size: 25px;
-        }
-
-        width: calc(100% - 20px);
-      }
-
-      .aboutus-bicycle_content_03,
-      .aboutus-bicycle_content_04 {
-        left: 10px;
-      }
-    }
-
-    .aboutus-join-content {
-      flex-direction: column;
-      align-items: center;
-
-      .aboutus-join-text,
-      .aboutus-join-button {
-        width: 100%;
-        text-align: center;
-      }
-
-      .aboutus-join-button button {
-        width: auto;
-        padding: 10px 20px;
-        font-size: 14px;
-      }
-
-      h2 {
-        font-size: 25px;
-      }
-
-      p {
-        font-size: 14px;
-        text-align: left;
-      }
-    }
-
-    .aboutus-component-list {
-      flex-wrap: wrap;
-
-      .aboutus-component {
-        width: 100%;
-        margin-bottom: 2rem;
-
-        img {
-          width: 60px;
-          height: 60px;
-        }
-
-        h3 {
-          font-size: 18px;
-        }
-
-        p {
-          font-size: 14px;
-        }
-      }
-    }
-
-    .aboutus-team-members {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2rem;
-      margin-top: 6rem;
-    
-      .aboutus-member {
-        text-align: center;
-        padding: 1rem;
-        border-radius: 8px;
-    
-        img {
-          width: 100%;
-          height: auto;
-          border-radius: 50%;
-          margin-bottom: 1rem;
-        }
-    
-        h3 {
-          font-size: 1.5rem;
-          color: #333;
-          margin-bottom: 0.5rem;
-        }
-    
-        p {
-          font-size: 1rem;
-          color: #666;
-        }
-      }
-    
-      @media (max-width: 1024px) {
-        grid-template-columns: repeat(2, 2fr);
-      }
-    
-      @media (max-width: 768px) {
-        grid-template-columns: 1fr;
-      }
-    }
-    
-
-    .aboutus-section-title .aboutus-section-container-subh2 p {
-      font-size: 10vw;
-    }
-
-    .aboutus-section-title h2 {
-      margin-top: -15vw !important;
-      font-size: 25px !important;
-    }
-
-    .aboutus-join-content {
-      flex-direction: column;
-      align-items: center;
-
-      .aboutus-join-text,
-      .aboutus-join-button {
-        width: 100%;
-        text-align: center;
-      }
-
-      h2 {
-        font-size: 25px;
-      }
-
-      p {
-        font-size: 14px;
-        text-align: left;
-      }
     }
   }
 }
+  
+  
+    .bicycle-grid {
+      width: 65%;
+      margin: 0 auto; /* Căn giữa toàn bộ grid */
+      display: grid;
+      grid-template-columns: repeat(2, 1fr); /* Hai thẻ trên mỗi hàng */
+      gap: 30px;
+      padding: 0 20px;  
+    }
+  
+    .bicycle-card {
+      position: relative;
+      overflow: hidden;
+      max-width: 100%;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    
+      img.bicycle-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+      }
+    
+      &:hover img.bicycle-image {
+        transform: scale(1.1);
+      }
+      .content-card {
+        line-height: 1.8;
+        text-align: left;
+        padding: 30px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .bicycle-info {
+        position: absolute;
+        top: 2%;
+        left: 2%;
+        height: 96%;
+        width: 50%;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 20px;
+        z-index: 2;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex; 
+        justify-content: center; /* Align content vertically */
+        align-items: center; /* Align content horizontally */
+        
+        .content-card {
+          line-height: 1.8;
+          text-align: left;
+          padding: 30px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+        }
+      
+        h2 {
+          font-size: 1.5rem;
+          margin-bottom: 10px;
+        }
+      
+        p {
+          font-size: 1rem;
+          margin-bottom: 20px;
+        }
+      
+        .bicycle-price {
+          color: white;
+          background-color: #f54c4c;
+          padding: 5px 15px;
+          font-weight: bold;
+          align-self: flex-end;
+        }
+      }
+      .bicycle-info-bottom {
+        position: absolute;
+        top: 2%;
+        left: 48%;
+        height: 96%;
+        width: 50%;
+        background: rgba(255, 255, 255, 0.7);
+        padding: 20px;
+        z-index: 2;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        display: flex; 
+        justify-content: center; /* Align content vertically */
+        align-items: center; /* Align content horizontally */
+        .content-card {
+          line-height: 1.8;
+          text-align: left;
+          padding: 30px;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 100%;
+        }
+      
+        h2 {
+          font-size: 1.5rem;
+          margin-bottom: 10px;
+        }
+      
+        p {
+          font-size: 1rem;
+          margin-bottom: 20px;
+        }
+      
+        .bicycle-price {
+          color: white;
+          background-color: #f54c4c;
+          padding: 5px 15px;
+          font-weight: bold;
+          align-self: flex-end;
+        }
+      }
+    }
+    .our-team-section {
+      padding-top: 5rem;
+      text-align: center;
+    
+      .team-header {
+        position: relative;
+        margin-top: 5rem;
+    
+        .background-text {
+          font-size: 280px;
+          margin-top: -190px;
+          color: rgba(0, 0, 0, 0.02);
+          top: 50%;
+          left: 50%;
+          font-family: 'Montserrat', sans-serif;
+          font-weight: 700;
+          z-index: -1;
+        }
+    
+        .section-title {
+          font-size: 48px;
+          z-index: 1;
+          position: relative;
+          color: #333;
+        }
+    
+        .underline-red {
+          width: 50px;
+          height: 3px;
+          background-color: #fa422d;
+          margin: 0.5rem auto;
+          position: relative;
+          z-index: 1;
+        }
+      }
+    
+      .team-grid {
+        display: flex;
+        justify-content: center;
+        gap: 3rem;
+        margin-top: 2rem;
+      
+        .team-member {
+          position: relative;
+          text-align: center;
+      
+          .team-image-container {
+            position: relative;
+            overflow: hidden;
+            
+            img {
+              width: 278px;
+              height: 278px;
+              object-fit: cover;
+              transition: transform 0.7s ease; /* Smooth zoom on hover */
+            }
+      
+            .team-overlay {
+              position: absolute;
+              bottom: -100%; /* Hide it initially */
+              left: 0;
+              right: 0;
+              display: flex;
+              justify-content: center;
+              gap: 10px;
+              transition: all 0.7s ease; /* Smooth animation */
+              
+              a {
+                width: 40px;
+                height: 40px;
+                background: black;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: white;
+                transition: transform 0.7s ease;
+              }
+      
+              a:hover {
+                background-color: white;
+                color: #f97c37;
+              }
+            }
+            &:hover .team-overlay {
+              bottom: 10%; /* Slide the icons up smoothly */
+            }
+          }
+      
+          h3 {
+            font-family: 'Public Sans', sans-serif;
+            font-size: 1.5rem;
+            color: #f97c37;
+            font-weight: 700;
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+          }
+      
+          p {
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-family: 'Public Sans', sans-serif;
+            font-size: 14px;
+            color: #333;
+            margin: 0;
+            font-weight: 700;
+          }
+        }
+      }      
+    }
+}
+  

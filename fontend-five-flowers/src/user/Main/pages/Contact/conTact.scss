@@ -1,0 +1,190 @@
+    .contact-wrapper {
+        position: relative;
+    
+        .contact-background {
+        background-image: url("https://bikex-club.myshopify.com/cdn/shop/files/blog_detail-4.jpg?v=1598503894");
+        background-size: cover;
+        background-position: top;
+        background-repeat: no-repeat;
+        height: 175px; /* Điều chỉnh chiều cao */
+        width: 100%;
+        position: absolute;
+        top: 0;
+        z-index: -1;
+        opacity: 0.8; /* Làm mờ ảnh nền */
+        }
+    
+        .contact-container {
+        margin-top: 5rem;
+        position: relative;
+        z-index: 1;
+        width: 100%;
+        margin-bottom: 50px;
+    
+        .top-contact-container {
+            max-width: 100%;
+            background-color: rgba(92, 90, 92, 0.8); /* Làm mờ nền dưới chữ */
+            min-height: 175px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+    
+            .name-top-contact-container {
+            max-width: 100%;
+    
+            h1 {
+                margin-bottom: 10px;
+                font-size: 2rem;
+                color: white;
+            }
+            }
+    
+            .name-bottom-contact-container {
+            max-width: 100%;
+            display: flex;
+            flex-direction: row;
+            gap: 0.3rem;
+    
+            p {
+                color: white;
+            }
+    
+            .home-contact {
+                &:hover {
+                p {
+                    color: #fa422d;
+                }
+                }
+            }
+            }
+        }
+        }
+        .map-container {
+            width: 65%; /* Đảm bảo bản đồ chiếm toàn bộ chiều rộng khung */
+            height: 550px; /* Điều chỉnh chiều cao của bản đồ */
+            margin: 0 auto; /* Căn giữa bản đồ */
+            border: 1px solid #ddd; /* Thêm đường viền nếu cần */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Thêm hiệu ứng đổ bóng */
+        }
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 40px 0;
+            text-align: center;
+        
+            .contact-info-card {
+                width: 350px;
+                height: 230px;
+                padding: 40px;
+                border-width: 1px;
+                border-style: solid;
+                border-color: #e4e4e4;
+                border-radius: 3px;  // Làm tròn các góc
+                transition: border-color 0.5s ease-in-out;  // Điều chỉnh tốc độ cho cả hover in và hover out
+                display: flex;
+                flex-direction: column;
+                align-items: flex-start;  // Đặt tất cả các phần tử về phía bên trái
+
+                i {
+                font-size: 2rem;
+                color: #f54c4c;
+                margin-bottom: 10px;
+                }
+            
+                h3 {
+                font-size: 1.5rem;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                color: #333;
+                }
+            
+                p {
+                font-size: 1rem;
+                color: #666;
+                margin: 5px 0;
+                }
+            
+                &:hover {
+                    border-color: #fa422d;
+                    transition: border-color 0.8 ease-in-out;  // Thêm transition cho thuộc tính border-color
+                }
+            }
+            
+        }
+        
+        .contact-form {
+            margin-bottom: 10rem;
+            margin-top: 40px;
+            text-align: left;
+        
+            h2 {
+                width: 65%;
+                margin: auto;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            }
+        
+            form {
+            width: 65%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        
+            .form-group {
+                display: flex;
+                justify-content: space-between;
+                width: 100%;
+                margin-bottom: 20px;
+                input,
+                textarea {
+                width: 100%;
+                padding: 15px;
+                margin: 5px;
+                border: 1px solid #ddd;
+                border-radius: 30px;
+                font-size: 1rem;
+                outline: none;
+                }
+                input:focus,
+                textarea:focus {
+                border-color: #fa422d; /* Màu cam khi bấm vào */
+                }
+                textarea {
+                height: 280px;
+                border-radius: 20px;
+                }
+            }
+            .send-button-contact{
+                background: linear-gradient(45deg, #fa422d, #ff734e);
+                color: white;
+                padding: 15px 190px;
+                border: none;
+                border-radius: 30px;
+                cursor: pointer;
+                font-size: 1rem;
+                transition: background 0.3s ease;  // No scale or size change
+            
+                &:hover {
+                background: linear-gradient(45deg, #ff734e, #fa422d);  // Only background change on hover
+                }
+            }
+            }
+        }
+        .error-message {
+        border-color: red;
+    }
+
+    .error-message {
+    color: red;
+        font-size: 0.9rem;
+        margin-top: 5px;  /* Khoảng cách với phần trên */
+        display: block;   /* Đảm bảo nó hiển thị dưới ô nhập */
+        text-align: left; /* Canh trái phần thông báo lỗi */
+    }
+
+        
+    }
+    

@@ -14,6 +14,7 @@ import Home from "./Main/pages/home/Home";
 import BlogDetail from "./Main/pages/news/Blog/BlogDetail";
 import News from "./Main/pages/news/News";
 import Shop from "./Main/pages/shop/Shop";
+import Contact from "./Main/pages/Contact/Contact";
 import ProductDetail from "./Main/pages/shop/productDetails/ProductDetails";
 import LoginAdmin from "./Main/header/components/profile/login/loginAdmin/LoginAdmin";
 import YourBike from "./Main/header/components/yourBike/YourBike";
@@ -42,6 +43,7 @@ const User = () => {
             <Route path="/news/:blogId" element={<BlogDetail />} />
             <Route path="/shop" element={<Shop />} />
             <Route path="/aboutUs" element={<AboutUs />} />
+            <Route path="/contact" element={<Contact />} />
             <Route path="/product/:id" element={<ProductDetail />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/shopping-cart" element={<ShoppingCart />} />
