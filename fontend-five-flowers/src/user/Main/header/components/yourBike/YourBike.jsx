@@ -435,7 +435,7 @@ const saveRouteToDatabase = async (
             }
         );
 
-        console.log("Route saved successfully:", response.data);
+        console.log("Route saved successfully: ", response.data);
     } catch (error) {
         console.error("Error saving route:", error);
     }
