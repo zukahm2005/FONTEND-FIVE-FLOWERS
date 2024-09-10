@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Map, {
   Marker, // Thêm Marker trên bản đồ để hiển thị vị trí của người dùng và xe đạp
-  NavigationControl, // Điều khiển zoom và điều hướng trên bản đồ
   Source, // Dùng để truyền dữ liệu vào các layer trên bản đồ
   Layer, // Hiển thị các tuyến đường trên bản đồ
   Popup, // Hiển thị thông tin về xe đạp hoặc vị trí khi hover chuột
@@ -220,7 +219,7 @@ const YourBike = () => {
     if (userLocation && bikeLocation) {
       directionsClient
         .getDirections({
-          profile: "cycling", // Chế độ di chuyển là đi bộ
+          profile: "walking", 
           geometries: "geojson", // Hình dạng tuyến đường dưới dạng GeoJSON
           waypoints: [
             {
@@ -466,36 +465,38 @@ const saveRouteToDatabase = async (
           {bikes.length > 0 ? (
             bikes.map((bike) => (
               <div key={bike.id} className="bike-item">
-                <h3>{bike.name}</h3>
-                <img
-                  src={`http://localhost:8080/api/v1/images/${bike.imageUrl}`}
-                  alt={bike.name}
-                  className="bike-image"
-                />
-                {bike.longitude && bike.latitude ? (
-                  <div className="button-container">
-                    {route &&
-                    selectedBikeLocation &&
-                    selectedBikeLocation.id === bike.id ? (
-                      <>
-                        <button onClick={handleStartNavigation}>Start</button>
-                        <button
-                          className="close-directions-button"
-                          onClick={handleCloseDirectionClick}
-                        >
-                          <IoCloseCircleOutline size={24} />
-                        </button>
-                      </>
-                    ) : (
-                      <button onClick={() => handleDirectionClick(bike)}>
-                        Directions
-                      </button>
-                    )}
-                  </div>
-                ) : (
-                  <p>Location not available</p>
-                )}
-              </div>
+  <img
+    src={`http://localhost:8080/api/v1/images/${bike.imageUrl}`}
+    alt={bike.name}
+    className="bike-image"
+  />
+  <div className="bike-info">
+    <h3>{bike.name}</h3>
+    {bike.longitude && bike.latitude ? (
+      <div className="button-container">
+        {route &&
+        selectedBikeLocation &&
+        selectedBikeLocation.id === bike.id ? (
+          <>
+            <button onClick={handleStartNavigation}>Start</button>
+            <button
+              className="close-directions-button"
+              onClick={handleCloseDirectionClick}
+            >
+              <IoCloseCircleOutline size={24} />
+            </button>
+          </>
+        ) : (
+          <button onClick={() => handleDirectionClick(bike)}>
+            Directions
+          </button>
+        )}
+      </div>
+    ) : (
+      <p>Location not available</p>
+    )}
+  </div>
+</div>
             ))
           ) : (
             <p>No bikes found.</p>
@@ -601,7 +602,6 @@ const saveRouteToDatabase = async (
               />
             </Popup>
           )}
-          <NavigationControl position="top-left" />
         </Map>
       </div>
 

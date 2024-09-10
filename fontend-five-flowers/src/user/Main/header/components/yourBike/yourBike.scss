@@ -1,34 +1,63 @@
 .your-bike-container {
   display: flex;
-  padding-top: 5rem;
   flex-direction: row;
-  height: 100vh; /* Full screen height */
+  height: calc(100vh - 5rem); /* Chiều cao từ header đến dưới */
+  padding-top: 4rem; /* Đảm bảo phần trên được padding bằng với chiều cao header */
 }
 
 .bike-list {
   position: absolute;
   top: 5rem;
   left: 0;
-  width: 30%;
-  height: calc(100% - 5rem); /* Height adjusted to exclude the top padding */
+  width: 25%;
+  height: 75%; /* Height adjusted to exclude the top padding */
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
   overflow-y: auto;
-  z-index: 2;
   display: none; /* Hidden by default */
+  z-index: 1;
+
+  .bike-item {
+    display: flex; /* Đặt ảnh và tên xe nằm ngang */
+    align-items: center;
+    margin-bottom: 10px; /* Khoảng cách giữa các mục bike */
+
+    .bike-info {
+      display: flex;
+      flex-direction: column; /* Tên xe ở trên, nút ở dưới */
+      
+      h3 {
+        margin: 0;
+        font-size: 18px; /* Tùy chỉnh kích thước chữ của tên xe */
+      }
+    }
+
+    .button-container {
+      button {
+        width: 100px; /* Cố định chiều rộng */
+        height: 35px; /* Cố định chiều cao */
+        background-color: #f36c3d; /* Màu nền của nút */
+        color: white; /* Màu chữ */
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+      }
+    }
+  }
 }
 
-.small-map-container .bike-list {
-  display: block; /* Show bike list when toggled */
+.small-map-container {
+  .bike-list {
+    display: block; /* Show bike list when toggled */
+  }
 }
 
 .map-container {
   flex-grow: 1;
-  height: calc(100vh - 5rem); /* Adjusted map height */
-  transition: width 0.3s ease; /* Smooth width transition */
-  margin-bottom: 0;
+  height: 100%; /* Chiếm toàn bộ chiều cao trong your-bike-container */
   position: relative;
-  z-index: 1; /* Ensure map is beneath the bike list */
+  transition: width 0.3s ease;
 }
 
 .custom-user-icon {
@@ -44,17 +73,31 @@
 }
 
 .bike-image {
-  width: 100%; /* Ensure the image takes full width */
-  height: auto;
-  margin-bottom: 10px; /* Space between image and other content */
+  width: 100px;
+  height: 100px;
+  margin-right: 10px;
 }
 
-.mapboxgl-ctrl-logo, 
+.mapboxgl-ctrl-logo,
 .mapboxgl-ctrl-attrib-inner {
   display: none !important;
 }
 
+.history-container {
+  width: 400px; /* Giới hạn chiều rộng là 400px */
+  height: 75%; /* Chiều cao từ header tới cuối trang */
+  padding: 20px;
+  background-color: rgba(255, 255, 255, 0.9); /* Nền bán trong suốt */
+  overflow-y: auto; /* Cuộn dọc nếu nội dung quá dài */
+  z-index: 1;
+  position: absolute;
+  top: 5rem; /* Căn phía dưới header */
+  right: 0; /* Căn về phía bên phải của trang */
+}
+
 .history-button {
+  width: 150px; /* Cố định chiều rộng */
+  height: 40px; /* Cố định chiều cao */
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -65,31 +108,29 @@
   border-radius: 5px;
   cursor: pointer;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  z-index: 999;
 }
 
 .history-list {
   position: fixed;
   bottom: 80px;
   right: 20px;
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.9);
   padding: 20px;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  z-index: 999;
   max-height: 200px;
   overflow-y: auto;
-}
 
-.history-list h3 {
-  margin: 0 0 10px 0;
-}
+  h3 {
+    margin: 0 0 10px 0;
+  }
 
-.history-list ul {
-  list-style: none;
-  padding: 0;
-}
+  ul {
+    list-style: none;
+    padding: 0;
 
-.history-list ul li {
-  margin-bottom: 8px;
+    li {
+      margin-bottom: 8px;
+    }
+  }
 }
