@@ -1,16 +1,7 @@
-/* Service.css */
 
-/* Sidebar styles */
-.sidebar {
-  width: 250px;
-  background-color: #f8f8f8;
-  padding: 20px;
-  border-right: 1px solid #ccc;
-  transition: width 0.3s ease;
-}
 
 /* Map container */
-.map-container {
+.map-container2 {
   flex: 1;
   height: 80vh;
 }
@@ -56,5 +47,158 @@
   background: rgba(255, 255, 255, 0.9); /* Nền trắng với độ trong suốt nhẹ */
   border: 1px solid rgba(0, 0, 0, 0.2); /* Viền xám nhạt */
   border-radius: 5px; /* Bo tròn các góc của tip */
+}
+.remove-directions-btn {
+  background-color: #f44336; /* Màu đỏ */
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.remove-directions-btn:hover {
+  background-color: #c62828; /* Màu đỏ đậm khi di chuột */
+}
+/* Toàn bộ sidebar */
+.sidebar {
+  width: 300px; /* Chiều rộng của sidebar */
+  padding: 20px; /* Khoảng cách padding bên trong */
+  font-family: Arial, sans-serif; /* Phông chữ mặc định */
+  height: 100%; /* Sidebar phủ toàn bộ chiều cao */
+  overflow-y: auto; /* Cho phép cuộn nếu nội dung vượt quá chiều cao */
+}
+
+/* Tiêu đề của sidebar */
+.sidebar h3 {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+/* Danh sách các điểm (workshops) */
+.sidebar ul {
+  list-style-type: none; /* Xóa các dấu chấm trước các mục trong danh sách */
+  padding: 0;
+  margin: 0;
+}
+
+/* Mục danh sách các điểm */
+.sidebar ul li {
+  margin-bottom: 20px;
+  padding: 10px;
+  background-color: #f0eeee; /* Màu nền của các mục */
+  border-radius: 5px; /* Các góc bo tròn */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu khi hover */
+}
+
+/* Hiệu ứng khi di chuột vào một mục danh sách */
+.sidebar ul li:hover {
+  background-color: #d5f3f7; /* Màu nền khi hover */
+}
+
+/* Span chứa tên điểm (workshop) */
+.sidebar ul li span {
+  cursor: pointer; /* Con trỏ chuột khi hover vào span */
+  color: #333;
+  font-size: 16px;
+}
+.sidebar span:hover {
+  color: #007bff;
+}
+/* Icon cho chỉ đường */
+.sidebar ul li span .fa-icon {
+  color: #007bff; /* Màu xanh cho icon */
+  cursor: pointer;
+}
+
+/* Nút xóa chỉ dẫn */
+.remove-directions-btn {
+  margin-top: 20px;
+  background-color: #ff6b6b; /* Màu nền của nút */
+  color: white; /* Màu chữ */
+  border: none;
+  padding: 10px 15px;
+  border-radius: 5px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease; /* Hiệu ứng chuyển màu */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hiệu ứng hover cho nút xóa */
+.remove-directions-btn:hover {
+  background-color: #e84141; /* Màu nền khi hover */
+}
+
+/* Icon trong nút xóa */
+.remove-directions-btn .fa-icon {
+  margin-left: 8px; /* Khoảng cách giữa chữ và icon */
+}
+.destination-details {
+  position: fixed; /* Cố định vị trí ngay cả khi cuộn */
+  top: 12%;
+  left: 17%;
+  width: 250px;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+  font-family: Arial, sans-serif;
+  color: #333;
+}
+
+.destination-details h4 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #007bff;
+}
+
+.destination-details p {
+  margin: 5px 0;
+  font-size: 14px;
+}
+
+.destination-details button {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 5px 10px;
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.destination-details button:hover {
+  background-color: #ff6666;
+}
+
+.destination-details span {
+  display: inline-block;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.destination-details span:hover {
+  color: #007bff;
+}
+.mapboxgl-popup-content.custom-popup {
+  background-color: #28a745; /* Màu nền xanh */
+  color: white; /* Chữ màu trắng */
+  border-radius: 8px;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
+}
+.custom-label2{
+  color: red;
 }
 
