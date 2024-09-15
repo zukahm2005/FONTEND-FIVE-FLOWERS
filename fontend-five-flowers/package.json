@@ -53,6 +53,7 @@
     "react-scripts": "5.0.1",
     "react-share": "^5.1.0",
     "react-slick": "^0.30.2",
+    "react-toastify": "^10.0.5",
     "recharts": "^2.12.7",
     "remark-gfm": "^4.0.0",
     "resolve-url-loader": "^5.0.0",

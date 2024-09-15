@@ -1,10 +1,17 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import { FaPhoneAlt, FaEnvelope, FaMapMarkerAlt } from "react-icons/fa";
+import axios from "axios";
 import "./conTact.scss";
 
 const Contact = () => {
   const mapContainerRef = useRef(null);
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    phone: "",
+    message: ""
+  });
 
   // Set up Mapbox access token
   mapboxgl.accessToken = 'pk.eyJ1IjoienVrYWhtMms1IiwiYSI6ImNtMGNvb2wwZzAwdTcybHM2ODFpZ3p3Z3MifQ.UPYPfCuIQeqUWDyt1SspVQ';
@@ -18,7 +25,7 @@ const Contact = () => {
       zoom: 12, // Mức độ phóng to
     });
 
-    // Create a marker for the store's location (modify this with your store's coordinates)
+    // Create a marker for the store's location
     const storeCoordinates = [105.804817, 21.028511]; // Example store location in Hanoi
     new mapboxgl.Marker({ color: 'red' })
       .setLngLat(storeCoordinates)
@@ -27,6 +34,32 @@ const Contact = () => {
     // Clean up on unmount
     return () => map.remove();
   }, []);
+
+  // Handle form input changes
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const response = await axios.post("http://localhost:8080/api/v1/contact/submit", formData);
+      alert("Message sent successfully!");
+      setFormData({
+        name: "",
+        email: "",
+        phone: "",
+        message: ""
+      }); // Reset form after submission
+    } catch (error) {
+      console.error("There was an error sending the message!", error);
+    }
+  };
 
   return (
     <div className="contact-wrapper">
@@ -77,16 +110,45 @@ const Contact = () => {
       {/* Phần Form Liên hệ */}
       <div className="contact-form">
         <h2>Contact Form</h2>
-        <form>
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <input type="text" placeholder="Name" />
-            <input type="email" placeholder="Email" />
-            <input type="tel" placeholder="Phone" />
+            <input
+              type="text"
+              name="name"
+              placeholder="Name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+            />
+            <input
+              type="tel"
+              name="phone"
+              placeholder="Phone"
+              value={formData.phone}
+              onChange={handleChange}
+              required
+            />
           </div>
           <div className="form-group">
-            <textarea placeholder="Message"></textarea>
+            <textarea
+              name="message"
+              placeholder="Message"
+              value={formData.message}
+              onChange={handleChange}
+              required
+            ></textarea>
           </div>
-          <button type="submit" className="send-button-contact">SEND</button>
+          <button type="submit" className="send-button-contact">
+            SEND
+          </button>
         </form>
       </div>
     </div>
