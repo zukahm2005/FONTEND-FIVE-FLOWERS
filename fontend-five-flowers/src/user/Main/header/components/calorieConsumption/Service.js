@@ -5,7 +5,8 @@ import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css';
 import './Service.css'; // Nhập file CSS
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDiamondTurnRight, faTimes } from '@fortawesome/free-solid-svg-icons';
+import { faDiamondTurnRight, faTimes, faEarthAmericas } from '@fortawesome/free-solid-svg-icons';
+import { Link } from 'react-router-dom';
 
 const MAPBOX_TOKEN = 'pk.eyJ1IjoienVrYWhtMms1IiwiYSI6ImNtMGNvb2wwZzAwdTcybHM2ODFpZ3p3Z3MifQ.UPYPfCuIQeqUWDyt1SspVQ'; // Thay thế bằng token Mapbox của bạn
 
@@ -24,17 +25,48 @@ function Service() {
   const startPoint = { latitude: 21.028511, longitude: 105.782096, name: 'Điểm bắt đầu' };
 
   const fixedPoints = [
-    { latitude: 21.02434, longitude: 105.78721, name: 'DỊCH VỤ XE ĐẠP TẠI TOAN THANG CYCLES' },
-    { latitude: 21.02220, longitude: 105.77870, name: 'Dịch vụ sửa chữa bảo dưỡng xe đạp thể thao' },
-    { latitude: 21.02863, longitude: 105.77218, name: 'sửa chữa bảo dưỡng xe đạp CX-C10 chuyên nghiệp' },
-    { latitude: 21.0297, longitude: 105.7833, name: 'Dịch vụ bảo trì - bảo dưỡng cho xe đạp tại XEDAP.VN' },
-    { latitude: 21.03043, longitude: 105.77172, name: 'DỊCH VỤ SỬA CHỮA XE ĐẠP LƯU ĐỘNG (BIKE SOS)' },
-    { latitude: 21.03411, longitude: 105.77499, name: 'Dịch Vụ Sửa Chữa Bảo Dưỡng Xe Đạp Chuyên Nghiệp Tại XE ĐẠP 88' },
-    { latitude: 21.02586, longitude: 105.77328, name: ' Cửa hàng xe đạp New way' },
-    { latitude: 21.0264, longitude: 105.7801, name: 'An Tôn bike store' },
-    { latitude: 21.03331, longitude: 105.78488, name: 'Cửa hàng xe đạp Thống Nhất' },
-    { latitude: 21.0289, longitude: 105.7894, name: 'Cửa hàng sửa xe đạp 32C Lý Nam Đế' },
+    {
+      latitude: 21.02434, longitude: 105.78721, name: 'BICYCLE SERVICES AT TOAN THANG CYCLES', links: 'https://shopxedap.vn/thong-tin/dich-vu-xe-dap/',
+      description: 'TOAN THANG CYCLES provides services in Ho Chi Minh City, Hanoi, Da Nang: Maintenance, repairs, adjustments, and bicycle upgrades.'
+    },
+    {
+      latitude: 21.02220, longitude: 105.77870, name: 'Sports Bicycle Repair and Maintenance Service', links: 'https://www.oliverscycles.com/articles/bike-service-repair-pg262.htm',
+      description: 'Nowadays, finding a bicycle repair shop is not easy. As the largest bicycle retail chain in the country, XEDAP.VN has a team of experienced technicians...'
+    },
+    {
+      latitude: 21.02863, longitude: 105.77218, name: 'CX-C10 Professional Bicycle Repair and Maintenance', links: 'https://hanoibike.net/products/gia-sua-chua-bao-duong-xe-dap-cx-c10-chuyen-nghiep',
+      description: 'Bicycle stands for professional repair and maintenance. Acts like a mobile repair station, easy to move. Used for hanging bicycles during repair for convenience.'
+    },
+    {
+      latitude: 21.0297, longitude: 105.7833, name: 'Bicycle Maintenance Service at XEDAP.VN', links: 'https://xedap.vn/dich-vu?srsltid=AfmBOoowIqNd6-KB7bfp5ulZl1rVK4L6E8oZ8nZQIcneZVP6Aun-d0yU',
+      description: 'Besides offering a wide range of bicycles, XEDAP.VN is also a trusted place for bicycle maintenance and repair, with many satisfied customers. Skilled technicians...'
+    },
+    {
+      latitude: 21.03043, longitude: 105.77172, name: 'MOBILE BICYCLE REPAIR SERVICE (BIKE SOS)', links: 'https://sosbikesbikes.wixsite.com/home',
+      description: 'Ride Plus officially partners with XedapSOS - Vietnam’s first mobile bicycle repair service - to provide assembly, repair, and professional services...'
+    },
+    {
+      latitude: 21.03411, longitude: 105.77499, name: 'Professional Bicycle Repair and Maintenance Service at XE ĐẠP 88',  links: 'https://fgbike.vn/che-do-bao-hanh-bao-duong-xe-dap-88',
+      description: 'Shop Xe Đạp 88 offers a one-year warranty on single-speed bike frames and a three-month warranty on parts for all Single Speed models assembled by the shop...'
+    },
+    {
+      latitude: 21.02586, longitude: 105.77328, name: 'New Way Bicycle Store', links: 'https://newwayebikes.com/?srsltid=AfmBOorE5OHqJ92GwPyGdacsrQg4iGmfxC_X7JpBYATbz3sY4q8-zKoJ',
+      description: 'Accepting orders and purchasing all types of new, slightly used bikes. Competitive prices and long-term warranty policies. Only selling genuine products with QR tags...'
+    },
+    {
+      latitude: 21.0264, longitude: 105.7801, name: 'An Ton Bike Store', links: 'https://www.toplist.vn/top/an-ton-bike-store-606760.htm',
+      description: 'An Ton Bike Store, Hanoi. 2,529 likes · 5 talking about this · 846 check-ins. - Sports bicycle repair/maintenance - Bicycle sales...'
+    },
+    {
+      latitude: 21.03331, longitude: 105.78488, name: 'Thống Nhất Bicycle Store', links: 'https://thongnhat.com.vn/home',
+      description: 'Official retail system — Genuine sports bikes, Thống Nhất mini bikes with beautiful designs. HomeCare service for at-home repairs and warranty...'
+    },
+    {
+      latitude: 21.0289, longitude: 105.7894, name: 'Bicycle Repair Shop in Hanoi - Best Service, Best Prices', links: 'https://www.hanoibikes.com/repair',
+      description: 'Bicycle Repair Shop in Hanoi - Best Service, Best Prices is a reputable sports bicycle repair shop in Hanoi, located at 108 Hang Bong, Hoan Kiem, Hanoi. The store owner is Duong Mac An Ton. Many customers...'
+    }
   ];
+
 
   const addWaypoint = (longitude, latitude, color) => {
     new mapboxgl.Marker({ color })
@@ -70,28 +102,36 @@ function Service() {
     mapInstance.addControl(directionsInstance, 'top-right');
 
     // Add marker with label function
-    const addMarkerWithLabel = (longitude, latitude, name, color) => {
-      const marker = new mapboxgl.Marker({ color })
-        .setLngLat([longitude, latitude])
-        .addTo(mapInstance);
+    const addMarkerWithoutLabel = (longitude, latitude, iconUrl) => {
+      // Tạo một phần tử div làm container cho marker
+      const el = document.createElement('div');
+      el.className = 'custom-marker';
 
-      const labelEl = document.createElement('div');
-      labelEl.className = 'custom-label';
-      labelEl.textContent = name;
+      // Tạo phần tử <img> để hiển thị icon
+      const img = document.createElement('img');
+      img.src = iconUrl;  // Đường dẫn đến hình ảnh icon
+      img.style.width = '35px';  // Đặt kích thước icon
+      img.style.height = '35px';
+      img.style.borderRadius = '50%';  // Bo tròn icon
+      img.style.border = '2px solid white';  // Viền trắng bên ngoài
+      img.style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.5)';  // Thêm bóng đổ
 
-      const popup = new mapboxgl.Popup({
-        closeButton: false,
-        closeOnClick: false,
-        offset: 25,
-      })
+      // Thêm hình ảnh vào div
+      el.appendChild(img);
+
+      // Tạo marker với phần tử HTML
+      const marker = new mapboxgl.Marker(el)
         .setLngLat([longitude, latitude])
-        .setDOMContent(labelEl)
         .addTo(mapInstance);
     };
 
+
+
+
     mapInstance.on('load', () => {
       fixedPoints.forEach((point, index) => {
-        addMarkerWithLabel(point.longitude, point.latitude, `${point.name}`, 'red');
+        // Thay thế icon marker bằng một hình ảnh icon
+        addMarkerWithoutLabel(point.longitude, point.latitude, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkhyAI0gTqZ-jindvXT1j0VCLg8p7whYCu9w&s');
       });
 
       const nav = new mapboxgl.NavigationControl({
@@ -100,26 +140,29 @@ function Service() {
       mapInstance.addControl(nav, 'bottom-left');
     });
 
-    // Add an event listener on the directions instance for 'route'
-    directionsInstance.on('route', () => {
-      const routeLayerId = mapInstance.getLayer('directions-route-line');
-      if (routeLayerId) {
-        mapInstance.setPaintProperty('directions-route-line', 'line-color', '#0000FF');
-      }
-    });
+
 
     return () => {
       if (mapRef.current) mapRef.current.remove();
     };
   }, []);
 
+
+
   const handleDirections = (latitude, longitude) => {
     if (directions) {
+      // Xóa các tuyến đường hiện tại trước khi thêm đường dẫn mới
+      const routeLayerId = mapRef.current.getLayer('directions-route-line');
+      if (routeLayerId) {
+        mapRef.current.setPaintProperty('directions-route-line', 'line-color', 'blue'); // Màu mới cho tuyến đường
+      }
+
       directions.setOrigin([startPoint.longitude, startPoint.latitude]);
       directions.setDestination([longitude, latitude]);
       setShowClearButton(true);
     }
   };
+
 
   const handleRemoveDirections = () => {
     if (map && directions) {
@@ -132,22 +175,34 @@ function Service() {
     }
   };
 
-  const handleDestinationChange = (latitude, longitude, name) => {
+  const handleDestinationChange = (latitude, longitude, name, description, links) => {
     if (map && directions) {
+      // Xóa popup hiện tại nếu có
       if (currentPopup) {
         currentPopup.remove();
       }
-      
-      map.flyTo({
-        center: [longitude, latitude],
-        zoom: 15,
-      });
-      
-      const popup = new mapboxgl.Popup()
+
+      // Tạo nội dung cho popup
+      const content = `
+        <h4>${name}</h4>
+      `;
+
+      // Tạo và hiển thị popup mới, không có nút đóng "X"
+      const popup = new mapboxgl.Popup({
+        closeButton: false,  // Loại bỏ nút "X"
+        closeOnClick: true,  // Đóng popup khi nhấp ra ngoài
+      })
+        .setLngLat([longitude, latitude])
+        .setHTML(content)  // Hiển thị nội dung đã tạo
+        .addTo(map);
+
+      // Cập nhật popup hiện tại và điểm đã chọn
       setCurrentPopup(popup);
-      setSelectedPoint({ latitude, longitude, name }); // Cập nhật điểm đến được chọn
+      setSelectedPoint({ latitude, longitude, name, description, links });
     }
   };
+
+
 
 
   return (
@@ -158,18 +213,20 @@ function Service() {
         <ul>
           {fixedPoints.map((point, index) => (
             <li key={index}>
-              <span onClick={() => handleDestinationChange(point.latitude, point.longitude, point.name)}>
+              <span onClick={() => handleDestinationChange(point.latitude, point.longitude, point.name, point.description, point.links)}>
                 {`${point.name}`}
               </span>
               <span onClick={() => handleDirections(point.latitude, point.longitude)}>
-                <FontAwesomeIcon icon={faDiamondTurnRight} style={{ fontSize: '24px', paddingLeft:'10px' }} />
+                <FontAwesomeIcon icon={faDiamondTurnRight} style={{ fontSize: '24px', paddingLeft: '10px' }} />
               </span>
             </li>
           ))}
         </ul>
+
+
         {showClearButton && (
           <button onClick={handleRemoveDirections} className="remove-directions-btn">
-            Remove Instruction <FontAwesomeIcon icon={faTimes} style={{ fontSize: '24px', paddingLeft:'20px'}}/>
+            Remove Instruction <FontAwesomeIcon icon={faTimes} style={{ fontSize: '24px', paddingLeft: '20px' }} />
           </button>
         )}
       </div>
@@ -180,10 +237,14 @@ function Service() {
       {selectedPoint && (
         <div className="destination-details">
           <h4>Chi tiết điểm đến</h4>
-          <p>{selectedPoint.name}</p>
+          <span style={{ fontSize: '16px', fontWeight: '700' }}>{selectedPoint.name}</span>
+          <p style={{ margin: '5% auto' }}>{selectedPoint.description || 'Không có thông tin mô tả.'}</p>
           <span onClick={() => handleDirections(selectedPoint.latitude, selectedPoint.longitude)}>
-            <FontAwesomeIcon icon={faDiamondTurnRight} style={{ fontSize: '24px' }}/>
+            <FontAwesomeIcon icon={faDiamondTurnRight} style={{ fontSize: '24px' }} />
           </span>
+          <Link to={selectedPoint.links || '#'} target="_blank">
+            <FontAwesomeIcon icon={faEarthAmericas} style={{ fontSize: '24px', paddingLeft: '10px', cursor: 'pointer' }} />
+          </Link>
           <p>Tọa độ: {selectedPoint.latitude}, {selectedPoint.longitude}</p>
           <button onClick={() => setSelectedPoint(null)}>Đóng</button>
         </div>

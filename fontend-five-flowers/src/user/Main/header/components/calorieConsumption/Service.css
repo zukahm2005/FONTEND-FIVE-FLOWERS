@@ -47,6 +47,7 @@
   background: rgba(255, 255, 255, 0.9); /* Nền trắng với độ trong suốt nhẹ */
   border: 1px solid rgba(0, 0, 0, 0.2); /* Viền xám nhạt */
   border-radius: 5px; /* Bo tròn các góc của tip */
+  margin-top: 20px;
 }
 .remove-directions-btn {
   background-color: #f44336; /* Màu đỏ */
@@ -201,4 +202,3 @@
 .custom-label2{
   color: red;
 }
-

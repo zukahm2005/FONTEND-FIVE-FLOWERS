@@ -10,8 +10,8 @@ import './mapComponent.css';
 
 mapboxgl.accessToken = 'pk.eyJ1IjoienVrYWhtMms1IiwiYSI6ImNtMGNvb2wwZzAwdTcybHM2ODFpZ3p3Z3MifQ.UPYPfCuIQeqUWDyt1SspVQ';
 
-const fixedLat = 21.028511;  // Vĩ độ cố định (Hà Nội)
-const fixedLon = 105.782098;  // Kinh độ cố định (Hà Nội)
+const fixedLat = 21.028412;  // Vĩ độ cố định (Hà Nội)
+const fixedLon = 105.782295;  // Kinh độ cố định (Hà Nội)
 
 
 function DistanceTracker() {
@@ -262,7 +262,7 @@ function DistanceTracker() {
     const frameRate = 60; // Số lần cập nhật mỗi giây
     const updateInterval = 1000 / frameRate; // Khoảng thời gian giữa các lần cập nhật
 
-    const speedMultiplier = 3; // Hệ số tốc độ di chuyển
+    const speedMultiplier = 1; // Hệ số tốc độ di chuyển
     const adjustedDuration = duration / speedMultiplier; // Điều chỉnh thời gian di chuyển
 
     simulationInterval = setInterval(() => {
@@ -297,7 +297,7 @@ function DistanceTracker() {
         currentPointIndex += 1;
       }
     }, updateInterval);
-  };
+};
 
 
 
@@ -322,77 +322,113 @@ function DistanceTracker() {
   };
 
 
+  const uploadToCloudinary = async (base64Image) => {
+    const cloudName = 'ddrgrnsex'; // Tên Cloudinary của bạn
+    const uploadPreset = 'share img'; // Tên Upload Preset bạn tạo
+  
+    // Tạo form data để gửi lên Cloudinary
+    const formData = new FormData();
+    formData.append('file', base64Image);
+    formData.append('upload_preset', uploadPreset);
+  
+    try {
+      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        method: 'POST',
+        body: formData,
+      });
+  
+      const data = await response.json();
+      return data.secure_url; // URL công khai của ảnh
+    } catch (error) {
+      console.error('Error uploading image:', error);
+      return null;
+    }
+  };
+  
   const takeMapScreenshot = async () => {
     if (!initialPosition || !destination) {
-      alert("No end point"); 
+      alert("No end point");
       return;
     }
-
+  
     const [startLat, startLon] = initialPosition;
     const [destLat, destLon] = destination;
-    const width = 900;  // Kích thước ảnh chụp màn hình (rộng)
-    const height = 700;  // Kích thước ảnh chụp màn hình (cao)
-    const pathColor = '0000FF';  // Màu của đường chỉ dẫn
-    const pathWidth = 7;  // Độ rộng của đường chỉ dẫn
-
+    const width = 900;
+    const height = 700;
+    const pathColor = '0000FF';
+    const pathWidth = 7;
+  
     try {
-      // Gọi Directions API để lấy đường đi
       const directionsUrl = `https://api.mapbox.com/directions/v5/mapbox/driving/${startLon},${startLat};${destLon},${destLat}?geometries=geojson&access_token=${mapboxgl.accessToken}`;
       const response = await fetch(directionsUrl);
       const data = await response.json();
-
+  
       if (!data.routes || data.routes.length === 0) {
         console.error("No route found");
         return;
       }
-
-      // Lấy tọa độ của tuyến đường từ phản hồi API
+  
       const route = data.routes[0];
       const routeCoordinates = route.geometry.coordinates;
-
-      const distanceInKm = totalDistance.toFixed(2); // Đổi sang km
-      const durationInMinutes = (elapsedTime / 10000).toFixed(2); // Đổi sang phút
-
+  
+      const distanceInKm = totalDistance.toFixed(2);
+      const weight = 55;
+    
+      const getMet = (distanceInKm) => {
+        if (distanceInKm < 8) return 6.0;
+        if (distanceInKm < 10) return 8.0;
+        if (distanceInKm < 12) return 10.0;
+        return 12.0;
+      };
+    
+      const durationInMinutes = (elapsedTime / 10000).toFixed(1);
+      const time = (durationInMinutes / 60);
+      const speed = distanceInKm / time;
+      const calo = (weight * getMet(speed) * time * 1.05).toFixed(3);
+  
       const encodedPath = polyline.encode(routeCoordinates.map(coord => [coord[1], coord[0]]));
-
-      // Tạo URL cho ảnh bản đồ tĩnh với đường chỉ dẫn
+  
       const mapboxImageUrl = `https://api.mapbox.com/styles/v1/mapbox/streets-v12/static/pin-l-a+0000FF(${startLon},${startLat}),pin-l-b+FF0000(${destLon},${destLat}),path-${pathWidth}+${pathColor}-0.5(${encodedPath})/auto/${width}x${height}?access_token=${mapboxgl.accessToken}`;
-
+  
       const img = new Image();
-      img.crossOrigin = "anonymous";  // Đảm bảo hình ảnh từ bên ngoài có thể vẽ trên canvas
+      img.crossOrigin = "anonymous";
       img.src = mapboxImageUrl;
-
-      img.onload = () => {
+  
+      img.onload = async () => {
         const canvas = document.createElement('canvas');
         canvas.width = width;
         canvas.height = height;
         const ctx = canvas.getContext('2d');
-
-        // Vẽ hình ảnh từ Mapbox lên canvas
+  
         ctx.drawImage(img, 0, 0, width, height);
-
-        // Thêm văn bản thông tin về tuyến đường (khoảng cách và thời gian)
-        ctx.font = "16px Arial";
+  
+        ctx.font = "bold 16px Arial";
         ctx.fillStyle = "black";
-        ctx.fillText(`Distance traveled: ${distanceInKm} km`, 10, 50); // Hiển thị số km
-        ctx.fillText(`Travel time: ${durationInMinutes} phút`, 10, 80); // Hiển thị thời gian chạy
-
-        // Tạo URL từ canvas để tải ảnh xuống
-        const imageUrl = canvas.toDataURL('image/png', 0.001);
-        setScreenshotUrl(imageUrl);  // Cập nhật URL ảnh để có thể tải xuống
-
-        // Sau khi URL ảnh được tạo, điều hướng sang trang ScreenshotPage
-        navigate('/screenshot', { state: { screenshotUrl: imageUrl } });
+        ctx.fillText(`Distance traveled: ${distanceInKm} km`, 10, 50);
+        ctx.fillText(`Travel time: ${durationInMinutes} phút`, 10, 80);
+        ctx.fillText(`Calories burned: ${calo}`, 10, 110);
+  
+        // Tạo base64 từ canvas
+        const imageUrl = canvas.toDataURL('image/png');
+  
+        // Upload ảnh lên Cloudinary
+        const uploadedUrl = await uploadToCloudinary(imageUrl);
+  
+        if (uploadedUrl) {
+          setScreenshotUrl(uploadedUrl);  // Cập nhật URL từ Cloudinary
+          navigate('/screenshot', { state: { screenshotUrl: uploadedUrl, download: imageUrl } });
+        }
       };
-
+  
       img.onerror = () => {
         console.error("Error loading image from Mapbox URL");
       };
-
+  
     } catch (error) {
       console.error("Error fetching directions or creating map image:", error);
     }
   };
+  
 
 
 
@@ -491,7 +527,7 @@ function DistanceTracker() {
         const distanceToDest = calculateDistance([startLon, startLat], [destinationLon, destinationLat]);
         setDistanceToDestination(distanceToDest);
 
-        const speed = 4;  // Tốc độ di chuyển giả lập
+        const speed = 5;  // Tốc độ di chuyển giả lập
         const timeToDestination = (distanceToDest / speed) * 3600000;  // Tính thời gian đến đích
         setEstimatedTime(timeToDestination);
 

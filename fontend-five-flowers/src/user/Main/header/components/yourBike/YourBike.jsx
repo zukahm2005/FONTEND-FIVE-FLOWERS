@@ -47,7 +47,6 @@ const YourBike = () => {
   const [history, setHistory] = useState([]); // Lưu lịch sử hành trình
   const [historyWithAddresses, setHistoryWithAddresses] = useState([]); // Lưu lịch sử hành trình với địa chỉ đã giải mã
   const [showHistory, setShowHistory] = useState(false); // Trạng thái hiển thị lịch sử hành trình
-  
 
   // Hàm lấy danh sách các xe đạp của người dùng từ server khi component được load lần đầu
   useEffect(() => {
@@ -614,13 +613,13 @@ const saveRouteToDatabase = async (
       {/* Phần hiển thị lịch sử nếu showHistory == true */}
       {showHistory && (
         <div className="history-container">
-          <h3>History of Your Journeys</h3><br/>
+          <h3>History of Your Journeys</h3>
           <ul>
             {historyWithAddresses.map((entry, index) => (
               <li key={index}>
-                <b>Start:</b> {entry.startAddress} - <br /><br/>
-                <b>End:</b> {entry.endAddress} <br /><br/>
-                <b>Date:</b> {new Date(entry.journeyDate).toLocaleString()}<br/><br/>
+                Start: {entry.startAddress} - <br />
+                End: {entry.endAddress} <br />
+                Date: {new Date(entry.journeyDate).toLocaleString()}
               </li>
             ))}
           </ul>
