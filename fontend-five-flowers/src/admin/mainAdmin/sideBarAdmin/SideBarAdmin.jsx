@@ -3,6 +3,7 @@ import React from "react";
 import { AiOutlineComment, AiOutlineProduct } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
 import { BsCart2 } from "react-icons/bs";
+import { CiMail } from "react-icons/ci";
 import { MdManageAccounts, MdOutlineHome, MdPayment } from "react-icons/md";
 import { RiBloggerLine } from "react-icons/ri";
 import { TbAddressBook, TbBrandAirbnb } from "react-icons/tb";
@@ -25,6 +26,7 @@ const SideBarAdmin = () => {
     { key: "orders", icon: <BsCart2 />, label: "Order", path: "/admin/orders" },
     { key: "payment", icon: <MdPayment />, label: "Payment", path: "/admin/payment" },
     { key: "comment", icon: <AiOutlineComment />, label: "Comment Review", path: "/admin/comment" },
+    { key: "contact", icon: <CiMail />, label: "Contact", path: "/admin/contact" },
     { key: "manage-admin", icon: <MdManageAccounts />, label: "Manage Admin", path: "/admin/manage-admin" },
   ];
 
