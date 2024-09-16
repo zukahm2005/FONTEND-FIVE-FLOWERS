@@ -504,105 +504,116 @@ const saveRouteToDatabase = async (
         </div>
       )}
       <div className="map-container">
-        <Map
-          {...viewState}
-          style={{ width: "100%", height: "75vh" }}
-          mapStyle="mapbox://styles/mapbox/streets-v12"
-          onMove={(evt) => setViewState(evt.viewState)}
-          mapboxAccessToken={mapboxToken}
+      <Map
+  {...viewState}
+  style={{ width: "100%", height: "75vh" }}
+  mapStyle="mapbox://styles/mapbox/streets-v12"
+  onMove={(evt) => setViewState(evt.viewState)}
+  mapboxAccessToken={mapboxToken}
+>
+  {/* Marker của người dùng */}
+  {userLocation && (
+    <Marker
+      longitude={userLocation.longitude}
+      latitude={userLocation.latitude}
+      color="blue"
+      onClick={() => handleMarkerClick("user")}
+    >
+      <div className="custom-user-icon">
+        <IoLocation />
+      </div>
+    </Marker>
+  )}
+
+  {/* Marker của các xe đạp */}
+  {bikes.map(bike => (
+  bike.longitude && bike.latitude && (
+    <div 
+      key={bike.id}
+      onMouseEnter={() => {
+        setHoveredBike(bike);
+        setHoveredCoordinates({
+          longitude: bike.longitude,
+          latitude: bike.latitude,
+        });
+      }}
+      onMouseLeave={() => {
+        setHoveredBike(null); // Xóa hover khi chuột rời khỏi
+        setHoveredCoordinates(null);
+      }}
+    >
+      <Marker
+        longitude={bike.longitude}
+        latitude={bike.latitude}
+      >
+        <div
+          className="custom-bike-icon"
+          onClick={() => handleMarkerClick(bike)}
         >
-          {userLocation && userLocation.longitude && userLocation.latitude && (
-            <Marker
-              longitude={userLocation.longitude}
-              latitude={userLocation.latitude}
-              color="blue"
-              onClick={() => handleMarkerClick("user")}
-            >
-              <div className="custom-user-icon">
-                <IoLocation />
-              </div>
-            </Marker>
-          )}
-          {bikes.map(
-            (bike) =>
-              bike.longitude &&
-              bike.latitude && (
-                <Marker
-                  key={bike.id}
-                  longitude={bike.longitude}
-                  latitude={bike.latitude}
-                  onMouseEnter={() => {
-                    setHoveredBike(bike);
-                    setHoveredCoordinates({
-                      longitude: bike.longitude,
-                      latitude: bike.latitude,
-                    });
-                  }}
-                  onMouseLeave={() => {
-                    setHoveredBike(null);
-                    setHoveredCoordinates(null);
-                  }}
-                >
-                  <div
-                    className="custom-bike-icon"
-                    onClick={() => handleMarkerClick(bike)}
-                  >
-                    <IoLocation />
-                  </div>
-                </Marker>
-              )
-          )}
-          {route && (
-            <>
-              <Source id="route" type="geojson" data={route}>
-                <Layer
-                  id="routeLayer"
-                  type="line"
-                  layout={{ "line-join": "round", "line-cap": "round" }}
-                  paint={{ "line-color": "#f28b50", "line-width": 8 }}
-                />
-              </Source>
-              <Source
-                id="dots"
-                type="geojson"
-                data={{
-                  type: "FeatureCollection",
-                  features: routeDots.map((dot) => ({
-                    type: "Feature",
-                    geometry: {
-                      type: "Point",
-                      coordinates: dot,
-                    },
-                  })),
-                }}
-              >
-                <Layer
-                  id="dotLayer"
-                  type="circle"
-                  paint={{
-                    "circle-radius": 5,
-                    "circle-color": "#FFFFFF",
-                    "circle-stroke-width": 2,
-                    "circle-stroke-color": "#de7345",
-                  }}
-                />
-              </Source>
-            </>
-          )}
-          {hoveredBike && hoveredCoordinates && (
-            <Popup
-              longitude={hoveredCoordinates.longitude}
-              latitude={hoveredCoordinates.latitude}
-              closeButton={false}
-              offsetTop={-10}
-            >
-              <BikeInfoPopup
-                bike={hoveredBike}
-                coordinates={hoveredCoordinates}
-              />
-            </Popup>
-          )}
-        </Map>
+          <IoLocation />
+        </div>
+      </Marker>
+    </div>
+  )
+))}
+
+
+  {/* Hiển thị Popup khi hover vào xe đạp */}
+  {hoveredBike && hoveredCoordinates && (
+  <Popup
+    longitude={hoveredCoordinates.longitude}
+    latitude={hoveredCoordinates.latitude}
+    closeButton={false}
+    offsetTop={-10}
+  >
+    <BikeInfoPopup
+      bike={hoveredBike}
+      coordinates={hoveredCoordinates}
+    />
+  </Popup>
+)}
+
+
+  {/* Hiển thị lộ trình nếu tồn tại */}
+  {route && (
+    <>
+      <Source id="route" type="geojson" data={route}>
+        <Layer
+          id="routeLayer"
+          type="line"
+          layout={{ "line-join": "round", "line-cap": "round" }}
+          paint={{ "line-color": "#f28b50", "line-width": 8 }}
+        />
+      </Source>
+      <Source
+        id="dots"
+        type="geojson"
+        data={{
+          type: "FeatureCollection",
+          features: routeDots.map(dot => ({
+            type: "Feature",
+            geometry: {
+              type: "Point",
+              coordinates: dot,
+            },
+          })),
+        }}
+      >
+        <Layer
+          id="dotLayer"
+          type="circle"
+          paint={{
+            "circle-radius": 5,
+            "circle-color": "#FFFFFF",
+            "circle-stroke-width": 2,
+            "circle-stroke-color": "#de7345",
+          }}
+        />
+      </Source>
+    </>
+  )}
+</Map>
+
       </div>
 
       {/* Nút để hiển thị lịch sử hành trình */}

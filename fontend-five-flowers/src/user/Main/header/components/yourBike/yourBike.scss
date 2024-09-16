@@ -83,6 +83,15 @@
   display: none !important;
 }
 
+.mapboxgl-popup {
+  z-index: 1000; /* Đặt z-index cao để đảm bảo popup hiển thị phía trên */
+}
+
+.mapboxgl-popup-content {
+  background-color: white;
+  border-radius: 4px;
+}
+
 .history-container {
   width: 400px; /* Giới hạn chiều rộng là 400px */
   height: 75%; /* Chiều cao từ header tới cuối trang */
