@@ -3,18 +3,35 @@
     justify-content: end;
     gap: 1rem;
     align-items: center;
-    .profile-component-container{
-       text-align: right;
-       cursor: pointer;
-       p{
-        font-size: 1.6rem;
-       }
-    }
-    .cart-component-container{
-        cursor: pointer;
-        P{
-            font-size: 1.8rem;
+  
+    .profile-component-container {
+      text-align: right;
+      cursor: pointer;
+  
+      .ant-dropdown-menu-item {
+        position: relative;
+        transition: all 0.3s ease; // Thêm hiệu ứng cho tất cả các thuộc tính
+  
+        // Khi hover vào các mục menu
+        &:hover {
+          color: rgb(250, 60, 50); // Đổi màu chữ thành màu đỏ khi hover
+          transform: translateX(5px); // Di chuyển sang phải 5px khi hover
         }
+      }
     }
-    
-}
+  
+    .cart-component-container {
+      cursor: pointer;
+  
+      svg {
+        font-size: 2rem;
+        color: #000;
+        transition: color 0.3s ease;
+  
+        &:hover {
+          color: #1890ff;
+        }
+      }
+    }
+  }
+  

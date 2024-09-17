@@ -5,8 +5,6 @@ import {
   FaPinterestP,
   FaTwitter,
 } from "react-icons/fa";
-import ChatbotLauncher from "../../chatBot/chatbotLaunch/ChatbotLauncher";
-import ChatHistory from "../../chatBot/chatHistory/ChatHistory";
 import "./footer.scss";
 
 const Footer = () => {
@@ -66,8 +64,8 @@ const Footer = () => {
           © 2024 Bikex Club (password: buddha) Design Themes
         </div>
       </div>
-      <ChatbotLauncher/>
-      <ChatHistory/>
+     
+     
     </footer>
   );
 };

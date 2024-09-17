@@ -2,36 +2,38 @@ import { Dropdown, Menu } from 'antd';
 import React, { useContext, useState } from "react";
 import { CgProfile } from "react-icons/cg";
 import { MdAccountCircle } from "react-icons/md";
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import { useNavigate } from 'react-router-dom';
 import Cart from "./cart/Cart";
 import { CartContext } from './cart/cartContext/CartProvider';
 import "./component.scss";
 import IconContextCart from "./iconContextCart/IconContextCart";
 import Profile from "./profile/Profile";
-import CalorieChart from './calorieConsumption/CalorieChart';
 
 const Component = ({ showDrawer, cart }) => {
   const { isLoggedIn, logout } = useContext(CartContext);
-  const [visible, setVisible] = useState(false);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [selectedKey, setSelectedKey] = useState('');
+  const navigate = useNavigate();
 
   const handleMenuClick = (e) => {
+    setSelectedKey(e.key); // Set selectedKey khi người dùng click vào mục
     if (e.key === 'logout') {
       logout();
     } else if (e.key === 'profile') {
-      navigate('/cart-user'); // Điều hướng đến trang Cart User
+      navigate('/cart-user');
     } else if (e.key === 'your-bike') {
-      navigate('/your-bike'); // Điều hướng đến trang Your Bike
-    }else if (e.key === 'practice') {
-      navigate('/practice'); // Điều hướng đến trang Your Bike
-    }else if (e.key === 'service') {
-      navigate('/service'); // Điều hướng đến trang Your Bike
+      navigate('/your-bike');
+    } else if (e.key === 'practice') {
+      navigate('/practice');
+    } else if (e.key === 'service') {
+      navigate('/service');
+    } else if (e.key === 'chat-window') {
+      navigate('/chat-window'); // Điều hướng đến trang Trip Planner
     }
-    setVisible(false);
   };
 
   const menu = (
-    <Menu onClick={handleMenuClick}>
+    <Menu onClick={handleMenuClick} selectedKeys={[selectedKey]} className="dropdown-menu">
+      <Menu.Item key="chat-window">Trip Planner</Menu.Item>  
       <Menu.Item key="your-bike">Your Bike</Menu.Item>
       <Menu.Item key="practice">Practice</Menu.Item>
       <Menu.Item key="service">Service</Menu.Item>
@@ -44,7 +46,7 @@ const Component = ({ showDrawer, cart }) => {
     <div className="component-container">
       <div className="profile-component-container">
         {isLoggedIn ? (
-          <Dropdown overlay={menu} trigger={['click']}>
+          <Dropdown overlay={menu} trigger={['click']} placement="bottomCenter">
             <MdAccountCircle style={{ fontSize: '30px', cursor: 'pointer' }} />
           </Dropdown>
         ) : (
