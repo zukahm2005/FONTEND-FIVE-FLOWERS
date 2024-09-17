@@ -4,6 +4,7 @@ import Admin from './admin/Admin';
 import User from './user/User';
 import usePageTracking from './usePageTracking';
 import ScreenshotPage from './user/Main/header/components/calorieConsumption/ScreenshotPage ';
+import Schedule from './user/Main/header/components/calorieConsumption/schedule';
 
 const TrackingComponent = () => {
   usePageTracking();
@@ -18,6 +19,9 @@ const App = () => {
         <Route path="/admin/*" element={<Admin />} />
         <Route path="/*" element={<User />} />
         <Route path="/screenshot" element={<ScreenshotPage />} />
+        <Route path="/screenshot" element={<ScreenshotPage />} />
+        <Route path="/shedule" element={<Schedule />} />
+
       </Routes>
     </Router>
   );

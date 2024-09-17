@@ -77,7 +77,7 @@ function Service() {
   useEffect(() => {
     const mapInstance = new mapboxgl.Map({
       container: mapContainer.current,
-      style: 'mapbox://styles/mapbox/streets-v11',
+      style: 'mapbox://styles/mapbox/streets-v12',
       center: [startPoint.longitude, startPoint.latitude],
       zoom: 15,
     });
@@ -102,36 +102,43 @@ function Service() {
     mapInstance.addControl(directionsInstance, 'top-right');
 
     // Add marker with label function
-    const addMarkerWithoutLabel = (longitude, latitude, iconUrl) => {
-      // Tạo một phần tử div làm container cho marker
+    const addMarkerWithLabel = (longitude, latitude, name, description, links) => {
       const el = document.createElement('div');
       el.className = 'custom-marker';
-
-      // Tạo phần tử <img> để hiển thị icon
+  
       const img = document.createElement('img');
-      img.src = iconUrl;  // Đường dẫn đến hình ảnh icon
-      img.style.width = '35px';  // Đặt kích thước icon
+      img.src = 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkhyAI0gTqZ-jindvXT1j0VCLg8p7whYCu9w&s';
+      img.style.width = '35px';
       img.style.height = '35px';
-      img.style.borderRadius = '50%';  // Bo tròn icon
-      img.style.border = '2px solid white';  // Viền trắng bên ngoài
-      img.style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.5)';  // Thêm bóng đổ
-
-      // Thêm hình ảnh vào div
+      img.style.borderRadius = '50%';
+      img.style.border = '2.5px solid #fa3e2c';
+      img.style.boxShadow = '0 0 5px rgba(0, 0, 0, 0.5)';
       el.appendChild(img);
-
-      // Tạo marker với phần tử HTML
+  
+      const popup = new mapboxgl.Popup({
+        closeButton: false,  
+        closeOnClick: true,
+      })
+        .setLngLat([longitude, latitude])
+        .setHTML(`<h4>${name}</h4>`);
+  
       const marker = new mapboxgl.Marker(el)
         .setLngLat([longitude, latitude])
-        .addTo(mapInstance);
+        .setPopup(popup)
+        .addTo(mapRef.current);
+
+        setCurrentPopup(popup);
+  
+      marker.getElement().addEventListener('click', () => {
+        setSelectedPoint({ latitude, longitude, name, description, links });
+      });
     };
-
-
 
 
     mapInstance.on('load', () => {
       fixedPoints.forEach((point, index) => {
         // Thay thế icon marker bằng một hình ảnh icon
-        addMarkerWithoutLabel(point.longitude, point.latitude, 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSkhyAI0gTqZ-jindvXT1j0VCLg8p7whYCu9w&s');
+        addMarkerWithLabel(point.longitude, point.latitude, point.name, point.description, point.links);
       });
 
       const nav = new mapboxgl.NavigationControl({
@@ -177,31 +184,42 @@ function Service() {
 
   const handleDestinationChange = (latitude, longitude, name, description, links) => {
     if (map && directions) {
-      // Xóa popup hiện tại nếu có
-      if (currentPopup) {
-        currentPopup.remove();
+      // Kiểm tra nếu có popup hiện tại và đảm bảo popup có thể được xóa
+      if (currentPopup && typeof currentPopup.remove === 'function') {
+        currentPopup.remove();  // Xóa popup hiện tại
+        setCurrentPopup(null);  // Đặt lại giá trị popup về null
       }
-
+  
       // Tạo nội dung cho popup
       const content = `
         <h4>${name}</h4>
       `;
-
-      // Tạo và hiển thị popup mới, không có nút đóng "X"
+  
+      // Tạo và hiển thị popup mới
       const popup = new mapboxgl.Popup({
-        closeButton: false,  // Loại bỏ nút "X"
-        closeOnClick: true,  // Đóng popup khi nhấp ra ngoài
+        closeButton: false,  
+        closeOnClick: true,
       })
         .setLngLat([longitude, latitude])
-        .setHTML(content)  // Hiển thị nội dung đã tạo
+        .setHTML(content)
         .addTo(map);
-
+  
       // Cập nhật popup hiện tại và điểm đã chọn
       setCurrentPopup(popup);
       setSelectedPoint({ latitude, longitude, name, description, links });
     }
   };
+  
 
+  const Close = () => {
+    if (currentPopup && typeof currentPopup.remove === 'function') {
+      currentPopup.remove();  // Xóa popup hiện tại
+      setCurrentPopup(null);  // Đặt lại giá trị popup về null
+    }
+    setSelectedPoint(null);  // Xóa thông tin điểm đã chọn
+  };
+  
+  
 
 
 
@@ -214,7 +232,7 @@ function Service() {
           {fixedPoints.map((point, index) => (
             <li key={index}>
               <span onClick={() => handleDestinationChange(point.latitude, point.longitude, point.name, point.description, point.links)}>
-                {`${point.name}`}
+              {point.name}
               </span>
               <span onClick={() => handleDirections(point.latitude, point.longitude)}>
                 <FontAwesomeIcon icon={faDiamondTurnRight} style={{ fontSize: '24px', paddingLeft: '10px' }} />
@@ -246,13 +264,11 @@ function Service() {
             <FontAwesomeIcon icon={faEarthAmericas} style={{ fontSize: '24px', paddingLeft: '10px', cursor: 'pointer' }} />
           </Link>
           <p>Tọa độ: {selectedPoint.latitude}, {selectedPoint.longitude}</p>
-          <button onClick={() => setSelectedPoint(null)}>Đóng</button>
+          <button onClick={Close}>Close</button>
         </div>
       )}
-
 
     </div>
   );
 }
-
 export default Service;
