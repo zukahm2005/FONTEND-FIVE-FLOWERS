@@ -13,7 +13,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { Link, useNavigate } from "react-router-dom";
 import CustomCKEditor from "../../CKEditorComponent/CKEditorComponent";
-import "./AddProductAdmin.scss";
+import "./addProductAdmin.scss";
 
 const AddProductAdmin = () => {
   const navigate = useNavigate();

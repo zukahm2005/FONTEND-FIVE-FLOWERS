@@ -8,6 +8,7 @@ import "./sendWebhookEvent.scss";
 
 const Chatbot = ({ onClose }) => {
   const [input, setInput] = useState("");
+  const [lastBotResponse, setLastBotResponse] = useState(null); // Thêm state để lưu phản hồi cuối cùng của chatbot
 
   // Lấy các tin nhắn đã lưu trong sessionStorage hoặc khởi tạo với tin nhắn chào
   const [messages, setMessages] = useState(() => {
@@ -17,7 +18,7 @@ const Chatbot = ({ onClose }) => {
       : [
           {
             role: "bot",
-            content: "Hello! How can i help you about cycle today?",
+            content: "Hello! How can I help you with cycle today?",
             time: new Date().toLocaleTimeString(),
           },
         ];
@@ -112,6 +113,7 @@ const Chatbot = ({ onClose }) => {
           time: new Date().toLocaleTimeString(),
         },
       ]);
+      setLastBotResponse(botResponse); // Lưu phản hồi từ chatbot
     } catch (error) {
       console.error("Lỗi khi gửi tin nhắn:", error);
     }
@@ -120,6 +122,20 @@ const Chatbot = ({ onClose }) => {
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       sendMessage("ask");
+    }
+  };
+
+  // Hàm để lưu lại phản hồi từ chatbot
+  const saveMessage = async () => {
+    try {
+      await axios.post(
+        "http://localhost:8080/api/v1/bot/save",
+        { botResponse: lastBotResponse },
+        { headers: { "Content-Type": "application/json" } }
+      );
+      alert("Phản hồi của chatbot đã được lưu!");
+    } catch (error) {
+      console.error("Lỗi khi lưu tin nhắn:", error);
     }
   };
 
@@ -148,10 +164,7 @@ const Chatbot = ({ onClose }) => {
                     <p style={{ margin: "0.5em 0", color: "#fff" }} {...props} />
                   ),
                   h1: ({ node, ...props }) => (
-                    <h1
-                      style={{ fontSize: "1.5em", color: "#fff" }}
-                      {...props}
-                    />
+                    <h1 style={{ fontSize: "1.5em", color: "#fff" }} {...props} />
                   ),
                   img: ({ node, ...props }) => (
                     <img
@@ -187,22 +200,24 @@ const Chatbot = ({ onClose }) => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message and press enter..."
-          onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+          onKeyPress={(e) => e.key === "Enter" && sendMessage("ask")}
           className="chat-input"
         />
-        <button
-          onClick={sendMessage}
-          disabled={!input.trim()}
-          className="send-button"
-        >
+        <button onClick={() => sendMessage("ask")} disabled={!input.trim()} className="send-button">
           <p>
             <IoMdSend />
           </p>
         </button>
-        {/* <button onClick={() => sendMessage("learn")} className="learn-button">
-          Learn Text
-        </button> */}
       </div>
+
+      {/* Nút lưu lại phản hồi sau khi chatbot trả lời */}
+      {lastBotResponse && (
+        <div className="save-message-container">
+          <button onClick={saveMessage} className="save-button">
+            Lưu lại phản hồi
+          </button>
+        </div>
+      )}
     </div>
   );
 };

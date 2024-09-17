@@ -1,5 +1,5 @@
-import React from "react";
 import { motion } from "framer-motion";
+import React from "react";
 import "./bikeWithHotspots.scss";
 
 const BikeWithHotspots = () => {
@@ -8,7 +8,7 @@ const BikeWithHotspots = () => {
       <img 
         src="https://bikex-club.myshopify.com/cdn/shop/files/img-2_232fd66a-cc99-4806-8f20-8caee377e128_1_2048x.jpg?v=1614290801" 
         alt="Bike" 
-        className="bike-image" 
+        className="bike-image1" 
       />
 
       <motion.div className="hotspot hotspot-1">

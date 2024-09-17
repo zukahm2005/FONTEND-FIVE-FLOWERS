@@ -6,6 +6,7 @@ import {
   FaTwitter,
 } from "react-icons/fa";
 import ChatbotLauncher from "../../chatBot/chatbotLaunch/ChatbotLauncher";
+import ChatHistory from "../../chatBot/chatHistory/ChatHistory";
 import "./footer.scss";
 
 const Footer = () => {
@@ -66,6 +67,7 @@ const Footer = () => {
         </div>
       </div>
       <ChatbotLauncher/>
+      <ChatHistory/>
     </footer>
   );
 };
