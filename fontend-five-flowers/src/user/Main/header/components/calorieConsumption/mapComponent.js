@@ -321,29 +321,6 @@ function DistanceTracker() {
     return [destinationLat, destinationLon];
   };
 
-
-  const uploadToCloudinary = async (base64Image) => {
-    const cloudName = 'ddrgrnsex'; // Tên Cloudinary của bạn
-    const uploadPreset = 'share img'; // Tên Upload Preset bạn tạo
-  
-    // Tạo form data để gửi lên Cloudinary
-    const formData = new FormData();
-    formData.append('file', base64Image);
-    formData.append('upload_preset', uploadPreset);
-  
-    try {
-      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
-        method: 'POST',
-        body: formData,
-      });
-  
-      const data = await response.json();
-      return data.secure_url; // URL công khai của ảnh
-    } catch (error) {
-      console.error('Error uploading image:', error);
-      return null;
-    }
-  };
   
   const takeMapScreenshot = async () => {
     if (!initialPosition || !destination) {
@@ -411,12 +388,9 @@ function DistanceTracker() {
         // Tạo base64 từ canvas
         const imageUrl = canvas.toDataURL('image/png');
   
-        // Upload ảnh lên Cloudinary
-        const uploadedUrl = await uploadToCloudinary(imageUrl);
-  
-        if (uploadedUrl) {
-          setScreenshotUrl(uploadedUrl);  // Cập nhật URL từ Cloudinary
-          navigate('/screenshot', { state: { screenshotUrl: uploadedUrl, download: imageUrl } });
+        if (imageUrl) {
+          setScreenshotUrl(imageUrl); 
+          navigate('/screenshot', { state: { screenshotUrl: imageUrl } });
         }
       };
   
@@ -656,7 +630,7 @@ function DistanceTracker() {
         <button onClick={handleStart} disabled={tracking}>Start</button>
         <button onClick={handleStop} disabled={!tracking}>Stop</button>
         <button onClick={takeMapScreenshot}>Screenshot</button>
-        <button ><Link to='/calo' style={{color:'white'}}>Calories</Link></button>
+        <button ><Link to='/calo' style={{color:'white'}}>Calories burned</Link></button>
       </div>
       <div className="info-text">
         <p>Total Distance: {totalDistance.toFixed(2)} km</p>
