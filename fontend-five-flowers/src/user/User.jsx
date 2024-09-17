@@ -58,7 +58,6 @@ const User = () => {
             <Route path='/practice' element={<DistanceTracker />} />
             <Route path="/service" element={<Service />} />
             <Route path="/chat-window" element={<ChatWindow/>} />
-
           </Routes>
         </div>
         <ScrollIndicator />

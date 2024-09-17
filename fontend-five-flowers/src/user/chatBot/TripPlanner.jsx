@@ -1,3 +1,4 @@
+import { Alert, Snackbar } from "@mui/material"; // Import Snackbar và Alert từ Material UI
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { IoMdSend } from "react-icons/io";
@@ -14,11 +15,14 @@ const TripPlanner = ({ onClose }) => {
       : [
           {
             role: "bot",
-            content: "Hello! How can I help you with cycle today?",
+            content: "Hello! How can I help you with your travel itinerary using bicycles today?",
             time: new Date().toLocaleTimeString(),
           },
         ];
   });
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false); // State cho snackbar
+  const [snackbarMessage, setSnackbarMessage] = useState(""); // Thông báo trong snackbar
 
   useEffect(() => {
     sessionStorage.setItem("chatMessages", JSON.stringify(messages));
@@ -74,14 +78,22 @@ const TripPlanner = ({ onClose }) => {
         { botResponse: messageContent },
         { headers: { "Content-Type": "application/json" } }
       );
-      alert("Response has been saved!");
+      setSnackbarMessage("Response has been saved!"); // Thông báo lưu thành công
+      setSnackbarOpen(true); // Mở snackbar
     } catch (error) {
+      setSnackbarMessage("Error saving message!"); // Thông báo lỗi
+      setSnackbarOpen(true); // Mở snackbar
       console.error("Error saving message:", error);
     }
   };
 
+  const handleSnackbarClose = () => {
+    setSnackbarOpen(false); // Đóng snackbar
+  };
+
   return (
     <div className="chat-container">
+      <h2 style={{ textAlign: "center", padding: "10px" }}>Advice on the schedule of traveling by bike</h2>
       <div className="chat-box">
         {messages.map((msg, index) => (
           <div key={index} className={`chat-message ${msg.role}`}>
@@ -128,7 +140,7 @@ const TripPlanner = ({ onClose }) => {
           value={input}
           onChange={(e) => setInput(e.target.value)}
           placeholder="Type your message and press enter..."
-          onKeyPress={(e) => e.key === "Enter" && sendMessage("ask")}
+          onKeyPress={handleKeyPress}
           className="chat-input"
         />
         <button
@@ -139,6 +151,18 @@ const TripPlanner = ({ onClose }) => {
           <IoMdSend />
         </button>
       </div>
+
+      {/* Snackbar hiển thị thông báo */}
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={3000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert severity="success" sx={{ width: "100%" }}>
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </div>
   );
 };
