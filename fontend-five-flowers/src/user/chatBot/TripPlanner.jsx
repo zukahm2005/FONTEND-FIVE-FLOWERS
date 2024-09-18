@@ -1,12 +1,30 @@
-import { Alert, Snackbar } from "@mui/material"; // Import Snackbar và Alert từ Material UI
+import {
+  Alert,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Paper,
+  Snackbar,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material"; // Import Material UI components
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { FaListAlt } from "react-icons/fa"; // Icon list
 import { IoMdSend } from "react-icons/io";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+// Import ChatHistory component
 import "./tripPlanner.scss";
 
-const TripPlanner = ({ onClose }) => {
+const TripPlanner = ({ userId }) => {
   const [startLocation, setStartLocation] = useState(""); // Input cho địa chỉ bắt đầu
   const [endLocation, setEndLocation] = useState(""); // Input cho địa chỉ đến
   const [extraRequest, setExtraRequest] = useState(""); // Input cho thông tin bổ sung
@@ -23,25 +41,30 @@ const TripPlanner = ({ onClose }) => {
           },
         ];
   });
-
+  const [expenses, setExpenses] = useState([]); // Danh sách chi phí
+  const [openExpenseDialog, setOpenExpenseDialog] = useState(false); // Trạng thái mở popup
   const [snackbarOpen, setSnackbarOpen] = useState(false); // State cho snackbar
   const [snackbarMessage, setSnackbarMessage] = useState(""); // Thông báo trong snackbar
   const [currentStartLocation, setCurrentStartLocation] = useState(""); // Lưu tạm startLocation khi gửi
   const [currentEndLocation, setCurrentEndLocation] = useState(""); // Lưu tạm endLocation khi gửi
+  const [conversationId, setConversationId] = useState(null); // ID cuộc trò chuyện để lấy lịch sử
 
   useEffect(() => {
     sessionStorage.setItem("chatMessages", JSON.stringify(messages));
+    fetchExpenses();
   }, [messages]);
 
-  const sendMessage = async (type) => {
-    if (
-      type === "ask" &&
-      (startLocation.trim() === "" ||
-        endLocation.trim() === "" ||
-        extraRequest.trim() === "")
-    )
-      return;
+  // Hàm lấy danh sách chi phí
+  const fetchExpenses = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/v1/expenses");
+      setExpenses(response.data);
+    } catch (error) {
+      console.error("Error fetching expenses:", error);
+    }
+  };
 
+  const sendMessage = async () => {
     // Kết hợp nội dung của ba input thành một đoạn văn bản
     const combinedMessage = `Start: ${startLocation}, End: ${endLocation}. Request: ${extraRequest}`;
 
@@ -85,32 +108,53 @@ const TripPlanner = ({ onClose }) => {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      sendMessage("ask");
+      sendMessage();
     }
   };
 
   const saveSpecificMessage = async (messageContent) => {
+    const token = localStorage.getItem('token'); // Lấy token từ localStorage
+
     try {
-      await axios.post(
+      const response = await axios.post(
         "http://localhost:8080/api/v1/bot/save",
         {
           botResponse: messageContent,
           startLocation: currentStartLocation, // Lưu startLocation hiện tại
-          endLocation: currentEndLocation, // Lưu endLocation hiện tại
+          endLocation: currentEndLocation,     // Lưu endLocation hiện tại
+          userId,                              // Thêm userId để lưu cho người dùng cụ thể
         },
-        { headers: { "Content-Type": "application/json" } }
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,  // Thêm token vào headers
+            "Content-Type": "application/json"
+          },
+        }
       );
+
+      // Lấy conversationId từ response (nếu server trả về)
+      setConversationId(response.data.conversationId);
+
       setSnackbarMessage("Response has been saved!"); // Thông báo lưu thành công
-      setSnackbarOpen(true); // Mở snackbar
+      setSnackbarOpen(true);                          // Mở snackbar
     } catch (error) {
-      setSnackbarMessage("Error saving message!"); // Thông báo lỗi
-      setSnackbarOpen(true); // Mở snackbar
+      setSnackbarMessage("Error saving message!");    // Thông báo lỗi
+      setSnackbarOpen(true);                          // Mở snackbar
       console.error("Error saving message:", error);
     }
-  };
+};
+
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false); // Đóng snackbar
+  };
+
+  const handleOpenExpenseDialog = () => {
+    setOpenExpenseDialog(true);
+  };
+
+  const handleCloseExpenseDialog = () => {
+    setOpenExpenseDialog(false);
   };
 
   return (
@@ -158,10 +202,7 @@ const TripPlanner = ({ onClose }) => {
               {msg.time}
             </div>
             {msg.role === "bot" && (
-              <p
-                className="save-button"
-                onClick={() => saveSpecificMessage(msg.content)}
-              >
+              <p className="save-button" onClick={() => saveSpecificMessage(msg.content)}>
                 Save
               </p>
             )}
@@ -178,7 +219,7 @@ const TripPlanner = ({ onClose }) => {
               value={startLocation}
               onChange={(e) => setStartLocation(e.target.value)}
               placeholder="Start location"
-              className="chat-input start-end-input" // Đặt class cho input địa chỉ bắt đầu
+              className="chat-input start-end-input"
             />
           </div>
           <div className="locations-end">
@@ -187,9 +228,18 @@ const TripPlanner = ({ onClose }) => {
               value={endLocation}
               onChange={(e) => setEndLocation(e.target.value)}
               placeholder="End location"
-              className="chat-input start-end-input" // Đặt class cho input địa chỉ đến
+              className="chat-input start-end-input"
             />
           </div>
+          <IconButton
+            onClick={handleOpenExpenseDialog}
+            style={{
+              backgroundColor: "#007bff",
+              color: "white",
+            }}
+          >
+            <FaListAlt />
+          </IconButton>
         </div>
         <div className="request-chat-bot">
           <input
@@ -197,21 +247,51 @@ const TripPlanner = ({ onClose }) => {
             value={extraRequest}
             onChange={(e) => setExtraRequest(e.target.value)}
             placeholder="Additional request (e.g., calculate cost)"
-            className="chat-input extra-request-input" // Đặt class cho input yêu cầu bổ sung
+            className="chat-input extra-request-input"
           />{" "}
-          <button
-            onClick={() => sendMessage("ask")}
-            disabled={
-              !startLocation.trim() ||
-              !endLocation.trim() ||
-              !extraRequest.trim()
-            }
-            className="send-button"
-          >
+          <button onClick={sendMessage} className="send-button">
             <IoMdSend />
           </button>
         </div>
       </div>
+
+      {/* Icon mở bảng chi phí */}
+
+      {/* Dialog hiển thị bảng chi phí */}
+      <Dialog
+        open={openExpenseDialog}
+        onClose={handleCloseExpenseDialog}
+        fullWidth
+      >
+        <DialogTitle>Bảng chi phí</DialogTitle>
+        <DialogContent>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Số tiền</TableCell>
+                  <TableCell>Danh mục</TableCell>
+                  <TableCell>Ngày tháng</TableCell>
+                  <TableCell>Ghi chú</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {expenses.map((expense) => (
+                  <TableRow key={expense.id}>
+                    <TableCell>{expense.amount}</TableCell>
+                    <TableCell>{expense.category}</TableCell>
+                    <TableCell>{expense.date}</TableCell>
+                    <TableCell>{expense.note}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseExpenseDialog}>Close</Button>
+        </DialogActions>
+      </Dialog>
 
       {/* Snackbar hiển thị thông báo */}
       <Snackbar

@@ -18,28 +18,52 @@ import TripPlanner from "../TripPlanner";
 
 export default function ChatWindow() {
   const [open, setOpen] = useState(false);
-  const [selectedConversationId, setSelectedConversationId] = useState(null); // Save selected conversation ID
+  const [selectedId, setSelectedId] = useState(null); // Save selected chat ID
   const [chatList, setChatList] = useState([]); // Store the list of conversations
   const [editingId, setEditingId] = useState(null); // Save the ID of the conversation being edited
   const [newName, setNewName] = useState(""); // Save the new name of the schedule
   const [menuAnchor, setMenuAnchor] = useState(null); // Used to open the Menu
   const [selectedChatId, setSelectedChatId] = useState(null); // Store selected chat ID when opening the menu
 
-  // Fetch conversation list from the server
-  useEffect(() => {
-    const fetchChatList = async () => {
-      try {
-        const response = await axios.get(
-          "http://localhost:8080/api/v1/bot/history"
-        ); // API to fetch conversation list
-        setChatList(response.data); // Save the list into state
-      } catch (error) {
-        console.error("Error fetching conversation list:", error);
-      }
-    };
+  // Lấy userId từ localStorage
+  const userId = localStorage.getItem("userId");
+  console.log("userId from localStorage:", userId); // Added log to check if userId is fetched
 
-    fetchChatList();
-  }, []);
+  // Fetch conversation list from the server based on userId
+ // Fetch conversation list from the server based on userId
+ useEffect(() => {
+  const fetchChatList = async () => {
+    const userId = localStorage.getItem("userId"); // Lấy userId từ localStorage
+    const token = localStorage.getItem("token");   // Lấy token từ localStorage
+
+    console.log("Fetched userId:", userId); // Log userId để kiểm tra
+    console.log("Fetched token:", token);   // Log token để kiểm tra
+
+    if (!userId || !token) {
+      console.error("userId or token is missing");
+      return;
+    }
+
+    try {
+      const response = await axios.get(
+        `http://localhost:8080/api/v1/bot/history/${userId}`, // API để lấy danh sách lịch sử theo userId
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,  // Thêm token vào headers
+          },
+        }
+      );
+      console.log("Response data:", response.data); // In ra dữ liệu trả về từ API
+      setChatList(response.data); // Lưu danh sách cuộc trò chuyện vào state
+    } catch (error) {
+      console.error("Error fetching conversation list:", error);
+    }
+  };
+
+  fetchChatList();
+}, []);
+
+
 
   // Get the conversation name based on selected ID
   const getConversationName = (id) => {
@@ -49,11 +73,11 @@ export default function ChatWindow() {
       : "";
   };
 
-  // Open the popup and set the selected conversation
-  const handleClickOpen = (conversationId) => {
+  // Open the popup and set the selected chat ID
+  const handleClickOpen = (id) => {
     if (!editingId) {
-      setSelectedConversationId(conversationId); // Update the selected conversation
-      setOpen(true); // Open the popup
+      setSelectedId(id); // Update selected conversation
+      setOpen(true); // Open popup
     }
   };
 
@@ -64,16 +88,16 @@ export default function ChatWindow() {
 
   // Enable edit mode for a name
   const handleEditClick = (id, currentName, e) => {
-    e.stopPropagation(); // Prevent the popup from opening when clicking on the menu
+    e.stopPropagation(); // Prevent popup from opening when clicking the menu
     setEditingId(id); // Set the ID of the conversation being edited
     setNewName(currentName); // Set the current name in the input field for editing
-    setMenuAnchor(null); // Close the menu
+    setMenuAnchor(null); // Close menu
   };
 
   // Save the new name
   const handleSaveName = async (id) => {
     try {
-      // Send API request to update the new name
+      // Send API request to update the name
       await axios.put(`http://localhost:8080/api/v1/bot/updateName/${id}`, {
         name: newName,
       });
@@ -99,7 +123,7 @@ export default function ChatWindow() {
       setChatList((prevChatList) =>
         prevChatList.filter((chat) => chat.id !== id)
       );
-      setMenuAnchor(null); // Close the menu
+      setMenuAnchor(null); // Close menu
     } catch (error) {
       console.error("Error deleting schedule:", error);
     }
@@ -107,7 +131,7 @@ export default function ChatWindow() {
 
   // Open the menu
   const handleMenuClick = (event, chatId) => {
-    event.stopPropagation(); // Prevent overlapping with other events
+    event.stopPropagation(); // Prevent other events from triggering
     setMenuAnchor(event.currentTarget);
     setSelectedChatId(chatId);
   };
@@ -116,6 +140,8 @@ export default function ChatWindow() {
   const handleMenuClose = () => {
     setMenuAnchor(null);
   };
+
+  console.log("Chat list in render:", chatList); // Log chat list to ensure it's updated correctly
 
   return (
     <div className="chat-window-container">
@@ -128,7 +154,7 @@ export default function ChatWindow() {
               bgcolor: "#f5f5f5",
               padding: 2,
               paddingTop: "7rem",
-              boxShadow: "4px 0 10px rgba(0, 0, 0, 0.1)", // Add right side shadow
+              boxShadow: "4px 0 10px rgba(0, 0, 0, 0.1)", // Add shadow to the right
             }}
           >
             <div className="title-chat-window-container">
@@ -151,7 +177,7 @@ export default function ChatWindow() {
                   sx={{
                     transition: "background-color 0.3s, transform 0.3s",
                     borderRadius: "10px",
-                    cursor: "pointer", // Add pointer cursor for ListItem
+                    cursor: "pointer",
                     "&:hover": {
                       backgroundColor: "#e0e0e0",
                       transform: "scale(1.01)",
@@ -168,7 +194,7 @@ export default function ChatWindow() {
                         autoFocus
                       />
                       <button
-                        onClick={() => handleSaveName(chat.id)} // Save when clicking the button
+                        onClick={() => handleSaveName(chat.id)} // Save when clicked
                         style={{
                           marginLeft: "10px",
                           padding: "5px 10px",
@@ -186,7 +212,7 @@ export default function ChatWindow() {
                     <>
                       <ListItemText
                         primary={chat.name || `Schedule ${index + 1}`}
-                        sx={{ cursor: "pointer" }} // Add pointer cursor to the schedule name
+                        sx={{ cursor: "pointer" }}
                       />
                       <p
                         style={{
@@ -196,7 +222,7 @@ export default function ChatWindow() {
                           display: "flex",
                           alignItems: "center",
                         }}
-                        onClick={(e) => handleMenuClick(e, chat.id)} // Open the menu on click
+                        onClick={(e) => handleMenuClick(e, chat.id)}
                       >
                         ⋮
                       </p>
@@ -230,27 +256,21 @@ export default function ChatWindow() {
         >
           <MenuItem
             onClick={(e) =>
-              handleEditClick(
-                selectedChatId,
-                getConversationName(selectedChatId),
-                e
-              )
+              handleEditClick(selectedChatId, getConversationName(selectedChatId), e)
             }
           >
             Edit
           </MenuItem>
-          <MenuItem onClick={() => handleDelete(selectedChatId)}>
-            Delete
-          </MenuItem>
+          <MenuItem onClick={() => handleDelete(selectedChatId)}>Delete</MenuItem>
         </Menu>
 
         {/* Dialog Popup for Chat History */}
         <Dialog open={open} onClose={handleClose} maxWidth="lg" fullWidth>
           <DialogTitle style={{ color: "white", backgroundColor: "#333" }}>
-            {getConversationName(selectedConversationId)}
+            {getConversationName(selectedId)}
           </DialogTitle>
           <DialogContent style={{ overflowY: "auto", maxHeight: "70vh" }}>
-            <ChatHistory conversationId={selectedConversationId} />
+            <ChatHistory chatId={selectedId} />
           </DialogContent>
         </Dialog>
       </Grid>
