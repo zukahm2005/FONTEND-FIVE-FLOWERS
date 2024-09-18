@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FacebookShareButton, TwitterShareButton, WhatsappShareButton } from 'react-share';
-import './ScreenshotPage.css';
+import './ScreenshotPage.scss';
 
 const ScreenshotPage = () => {
   const location = useLocation();

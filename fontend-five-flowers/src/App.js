@@ -4,7 +4,7 @@ import Admin from './admin/Admin';
 import User from './user/User';
 import usePageTracking from './usePageTracking';
 import ScreenshotPage from './user/Main/header/components/calorieConsumption/ScreenshotPage ';
-import Schedule from './user/Main/header/components/calorieConsumption/schedule';
+import Schedule from './user/Main/header/components/practice/calorieConsumption/schedule';
 
 const TrackingComponent = () => {
   usePageTracking();

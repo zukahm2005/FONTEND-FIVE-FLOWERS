@@ -4,7 +4,7 @@ import MapboxDirections from '@mapbox/mapbox-sdk/services/directions';
 import axios from 'axios';
 import polyline from '@mapbox/polyline';
 import { Link, useNavigate } from 'react-router-dom';
-import './mapComponent.css';
+import './mapComponent.scss';
 
 
 

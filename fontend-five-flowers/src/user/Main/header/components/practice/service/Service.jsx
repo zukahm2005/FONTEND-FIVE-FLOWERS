@@ -3,7 +3,7 @@ import mapboxgl from 'mapbox-gl';
 import MapboxDirections, { addWaypoint } from '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions';
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-directions/dist/mapbox-gl-directions.css';
-import './Service.css'; // Nhập file CSS
+import './Service.scss'; // Nhập file CSS
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDiamondTurnRight, faTimes, faEarthAmericas } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
@@ -46,7 +46,7 @@ function Service() {
       description: 'Ride Plus officially partners with XedapSOS - Vietnam’s first mobile bicycle repair service - to provide assembly, repair, and professional services...'
     },
     {
-      latitude: 21.03411, longitude: 105.77499, name: 'Professional Bicycle Repair and Maintenance Service at XE ĐẠP 88',  links: 'https://fgbike.vn/che-do-bao-hanh-bao-duong-xe-dap-88',
+      latitude: 21.03411, longitude: 105.77499, name: 'Professional Bicycle Repair and Maintenance Service at Bicycle 88',  links: 'https://fgbike.vn/che-do-bao-hanh-bao-duong-xe-dap-88',
       description: 'Shop Xe Đạp 88 offers a one-year warranty on single-speed bike frames and a three-month warranty on parts for all Single Speed models assembled by the shop...'
     },
     {
@@ -58,7 +58,7 @@ function Service() {
       description: 'An Ton Bike Store, Hanoi. 2,529 likes · 5 talking about this · 846 check-ins. - Sports bicycle repair/maintenance - Bicycle sales...'
     },
     {
-      latitude: 21.03331, longitude: 105.78488, name: 'Thống Nhất Bicycle Store', links: 'https://thongnhat.com.vn/home',
+      latitude: 21.03331, longitude: 105.78488, name: 'Thong Nhat Bicycle Store', links: 'https://thongnhat.com.vn/home',
       description: 'Official retail system — Genuine sports bikes, Thống Nhất mini bikes with beautiful designs. HomeCare service for at-home repairs and warranty...'
     },
     {
@@ -254,16 +254,16 @@ function Service() {
 
       {selectedPoint && (
         <div className="destination-details">
-          <h4>Chi tiết điểm đến</h4>
+          <h4>Destination details: </h4>
           <span style={{ fontSize: '16px', fontWeight: '700' }}>{selectedPoint.name}</span>
-          <p style={{ margin: '5% auto' }}>{selectedPoint.description || 'Không có thông tin mô tả.'}</p>
+          <p style={{ margin: '5% auto' }}>{selectedPoint.description || 'No description information available.'}</p>
           <span onClick={() => handleDirections(selectedPoint.latitude, selectedPoint.longitude)}>
             <FontAwesomeIcon icon={faDiamondTurnRight} style={{ fontSize: '24px' }} />
           </span>
           <Link to={selectedPoint.links || '#'} target="_blank">
             <FontAwesomeIcon icon={faEarthAmericas} style={{ fontSize: '24px', paddingLeft: '10px', cursor: 'pointer' }} />
           </Link>
-          <p>Tọa độ: {selectedPoint.latitude}, {selectedPoint.longitude}</p>
+          <p>Coordinates: {selectedPoint.latitude}, {selectedPoint.longitude}</p>
           <button onClick={Close}>Close</button>
         </div>
       )}

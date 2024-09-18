@@ -3,9 +3,9 @@ import { Route, Routes } from "react-router-dom";
 import Error from "../error/Error";
 import Footer from "./Main/footer/Footer";
 import Header from "./Main/header/Header";
-import CalorieChart from "./Main/header/components/calorieConsumption/CalorieChart";
-import Service from "./Main/header/components/calorieConsumption/Service";
-import DistanceTracker from "./Main/header/components/calorieConsumption/mapComponent";
+import CalorieChart from "./Main/header/components/practice/calorieConsumption/CalorieChart"
+import Service from "./Main/header/components/practice/service/Service";
+import DistanceTracker from "./Main/header/components/practice/mapComponent/mapComponent";
 import CartProvider from "./Main/header/components/cart/cartContext/CartProvider";
 import CartUser from "./Main/header/components/cart/cartUser/CartUser";
 import CheckOut from "./Main/header/components/cart/checkOut/CheckOut";
