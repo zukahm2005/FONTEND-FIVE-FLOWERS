@@ -28,11 +28,14 @@ const Component = ({ showDrawer, cart }) => {
       navigate('/service');
     } else if (e.key === 'chat-window') {
       navigate('/chat-window'); // Điều hướng đến trang Trip Planner
+    }else if (e.key === 'profile-user') {
+      navigate('/profile-user'); // Điều hướng đến trang Trip Planner
     }
   };
 
   const menu = (
     <Menu onClick={handleMenuClick} selectedKeys={[selectedKey]} className="dropdown-menu">
+      <Menu.Item key="profile-user">Profile</Menu.Item>
       <Menu.Item key="chat-window">Trip Planner</Menu.Item>  
       <Menu.Item key="your-bike">Your Bike</Menu.Item>
       <Menu.Item key="practice">Practice</Menu.Item>

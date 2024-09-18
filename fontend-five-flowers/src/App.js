@@ -4,7 +4,7 @@ import Admin from './admin/Admin';
 import User from './user/User';
 import usePageTracking from './usePageTracking';
 import ScreenshotPage from './user/Main/header/components/practice/calorieConsumption/ScreenshotPage ';
-import Schedule from './user/Main/header/components/practice/calorieConsumption/schedule';
+import { Schedule } from '@mui/icons-material';
 
 const TrackingComponent = () => {
   usePageTracking();
@@ -21,7 +21,6 @@ const App = () => {
         <Route path="/screenshot" element={<ScreenshotPage />} />
         <Route path="/screenshot" element={<ScreenshotPage />} />
         <Route path="/shedule" element={<Schedule />} />
-
       </Routes>
     </Router>
   );

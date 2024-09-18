@@ -24,6 +24,8 @@ import ProductDetail from "./Main/pages/shop/productDetails/ProductDetails";
 import ChatWindow from "./chatBot/chatWindow/ChatWindow";
 import ScrollIndicator from "./scrollLayout/ScrollIndicator";
 import "./user.scss";
+import ProfileUser from "./Main/header/components/profileUser/profileUser";
+import { Schedule } from "@mui/icons-material";
 
 const User = () => {
   const [cart, setCart] = useState([]);
@@ -58,6 +60,7 @@ const User = () => {
             <Route path='/practice' element={<DistanceTracker />} />
             <Route path="/service" element={<Service />} />
             <Route path="/chat-window" element={<ChatWindow/>} />
+            <Route path="/profile-user" element={<ProfileUser/>} />
           </Routes>
         </div>
         <ScrollIndicator />
