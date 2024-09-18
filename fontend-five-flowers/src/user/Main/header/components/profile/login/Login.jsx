@@ -1,5 +1,5 @@
 import axios from "axios";
-import {jwtDecode} from "jwt-decode"; // Correct named import
+import { jwtDecode } from "jwt-decode"; // Import jwt-decode để giải mã token
 import React, { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { CartContext } from "../../cart/cartContext/CartProvider";
@@ -34,8 +34,13 @@ const Login = ({ switchToRegister }) => {
         setUserName("");
         setPassword("");
 
-        const decodedToken = jwtDecode(token); // Decode the token
+        // Giải mã token để lấy userId và các thông tin khác
+        const decodedToken = jwtDecode(token);
+        const userId = decodedToken.userId; // Giả sử userId có trong payload của token
         const roles = decodedToken.roles.split(",");
+
+        // Lưu userId vào localStorage
+        localStorage.setItem("userId", userId);
 
         setTimeout(() => {
           setSuccess("");

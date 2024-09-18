@@ -1,13 +1,33 @@
-import { Alert, Snackbar } from "@mui/material"; // Import Snackbar và Alert từ Material UI
+import {
+  Alert,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+  Paper,
+  Snackbar,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material"; // Import Material UI components
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { FaListAlt } from "react-icons/fa"; // Icon list
 import { IoMdSend } from "react-icons/io";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+// Import ChatHistory component
 import "./tripPlanner.scss";
 
-const TripPlanner = ({ onClose }) => {
-  const [input, setInput] = useState("");
+const TripPlanner = ({ userId }) => {
+  const [startLocation, setStartLocation] = useState(""); // Input cho địa chỉ bắt đầu
+  const [endLocation, setEndLocation] = useState(""); // Input cho địa chỉ đến
+  const [extraRequest, setExtraRequest] = useState(""); // Input cho thông tin bổ sung
   const [messages, setMessages] = useState(() => {
     const savedMessages = sessionStorage.getItem("chatMessages");
     return savedMessages
@@ -15,33 +35,54 @@ const TripPlanner = ({ onClose }) => {
       : [
           {
             role: "bot",
-            content: "Hello! How can I help you with your travel itinerary using bicycles today?",
+            content:
+              "Hello! How can I help you with your travel itinerary using bicycles today?",
             time: new Date().toLocaleTimeString(),
           },
         ];
   });
-
+  const [expenses, setExpenses] = useState([]); // Danh sách chi phí
+  const [openExpenseDialog, setOpenExpenseDialog] = useState(false); // Trạng thái mở popup
   const [snackbarOpen, setSnackbarOpen] = useState(false); // State cho snackbar
   const [snackbarMessage, setSnackbarMessage] = useState(""); // Thông báo trong snackbar
+  const [currentStartLocation, setCurrentStartLocation] = useState(""); // Lưu tạm startLocation khi gửi
+  const [currentEndLocation, setCurrentEndLocation] = useState(""); // Lưu tạm endLocation khi gửi
+  const [conversationId, setConversationId] = useState(null); // ID cuộc trò chuyện để lấy lịch sử
 
   useEffect(() => {
     sessionStorage.setItem("chatMessages", JSON.stringify(messages));
+    fetchExpenses();
   }, [messages]);
 
-  const sendMessage = async (type) => {
-    if (type === "ask" && input.trim() === "") return;
+  // Hàm lấy danh sách chi phí
+  const fetchExpenses = async () => {
+    try {
+      const response = await axios.get("http://localhost:8080/api/v1/expenses");
+      setExpenses(response.data);
+    } catch (error) {
+      console.error("Error fetching expenses:", error);
+    }
+  };
+
+  const sendMessage = async () => {
+    // Kết hợp nội dung của ba input thành một đoạn văn bản
+    const combinedMessage = `Start: ${startLocation}, End: ${endLocation}. Request: ${extraRequest}`;
 
     const updatedMessages = [
       ...messages,
       {
         role: "user",
-        content: input,
+        content: combinedMessage,
         time: new Date().toLocaleTimeString(),
       },
     ];
 
     setMessages(updatedMessages);
-    setInput("");
+    setCurrentStartLocation(startLocation); // Lưu tạm giá trị của startLocation để lưu sau khi nhấn Save
+    setCurrentEndLocation(endLocation); // Lưu tạm giá trị của endLocation để lưu sau khi nhấn Save
+    setStartLocation("");
+    setEndLocation("");
+    setExtraRequest("");
 
     try {
       const historyToSend = updatedMessages.slice(-5);
@@ -67,33 +108,60 @@ const TripPlanner = ({ onClose }) => {
 
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
-      sendMessage("ask");
+      sendMessage();
     }
   };
 
   const saveSpecificMessage = async (messageContent) => {
+    const token = localStorage.getItem('token'); // Lấy token từ localStorage
+
     try {
-      await axios.post(
+      const response = await axios.post(
         "http://localhost:8080/api/v1/bot/save",
-        { botResponse: messageContent },
-        { headers: { "Content-Type": "application/json" } }
+        {
+          botResponse: messageContent,
+          startLocation: currentStartLocation, // Lưu startLocation hiện tại
+          endLocation: currentEndLocation,     // Lưu endLocation hiện tại
+          userId,                              // Thêm userId để lưu cho người dùng cụ thể
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,  // Thêm token vào headers
+            "Content-Type": "application/json"
+          },
+        }
       );
+
+      // Lấy conversationId từ response (nếu server trả về)
+      setConversationId(response.data.conversationId);
+
       setSnackbarMessage("Response has been saved!"); // Thông báo lưu thành công
-      setSnackbarOpen(true); // Mở snackbar
+      setSnackbarOpen(true);                          // Mở snackbar
     } catch (error) {
-      setSnackbarMessage("Error saving message!"); // Thông báo lỗi
-      setSnackbarOpen(true); // Mở snackbar
+      setSnackbarMessage("Error saving message!");    // Thông báo lỗi
+      setSnackbarOpen(true);                          // Mở snackbar
       console.error("Error saving message:", error);
     }
-  };
+};
+
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false); // Đóng snackbar
   };
 
+  const handleOpenExpenseDialog = () => {
+    setOpenExpenseDialog(true);
+  };
+
+  const handleCloseExpenseDialog = () => {
+    setOpenExpenseDialog(false);
+  };
+
   return (
     <div className="chat-container">
-      <h2 style={{ textAlign: "center", padding: "10px" }}>Advice on the schedule of traveling by bike</h2>
+      <h2 style={{ textAlign: "center", padding: "10px" }}>
+        Advice on the schedule of traveling by bike
+      </h2>
       <div className="chat-box">
         {messages.map((msg, index) => (
           <div key={index} className={`chat-message ${msg.role}`}>
@@ -103,7 +171,11 @@ const TripPlanner = ({ onClose }) => {
                 components={{
                   p: ({ node, ...props }) => (
                     <p
-                      style={{ margin: "0.5em 0", fontSize: "16px", color: "#343a40" }}
+                      style={{
+                        margin: "0.5em 0",
+                        fontSize: "16px",
+                        color: "#343a40",
+                      }}
                       {...props}
                     />
                   ),
@@ -123,7 +195,10 @@ const TripPlanner = ({ onClose }) => {
                 {msg.content}
               </ReactMarkdown>
             </div>
-            <div className="message-time" style={msg.role === "user" ? { color: "#6c757d" } : {}}>
+            <div
+              className="message-time"
+              style={msg.role === "user" ? { color: "#6c757d" } : {}}
+            >
               {msg.time}
             </div>
             {msg.role === "bot" && (
@@ -134,23 +209,89 @@ const TripPlanner = ({ onClose }) => {
           </div>
         ))}
       </div>
+
+      {/* Input cho địa chỉ bắt đầu, kết thúc và yêu cầu bổ sung - trên cùng 1 hàng */}
       <div className="chat-input-container">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message and press enter..."
-          onKeyPress={handleKeyPress}
-          className="chat-input"
-        />
-        <button
-          onClick={() => sendMessage("ask")}
-          disabled={!input.trim()}
-          className="send-button"
-        >
-          <IoMdSend />
-        </button>
+        <div className="locations-start-end">
+          <div className="locations-start">
+            <input
+              type="text"
+              value={startLocation}
+              onChange={(e) => setStartLocation(e.target.value)}
+              placeholder="Start location"
+              className="chat-input start-end-input"
+            />
+          </div>
+          <div className="locations-end">
+            <input
+              type="text"
+              value={endLocation}
+              onChange={(e) => setEndLocation(e.target.value)}
+              placeholder="End location"
+              className="chat-input start-end-input"
+            />
+          </div>
+          <IconButton
+            onClick={handleOpenExpenseDialog}
+            style={{
+              backgroundColor: "#007bff",
+              color: "white",
+            }}
+          >
+            <FaListAlt />
+          </IconButton>
+        </div>
+        <div className="request-chat-bot">
+          <input
+            type="text"
+            value={extraRequest}
+            onChange={(e) => setExtraRequest(e.target.value)}
+            placeholder="Additional request (e.g., calculate cost)"
+            className="chat-input extra-request-input"
+          />{" "}
+          <button onClick={sendMessage} className="send-button">
+            <IoMdSend />
+          </button>
+        </div>
       </div>
+
+      {/* Icon mở bảng chi phí */}
+
+      {/* Dialog hiển thị bảng chi phí */}
+      <Dialog
+        open={openExpenseDialog}
+        onClose={handleCloseExpenseDialog}
+        fullWidth
+      >
+        <DialogTitle>Bảng chi phí</DialogTitle>
+        <DialogContent>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell>Số tiền</TableCell>
+                  <TableCell>Danh mục</TableCell>
+                  <TableCell>Ngày tháng</TableCell>
+                  <TableCell>Ghi chú</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {expenses.map((expense) => (
+                  <TableRow key={expense.id}>
+                    <TableCell>{expense.amount}</TableCell>
+                    <TableCell>{expense.category}</TableCell>
+                    <TableCell>{expense.date}</TableCell>
+                    <TableCell>{expense.note}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleCloseExpenseDialog}>Close</Button>
+        </DialogActions>
+      </Dialog>
 
       {/* Snackbar hiển thị thông báo */}
       <Snackbar
