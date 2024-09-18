@@ -7,7 +7,9 @@ import remarkGfm from "remark-gfm";
 import "./tripPlanner.scss";
 
 const TripPlanner = ({ onClose }) => {
-  const [input, setInput] = useState("");
+  const [startLocation, setStartLocation] = useState(""); // Input cho địa chỉ bắt đầu
+  const [endLocation, setEndLocation] = useState(""); // Input cho địa chỉ đến
+  const [extraRequest, setExtraRequest] = useState(""); // Input cho thông tin bổ sung
   const [messages, setMessages] = useState(() => {
     const savedMessages = sessionStorage.getItem("chatMessages");
     return savedMessages
@@ -15,7 +17,8 @@ const TripPlanner = ({ onClose }) => {
       : [
           {
             role: "bot",
-            content: "Hello! How can I help you with your travel itinerary using bicycles today?",
+            content:
+              "Hello! How can I help you with your travel itinerary using bicycles today?",
             time: new Date().toLocaleTimeString(),
           },
         ];
@@ -23,25 +26,40 @@ const TripPlanner = ({ onClose }) => {
 
   const [snackbarOpen, setSnackbarOpen] = useState(false); // State cho snackbar
   const [snackbarMessage, setSnackbarMessage] = useState(""); // Thông báo trong snackbar
+  const [currentStartLocation, setCurrentStartLocation] = useState(""); // Lưu tạm startLocation khi gửi
+  const [currentEndLocation, setCurrentEndLocation] = useState(""); // Lưu tạm endLocation khi gửi
 
   useEffect(() => {
     sessionStorage.setItem("chatMessages", JSON.stringify(messages));
   }, [messages]);
 
   const sendMessage = async (type) => {
-    if (type === "ask" && input.trim() === "") return;
+    if (
+      type === "ask" &&
+      (startLocation.trim() === "" ||
+        endLocation.trim() === "" ||
+        extraRequest.trim() === "")
+    )
+      return;
+
+    // Kết hợp nội dung của ba input thành một đoạn văn bản
+    const combinedMessage = `Start: ${startLocation}, End: ${endLocation}. Request: ${extraRequest}`;
 
     const updatedMessages = [
       ...messages,
       {
         role: "user",
-        content: input,
+        content: combinedMessage,
         time: new Date().toLocaleTimeString(),
       },
     ];
 
     setMessages(updatedMessages);
-    setInput("");
+    setCurrentStartLocation(startLocation); // Lưu tạm giá trị của startLocation để lưu sau khi nhấn Save
+    setCurrentEndLocation(endLocation); // Lưu tạm giá trị của endLocation để lưu sau khi nhấn Save
+    setStartLocation("");
+    setEndLocation("");
+    setExtraRequest("");
 
     try {
       const historyToSend = updatedMessages.slice(-5);
@@ -75,7 +93,11 @@ const TripPlanner = ({ onClose }) => {
     try {
       await axios.post(
         "http://localhost:8080/api/v1/bot/save",
-        { botResponse: messageContent },
+        {
+          botResponse: messageContent,
+          startLocation: currentStartLocation, // Lưu startLocation hiện tại
+          endLocation: currentEndLocation, // Lưu endLocation hiện tại
+        },
         { headers: { "Content-Type": "application/json" } }
       );
       setSnackbarMessage("Response has been saved!"); // Thông báo lưu thành công
@@ -93,7 +115,9 @@ const TripPlanner = ({ onClose }) => {
 
   return (
     <div className="chat-container">
-      <h2 style={{ textAlign: "center", padding: "10px" }}>Advice on the schedule of traveling by bike</h2>
+      <h2 style={{ textAlign: "center", padding: "10px" }}>
+        Advice on the schedule of traveling by bike
+      </h2>
       <div className="chat-box">
         {messages.map((msg, index) => (
           <div key={index} className={`chat-message ${msg.role}`}>
@@ -103,7 +127,11 @@ const TripPlanner = ({ onClose }) => {
                 components={{
                   p: ({ node, ...props }) => (
                     <p
-                      style={{ margin: "0.5em 0", fontSize: "16px", color: "#343a40" }}
+                      style={{
+                        margin: "0.5em 0",
+                        fontSize: "16px",
+                        color: "#343a40",
+                      }}
                       {...props}
                     />
                   ),
@@ -123,33 +151,66 @@ const TripPlanner = ({ onClose }) => {
                 {msg.content}
               </ReactMarkdown>
             </div>
-            <div className="message-time" style={msg.role === "user" ? { color: "#6c757d" } : {}}>
+            <div
+              className="message-time"
+              style={msg.role === "user" ? { color: "#6c757d" } : {}}
+            >
               {msg.time}
             </div>
             {msg.role === "bot" && (
-              <p className="save-button" onClick={() => saveSpecificMessage(msg.content)}>
+              <p
+                className="save-button"
+                onClick={() => saveSpecificMessage(msg.content)}
+              >
                 Save
               </p>
             )}
           </div>
         ))}
       </div>
+
+      {/* Input cho địa chỉ bắt đầu, kết thúc và yêu cầu bổ sung - trên cùng 1 hàng */}
       <div className="chat-input-container">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Type your message and press enter..."
-          onKeyPress={handleKeyPress}
-          className="chat-input"
-        />
-        <button
-          onClick={() => sendMessage("ask")}
-          disabled={!input.trim()}
-          className="send-button"
-        >
-          <IoMdSend />
-        </button>
+        <div className="locations-start-end">
+          <div className="locations-start">
+            <input
+              type="text"
+              value={startLocation}
+              onChange={(e) => setStartLocation(e.target.value)}
+              placeholder="Start location"
+              className="chat-input start-end-input" // Đặt class cho input địa chỉ bắt đầu
+            />
+          </div>
+          <div className="locations-end">
+            <input
+              type="text"
+              value={endLocation}
+              onChange={(e) => setEndLocation(e.target.value)}
+              placeholder="End location"
+              className="chat-input start-end-input" // Đặt class cho input địa chỉ đến
+            />
+          </div>
+        </div>
+        <div className="request-chat-bot">
+          <input
+            type="text"
+            value={extraRequest}
+            onChange={(e) => setExtraRequest(e.target.value)}
+            placeholder="Additional request (e.g., calculate cost)"
+            className="chat-input extra-request-input" // Đặt class cho input yêu cầu bổ sung
+          />{" "}
+          <button
+            onClick={() => sendMessage("ask")}
+            disabled={
+              !startLocation.trim() ||
+              !endLocation.trim() ||
+              !extraRequest.trim()
+            }
+            className="send-button"
+          >
+            <IoMdSend />
+          </button>
+        </div>
       </div>
 
       {/* Snackbar hiển thị thông báo */}
