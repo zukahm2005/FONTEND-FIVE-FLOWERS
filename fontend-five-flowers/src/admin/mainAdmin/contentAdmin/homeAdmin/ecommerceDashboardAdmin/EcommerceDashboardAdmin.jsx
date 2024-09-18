@@ -27,7 +27,7 @@ const EcommerceDashboardAdmin = ({ selectedDates, totalSale }) => {
   const fetchSummary = async (startDate, endDate) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('/api/v1/orders/summary', {
+      const response = await axios.get('http://localhost:8080/api/v1/orders/summary', {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -39,7 +39,7 @@ const EcommerceDashboardAdmin = ({ selectedDates, totalSale }) => {
 
       const data = response.data;
 
-      const cartResponse = await axios.get('/api/v1/cart/stats/range', {
+      const cartResponse = await axios.get('http://localhost:8080/api/v1/cart/stats/range', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

@@ -53,7 +53,7 @@ const YourBike = () => {
     const token = localStorage.getItem("token");
 
     axios
-      .get("/api/v1/user/bikes", {
+      .get("http://localhost:8080/api/v1/user/bikes", {
         headers: {
           Authorization: `Bearer ${token}`, // Gửi token JWT để xác thực
         },

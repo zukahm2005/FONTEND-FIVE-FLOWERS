@@ -6,7 +6,7 @@ const trackVisit = (page) => {
 
   const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-  axios.post('/api/analytics/track', {
+  axios.post('http://localhost:8080/api/analytics/track', {
     visitTime,
     page,
   }, {

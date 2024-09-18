@@ -24,7 +24,7 @@ const ChartAdmin = ({ selectedDates, setTotalSale }) => {
   const fetchDailySalesTotals = async (startDate, endDate) => {
     try {
       const token = localStorage.getItem('token');
-      const response = await axios.get('/api/v1/orders/daily-sales-totals', {
+      const response = await axios.get('http://localhost:8080/api/v1/orders/daily-sales-totals', {
         headers: {
           Authorization: `Bearer ${token}`,
         },

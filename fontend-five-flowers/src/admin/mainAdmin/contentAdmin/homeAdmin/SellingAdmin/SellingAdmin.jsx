@@ -17,7 +17,7 @@ const SellingAdmin = ({ selectedDates }) => {
     const [startDate, endDate] = dates;
     try {
       const token = localStorage.getItem("token");
-      const response = await axios.get("/api/v1/orders/top-selling-products", {
+      const response = await axios.get("http://localhost:8080/api/v1/orders/top-selling-products", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
