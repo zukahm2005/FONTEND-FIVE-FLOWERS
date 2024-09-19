@@ -4,6 +4,8 @@ import './profileUser.scss';
 import { FaFacebook, FaInstagram, FaTiktok, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { GiRank1, GiRank2, GiRank3 } from "react-icons/gi";
 import { CiCamera } from "react-icons/ci";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Upload } from "antd";
 
 const ProfileUser = () => {
     const [userData, setUserData] = useState(null);
@@ -13,6 +15,11 @@ const ProfileUser = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [tokenValid, setTokenValid] = useState(true);
+
+    const [existingImages, setExistingImages] = useState([]);
+    const [newSelectedImages, setNewSelectedImages] = useState([]);
+    const [newImages, setNewImages] = useState([]);
+
     const [formFields, setFormFields] = useState({
         country: "",
         firstName: "",
@@ -52,7 +59,7 @@ const ProfileUser = () => {
         }
 
         try {
-            const [userResponse, userInfo, caloriesResponse, total] = await Promise.all([
+            const [userResponse, userInfo, caloriesResponse, total, imagesResponse] = await Promise.all([
                 axios.get('http://localhost:8080/api/v1/user/me', {
                     headers: {
                         'Authorization': `Bearer ${token}`
@@ -79,12 +86,14 @@ const ProfileUser = () => {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
-                })
+                }),
+                axios.get("http://localhost:8080/api/v1/images/all")
             ]);
 
             const orders = total.data;
             const totalPrice = orders.reduce((total, order) => total + order.price, 0);
 
+            setExistingImages(imagesResponse.data); // Lưu danh sách ảnh vào state
             setUserData(userResponse.data);
             setUserInfoData(userInfo.data);
             setCaloriesData(caloriesResponse.data);
@@ -97,14 +106,15 @@ const ProfileUser = () => {
             setLoading(false);
         }
     }, [token, user]);
-
     useEffect(() => {
         fetchData();
-    }, []);
+    },[]);
 
     const lastElement = userInfoData.length > 0 ? userInfoData[userInfoData.length - 1] : null;
 
     const fullName = lastElement ? `${lastElement.firstName || ''} ${lastElement.lastName || ''}` : 'No Name';
+
+   
 
     const handleEditClick = () => {
         setIsEditing(true);
@@ -132,6 +142,65 @@ const ProfileUser = () => {
         setIsEditing(false); // Đặt lại isEditing thành false để thoát chế độ chỉnh sửa
     };
 
+
+
+    const handleFileChange = async (info) => {
+        let fileList = info.fileList.map((file) => file.originFileObj); // Get list of files from the computer
+        if(fileList > 0){
+            alert("0000")
+        }
+    
+        console.log(fileList);
+    
+        setNewImages(fileList); // Save files in state if needed
+    
+        const cloudName = 'ddrgrnsex'; // Your Cloudinary cloud_name
+        const uploadPreset = 'share img'; // Ensure no spaces in upload_preset
+    
+        // Process each file in fileList
+        for (let i = 0; i < fileList.length; i++) {
+            const file = fileList[i];
+            // Create FormData and append file
+            const formData = new FormData();
+            formData.append('file', file); // Upload one file at a time
+            formData.append('upload_preset', uploadPreset);
+    
+            try {
+                // Upload image to Cloudinary
+                const uploadResponse = await axios.post(
+                    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                    formData
+                );
+    
+                const imageUrl = uploadResponse.data.secure_url; // Get actual URL after upload
+    
+                // Update user info with image URL
+                await axios.put(`http://localhost:8080/api/v1/user/${user.userId}`, {
+                    ...userData,
+                    img: imageUrl, // Save Cloudinary URL to user data
+                }, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+    
+                fetchData(); // Reload data after saving
+            } catch (error) {
+                // Detailed error logging
+                if (error.response) {
+                    console.log('Response data:', error.response.data);
+                    console.log('Response status:', error.response.status);
+                } else {
+                    console.log('Error message:', error.message);
+                }
+                console.error('Error uploading image to Cloudinary or updating user info:', error);
+            }
+        }
+    
+        // Reset file list after all uploads
+        info.fileList = [];
+    };
+    
 
 
     const handleEdit = async (e) => {
@@ -200,8 +269,16 @@ const ProfileUser = () => {
                     <div className="profile-sidebar">
                         <img src={userData?.img} alt="Profile" className="profile-img" />
                         <div className="camera-icon">
-                            <CiCamera size={25} />
+                            <Upload
+                                listType="picture"
+                                showUploadList={false} // Ẩn danh sách file được chọn
+                                beforeUpload={() => false} // Không tự động upload
+                                onChange={handleFileChange} // Gọi hàm `handleFileChange` khi người dùng chọn ảnh
+                            >
+                                <CiCamera size={25} style={{ cursor: 'pointer' }} />
+                            </Upload>
                         </div>
+
                         <h3 style={{ margin: '10px 0' }}>{fullName}</h3>
                         <p>{userData?.email}</p>
                         <button style={{ margin: '20px 0' }} onClick={isEditing ? handleCancelClick : handleEditClick}>
@@ -298,6 +375,7 @@ const ProfileUser = () => {
                                         value={formFields.city}
                                         onChange={handleInputChange}
                                     />
+
                                     {errors.city && <p className="error">{errors.city}</p>}
                                 </div>
 
