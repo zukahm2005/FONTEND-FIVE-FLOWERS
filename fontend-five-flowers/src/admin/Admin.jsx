@@ -16,7 +16,7 @@ import OrderAdmin from "./mainAdmin/contentAdmin/orderAdmin/OrderAdmin";
 import PaymentAdmin from "./mainAdmin/contentAdmin/paymentAdmin/PaymentAdmin";
 import ProductAdmin from "./mainAdmin/contentAdmin/productAdmin/ProductAdmin";
 import SideBarAdmin from "./mainAdmin/sideBarAdmin/SideBarAdmin";
-import AllContactAdmin from "./mainAdmin/contentAdmin/contactAdmin/AllContactAdmin";
+import ContactAdmin from "./mainAdmin/contentAdmin/contactAdmin/ContactAdmin";
 const Admin = () => {
   const navigate = useNavigate();
 
@@ -47,7 +47,7 @@ const Admin = () => {
             <Route path="comment/*" element={<CommentReviewAdmin />} />
             <Route path="customer/*" element={<AddressAdmin />} />
             <Route path="manage-admin/*" element={<ManagementAdmin />} />
-            <Route path="contact" element={<AllContactAdmin />} />
+            <Route path="contact/*" element={<ContactAdmin />} />
             <Route path="*" element={<Error />} />
           </Routes>
         </Layout.Content>
