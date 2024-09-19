@@ -2,10 +2,7 @@ import React, { useState } from 'react';
 import TripTable from './TripTable';
 import EditDrawer from './EditDrawer';
 
-const tripsData = [
-  { id: 1, tripName: 'Du lịch Hà Nội', startLocation: 'Bắc Ninh', endLocation: 'Hà Nội', totalBudget: 10000, distance: '40km', startDate: '19/09/2024', endDate: '21/09/2024' },
-  // Các chuyến đi khác...
-];
+const tripsData = []; // Chưa có dữ liệu
 
 function TripManager() {
   const [selectedTrip, setSelectedTrip] = useState(null);

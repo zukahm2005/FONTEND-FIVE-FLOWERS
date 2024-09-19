@@ -8,7 +8,6 @@ import { CartContext } from './cart/cartContext/CartProvider';
 import "./component.scss";
 import IconContextCart from "./iconContextCart/IconContextCart";
 import Profile from "./profile/Profile";
-import TripDetails from "./tripDetails/TripDetails"
 
 const Component = ({ showDrawer, cart }) => {
   const { isLoggedIn, logout } = useContext(CartContext);
@@ -31,8 +30,6 @@ const Component = ({ showDrawer, cart }) => {
       navigate('/chat-window'); // Điều hướng đến trang Trip Planner
     }else if (e.key === 'profile-user') {
       navigate('/profile-user'); // Điều hướng đến trang Trip Planner
-    }else if (e.key === 'trip-details') {
-      navigate('/trip-details'); // Điều hướng đến trang Trip Planner
     }
   };
 
@@ -41,7 +38,6 @@ const Component = ({ showDrawer, cart }) => {
       <Menu.Item key="profile-user">Profile</Menu.Item>
       <Menu.Item key="profile">Orders</Menu.Item>
       <Menu.Item key="chat-window">Trip Planner</Menu.Item> 
-      <Menu.Item key="trip-details">Trip Details</Menu.Item>  
       <Menu.Item key="your-bike">Your Bike</Menu.Item>
       <Menu.Item key="practice">Practice</Menu.Item>
       <Menu.Item key="service">Service</Menu.Item>

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Button } from '@mui/material';
+import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Button } from '@mui/material';
 
 function TripTable({ trips, onEditTrip }) {
   return (
@@ -19,21 +19,31 @@ function TripTable({ trips, onEditTrip }) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {trips.map((trip, index) => (
-            <TableRow key={trip.id}>
-              <TableCell>{index + 1}</TableCell>
-              <TableCell>{trip.tripName}</TableCell>
-              <TableCell>{trip.startLocation}</TableCell>
-              <TableCell>{trip.endLocation}</TableCell>
-              <TableCell>{trip.totalBudget}</TableCell>
-              <TableCell>{trip.distance}</TableCell>
-              <TableCell>{trip.startDate}</TableCell>
-              <TableCell>{trip.endDate}</TableCell>
-              <TableCell>
-                <Button onClick={() => onEditTrip(trip.id)}>Chỉnh Sửa</Button>
+          {trips.length === 0 ? (
+            <TableRow>
+              <TableCell colSpan={9}>
+                <Typography variant="body1" align="center">
+                  Chưa có dữ liệu
+                </Typography>
               </TableCell>
             </TableRow>
-          ))}
+          ) : (
+            trips.map((trip, index) => (
+              <TableRow key={trip.id}>
+                <TableCell>{index + 1}</TableCell>
+                <TableCell>{trip.tripName}</TableCell>
+                <TableCell>{trip.startLocation}</TableCell>
+                <TableCell>{trip.endLocation}</TableCell>
+                <TableCell>{trip.totalBudget}</TableCell>
+                <TableCell>{trip.distance}</TableCell>
+                <TableCell>{trip.startDate}</TableCell>
+                <TableCell>{trip.endDate}</TableCell>
+                <TableCell>
+                  <Button onClick={() => onEditTrip(trip.id)}>Chỉnh Sửa</Button>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
         </TableBody>
       </Table>
     </TableContainer>
