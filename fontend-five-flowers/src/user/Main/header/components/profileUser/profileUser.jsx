@@ -3,6 +3,7 @@ import axios from "axios";
 import './profileUser.scss';
 import { FaFacebook, FaInstagram, FaTiktok, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { GiRank1, GiRank2, GiRank3 } from "react-icons/gi";
+import { CiCamera } from "react-icons/ci";
 
 const ProfileUser = () => {
     const [userData, setUserData] = useState(null);
@@ -22,6 +23,15 @@ const ProfileUser = () => {
         city: "",
         postalCode: "",
     });
+    const [editedData, setEditedData] = useState({
+        userName: '',
+        email: '',
+        password: '',
+        roles: '',
+        img: ''
+    });
+
+
 
     const [errors, setErrors] = useState({});
     const [isEditing, setIsEditing] = useState(false);
@@ -109,6 +119,13 @@ const ProfileUser = () => {
                 city: lastElement.city || "",
                 postalCode: lastElement.postalCode || ""
             });
+            setEditedData({
+                userName: userData.userName || '',
+                email: userData.email || "",
+                password: userData.password || '',
+                roles: userData.roles || '',
+                img: userData.img || ''
+            })
         }
     };
     const handleCancelClick = () => {
@@ -136,6 +153,13 @@ const ProfileUser = () => {
                         headers: { Authorization: `Bearer ${token}` }
                     });
                     console.log("User info updated successfully!");
+
+                    await axios.put(`http://localhost:8080/api/v1/user/${user.userId}`, editedData, {
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+                    console.log("User info updated successfully!");
                 } else {
                     await axios.post("http://localhost:8080/api/v1/addresses/add", updatedUserInfo, {
                         headers: { Authorization: `Bearer ${token}` }
@@ -153,6 +177,7 @@ const ProfileUser = () => {
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormFields({ ...formFields, [name]: value });
+        setEditedData({ ...editedData, [name]: value });
     };
 
     if (!tokenValid) {
@@ -171,16 +196,19 @@ const ProfileUser = () => {
         <div className="container2">
             <div className="profile-container">
                 <div className="profile-content">
+
                     <div className="profile-sidebar">
                         <img src={userData?.img} alt="Profile" className="profile-img" />
+                        <div className="camera-icon">
+                            <CiCamera size={25} />
+                        </div>
                         <h3 style={{ margin: '10px 0' }}>{fullName}</h3>
                         <p>{userData?.email}</p>
                         <button style={{ margin: '20px 0' }} onClick={isEditing ? handleCancelClick : handleEditClick}>
                             {isEditing ? "Cancel" : "Edit Profile"}
                         </button>
-
-
                     </div>
+
                     <div className="user-info">
                         {isEditing ? (
                             <form onSubmit={handleEdit} className="edit-user-form">
@@ -211,12 +239,23 @@ const ProfileUser = () => {
                                 <div className="edit-user-form-group">
                                     <input
                                         type="text"
+                                        name="email"
+                                        placeholder="email"
+                                        value={editedData.email}
+                                        onChange={handleInputChange}
+                                    />
+                                </div>
+
+                                <div className="edit-user-form-group">
+                                    <input
+                                        type="text"
                                         name="apartment"
                                         placeholder="Apartment"
                                         value={formFields.apartment}
                                         onChange={handleInputChange}
                                     />
                                 </div>
+
 
                                 <div className="edit-user-form-group">
                                     <input
@@ -272,7 +311,7 @@ const ProfileUser = () => {
                                     />
                                 </div>
 
-                                <button type="submit" className="edit-user-form-button">
+                                <button type="submit" className="edit-user-form-button2">
                                     Save
                                 </button>
                             </form>
@@ -294,7 +333,7 @@ const ProfileUser = () => {
                                         <p>Postal Code: <span>{lastElement.postalCode}</span> </p>
                                     </>
                                 ) : (
-                                    <p style={{width: '200px'}}>No user info available</p>
+                                    <p style={{ width: '200px' }}>No user info available</p>
                                 )}
                             </div>
                         )}

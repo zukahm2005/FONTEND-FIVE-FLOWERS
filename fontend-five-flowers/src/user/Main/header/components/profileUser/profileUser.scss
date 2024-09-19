@@ -23,6 +23,7 @@
 }
 
 .profile-sidebar {
+    position: relative;
     flex: 1;
     display: flex;
     flex-direction: column;
@@ -41,6 +42,16 @@
     margin-bottom: 15px;
     object-fit: cover;
     margin-top: 20px;
+    object-fit: cover;
+}
+.camera-icon {
+    position: absolute;
+    bottom: 170px;
+    left: 50%;
+    transform: translateX(-50%);
+    border-radius: 50%;
+    padding: 5px;
+    cursor: pointer;
 }
 
 .user-info {
@@ -229,10 +240,9 @@
     margin-top: 5px;
 }
 
-.edit-user-form-button {
-    width: 30%; /* Button spans the full width */
-    padding: 10px 15px;
-    background-color: #007bff;
+.edit-user-form-button2 {
+    width: 20%; /* Button spans the full width */
+    height: 40px;
     color: white;
     border: none;
     border-radius: 4px;
