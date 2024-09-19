@@ -11,7 +11,6 @@
     flex-direction: column; /* Đặt flex-direction thành column */
     background-color: rgba(255, 255, 255, 0.7); /* Màu nền trắng và trong suốt 70% */
     border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     padding: 20px;
     backdrop-filter: blur(10px); /* Hiệu ứng làm mờ nền phía sau */
     gap: 15px; /* Thêm khoảng cách giữa profile sidebar và content */
@@ -46,7 +45,6 @@
 
 .user-info {
     flex: 2;
-    display: flex;
     flex-direction: column;
     gap: 15px;
     padding: 20px;
@@ -86,13 +84,6 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
-input {
-    width: 100%;
-    padding: 10px;
-    margin-top: 5px;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-}
 
 .edit-button, .save-button {
     padding: 10px 20px;
@@ -155,25 +146,120 @@ input {
   }
   
   .user-info-data {
-    width: 100%; /* Ensure the container takes the full width */
     display: flex;
-    flex-direction: column;
-    gap: 10px; /* Adds space between the fields, like the right image */
+    flex-wrap: wrap;
+    gap: 20px; /* Space between form fields */
+    max-width: 1000px; /* Adjust form container width */
+    margin: 0 auto; /* Center the form */
+}
+.user-info-data h4{
+    width: 100%; /* Heading should take the full width */
+    font-size: 24px;
+}
+.user-info-data p {
+    font-size: 18px;
+    padding: 5px;   
+    margin: 8px 0;
+    width: 45%; /* Each field takes up 45% of the container to fit two columns */
+    box-sizing: border-box; /* Ensures padding and borders are included in the width */
+    border-bottom: 2px solid #a09595;
+}
+.user-info-data p span{
+    list-style: none; /* Remove bullet points */
+    padding: 0;
+    margin-left: 10px;
+    font-family: Arial, sans-serif; /* Use a clean, sans-serif font */
+    font-size: 16px; /* General font size */
+    color: #333; /* Soft black for text */
 }
 
-.user-info-data p {
-    font-size: 16px; /* Match the font size with the input fields */
-    padding: 5px; /* Simulates the padding inside input fields */
-    border: 1px solid #ccc; /* Add a border to simulate input style */
-    border-radius: 4px; /* Adds rounded corners similar to inputs */
-    background-color: #f9f9f9; /* Adds a light background similar to inputs */
-    margin: 0; /* Remove any margin from p tags */
-    width: 100%; /* Ensure the width matches the input */
-    box-sizing: border-box; /* Ensure padding and borders are included in the width */
+/* Optional styling for container to center the fields */
+.user-info-container {
+    width: 100%; /* Full width of parent container */
+    display: flex;
+    justify-content: center; /* Centers the content */
 }
+
 .rank{
     display: flex;
     text-align: center;
     justify-content: center;
     margin-top: 2rem;
 }
+.edit-user-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 13px; /* Space between form fields */
+    max-width: 1000px; /* Adjust form container width */
+    margin: 0 auto; /* Center the form */
+}
+
+.edit-user-form h4 {
+    width: 100%; /* Heading should take the full width */
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.edit-user-form-group {
+    width: 45%; /* Each input takes up 45% of the width to fit two columns */
+    display: flex;
+    flex-direction: column;
+    gap: 5px; /* Space between label and input */
+    margin-bottom: 15px; /* Space between input groups */
+}
+
+.edit-user-form-group input {
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    width: 100%; /* Ensure input takes full width of its parent */
+    box-sizing: border-box; /* Include padding and border in width */
+}
+
+.edit-user-form-group input:focus {
+    border-color: #007bff; /* Blue border on focus */
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+.edit-user-form-group .error {
+    color: red;
+    font-size: 12px;
+    margin-top: 5px;
+}
+
+.edit-user-form-button {
+    width: 30%; /* Button spans the full width */
+    padding: 10px 15px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.edit-user-form-button:hover {
+    background-color: #0056b3;
+}
+.rank {
+    display: flex;
+    justify-content: space-around; /* Distributes the icons evenly */
+    align-items: center; /* Vertically aligns the icons */
+    margin-top: 20px;
+}
+
+.rank-item {
+    display: flex;
+    flex-direction: column; /* Align the icon and text vertically */
+    align-items: center; /* Center the icon and the label text */
+}
+
+.rank-item p {
+    font-size: 18px; /* Font size for the label */
+    margin-top: 10px; /* Space between the icon and the label */
+    color: #333; /* Text color */
+    font-weight: bold; /* Bold text */
+}
+
