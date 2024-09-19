@@ -3,17 +3,32 @@
     justify-content: space-between; /* Đẩy dấu ba chấm sang bên phải */
     align-items: center; /* Căn giữa theo chiều dọc */
     padding: 10px 0; /* Khoảng cách giữa tiêu đề và dấu ba chấm */
+    width: 100%; /* Chiếm toàn bộ chiều ngang của container */
   }
   
-  .expense-table-container {
-    padding-left: 20px; /* Thụt lề bảng chi phí */
+  .itinerary-header h4 {
+    flex: 1; /* Để tiêu đề chiếm toàn bộ chiều ngang còn lại */
+    margin-right: 10px; /* Khoảng cách giữa tiêu đề và dấu ba chấm */
+  }
+  
+  .dropdown-small {
+    font-size: 18px; /* Kích thước bé hơn */
+    cursor: pointer; /* Con trỏ chỉ tay */
+  }
+  
+  .day-header,
+  .hour-header {
+    display: flex;
+    justify-content: space-between; /* Đẩy dấu ba chấm sang bên phải */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    padding: 8px 0; /* Khoảng cách giữa tiêu đề và dấu ba chấm */
   }
   
   .scroll-container {
     max-height: 200px;
     overflow-y: auto;
-    
-    // Webkit Scrollbar (Chrome, Safari)
+  
+    /* Webkit Scrollbar (Chrome, Safari) */
     &::-webkit-scrollbar {
       width: 6px !important; /* Độ rộng của thanh cuộn */
     }
@@ -31,21 +46,23 @@
       background: #555; /* Màu thanh cuộn khi hover */
     }
   
-    // Firefox Scrollbar
+    /* Firefox Scrollbar */
     scrollbar-width: thin; /* Độ rộng thanh cuộn trong Firefox */
     scrollbar-color: #888 #f1f1f1; /* Màu của thanh cuộn và track trong Firefox */
+  }
   
-    // Dấu chấm đầu dòng cho giờ
-    .hour-item {
-      list-style-type: disc;
-      padding-left: 20px; /* Thụt lề cho giờ */
-      margin-bottom: 8px; /* Khoảng cách giữa các mục giờ */
-    }
+  .expense-table-container {
+    padding-left: 20px; /* Thụt lề bảng chi phí */
+  }
   
-    // Thụt lề cho phần chi phí
-    .expense-item {
-      padding-left: 40px; /* Thụt lề chi phí */
-      margin-bottom: 8px; /* Khoảng cách giữa các mục chi phí */
-    }
+  .hour-item {
+    list-style-type: disc;
+    padding-left: 20px; /* Thụt lề cho giờ */
+    margin-bottom: 8px; /* Khoảng cách giữa các mục giờ */
+  }
+  
+  .expense-item {
+    padding-left: 40px; /* Thụt lề chi phí */
+    margin-bottom: 8px; /* Khoảng cách giữa các mục chi phí */
   }
   
