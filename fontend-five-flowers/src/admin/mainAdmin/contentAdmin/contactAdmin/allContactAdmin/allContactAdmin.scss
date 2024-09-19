@@ -104,6 +104,34 @@
     .ant-modal-confirm-btns {
       display: flex;
       justify-content: space-around;
-    }  
+    }
+    .send-email-btn {
+      background-color: white !important; /* Nền trắng */
+      color: black !important; /* Màu chữ đen */
+      padding: 5px 10px !important;
+      border: 2px solid black !important; /* Viền đen */
+      border-radius: 5px !important;
+      font-size: 16px !important;
+      cursor: pointer !important;
+      display: flex !important;
+      align-items: center !important;
+      gap: 8px !important; /* Khoảng cách giữa icon và chữ */
+      transition: all 0.3s ease !important;
+    }
+    
+    .send-email-btn:hover {
+      background-color: black; /* Đổi nền thành đen khi hover */
+      color: white; /* Chữ đổi thành trắng khi hover */
+    }
+    
+    .send-email-btn .icon {
+      color: black;
+      transition: color 0.3s ease;
+    }
+    
+    .send-email-btn:hover .icon {
+      color: white;
+    }
+    
   }
   

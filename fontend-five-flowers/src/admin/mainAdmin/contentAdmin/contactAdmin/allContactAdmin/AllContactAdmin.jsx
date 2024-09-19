@@ -1,7 +1,9 @@
 import { Space, Table, Pagination } from "antd";
 import axios from "axios";
+import { CiMail } from "react-icons/ci";
 import React, { useEffect, useState } from "react";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; // Import useNavigate để điều hướng
 import "./allContactAdmin.scss";
 
 const AllContactAdmin = () => {
@@ -13,6 +15,8 @@ const AllContactAdmin = () => {
     total: 0,
   });
 
+  const navigate = useNavigate(); // Khởi tạo useNavigate
+
   useEffect(() => {
     if (pagination.current && pagination.pageSize) {
       fetchContacts(pagination.current, pagination.pageSize);
@@ -22,7 +26,7 @@ const AllContactAdmin = () => {
   const fetchContacts = async (page, pageSize) => {
     setLoading(true);
     try {
-      const response = await axios.get("/api/v1/contact/allcontact", {
+      const response = await axios.get("http://localhost:8080/api/v1/contact/allcontact", {
         params: {
           page: page - 1,
           size: pageSize,
@@ -50,9 +54,6 @@ const AllContactAdmin = () => {
       setLoading(false);
     }
   };
-  
-  
-
   // Log giá trị của contacts trước khi render bảng
   console.log("Contacts state: ", contacts);  // Sử dụng contacts thay vì contact
 
@@ -61,6 +62,33 @@ const AllContactAdmin = () => {
       ...pagination,
       current: pagination.current,
     });
+  };
+
+  // Định nghĩa hàm itemRender để tùy chỉnh nút phân trang
+  const itemRender = (_, type, originalElement) => {
+    if (type === "prev") {
+      return (
+        <div className="custom-pagination-button">
+          <FaArrowLeft />
+        </div>
+      );
+    }
+    if (type === "next") {
+      return (
+        <div className="custom-pagination-button">
+          <FaArrowRight />
+        </div>
+      );
+    }
+    if (type === "page") {
+      return <div className="custom-pagination-button">{_}</div>;
+    }
+    return originalElement;
+  };
+
+  // Thêm hàm để chuyển hướng tới trang replymail với id
+  const handleNavigateToReplyMail = (id) => {
+    navigate(`/admin/contact/replymail/${id}`); // Điều hướng tới trang replymail theo id
   };
 
   const columns = [
@@ -84,28 +112,22 @@ const AllContactAdmin = () => {
       dataIndex: "message",
       key: "message",
     },
+    {
+      title: "Actions", // Thêm cột hành động để gửi mail
+      dataIndex: "",
+      key: "actions",
+      render: (text, record) => (
+        <Space size="middle">
+          <button
+            className="send-email-btn"
+            onClick={() => handleNavigateToReplyMail(record.id)} // Chuyển hướng khi bấm vào nút
+          >
+            <CiMail /> {/* Icon gửi email */}
+          </button>
+        </Space>
+      ),
+    },
   ];
-
-  const itemRender = (_, type, originalElement) => {
-    if (type === "prev") {
-      return (
-        <div className="custom-pagination-button">
-          <FaArrowLeft />
-        </div>
-      );
-    }
-    if (type === "next") {
-      return (
-        <div className="custom-pagination-button">
-          <FaArrowRight />
-        </div>
-      );
-    }
-    if (type === "page") {
-      return <div className="custom-pagination-button">{_}</div>;
-    }
-    return originalElement;
-  };
 
   return (
     <div className="page-contact-admin-full-width-container">
@@ -122,16 +144,16 @@ const AllContactAdmin = () => {
         pagination={false}
       />
       <div className="pagination-container">
-  <Pagination
-    current={pagination.current}
-    pageSize={pagination.pageSize}
-    total={pagination.total}
-    onChange={(page, pageSize) =>
-      handleTableChange({ current: page, pageSize })
-    }
-    itemRender={itemRender}
-  />
-</div>
+        <Pagination
+          current={pagination.current}
+          pageSize={pagination.pageSize}
+          total={pagination.total}
+          onChange={(page, pageSize) =>
+            handleTableChange({ current: page, pageSize })
+          }
+          itemRender={itemRender} // Sử dụng itemRender cho tùy chỉnh nút phân trang
+        />
+      </div>
     </div>
   );
 };
