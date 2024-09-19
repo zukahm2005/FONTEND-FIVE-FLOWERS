@@ -5,8 +5,8 @@ import {
   FaPinterestP,
   FaTwitter,
 } from "react-icons/fa";
-import TripTable from "../../chatBot/chatHistory/tripTable/TripTable";
-import CurrencyConverter from "../currencyConverter/CurrencyConverter";
+import AddTripForm from "../../chatBot/tripManage/addTripForm/AddTripForm";
+import TripList from "../../chatBot/tripManage/listTrip/TripList";
 import "./footer.scss";
 
 const Footer = () => {
@@ -66,8 +66,8 @@ const Footer = () => {
           © 2024 Bikex Club (password: buddha) Design Themes
         </div>
       </div>
-     <CurrencyConverter/>
-     <TripTable/>
+     <AddTripForm/>
+     <TripList/>
     </footer>
   );
 };
