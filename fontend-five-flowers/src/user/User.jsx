@@ -25,6 +25,7 @@ import ChatWindow from "./chatBot/chatWindow/ChatWindow";
 import ScrollIndicator from "./scrollLayout/ScrollIndicator";
 import "./user.scss";
 import ProfileUser from "./Main/header/components/profileUser/profileUser";
+import TripDetals from "./Main/header/components/tripDetails/TripDetails"
 import { Schedule } from "@mui/icons-material";
 
 const User = () => {
@@ -61,6 +62,7 @@ const User = () => {
             <Route path="/service" element={<Service />} />
             <Route path="/chat-window" element={<ChatWindow/>} />
             <Route path="/profile-user" element={<ProfileUser/>} />
+            <Route path="/trip-details" element={<TripDetals/>} />
           </Routes>
         </div>
         <ScrollIndicator />
