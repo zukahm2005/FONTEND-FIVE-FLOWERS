@@ -5,7 +5,7 @@ import {
   FaPinterestP,
   FaTwitter,
 } from "react-icons/fa";
-import TripTable from "../../chatBot/tripManager/tripTable/TripTable";
+import TripTable from "../../chatBot/chatHistory/tripTable/TripTable";
 import CurrencyConverter from "../currencyConverter/CurrencyConverter";
 import "./footer.scss";
 
