@@ -5,6 +5,7 @@ import {
   FaPinterestP,
   FaTwitter,
 } from "react-icons/fa";
+import TripTable from "../../chatBot/tripManager/tripTable/TripTable";
 import CurrencyConverter from "../currencyConverter/CurrencyConverter";
 import "./footer.scss";
 
@@ -66,7 +67,7 @@ const Footer = () => {
         </div>
       </div>
      <CurrencyConverter/>
-     
+     <TripTable/>
     </footer>
   );
 };

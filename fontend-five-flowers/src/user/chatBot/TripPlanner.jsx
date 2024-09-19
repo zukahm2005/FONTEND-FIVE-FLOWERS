@@ -113,7 +113,7 @@ const TripPlanner = ({ userId }) => {
   };
 
   const saveSpecificMessage = async (messageContent) => {
-    const token = localStorage.getItem('token'); // Lấy token từ localStorage
+    const token = localStorage.getItem("token"); // Lấy token từ localStorage
 
     try {
       const response = await axios.post(
@@ -121,13 +121,13 @@ const TripPlanner = ({ userId }) => {
         {
           botResponse: messageContent,
           startLocation: currentStartLocation, // Lưu startLocation hiện tại
-          endLocation: currentEndLocation,     // Lưu endLocation hiện tại
-          userId,                              // Thêm userId để lưu cho người dùng cụ thể
+          endLocation: currentEndLocation, // Lưu endLocation hiện tại
+          userId, // Thêm userId để lưu cho người dùng cụ thể
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`,  // Thêm token vào headers
-            "Content-Type": "application/json"
+            Authorization: `Bearer ${token}`, // Thêm token vào headers
+            "Content-Type": "application/json",
           },
         }
       );
@@ -136,14 +136,13 @@ const TripPlanner = ({ userId }) => {
       setConversationId(response.data.conversationId);
 
       setSnackbarMessage("Response has been saved!"); // Thông báo lưu thành công
-      setSnackbarOpen(true);                          // Mở snackbar
+      setSnackbarOpen(true); // Mở snackbar
     } catch (error) {
-      setSnackbarMessage("Error saving message!");    // Thông báo lỗi
-      setSnackbarOpen(true);                          // Mở snackbar
+      setSnackbarMessage("Error saving message!"); // Thông báo lỗi
+      setSnackbarOpen(true); // Mở snackbar
       console.error("Error saving message:", error);
     }
-};
-
+  };
 
   const handleSnackbarClose = () => {
     setSnackbarOpen(false); // Đóng snackbar
@@ -202,7 +201,10 @@ const TripPlanner = ({ userId }) => {
               {msg.time}
             </div>
             {msg.role === "bot" && (
-              <p className="save-button" onClick={() => saveSpecificMessage(msg.content)}>
+              <p
+                className="save-button"
+                onClick={() => saveSpecificMessage(msg.content)}
+              >
                 Save
               </p>
             )}
@@ -231,15 +233,6 @@ const TripPlanner = ({ userId }) => {
               className="chat-input start-end-input"
             />
           </div>
-          <IconButton
-            onClick={handleOpenExpenseDialog}
-            style={{
-              backgroundColor: "#007bff",
-              color: "white",
-            }}
-          >
-            <FaListAlt />
-          </IconButton>
         </div>
         <div className="request-chat-bot">
           <input
@@ -254,44 +247,6 @@ const TripPlanner = ({ userId }) => {
           </button>
         </div>
       </div>
-
-      {/* Icon mở bảng chi phí */}
-
-      {/* Dialog hiển thị bảng chi phí */}
-      <Dialog
-        open={openExpenseDialog}
-        onClose={handleCloseExpenseDialog}
-        fullWidth
-      >
-        <DialogTitle>Bảng chi phí</DialogTitle>
-        <DialogContent>
-          <TableContainer component={Paper}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Số tiền</TableCell>
-                  <TableCell>Danh mục</TableCell>
-                  <TableCell>Ngày tháng</TableCell>
-                  <TableCell>Ghi chú</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {expenses.map((expense) => (
-                  <TableRow key={expense.id}>
-                    <TableCell>{expense.amount}</TableCell>
-                    <TableCell>{expense.category}</TableCell>
-                    <TableCell>{expense.date}</TableCell>
-                    <TableCell>{expense.note}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseExpenseDialog}>Close</Button>
-        </DialogActions>
-      </Dialog>
 
       {/* Snackbar hiển thị thông báo */}
       <Snackbar
