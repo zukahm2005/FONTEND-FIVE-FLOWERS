@@ -3,9 +3,8 @@ import axios from "axios";
 import './profileUser.scss';
 import { FaFacebook, FaInstagram, FaTiktok, FaTwitter, FaWhatsapp } from "react-icons/fa";
 import { GiRank1, GiRank2, GiRank3 } from "react-icons/gi";
-import { CiCamera } from "react-icons/ci";
-import { UploadOutlined } from "@ant-design/icons";
-import { Button, Upload } from "antd";
+import { BsFillCameraFill } from "react-icons/bs";
+import { Upload } from "antd";
 
 const ProfileUser = () => {
     const [userData, setUserData] = useState(null);
@@ -91,8 +90,9 @@ const ProfileUser = () => {
             ]);
 
             const orders = total.data;
-            const totalPrice = orders.reduce((total, order) => total + order.price, 0);
-
+            const completedOrders = orders.filter(order => order.status === 'Delivered'); // Filter completed orders
+            const totalPrice = completedOrders.reduce((total, order) => total + order.price, 0); // Calculate total price of completed orders
+            
             setExistingImages(imagesResponse.data); // Lưu danh sách ảnh vào state
             setUserData(userResponse.data);
             setUserInfoData(userInfo.data);
@@ -269,7 +269,7 @@ const ProfileUser = () => {
                                 beforeUpload={() => false} // Không tự động upload
                                 onChange={handleFileChange} // Gọi hàm `handleFileChange` khi người dùng chọn ảnh
                             >
-                                <CiCamera size={25} style={{ cursor: 'pointer' }} />
+                                <BsFillCameraFill color="white" size={22} style={{ cursor: 'pointer' }} />
                             </Upload>
                         </div>
 
@@ -458,17 +458,17 @@ const ProfileUser = () => {
                         <span>Total Amount Purchased: {totalData}$</span>
                         <div className="rank">
                             <div className="rank-item">
-                                <GiRank1 size={220} style={totalData >= 1000 ? { color: 'red' } : { color: 'gray' }} />
+                                <GiRank1 size={220} style={totalData >= 1000 ? { color: ' #B87333' } : { color: 'gray' }} />
                                 <p>{totalData >= 1000 ? "You have earned the title" : "You have not achieved"}</p>
                                 <p>1000$+</p>
                             </div>
                             <div className="rank-item">
-                                <GiRank2 size={220} style={totalData >= 2000 ? { color: 'blue' } : { color: 'gray' }} />
+                                <GiRank2 size={220} style={totalData >= 2000 ? { color: '#FFFF00' } : { color: 'gray' }} />
                                 <p>{totalData >= 2000 ? "You have earned the title" : "You have not achieved"}</p>
                                 <p>2000$+</p>
                             </div>
                             <div className="rank-item">
-                                <GiRank3 size={220} style={totalData >= 10000 ? { color: 'yellow' } : { color: 'gray' }} />
+                                <GiRank3 size={220} style={totalData >= 10000 ? { color: '#0000FF' } : { color: 'gray' }} />
                                 <p>{totalData >= 10000 ? "You have earned the title" : "You have not achieved"}</p>
                                 <p>10000$+</p>
                             </div>
