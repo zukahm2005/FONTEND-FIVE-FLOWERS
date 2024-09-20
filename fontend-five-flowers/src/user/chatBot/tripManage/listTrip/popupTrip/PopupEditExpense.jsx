@@ -2,7 +2,7 @@ import { Form, Input, Modal } from "antd";
 import React, { useEffect } from "react";
 
 const PopupEditExpense = ({ visible, onCancel, onOk, form, editingRecord }) => {
-  // Khi editingRecord có giá trị, đặt các trường form với dữ liệu hiện tại
+  // When editingRecord has a value, set form fields with the current data
   useEffect(() => {
     if (editingRecord) {
       form.setFieldsValue({
@@ -15,19 +15,19 @@ const PopupEditExpense = ({ visible, onCancel, onOk, form, editingRecord }) => {
 
   return (
     <Modal
-      title="Chỉnh sửa chi phí"
+      title="Edit Expense"
       visible={visible}
       onCancel={onCancel}
       onOk={onOk}
     >
       <Form form={form} layout="vertical">
-        <Form.Item label="Số tiền ($)" name="amount">
+        <Form.Item label="Amount ($)" name="amount">
           <Input />
         </Form.Item>
-        <Form.Item label="Loại" name="category">
+        <Form.Item label="Category" name="category">
           <Input />
         </Form.Item>
-        <Form.Item label="Ghi chú" name="note">
+        <Form.Item label="Note" name="note">
           <Input />
         </Form.Item>
       </Form>

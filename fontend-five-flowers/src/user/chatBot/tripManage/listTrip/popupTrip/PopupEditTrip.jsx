@@ -6,7 +6,7 @@ import moment from "moment";
 const PopupEditTrip = ({ visible, onCancel, onOk, editingRecord, token }) => {
   const [form] = Form.useForm();
 
-  // Đảm bảo các trường dữ liệu ban đầu hiển thị chính xác
+  // Ensure the initial form fields display the correct data
   useEffect(() => {
     if (editingRecord) {
       form.setFieldsValue({
@@ -21,7 +21,7 @@ const PopupEditTrip = ({ visible, onCancel, onOk, editingRecord, token }) => {
     try {
       const updatedValues = form.getFieldsValue();
 
-      // Định dạng lại ngày trước khi gửi lên server
+      // Reformat the dates before sending to the server
       if (updatedValues.startDate) {
         updatedValues.startDate = updatedValues.startDate.format("YYYY-MM-DD");
       }
@@ -29,7 +29,7 @@ const PopupEditTrip = ({ visible, onCancel, onOk, editingRecord, token }) => {
         updatedValues.endDate = updatedValues.endDate.format("YYYY-MM-DD");
       }
 
-      // Gửi dữ liệu cập nhật lên server
+      // Send the updated data to the server
       await axios.put(
         `http://localhost:8080/api/v1/trips/update/${editingRecord.id}`,
         updatedValues,
@@ -39,81 +39,81 @@ const PopupEditTrip = ({ visible, onCancel, onOk, editingRecord, token }) => {
           },
         }
       );
-      message.success("Cập nhật thành công");
-      onOk(); // Đóng modal và cập nhật lại danh sách chuyến đi
+      message.success("Update successful");
+      onOk(); // Close the modal and refresh the trip list
     } catch (error) {
-      message.error("Có lỗi xảy ra khi cập nhật chuyến đi");
+      message.error("An error occurred while updating the trip");
       console.error("Error updating trip:", error);
     }
   };
 
   return (
     <Modal
-      title="Chỉnh sửa chuyến đi"
+      title="Edit Trip"
       visible={visible}
       onCancel={onCancel}
       footer={[
         <Button key="cancel" onClick={onCancel}>
-          Hủy
+          Cancel
         </Button>,
         <Button key="submit" type="primary" onClick={handleSaveEdit}>
-          Lưu thay đổi
+          Save Changes
         </Button>,
       ]}
     >
       <Form form={form} layout="vertical">
         <Form.Item
-          label="Tên Chuyến Đi"
+          label="Trip Name"
           name="tripName"
-          rules={[{ required: true, message: "Vui lòng nhập tên chuyến đi!" }]}
+          rules={[{ required: true, message: "Please enter the trip name!" }]}
         >
-          <Input placeholder="Nhập tên chuyến đi" />
+          <Input placeholder="Enter trip name" />
         </Form.Item>
 
         <Form.Item
-          label="Điểm Bắt Đầu"
+          label="Start Location"
           name="startLocation"
-          rules={[{ required: true, message: "Vui lòng nhập điểm bắt đầu!" }]}
+          rules={[{ required: true, message: "Please enter the start location!" }]}
         >
-          <Input placeholder="Nhập điểm bắt đầu" />
+          <Input placeholder="Enter start location" />
         </Form.Item>
 
         <Form.Item
-          label="Điểm Kết Thúc"
+          label="End Location"
           name="endLocation"
-          rules={[{ required: true, message: "Vui lòng nhập điểm kết thúc!" }]}
+          rules={[{ required: true, message: "Please enter the end location!" }]}
         >
-          <Input placeholder="Nhập điểm kết thúc" />
+          <Input placeholder="Enter end location" />
         </Form.Item>
 
         <Form.Item
-          label="Khoảng Cách"
+          label="Distance"
           name="distance"
-          rules={[{ required: true, message: "Vui lòng nhập khoảng cách!" }]}
+          rules={[{ required: true, message: "Please enter the distance!" }]}
         >
-          <Input placeholder="Nhập khoảng cách" />
+          <Input placeholder="Enter distance" />
         </Form.Item>
 
         <Form.Item
-          label="Tổng Chi Phí"
+          label="Total Budget"
           name="totalBudget"
-          rules={[{ required: true, message: "Vui lòng nhập tổng chi phí!" }]}
+          rules={[{ required: true, message: "Please enter the total budget!" }]}
         >
-          <Input placeholder="Nhập tổng chi phí" />
+          <Input placeholder="Enter total budget" />
         </Form.Item>
 
         <Form.Item
-          label="Ngày Bắt Đầu"
+          label="Start Date"
           name="startDate"
-          rules={[{ required: true, message: "Vui lòng chọn ngày bắt đầu!" }]}
+          rules={[{ required: true, message: "Please select the start date!" }]}
         >
           <DatePicker format="YYYY-MM-DD" />
         </Form.Item>
 
         <Form.Item
-          label="Ngày Kết Thúc"
+          label="End Date"
           name="endDate"
-          rules={[{ required: true, message: "Vui lòng chọn ngày kết thúc!" }]}
+          rules={[{ required: true, message: "Please select the end date!" }]}
         >
           <DatePicker format="YYYY-MM-DD" />
         </Form.Item>

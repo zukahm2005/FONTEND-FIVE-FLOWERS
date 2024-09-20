@@ -57,7 +57,7 @@
         &.user {
             align-self: flex-end;
             background-color: rgb(240, 242, 245);
-            color: #343a40; /* Color for user message */
+            color: #343a40;
             border-radius: 18px 18px 0px 18px;
             max-width: 30rem;
         }
@@ -65,14 +65,14 @@
         &.bot {
             align-self: flex-start;
             background-color: #f1f3f5;
-            color: #343a40; /* Color for bot message */
+            color: #343a40;
             border-radius: 18px 18px 18px 0px;
             max-width: 30rem;
         }
 
         .message-content {
             font-size: 14px;
-            color: inherit; /* Inherit color for consistency */
+            color: inherit;
             margin-bottom: 2.5px;
             text-align: left;
             padding: 0 0 0 0.6rem;
@@ -87,91 +87,107 @@
     }
 
     .chat-input-container {
-       max-width: 100%;
-       display: flex;
-       flex-direction: column;
-       gap: 1rem;
-       .locations-start-end{
         max-width: 100%;
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         gap: 1rem;
-        .locations-start{
-            width: 100%;
-            input{
+
+        .locations-start-end {
+            max-width: 100%;
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
+
+            .locations-start {
+                width: 100%;
+                input {
+                    width: 100%;
+                }
+            }
+
+            .locations-end {
+                width: 100%;
+                input {
+                    width: 100%;
+                }
+            }
+
+            input {
                 width: 100%;
             }
         }
-        .locations-end{
+
+        .request-chat-bot {
+            display: flex;
+            flex-direction: row;
+            gap: 1rem;
             width: 100%;
-            input{
+
+            input {
                 width: 100%;
             }
+
+            .button-group {
+                display: flex;
+                flex-direction: row;
+                gap: 10px; /* Khoảng cách giữa các nút */
+                align-items: center;
+            }
         }
-        input{
-            width: 100%;
-        }
-       }
-       .request-chat-bot{
-        display: flex;
-        flex-direction: row;
-        gap: 1rem;
-        width: 100%;
-        input{
-            width: 100%;
-        }
-       }
     }
 
     .start-end-input {
-        flex-grow: 0.5; /* Để ô input nhỏ lại */
-        min-width: 150px; /* Đặt chiều rộng tối thiểu để không quá nhỏ */
+        flex-grow: 0.5;
+        min-width: 150px;
     }
 
     .extra-request-input {
-        flex-grow: 1; /* Để ô yêu cầu thông tin rộng hơn */
+        flex-grow: 1;
     }
 
-    .send-button {
-        border: none;
-        background-color: #007bff;
+    .send-button,
+    .save-info-button {
+      border: none;
+      background-color: #f7822f;
+      color: white;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      margin-left: 10px;
+      border-radius: 10px;
+      transition: transform 0.3s ease, background-color 0.3s ease; /* Thêm hiệu ứng chuyển mượt mà */
+      
+      p {
         color: white;
-        padding: 10px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        margin-left: 10px;
-
-        &:disabled {
-            background-color: #6c757d;
-        }
-
-        &:hover {
-            background-color: #0056b3;
-            transform: scale(1.1);
-        }
-
-        svg {
-            width: 20px;
-            height: 20px; /* Ensure that the Send icon is visible */
+      }
+    
+      &:hover {
+        background-color: rgb(243, 81, 17);
+        transform: scale(1.05); /* Phóng to 1.05 khi hover */
+      }
+    
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+    .sidebar {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 60rem;
+        height: 100%;
+        background-color: #f8f9fa;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        padding: 5px;
+        transform: translateX(100%); /* Đảm bảo sidebar nằm ngoài màn hình bên phải */
+      
+        .button-close-sidebar-trip{
+            cursor: pointer;
         }
     }
-
-    .save-button {
-        display: none;
-        background-color: rgb(250, 117, 55); /* Change to requested color */
-        border: none;
-        padding: 5px 10px;
-        font-size: 12px;
-        color: white;
-        cursor: pointer;
-        border-radius: 5px;
-        margin-left: auto;
-        margin-top: 5px;
-
-        &:hover {
-            background-color: rgb(230, 100, 40);
-        }
-    }
+      
 }
