@@ -24,8 +24,6 @@ const Component = ({ showDrawer, cart }) => {
       navigate('/your-bike');
     } else if (e.key === 'practice') {
       navigate('/practice');
-    } else if (e.key === 'service') {
-      navigate('/service');
     } else if (e.key === 'chat-window') {
       navigate('/chat-window'); // Điều hướng đến trang Trip Planner
     }else if (e.key === 'profile-user') {
@@ -40,7 +38,6 @@ const Component = ({ showDrawer, cart }) => {
       <Menu.Item key="chat-window">Trip Planner</Menu.Item> 
       <Menu.Item key="your-bike">Your Bike</Menu.Item>
       <Menu.Item key="practice">Practice</Menu.Item>
-      <Menu.Item key="service">Service</Menu.Item>
       <Menu.Item key="logout">Logout</Menu.Item>
     </Menu>
   );
