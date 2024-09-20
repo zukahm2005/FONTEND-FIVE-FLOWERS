@@ -5,25 +5,25 @@ const PopupEditItinerary = ({ visible, onCancel, onOk, form, editingItinerary })
   React.useEffect(() => {
     if (editingItinerary) {
       form.setFieldsValue({
-        description: editingItinerary.description, // Đặt giá trị description cho form
+        description: editingItinerary.description, // Set the value of description for the form
       });
     }
   }, [editingItinerary, form]);
 
   return (
     <Modal
-      title="Chỉnh sửa Mô tả Lịch trình"
+      title="Edit Itinerary Description"
       visible={visible}
       onCancel={onCancel}
       onOk={onOk}
     >
       <Form form={form} layout="vertical">
         <Form.Item
-          label="Mô tả Lịch trình"
+          label="Itinerary Description"
           name="description"
-          rules={[{ required: true, message: "Vui lòng nhập mô tả lịch trình" }]}
+          rules={[{ required: true, message: "Please enter the itinerary description" }]}
         >
-          <Input placeholder="Nhập mô tả lịch trình" />
+          <Input placeholder="Enter itinerary description" />
         </Form.Item>
       </Form>
     </Modal>

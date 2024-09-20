@@ -1,33 +1,18 @@
-import {
-  Alert,
-  Button,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Paper,
-  Snackbar,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-} from "@mui/material"; // Import Material UI components
+import { Alert, Snackbar } from "@mui/material";
 import axios from "axios";
+import { motion } from "framer-motion"; // Import Framer Motion
 import React, { useEffect, useState } from "react";
-import { FaListAlt } from "react-icons/fa"; // Icon list
-import { IoMdSend } from "react-icons/io";
+import { FaClipboardList } from "react-icons/fa";
+import { IoIosCloseCircleOutline, IoMdSend } from "react-icons/io";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-// Import ChatHistory component
+import TripList from "./tripManage/listTrip/TripList";
 import "./tripPlanner.scss";
 
 const TripPlanner = ({ userId }) => {
-  const [startLocation, setStartLocation] = useState(""); // Input cho địa chỉ bắt đầu
-  const [endLocation, setEndLocation] = useState(""); // Input cho địa chỉ đến
-  const [extraRequest, setExtraRequest] = useState(""); // Input cho thông tin bổ sung
+  const [startLocation, setStartLocation] = useState("");
+  const [endLocation, setEndLocation] = useState("");
+  const [extraRequest, setExtraRequest] = useState("");
   const [messages, setMessages] = useState(() => {
     const savedMessages = sessionStorage.getItem("chatMessages");
     return savedMessages
@@ -41,33 +26,19 @@ const TripPlanner = ({ userId }) => {
           },
         ];
   });
-  const [expenses, setExpenses] = useState([]); // Danh sách chi phí
-  const [openExpenseDialog, setOpenExpenseDialog] = useState(false); // Trạng thái mở popup
-  const [snackbarOpen, setSnackbarOpen] = useState(false); // State cho snackbar
-  const [snackbarMessage, setSnackbarMessage] = useState(""); // Thông báo trong snackbar
-  const [currentStartLocation, setCurrentStartLocation] = useState(""); // Lưu tạm startLocation khi gửi
-  const [currentEndLocation, setCurrentEndLocation] = useState(""); // Lưu tạm endLocation khi gửi
-  const [conversationId, setConversationId] = useState(null); // ID cuộc trò chuyện để lấy lịch sử
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [currentStartLocation, setCurrentStartLocation] = useState("");
+  const [currentEndLocation, setCurrentEndLocation] = useState("");
+  const [conversationId, setConversationId] = useState(null);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State quản lý sidebar
 
   useEffect(() => {
     sessionStorage.setItem("chatMessages", JSON.stringify(messages));
-    fetchExpenses();
   }, [messages]);
 
-  // Hàm lấy danh sách chi phí
-  const fetchExpenses = async () => {
-    try {
-      const response = await axios.get("http://localhost:8080/api/v1/expenses");
-      setExpenses(response.data);
-    } catch (error) {
-      console.error("Error fetching expenses:", error);
-    }
-  };
-
   const sendMessage = async () => {
-    // Kết hợp nội dung của ba input thành một đoạn văn bản
     const combinedMessage = `Start: ${startLocation}, End: ${endLocation}. Request: ${extraRequest}`;
-
     const updatedMessages = [
       ...messages,
       {
@@ -76,10 +47,9 @@ const TripPlanner = ({ userId }) => {
         time: new Date().toLocaleTimeString(),
       },
     ];
-
     setMessages(updatedMessages);
-    setCurrentStartLocation(startLocation); // Lưu tạm giá trị của startLocation để lưu sau khi nhấn Save
-    setCurrentEndLocation(endLocation); // Lưu tạm giá trị của endLocation để lưu sau khi nhấn Save
+    setCurrentStartLocation(startLocation);
+    setCurrentEndLocation(endLocation);
     setStartLocation("");
     setEndLocation("");
     setExtraRequest("");
@@ -106,54 +76,41 @@ const TripPlanner = ({ userId }) => {
     }
   };
 
-  const handleKeyPress = (e) => {
-    if (e.key === "Enter") {
-      sendMessage();
-    }
-  };
-
   const saveSpecificMessage = async (messageContent) => {
-    const token = localStorage.getItem("token"); // Lấy token từ localStorage
+    const token = localStorage.getItem("token");
 
     try {
       const response = await axios.post(
         "http://localhost:8080/api/v1/bot/save",
         {
           botResponse: messageContent,
-          startLocation: currentStartLocation, // Lưu startLocation hiện tại
-          endLocation: currentEndLocation, // Lưu endLocation hiện tại
-          userId, // Thêm userId để lưu cho người dùng cụ thể
+          startLocation: currentStartLocation,
+          endLocation: currentEndLocation,
+          userId,
         },
         {
           headers: {
-            Authorization: `Bearer ${token}`, // Thêm token vào headers
+            Authorization: `Bearer ${token}`,
             "Content-Type": "application/json",
           },
         }
       );
-
-      // Lấy conversationId từ response (nếu server trả về)
       setConversationId(response.data.conversationId);
-
-      setSnackbarMessage("Response has been saved!"); // Thông báo lưu thành công
-      setSnackbarOpen(true); // Mở snackbar
+      setSnackbarMessage("Response has been saved!");
+      setSnackbarOpen(true);
     } catch (error) {
-      setSnackbarMessage("Error saving message!"); // Thông báo lỗi
-      setSnackbarOpen(true); // Mở snackbar
+      setSnackbarMessage("Error saving message!");
+      setSnackbarOpen(true);
       console.error("Error saving message:", error);
     }
   };
 
   const handleSnackbarClose = () => {
-    setSnackbarOpen(false); // Đóng snackbar
+    setSnackbarOpen(false);
   };
 
-  const handleOpenExpenseDialog = () => {
-    setOpenExpenseDialog(true);
-  };
-
-  const handleCloseExpenseDialog = () => {
-    setOpenExpenseDialog(false);
+  const toggleSidebar = () => {
+    setIsSidebarOpen(!isSidebarOpen); // Đóng/mở sidebar
   };
 
   return (
@@ -161,6 +118,7 @@ const TripPlanner = ({ userId }) => {
       <h2 style={{ textAlign: "center", padding: "10px" }}>
         Advice on the schedule of traveling by bike
       </h2>
+
       <div className="chat-box">
         {messages.map((msg, index) => (
           <div key={index} className={`chat-message ${msg.role}`}>
@@ -212,10 +170,10 @@ const TripPlanner = ({ userId }) => {
         ))}
       </div>
 
-      {/* Input cho địa chỉ bắt đầu, kết thúc và yêu cầu bổ sung - trên cùng 1 hàng */}
       <div className="chat-input-container">
         <div className="locations-start-end">
           <div className="locations-start">
+            <p>From:</p>
             <input
               type="text"
               value={startLocation}
@@ -241,14 +199,38 @@ const TripPlanner = ({ userId }) => {
             onChange={(e) => setExtraRequest(e.target.value)}
             placeholder="Additional request (e.g., calculate cost)"
             className="chat-input extra-request-input"
-          />{" "}
-          <button onClick={sendMessage} className="send-button">
-            <IoMdSend />
-          </button>
+          />
+          <div className="button-group">
+            <div className="send-button" onClick={sendMessage}>
+              <p>
+                <IoMdSend />
+              </p>
+            </div>
+            <div className="save-info-button" onClick={toggleSidebar}>
+              <p>
+                <FaClipboardList />
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Snackbar hiển thị thông báo */}
+      {/* Sidebar trượt từ phải */}
+      <motion.div
+        initial={{ x: "100%" }} // Sidebar bắt đầu ngoài màn hình
+        animate={{ x: isSidebarOpen ? "0%" : "100%" }} // Trượt vào khi mở
+        transition={{ type: "spring", stiffness: 300, damping: 30 }} // Hiệu ứng mượt mà
+        className="sidebar"
+      > <div className="button-close-sidebar-trip">
+         <p onClick={toggleSidebar}>
+          <IoIosCloseCircleOutline />
+          
+        </p>
+      </div>
+       
+        <TripList/>
+      </motion.div>
+
       <Snackbar
         open={snackbarOpen}
         autoHideDuration={3000}

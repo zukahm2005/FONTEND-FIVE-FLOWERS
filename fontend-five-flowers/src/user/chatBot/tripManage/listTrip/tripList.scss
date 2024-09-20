@@ -1,68 +1,91 @@
-.itinerary-header {
+.itinerary-container {
+  border: 1px solid #ddd; // Đường viền cho từng Itinerary
+  padding-left: 1rem;
+  border-radius: 8px; // Bo tròn các góc của khung
+  background-color: #f9f9f9; // Màu nền cho Itinerary
+  .itinerary-header {
     display: flex;
     justify-content: space-between; /* Đẩy dấu ba chấm sang bên phải */
     align-items: center; /* Căn giữa theo chiều dọc */
-    padding: 10px 0; /* Khoảng cách giữa tiêu đề và dấu ba chấm */
     width: 100%; /* Chiếm toàn bộ chiều ngang của container */
   }
-  
+
   .itinerary-header h4 {
     flex: 1; /* Để tiêu đề chiếm toàn bộ chiều ngang còn lại */
     margin-right: 10px; /* Khoảng cách giữa tiêu đề và dấu ba chấm */
   }
-  
+
   .dropdown-small {
     font-size: 18px; /* Kích thước bé hơn */
     cursor: pointer; /* Con trỏ chỉ tay */
   }
-  
+
   .day-header,
   .hour-header {
     display: flex;
     justify-content: space-between; /* Đẩy dấu ba chấm sang bên phải */
     align-items: center; /* Căn giữa theo chiều dọc */
-    padding: 8px 0; /* Khoảng cách giữa tiêu đề và dấu ba chấm */
+    padding:10px; /* Khoảng cách giữa tiêu đề và dấu ba chấm */
   }
-  
+  .hour-header p::before {
+    content: "• "; /* Thêm dấu chấm trước đoạn văn */
+    color: black; /* Màu của dấu chấm */
+    font-size: 20px; /* Kích thước của dấu chấm */
+    margin-right: 5px; /* Khoảng cách giữa dấu chấm và văn bản */
+  }
+  .info-details-itinerary{
+    border-bottom: thin solid rgb(211, 211, 211);
+  }
   .scroll-container {
     max-height: 200px;
     overflow-y: auto;
-  
+
     /* Webkit Scrollbar (Chrome, Safari) */
     &::-webkit-scrollbar {
       width: 6px !important; /* Độ rộng của thanh cuộn */
     }
-  
+
     &::-webkit-scrollbar-track {
       background: #f1f1f1; /* Màu nền của track thanh cuộn */
     }
-  
+
     &::-webkit-scrollbar-thumb {
       background: #888; /* Màu của thanh cuộn */
       border-radius: 10px; /* Đường viền tròn của thanh cuộn */
     }
-  
+
     &::-webkit-scrollbar-thumb:hover {
       background: #555; /* Màu thanh cuộn khi hover */
     }
-  
+
     /* Firefox Scrollbar */
     scrollbar-width: thin; /* Độ rộng thanh cuộn trong Firefox */
     scrollbar-color: #888 #f1f1f1; /* Màu của thanh cuộn và track trong Firefox */
   }
-  
+
   .expense-table-container {
     padding-left: 20px; /* Thụt lề bảng chi phí */
   }
-  
+
   .hour-item {
     list-style-type: disc;
     padding-left: 20px; /* Thụt lề cho giờ */
     margin-bottom: 8px; /* Khoảng cách giữa các mục giờ */
   }
-  
+
   .expense-item {
     padding-left: 40px; /* Thụt lề chi phí */
     margin-bottom: 8px; /* Khoảng cách giữa các mục chi phí */
   }
-  
+  .trip-details {
+    position: relative;
+    padding-bottom: 50px; /* Tạo không gian cho thông tin số tiền còn lại */
+  }
+
+  .remaining-budget {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    font-weight: bold;
+  }
+}

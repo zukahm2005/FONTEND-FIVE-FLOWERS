@@ -6,12 +6,12 @@ import { useEffect } from "react";
 const PopupEditDay = ({ visible, onCancel, onOk, editingRecord, token }) => {
   const [form] = Form.useForm();
 
-  // Đảm bảo các trường dữ liệu ban đầu hiển thị chính xác, tương tự như trong PopupEditTrip
+  // Ensure that the initial form fields display correctly, similar to PopupEditTrip
   useEffect(() => {
     if (editingRecord) {
       form.setFieldsValue({
         ...editingRecord,
-        date: editingRecord.date ? moment(editingRecord.date) : null,
+        date: editingRecord.date ? moment(editingRecord.date).subtract(1, 'months') : null,
       });
     }
   }, [editingRecord]);
@@ -20,12 +20,12 @@ const PopupEditDay = ({ visible, onCancel, onOk, editingRecord, token }) => {
     try {
       const updatedValues = form.getFieldsValue();
       
-      // Định dạng lại ngày trước khi gửi lên server, tương tự cách trong PopupEditTrip
+      // Format the date correctly before sending it to the server, similar to how it's done in PopupEditTrip
       if (updatedValues.date) {
         updatedValues.date = updatedValues.date.format("YYYY-MM-DD");
       }
 
-      // Gửi dữ liệu cập nhật lên server
+      // Send updated data to the server
       await axios.put(
         `http://localhost:8080/api/v1/days/update/${editingRecord.id}`,
         updatedValues,
@@ -35,33 +35,33 @@ const PopupEditDay = ({ visible, onCancel, onOk, editingRecord, token }) => {
           },
         }
       );
-      message.success("Cập nhật ngày thành công");
-      onOk(); // Đóng modal và cập nhật lại danh sách ngày
+      message.success("Date updated successfully");
+      onOk(); // Close the modal and refresh the day list
     } catch (error) {
-      message.error("Có lỗi xảy ra khi cập nhật ngày");
+      message.error("An error occurred while updating the date");
       console.error("Error updating day:", error);
     }
   };
 
   return (
     <Modal
-      title="Chỉnh sửa ngày lịch trình"
+      title="Edit Itinerary Day"
       visible={visible}
       onCancel={onCancel}
       footer={[
         <Button key="cancel" onClick={onCancel}>
-          Hủy
+          Cancel
         </Button>,
         <Button key="submit" type="primary" onClick={handleSaveEdit}>
-          Lưu thay đổi
+          Save Changes
         </Button>,
       ]}
     >
       <Form form={form} layout="vertical">
         <Form.Item
-          label="Ngày Lịch Trình"
+          label="Itinerary Date"
           name="date"
-          rules={[{ required: true, message: "Vui lòng chọn ngày lịch trình!" }]}
+          rules={[{ required: true, message: "Please select a date for the itinerary!" }]}
         >
           <DatePicker format="YYYY-MM-DD" />
         </Form.Item>

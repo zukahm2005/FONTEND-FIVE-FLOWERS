@@ -3,7 +3,7 @@ import moment from "moment";
 import React from "react";
 
 const PopupEditHour = ({ visible, onCancel, onOk, form, editingRecord }) => {
-  // Kiểm tra và set giá trị time khi editingRecord thay đổi
+  // Check and set the time value when editingRecord changes
   React.useEffect(() => {
     if (editingRecord) {
       form.setFieldsValue({
@@ -17,13 +17,13 @@ const PopupEditHour = ({ visible, onCancel, onOk, form, editingRecord }) => {
 
   return (
     <Modal
-      title="Chỉnh sửa Giờ"
+      title="Edit Hour"
       visible={visible}
       onCancel={onCancel}
       onOk={onOk}
     >
       <Form form={form} layout="vertical">
-        <Form.Item label="Chọn Giờ" name="time">
+        <Form.Item label="Select Time" name="time">
           <TimePicker
             format="HH:mm"
             value={

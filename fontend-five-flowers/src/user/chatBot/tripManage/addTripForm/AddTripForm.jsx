@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { Form, Input, Button, DatePicker, TimePicker, message } from "antd";
+import { Button, DatePicker, Divider, Form, Input, TimePicker, message } from "antd";
 import axios from "axios";
-import moment from "moment";
 import { format } from "date-fns";
+import moment from "moment";
+import React, { useState } from "react";
 
 const AddTripForm = () => {
   const [form] = Form.useForm();
@@ -39,12 +39,9 @@ const AddTripForm = () => {
 
   const addDay = (index) => {
     const newItineraries = [...itineraries];
-
-    // Lấy ngày bắt đầu và ngày kết thúc từ form
     const startDate = form.getFieldValue("startDate");
     const endDate = form.getFieldValue("endDate");
 
-    // Nếu đây là ngày đầu tiên của lịch trình, dùng ngày startDate
     const defaultDate =
       newItineraries[index].days.length === 0
         ? startDate
@@ -53,13 +50,11 @@ const AddTripForm = () => {
               .date
           ).add(1, "days");
 
-    // Kiểm tra nếu ngày mới vượt quá ngày endDate, nếu có thì không thêm
     if (defaultDate.isAfter(endDate)) {
       message.error("Ngày mới không thể lớn hơn ngày kết thúc.");
       return;
     }
 
-    // Thêm ngày mới vào lịch trình với ngày mặc định là defaultDate
     newItineraries[index].days.push({
       date: defaultDate.format("YYYY-MM-DD"),
       hours: [{ time: "", expenses: [{ amount: "", category: "", note: "" }] }],
@@ -86,7 +81,6 @@ const AddTripForm = () => {
         return;
       }
 
-      // Đảm bảo ngày được định dạng đúng bằng date-fns trước khi gửi lên server
       const tripData = {
         ...values,
         startDate: values.startDate
@@ -107,7 +101,7 @@ const AddTripForm = () => {
 
       console.log("Trip Data gửi lên server:", tripData);
 
-      const response = await axios.post(
+      await axios.post(
         "http://localhost:8080/api/v1/trips/add",
         [tripData],
         {
@@ -168,9 +162,7 @@ const AddTripForm = () => {
       >
         <DatePicker
           format="YYYY-MM-DD"
-          onChange={(date) => {
-            form.setFieldsValue({ startDate: date });
-          }}
+          onChange={(date) => form.setFieldsValue({ startDate: date })}
         />
       </Form.Item>
 
@@ -181,15 +173,14 @@ const AddTripForm = () => {
       >
         <DatePicker
           format="YYYY-MM-DD"
-          onChange={(date) => {
-            form.setFieldsValue({ endDate: date });
-          }}
+          onChange={(date) => form.setFieldsValue({ endDate: date })}
         />
       </Form.Item>
 
+      <Divider />
       <h3>Lịch Trình</h3>
       {itineraries.map((itinerary, index) => (
-        <div key={index}>
+        <div key={index} style={{ marginBottom: "20px" }}>
           <Form.Item label={`Mô tả Lịch Trình ${index + 1}`}>
             <Input
               value={itinerary.description}
@@ -213,14 +204,13 @@ const AddTripForm = () => {
                       : null;
                     setItineraries(newItineraries);
                   }}
-                  format="YYYY-MM-DD" // Đảm bảo chỉ hiển thị ngày, tháng, năm
+                  format="YYYY-MM-DD"
                 />
               </Form.Item>
 
               {day.hours.map((hour, hourIndex) => (
                 <div key={hourIndex}>
                   <Form.Item label={`Giờ ${hourIndex + 1}`}>
-                    {/* Thay thế Input bằng TimePicker */}
                     <TimePicker
                       value={hour.time ? moment(hour.time, "HH:mm") : null}
                       onChange={(time) => {
@@ -235,7 +225,7 @@ const AddTripForm = () => {
                     />
                   </Form.Item>
                   {hour.expenses.map((expense, expenseIndex) => (
-                    <div key={expenseIndex}>
+                    <div key={expenseIndex} style={{ marginLeft: "20px" }}>
                       <Form.Item label={`Chi Phí ${expenseIndex + 1}`}>
                         <Input
                           value={expense.amount}
@@ -275,7 +265,11 @@ const AddTripForm = () => {
                   ))}
                 </div>
               ))}
-              <Button type="dashed" onClick={() => addHour(index, dayIndex)}>
+              <Button
+                type="dashed"
+                onClick={() => addHour(index, dayIndex)}
+                style={{ marginBottom: 8 }}
+              >
                 + Thêm giờ
               </Button>
             </div>
@@ -283,6 +277,7 @@ const AddTripForm = () => {
           <Button type="dashed" onClick={() => addDay(index)}>
             + Thêm ngày
           </Button>
+          <Divider />
         </div>
       ))}
 

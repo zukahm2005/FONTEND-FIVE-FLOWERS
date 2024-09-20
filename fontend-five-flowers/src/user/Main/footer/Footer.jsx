@@ -6,7 +6,6 @@ import {
   FaTwitter,
 } from "react-icons/fa";
 import AddTripForm from "../../chatBot/tripManage/addTripForm/AddTripForm";
-import TripList from "../../chatBot/tripManage/listTrip/TripList";
 import "./footer.scss";
 
 const Footer = () => {
@@ -67,7 +66,6 @@ const Footer = () => {
         </div>
       </div>
      <AddTripForm/>
-     <TripList/>
     </footer>
   );
 };
