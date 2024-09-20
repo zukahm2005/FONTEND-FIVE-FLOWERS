@@ -1,9 +1,17 @@
-import { Button, DatePicker, Divider, Form, Input, TimePicker, message } from "antd";
+import {
+  Button,
+  DatePicker,
+  Divider,
+  Form,
+  Input,
+  TimePicker,
+  message,
+} from "antd";
 import axios from "axios";
 import { format } from "date-fns";
 import moment from "moment";
 import React, { useState } from "react";
-
+import "./addTripForm.scss";
 const AddTripForm = () => {
   const [form] = Form.useForm();
   const [itineraries, setItineraries] = useState([
@@ -101,15 +109,11 @@ const AddTripForm = () => {
 
       console.log("Trip Data gửi lên server:", tripData);
 
-      await axios.post(
-        "http://localhost:8080/api/v1/trips/add",
-        [tripData],
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await axios.post("http://localhost:8080/api/v1/trips/add", [tripData], {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       message.success("Thêm chuyến đi thành công!");
     } catch (error) {
@@ -119,175 +123,244 @@ const AddTripForm = () => {
   };
 
   return (
-    <Form form={form} onFinish={onFinish} layout="vertical">
-      <Form.Item
-        label="Tên Chuyến Đi"
-        name="tripName"
-        rules={[{ required: true, message: "Vui lòng nhập tên chuyến đi!" }]}
-      >
-        <Input placeholder="Nhập tên chuyến đi" />
-      </Form.Item>
-      <Form.Item
-        label="Điểm Bắt Đầu"
-        name="startLocation"
-        rules={[{ required: true, message: "Vui lòng nhập điểm bắt đầu!" }]}
-      >
-        <Input placeholder="Nhập điểm bắt đầu" />
-      </Form.Item>
-      <Form.Item
-        label="Điểm Kết Thúc"
-        name="endLocation"
-        rules={[{ required: true, message: "Vui lòng nhập điểm kết thúc!" }]}
-      >
-        <Input placeholder="Nhập điểm kết thúc" />
-      </Form.Item>
-      <Form.Item
-        label="Tổng Chi Phí"
-        name="totalBudget"
-        rules={[{ required: true, message: "Vui lòng nhập tổng chi phí!" }]}
-      >
-        <Input placeholder="Nhập tổng chi phí" />
-      </Form.Item>
-      <Form.Item
-        label="Khoảng Cách"
-        name="distance"
-        rules={[{ required: true, message: "Vui lòng nhập khoảng cách!" }]}
-      >
-        <Input placeholder="Nhập khoảng cách" />
-      </Form.Item>
-      <Form.Item
-        label="Ngày Bắt Đầu"
-        name="startDate"
-        rules={[{ required: true, message: "Vui lòng chọn ngày bắt đầu!" }]}
-      >
-        <DatePicker
-          format="YYYY-MM-DD"
-          onChange={(date) => form.setFieldsValue({ startDate: date })}
-        />
-      </Form.Item>
+    <div className="add-trip-container">
+      <h2>Add Trip</h2>
+      <Form form={form} onFinish={onFinish} layout="vertical">
+        <div className="header-add-trip-container">
+          <div className="name-trip">
+            <Form.Item
+              label="Trip Name"
+              name="tripName"
+              rules={[
+                { required: true, message: "Please enter the trip name!" },
+              ]}
+            >
+              <Input placeholder="Enter trip name" />
+            </Form.Item>
+          </div>
+          <div className="start-point-trip">
+            <Form.Item
+              label="Start Location"
+              name="startLocation"
+              rules={[
+                { required: true, message: "Please enter the start point!" },
+              ]}
+            >
+              <Input placeholder="Enter start point" />
+            </Form.Item>
+          </div>
+          <div className="end-point-trip">
+            <Form.Item
+              label="End Location"
+              name="endLocation"
+              rules={[
+                { required: true, message: "Please enter the end point!" },
+              ]}
+            >
+              <Input placeholder="Enter end point" />
+            </Form.Item>
+          </div>
+          <div className="budget-trip-container">
+            <Form.Item
+              label="Total Budget"
+              name="totalBudget"
+              rules={[
+                { required: true, message: "Please enter the total budget!" },
+              ]}
+            >
+              <Input placeholder="Enter total budget" />
+            </Form.Item>
+          </div>
+          <div className="distance-trip-container">
+            <Form.Item
+              label="Distance"
+              name="distance"
+              rules={[
+                { required: true, message: "Please enter the distance!" },
+              ]}
+            >
+              <Input placeholder="Enter distance" />
+            </Form.Item>
+          </div>
+          <div className="start-date-trip">
+            <Form.Item
+              label="Start Date"
+              name="startDate"
+              rules={[
+                { required: true, message: "Please select the start date!" },
+              ]}
+            >
+              <DatePicker
+                format="YYYY-MM-DD"
+                onChange={(date) => form.setFieldsValue({ startDate: date })}
+              />
+            </Form.Item>
+          </div>
+          <div className="end-date-trip">
+            <Form.Item
+              label="End Date"
+              name="endDate"
+              rules={[
+                { required: true, message: "Please select the end date!" },
+              ]}
+            >
+              <DatePicker
+                format="YYYY-MM-DD"
+                onChange={(date) => form.setFieldsValue({ endDate: date })}
+              />
+            </Form.Item>
+          </div>
+        </div>
 
-      <Form.Item
-        label="Ngày Kết Thúc"
-        name="endDate"
-        rules={[{ required: true, message: "Vui lòng chọn ngày kết thúc!" }]}
-      >
-        <DatePicker
-          format="YYYY-MM-DD"
-          onChange={(date) => form.setFieldsValue({ endDate: date })}
-        />
-      </Form.Item>
+        <Divider />
+        <h3>Itinerary</h3>
 
-      <Divider />
-      <h3>Lịch Trình</h3>
-      {itineraries.map((itinerary, index) => (
-        <div key={index} style={{ marginBottom: "20px" }}>
-          <Form.Item label={`Mô tả Lịch Trình ${index + 1}`}>
-            <Input
-              value={itinerary.description}
-              onChange={(e) => {
-                const newItineraries = [...itineraries];
-                newItineraries[index].description = e.target.value;
-                setItineraries(newItineraries);
-              }}
-              placeholder="Nhập mô tả lịch trình"
-            />
-          </Form.Item>
-          {itinerary.days.map((day, dayIndex) => (
-            <div key={dayIndex}>
-              <Form.Item label={`Ngày ${dayIndex + 1}`}>
-                <DatePicker
-                  value={day.date ? moment(day.date, "YYYY-MM-DD") : null}
-                  onChange={(date) => {
+        {itineraries.map((itinerary, index) => (
+          <div key={index} style={{ marginBottom: "20px" }}>
+            <div className="itinerary-header">
+              <Form.Item
+                label={`Itinerary ${index + 1} Description`}
+                style={{ display: "block" }}
+              >
+                <Input
+                  value={itinerary.description}
+                  onChange={(e) => {
                     const newItineraries = [...itineraries];
-                    newItineraries[index].days[dayIndex].date = date
-                      ? date.format("YYYY-MM-DD")
-                      : null;
+                    newItineraries[index].description = e.target.value;
                     setItineraries(newItineraries);
                   }}
-                  format="YYYY-MM-DD"
+                  placeholder="Enter itinerary description"
                 />
               </Form.Item>
-
-              {day.hours.map((hour, hourIndex) => (
-                <div key={hourIndex}>
-                  <Form.Item label={`Giờ ${hourIndex + 1}`}>
-                    <TimePicker
-                      value={hour.time ? moment(hour.time, "HH:mm") : null}
-                      onChange={(time) => {
-                        const newItineraries = [...itineraries];
-                        newItineraries[index].days[dayIndex].hours[
-                          hourIndex
-                        ].time = time ? time.format("HH:mm") : "";
-                        setItineraries(newItineraries);
-                      }}
-                      format="HH:mm"
-                      placeholder="Chọn giờ"
-                    />
-                  </Form.Item>
-                  {hour.expenses.map((expense, expenseIndex) => (
-                    <div key={expenseIndex} style={{ marginLeft: "20px" }}>
-                      <Form.Item label={`Chi Phí ${expenseIndex + 1}`}>
-                        <Input
-                          value={expense.amount}
-                          onChange={(e) => {
-                            const newItineraries = [...itineraries];
-                            newItineraries[index].days[dayIndex].hours[
-                              hourIndex
-                            ].expenses[expenseIndex].amount = e.target.value;
-                            setItineraries(newItineraries);
-                          }}
-                          placeholder="Nhập số tiền"
-                        />
-                        <Input
-                          value={expense.category}
-                          onChange={(e) => {
-                            const newItineraries = [...itineraries];
-                            newItineraries[index].days[dayIndex].hours[
-                              hourIndex
-                            ].expenses[expenseIndex].category = e.target.value;
-                            setItineraries(newItineraries);
-                          }}
-                          placeholder="Nhập loại chi phí"
-                        />
-                        <Input
-                          value={expense.note}
-                          onChange={(e) => {
-                            const newItineraries = [...itineraries];
-                            newItineraries[index].days[dayIndex].hours[
-                              hourIndex
-                            ].expenses[expenseIndex].note = e.target.value;
-                            setItineraries(newItineraries);
-                          }}
-                          placeholder="Nhập ghi chú"
-                        />
-                      </Form.Item>
-                    </div>
-                  ))}
-                </div>
-              ))}
-              <Button
-                type="dashed"
-                onClick={() => addHour(index, dayIndex)}
-                style={{ marginBottom: 8 }}
-              >
-                + Thêm giờ
-              </Button>
             </div>
-          ))}
-          <Button type="dashed" onClick={() => addDay(index)}>
-            + Thêm ngày
-          </Button>
-          <Divider />
-        </div>
-      ))}
 
-      <Button type="dashed" onClick={addItinerary} style={{ marginBottom: 16 }}>
-        + Thêm lịch trình mới
-      </Button>
-      <Button type="primary" htmlType="submit">
-        Lưu Chuyến Đi
-      </Button>
-    </Form>
+            {itinerary.days.map((day, dayIndex) => (
+              <div key={dayIndex} style={{ marginBottom: "16px" }}>
+                <Form.Item
+                  label={`Day ${dayIndex + 1}`}
+                  style={{ display: "block" }}
+                >
+                  <DatePicker
+                    value={day.date ? moment(day.date, "YYYY-MM-DD") : null}
+                    onChange={(date) => {
+                      const newItineraries = [...itineraries];
+                      newItineraries[index].days[dayIndex].date = date
+                        ? date.format("YYYY-MM-DD")
+                        : null;
+                      setItineraries(newItineraries);
+                    }}
+                    format="YYYY-MM-DD"
+                  />
+                </Form.Item>
+                <Button
+                  type="dashed"
+                  onClick={() => addDay(index)}
+                  style={{
+                    display: "block",
+                    width: "fit-content",
+                    marginTop: "10px",
+                  }}
+                >
+                  + Add Day
+                </Button>
+
+                {day.hours.map((hour, hourIndex) => (
+                  <div key={hourIndex} style={{ marginBottom: "16px" }}>
+                    <Form.Item
+                      label={`Hour ${hourIndex + 1}`}
+                      style={{ display: "block" }}
+                    >
+                      <TimePicker
+                        value={hour.time ? moment(hour.time, "HH:mm") : null}
+                        onChange={(time) => {
+                          const newItineraries = [...itineraries];
+                          newItineraries[index].days[dayIndex].hours[
+                            hourIndex
+                          ].time = time ? time.format("HH:mm") : "";
+                          setItineraries(newItineraries);
+                        }}
+                        format="HH:mm"
+                      />
+                    </Form.Item>
+                    <Button
+                      type="dashed"
+                      onClick={() => addHour(index, dayIndex)}
+                      style={{
+                        display: "block",
+                        width: "fit-content",
+                        marginTop: "10px",
+                      }}
+                    >
+                      + Add Hour
+                    </Button>
+
+                    {hour.expenses.map((expense, expenseIndex) => (
+                      <div
+                        key={expenseIndex}
+                        style={{ marginLeft: "20px", marginBottom: "8px" }}
+                      >
+                        <Form.Item label={`Expense ${expenseIndex + 1}`}>
+                          <Input
+                            value={expense.amount}
+                            onChange={(e) => {
+                              const newItineraries = [...itineraries];
+                              newItineraries[index].days[dayIndex].hours[
+                                hourIndex
+                              ].expenses[expenseIndex].amount = e.target.value;
+                              setItineraries(newItineraries);
+                            }}
+                            placeholder="Enter amount"
+                          />
+                          <Input
+                            value={expense.category}
+                            onChange={(e) => {
+                              const newItineraries = [...itineraries];
+                              newItineraries[index].days[dayIndex].hours[
+                                hourIndex
+                              ].expenses[expenseIndex].category =
+                                e.target.value;
+                              setItineraries(newItineraries);
+                            }}
+                            placeholder="Enter category"
+                          />
+                          <Input
+                            value={expense.note}
+                            onChange={(e) => {
+                              const newItineraries = [...itineraries];
+                              newItineraries[index].days[dayIndex].hours[
+                                hourIndex
+                              ].expenses[expenseIndex].note = e.target.value;
+                              setItineraries(newItineraries);
+                            }}
+                            placeholder="Enter note"
+                          />
+                        </Form.Item>
+                      </div>
+                    ))}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
+        ))}
+
+        <Button
+          type="dashed"
+          onClick={addItinerary}
+          style={{ marginBottom: 16, display: "block", marginTop: "10px" }}
+        >
+          + Add Itinerary
+        </Button>
+
+        <Button
+          type="primary"
+          htmlType="submit"
+          style={{ marginTop: "20px", display: "block" }}
+        >
+          Save Trip
+        </Button>
+      </Form>
+    </div>
   );
 };
 

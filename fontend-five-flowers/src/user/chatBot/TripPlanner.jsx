@@ -173,23 +173,32 @@ const TripPlanner = ({ userId }) => {
       <div className="chat-input-container">
         <div className="locations-start-end">
           <div className="locations-start">
-            <p>From:</p>
-            <input
-              type="text"
-              value={startLocation}
-              onChange={(e) => setStartLocation(e.target.value)}
-              placeholder="Start location"
-              className="chat-input start-end-input"
-            />
+            <div className="title-locations-start">
+              <p>From: </p>
+            </div>
+            <div className="input-locations-start">
+              <input
+                type="text"
+                value={startLocation}
+                onChange={(e) => setStartLocation(e.target.value)}
+                placeholder="Start location"
+                className="chat-input start-end-input"
+              />
+            </div>
           </div>
           <div className="locations-end">
-            <input
-              type="text"
-              value={endLocation}
-              onChange={(e) => setEndLocation(e.target.value)}
-              placeholder="End location"
-              className="chat-input start-end-input"
-            />
+            <div className="title-locations-end">
+              <p>To: </p>
+            </div>
+            <div className="input-locations-start">
+              <input
+                type="text"
+                value={endLocation}
+                onChange={(e) => setEndLocation(e.target.value)}
+                placeholder="End location"
+                className="chat-input start-end-input"
+              />
+            </div>
           </div>
         </div>
         <div className="request-chat-bot">
@@ -221,14 +230,14 @@ const TripPlanner = ({ userId }) => {
         animate={{ x: isSidebarOpen ? "0%" : "100%" }} // Trượt vào khi mở
         transition={{ type: "spring", stiffness: 300, damping: 30 }} // Hiệu ứng mượt mà
         className="sidebar"
-      > <div className="button-close-sidebar-trip">
-         <p onClick={toggleSidebar}>
-          <IoIosCloseCircleOutline />
-          
-        </p>
-      </div>
-       
-        <TripList/>
+      >
+        {" "}
+        <div className="button-close-sidebar-trip">
+          <p onClick={toggleSidebar}>
+            <IoIosCloseCircleOutline />
+          </p>
+        </div>
+        <TripList />
       </motion.div>
 
       <Snackbar

@@ -1,8 +1,10 @@
 import { EllipsisOutlined } from "@ant-design/icons";
-import { Dropdown, Form, Menu, message, Table } from "antd";
+import { Dropdown, Form, Menu, message, Modal, Table } from "antd";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import { FaPlus } from "react-icons/fa";
+import AddTripForm from "../addTripForm/AddTripForm";
 import PopupEditItineraryDate from "./popupTrip/PopupEditDay";
 import PopupEditExpense from "./popupTrip/PopupEditExpense";
 import PopupEditHour from "./popupTrip/PopupEditHour";
@@ -26,6 +28,7 @@ const TripList = () => {
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
   const [itineraryForm] = Form.useForm();
+  const [isModalVisible, setIsModalVisible] = useState(false); // State để điều khiển modal
 
   useEffect(() => {
     if (userId && token) {
@@ -614,12 +617,12 @@ const TripList = () => {
         {/* Không cần hiển thị thông tin tripName */}
         <div
           className="remaining-budget"
-          style={{ position: "absolute", bottom: "0", left: "0" }}
+          style={{ position: "absolute", bottom: "10px", right: "10px" }}
         >
           <p>
             <b
               style={{
-                color: "rgb(90, 255, 61)", // Luôn hiển thị màu đỏ
+                color: "rgb(6, 201, 87)", // Luôn hiển thị màu đỏ
               }}
             >
               Remaining Budget: {remainingBudget} $
@@ -654,7 +657,7 @@ const TripList = () => {
               const dayExpenses = calculateDayExpenses(day); // Tổng chi phí của ngày
 
               return (
-                <div key={dIndex} >
+                <div key={dIndex}>
                   <div className="day-header">
                     <p>
                       {`Day ${dIndex + 1}: ${
@@ -761,7 +764,7 @@ const TripList = () => {
       render: (distance) => `${distance} `, // Display distance with km unit
     },
     {
-      title: "Total Cost ($)",
+      title: "Budget ($)",
       dataIndex: "totalBudget",
       key: "totalBudget",
       render: (budget) => `${budget} `, // Display total cost
@@ -798,10 +801,30 @@ const TripList = () => {
       ),
     },
   ];
+  const handleAddTrip = () => {
+    setIsModalVisible(true); // Hiển thị modal khi nhấn nút "+"
+  };
 
+  const handleCancel = () => {
+    setIsModalVisible(false); // Đóng modal
+  };
   return (
     <div>
-      <h2>Trip List</h2>
+      <div className="title-trip-list">
+        <h2>
+          Trip List{" "}
+          <button
+            type="primary"
+            className="add-trip-btn"
+            onClick={handleAddTrip} // Gọi hàm để mở modal
+          >
+            <p>
+              <FaPlus />
+            </p>
+          </button>
+        </h2>
+      </div>
+
       <Table
         columns={columns}
         dataSource={trips}
@@ -863,6 +886,19 @@ const TripList = () => {
         form={itineraryForm} // Use separate form for Itinerary
         editingItinerary={editingItinerary}
       />
+
+      <Modal
+        title="Add New Trip"
+        visible={isModalVisible}
+        onCancel={handleCancel}
+        footer={null}
+        width="600px" // Điều chỉnh chiều rộng
+        style={{ top: 0 }} // Đảm bảo modal bắt đầu từ đỉnh màn hình
+        bodyStyle={{ height: "100vh", overflowY: "auto" }} // Điều chỉnh chiều cao và thêm cuộn dọc
+      >
+        {/* Hiển thị component AddTrip bên trong modal */}
+        <AddTripForm />
+      </Modal>
     </div>
   );
 };

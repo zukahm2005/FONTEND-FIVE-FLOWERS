@@ -3,13 +3,16 @@
   padding-left: 1rem;
   border-radius: 8px; // Bo tròn các góc của khung
   background-color: #f9f9f9; // Màu nền cho Itinerary
+  margin-bottom: 2rem;
   .itinerary-header {
     display: flex;
     justify-content: space-between; /* Đẩy dấu ba chấm sang bên phải */
     align-items: center; /* Căn giữa theo chiều dọc */
     width: 100%; /* Chiếm toàn bộ chiều ngang của container */
+    
   }
-
+  
+  
   .itinerary-header h4 {
     flex: 1; /* Để tiêu đề chiếm toàn bộ chiều ngang còn lại */
     margin-right: 10px; /* Khoảng cách giữa tiêu đề và dấu ba chấm */
@@ -35,6 +38,7 @@
   }
   .info-details-itinerary{
     border-bottom: thin solid rgb(211, 211, 211);
+    
   }
   .scroll-container {
     max-height: 200px;
@@ -88,4 +92,6 @@
     left: 0;
     font-weight: bold;
   }
+ 
+  
 }

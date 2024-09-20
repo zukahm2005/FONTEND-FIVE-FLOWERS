@@ -1,7 +1,9 @@
 .add-trip-container {
     padding: 20px;
     background-color: #f9f9f9;
-    max-width: 60%;
+   
+    height: 40rem;
+    overflow-y: auto;
     h2 {
       margin-bottom: 20px;
       text-align: center;
@@ -18,6 +20,13 @@
     .ant-input,
     .ant-picker {
       width: 100%;
+    }
+
+
+    .header-add-trip-container{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap: 1rem;
     }
   }
   
