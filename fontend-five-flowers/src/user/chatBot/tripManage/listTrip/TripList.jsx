@@ -3,9 +3,12 @@ import { Dropdown, Form, Menu, message, Table } from "antd";
 import axios from "axios";
 import moment from "moment";
 import React, { useEffect, useState } from "react";
+import PopupEditItineraryDate from "./popupTrip/PopupEditDay";
+import PopupEditExpense from "./popupTrip/PopupEditExpense";
+import PopupEditHour from "./popupTrip/PopupEditHour";
+import PopupEditItinerary from "./popupTrip/PopupEditItinerary";
 import PopupEditTrip from "./popupTrip/PopupEditTrip";
 import "./tripList.scss"; // Import file SCSS để tùy chỉnh thanh cuộn
-import PopupEditExpense from "./popupTrip/PopupEditExpense";
 
 const TripList = () => {
   const [trips, setTrips] = useState([]);
@@ -14,9 +17,15 @@ const TripList = () => {
   const [editingRecord, setEditingRecord] = useState(null); // Dùng để lưu thông tin của record đang chỉnh sửa
   const [form] = Form.useForm();
   const [editExpenseModalVisible, setEditExpenseModalVisible] = useState(false); // Trạng thái hiển thị popup cho Expense
-
+  const [editItineraryDateModalVisible, setEditItineraryDateModalVisible] =
+    useState(false);
+  const [editHourModalVisible, setEditHourModalVisible] = useState(false); // Trạng thái hiển thị popup
+  const [editItineraryModalVisible, setEditItineraryModalVisible] =
+    useState(false);
+  const [editingItinerary, setEditingItinerary] = useState(null);
   const userId = localStorage.getItem("userId");
   const token = localStorage.getItem("token");
+  const [itineraryForm] = Form.useForm();
 
   useEffect(() => {
     if (userId && token) {
@@ -36,7 +45,9 @@ const TripList = () => {
             Authorization: `Bearer ${token}`,
           },
         }
-      );    console.log(response.data); // Kiểm tra dữ liệu trả về
+      );
+
+      console.log(response.data); // Kiểm tra dữ liệu trả về từ API
 
       setTrips(response.data);
     } catch (error) {
@@ -46,6 +57,7 @@ const TripList = () => {
       setLoading(false);
     }
   };
+
   const handleSaveEdit = async () => {
     try {
       const updatedValues = form.getFieldsValue(); // Lấy giá trị từ form
@@ -76,11 +88,9 @@ const TripList = () => {
       message.error("Có lỗi xảy ra khi cập nhật");
     }
   };
-  
-  
 
- // Các hàm edit riêng lẻ cho từng loại
- const editTrip = (record) => {
+  // Các hàm edit riêng lẻ cho từng loại
+  const editTrip = (record) => {
     setEditingRecord(record);
     setEditModalVisible(true);
 
@@ -98,18 +108,98 @@ const TripList = () => {
     setEditModalVisible(true);
     form.setFieldsValue(record); // Đặt giá trị form với dữ liệu itinerary
   };
-
-  const editDay = async (record) => {
+  const editItineraryDate = (record) => {
     setEditingRecord(record);
-    setEditModalVisible(true);
-    form.setFieldsValue(record); // Đặt giá trị form với dữ liệu day
+    setEditItineraryDateModalVisible(true);
   };
 
-  const editHour = async (record) => {
-    setEditingRecord(record);
-    setEditModalVisible(true);
-    form.setFieldsValue(record); // Đặt giá trị form với dữ liệu hour
+  const editHour = (record) => {
+    setEditingRecord(record); // Đặt giá trị cho record đang chỉnh sửa
+    setEditHourModalVisible(true); // Hiển thị popup
   };
+  // Hàm mở popup chỉnh sửa tiêu đề lịch trình
+  const editItineraryTitle = (itinerary) => {
+    setEditingItinerary(itinerary);
+    setEditItineraryModalVisible(true);
+    itineraryForm.setFieldsValue({
+      title: itinerary.title, // Đặt giá trị tiêu đề lịch trình
+    });
+  };
+
+  // Hàm lưu tiêu đề lịch trình
+  const handleSaveItineraryTitle = async () => {
+    try {
+      const updatedValues = itineraryForm.getFieldsValue(); // Lấy giá trị từ form
+      await axios.put(
+        `http://localhost:8080/api/v1/itineraries/update/${editingItinerary.id}`,
+        updatedValues,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      message.success("Cập nhật mô tả lịch trình thành công");
+      setEditItineraryModalVisible(false);
+      await fetchTrips(); // Đảm bảo rằng danh sách được tải lại
+    } catch (error) {
+      console.error("Error updating itinerary:", error);
+      message.error("Có lỗi xảy ra khi cập nhật mô tả lịch trình");
+    }
+  };
+
+  const handleSaveEditHour = async () => {
+    try {
+      const updatedValues = form.getFieldsValue(); // Lấy giá trị từ form
+      if (updatedValues.time) {
+        updatedValues.time = updatedValues.time.format("HH:mm"); // Định dạng giờ trước khi lưu
+      }
+
+      // Gửi dữ liệu cập nhật lên server
+      await axios.put(
+        `http://localhost:8080/api/v1/hours/update/${editingRecord.id}`,
+        updatedValues,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      message.success("Cập nhật giờ thành công");
+      setEditHourModalVisible(false); // Đóng popup sau khi lưu
+      fetchTrips(); // Tải lại danh sách chuyến đi
+    } catch (error) {
+      console.error("Error updating hour:", error);
+      message.error("Có lỗi xảy ra khi cập nhật giờ");
+    }
+  };
+  const handleSaveEditDay = async () => {
+    try {
+      const updatedValues = form.getFieldsValue();
+      if (updatedValues.date) {
+        updatedValues.date = updatedValues.date.format("YYYY-MM-DD");
+      }
+
+      // Gửi dữ liệu cập nhật lên server
+      await axios.put(
+        `http://localhost:8080/api/v1/days/update/${editingRecord.id}`,
+        updatedValues,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      message.success("Cập nhật ngày thành công");
+      setEditItineraryDateModalVisible(false);
+      fetchTrips(); // Tải lại danh sách sau khi cập nhật
+    } catch (error) {
+      console.error("Error updating day:", error);
+      message.error("Có lỗi xảy ra khi cập nhật ngày");
+    }
+  };
+
   const handleSaveEditExpense = async () => {
     try {
       const updatedValues = form.getFieldsValue(); // Lấy giá trị từ form
@@ -227,8 +317,9 @@ const TripList = () => {
       <Menu.Item
         onClick={() => {
           if (type === "trip") editTrip(record);
-          else if (type === "itinerary") editItinerary(record);
-          else if (type === "day") editDay(record);
+          else if (type === "itinerary")
+            editItineraryTitle(record); // Đảm bảo đúng hàm được gọi
+          else if (type === "day") editItineraryDate(record);
           else if (type === "hour") editHour(record);
           else if (type === "expense") editExpense(record);
         }}
@@ -259,7 +350,7 @@ const TripList = () => {
             title: "Chi phí ($)",
             dataIndex: "amount",
             key: "amount",
-            render: (amount) => `${(amount)} $`,
+            render: (amount) => `${amount} $`,
           },
           { title: "Loại", dataIndex: "category", key: "category" },
           { title: "Ghi chú", dataIndex: "note", key: "note" },
@@ -301,42 +392,57 @@ const TripList = () => {
           </Dropdown>
         </div>
 
-        {itinerary.days.map((day, dIndex) => (
-          <div key={dIndex}>
-            <div className="day-header">
-              <p>{`Ngày ${dIndex + 1}: ${moment(day.date).format(
-                "DD/MM/YYYY"
-              )}`}</p>
-              <Dropdown
-                overlay={renderActionMenu(day, "day")}
-                trigger={["click"]}
-              >
-                <div className="dropdown-small">
-                  <EllipsisOutlined rotate={90} />
-                </div>
-              </Dropdown>
-            </div>
+        {itinerary.days.map((day, dIndex) => {
+          // Đảm bảo xử lý đúng ngày với moment theo định dạng chuẩn ISO 8601
+          const dayDate = moment(day.date, "YYYY-MM-DD"); // Đảm bảo rằng định dạng ngày là chính xác
 
-            <div className="scroll-container">
-              {day.hours.map((hour, hIndex) => (
-                <div key={hIndex}>
-                  <div className="hour-header">
-                    <p>{`Giờ: ${moment(hour.time, "H:mm").format("HH:mm")}`}</p>
-                    <Dropdown
-                      overlay={renderActionMenu(hour, "hour")}
-                      trigger={["click"]}
-                    >
-                      <div className="dropdown-small">
-                        <EllipsisOutlined rotate={90} />
-                      </div>
-                    </Dropdown>
+          return (
+            <div key={dIndex}>
+              <div className="day-header">
+                <p>{`Ngày ${dIndex + 1}: ${
+                  dayDate.isValid()
+                    ? dayDate.format("DD/MM/YYYY") // Hiển thị ngày đúng định dạng
+                    : "Ngày không hợp lệ"
+                }`}</p>
+                <Dropdown
+                  overlay={renderActionMenu(day, "day")}
+                  trigger={["click"]}
+                >
+                  <div className="dropdown-small">
+                    <EllipsisOutlined rotate={90} />
                   </div>
-                  {renderExpenseTable(hour.expenses)}
-                </div>
-              ))}
+                </Dropdown>
+              </div>
+
+              <div className="scroll-container">
+                {day.hours.map((hour, hIndex) => {
+                  const hourTime = moment(hour.time, "HH:mm"); // Xử lý giờ với định dạng HH:mm
+
+                  return (
+                    <div key={hIndex}>
+                      <div className="hour-header">
+                        <p>{`Giờ: ${
+                          hourTime.isValid()
+                            ? hourTime.format("HH:mm") // Hiển thị giờ đúng định dạng
+                            : "Giờ không hợp lệ"
+                        }`}</p>
+                        <Dropdown
+                          overlay={renderActionMenu(hour, "hour")}
+                          trigger={["click"]}
+                        >
+                          <div className="dropdown-small">
+                            <EllipsisOutlined rotate={90} />
+                          </div>
+                        </Dropdown>
+                      </div>
+                      {renderExpenseTable(hour.expenses)}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
     ));
 
@@ -373,20 +479,27 @@ const TripList = () => {
       title: "Ngày Bắt Đầu",
       dataIndex: "startDate",
       key: "startDate",
-      render: (dateArray) => (dateArray ? moment.utc([dateArray[0], dateArray[1] - 1, dateArray[2]]).format("DD/MM/YYYY") : ""),
+      render: (date) => {
+        return date ? moment(date).format("DD/MM/YYYY") : "Ngày không hợp lệ";
+      },
     },
     {
       title: "Ngày Kết Thúc",
       dataIndex: "endDate",
       key: "endDate",
-      render: (dateArray) => (dateArray ? moment.utc([dateArray[0], dateArray[1] - 1, dateArray[2]]).format("DD/MM/YYYY") : ""),
+      render: (date) => {
+        return date ? moment(date).format("DD/MM/YYYY") : "Ngày không hợp lệ";
+      },
     },
-    
+
     {
       title: "",
       key: "action",
       render: (_, record) => (
-        <Dropdown overlay={renderActionMenu(record, "trip")} trigger={["click"]}>
+        <Dropdown
+          overlay={renderActionMenu(record, "trip")}
+          trigger={["click"]}
+        >
           <div className="dropdown-small">
             <EllipsisOutlined rotate={90} />
           </div>
@@ -415,16 +528,45 @@ const TripList = () => {
       <PopupEditTrip
         visible={editModalVisible}
         onCancel={() => setEditModalVisible(false)}
-        onOk={handleSaveEdit}
-        form={form}
-        editingRecord={editingRecord}
+        onOk={() => {
+          setEditModalVisible(false);
+          fetchTrips(); // Tải lại danh sách sau khi cập nhật
+        }}
+        editingRecord={editingRecord} // Record đang được chỉnh sửa
+        token={token}
       />
+
       <PopupEditExpense
         visible={editExpenseModalVisible}
         onCancel={() => setEditExpenseModalVisible(false)}
         onOk={handleSaveEditExpense}
         form={form}
         editingRecord={editingRecord}
+      />
+      <PopupEditItineraryDate
+        visible={editItineraryDateModalVisible}
+        onCancel={() => setEditItineraryDateModalVisible(false)}
+        onOk={() => {
+          setEditItineraryDateModalVisible(false);
+          fetchTrips(); // Gọi hàm tải lại danh sách sau khi cập nhật
+        }}
+        editingRecord={editingRecord}
+        token={token}
+      />
+
+      <PopupEditHour
+        visible={editHourModalVisible}
+        onCancel={() => setEditHourModalVisible(false)}
+        onOk={handleSaveEditHour}
+        form={form}
+        editingRecord={editingRecord}
+      />
+      <PopupEditItinerary
+        visible={editItineraryModalVisible}
+        onCancel={() => setEditItineraryModalVisible(false)}
+        onOk={handleSaveItineraryTitle}
+        form={itineraryForm} // Sử dụng form riêng cho Itinerary
+        editingItinerary={editingItinerary}
       />
     </div>
   );

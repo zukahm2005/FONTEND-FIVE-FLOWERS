@@ -24,7 +24,7 @@
     "axios": "^1.7.2",
     "buffer": "^6.0.3",
     "chart.js": "^4.4.3",
-    "date-fns": "^3.6.0",
+    "date-fns": "^4.1.0",
     "dayjs": "^1.11.13",
     "framer-motion": "^11.2.12",
     "html2canvas": "^1.4.1",
