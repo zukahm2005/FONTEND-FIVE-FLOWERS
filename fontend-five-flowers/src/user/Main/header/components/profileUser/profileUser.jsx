@@ -145,59 +145,53 @@ const ProfileUser = () => {
 
 
     const handleFileChange = async (info) => {
-        let fileList = info.fileList.map((file) => file.originFileObj); // Get list of files from the computer
-        if(fileList > 0){
-            alert("0000")
-        }
+        // Đảm bảo chỉ một file được tải lên mỗi lần
+        let fileList = [info.fileList[info.fileList.length - 1].originFileObj]; // Chỉ giữ lại file cuối cùng
+        setNewImages(fileList); // Lưu file vào state nếu cần
     
-        console.log(fileList);
+        const cloudName = 'ddrgrnsex'; // Tên Cloudinary của bạn
+        const uploadPreset = 'share img'; // Đảm bảo không có khoảng trắng trong upload_preset
     
-        setNewImages(fileList); // Save files in state if needed
+        // Lấy file duy nhất trong fileList
+        const file = fileList[0];
     
-        const cloudName = 'ddrgrnsex'; // Your Cloudinary cloud_name
-        const uploadPreset = 'share img'; // Ensure no spaces in upload_preset
+        // Tạo FormData và thêm file
+        const formData = new FormData();
+        formData.append('file', file); // Tải lên từng file một
+        formData.append('upload_preset', uploadPreset);
     
-        // Process each file in fileList
-        for (let i = 0; i < fileList.length; i++) {
-            const file = fileList[i];
-            // Create FormData and append file
-            const formData = new FormData();
-            formData.append('file', file); // Upload one file at a time
-            formData.append('upload_preset', uploadPreset);
+        try {
+            // Tải ảnh lên Cloudinary
+            const uploadResponse = await axios.post(
+                `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
+                formData
+            );
     
-            try {
-                // Upload image to Cloudinary
-                const uploadResponse = await axios.post(
-                    `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
-                    formData
-                );
+            const imageUrl = uploadResponse.data.secure_url; // Lấy URL thực tế sau khi tải lên
     
-                const imageUrl = uploadResponse.data.secure_url; // Get actual URL after upload
-    
-                // Update user info with image URL
-                await axios.put(`http://localhost:8080/api/v1/user/${user.userId}`, {
-                    ...userData,
-                    img: imageUrl, // Save Cloudinary URL to user data
-                }, {
-                    headers: {
-                        'Authorization': `Bearer ${token}`
-                    }
-                });
-    
-                fetchData(); // Reload data after saving
-            } catch (error) {
-                // Detailed error logging
-                if (error.response) {
-                    console.log('Response data:', error.response.data);
-                    console.log('Response status:', error.response.status);
-                } else {
-                    console.log('Error message:', error.message);
+            // Cập nhật thông tin người dùng với URL ảnh
+            await axios.put(`http://localhost:8080/api/v1/user/${user.userId}`, {
+                ...userData,
+                img: imageUrl, // Lưu URL Cloudinary vào dữ liệu người dùng
+            }, {
+                headers: {
+                    'Authorization': `Bearer ${token}`
                 }
-                console.error('Error uploading image to Cloudinary or updating user info:', error);
+            });
+    
+            fetchData(); // Tải lại dữ liệu sau khi lưu
+        } catch (error) {
+            // Ghi lại chi tiết lỗi
+            if (error.response) {
+                console.log('Dữ liệu phản hồi:', error.response.data);
+                console.log('Trạng thái phản hồi:', error.response.status);
+            } else {
+                console.log('Thông báo lỗi:', error.message);
             }
+            console.error('Lỗi khi tải ảnh lên Cloudinary hoặc cập nhật thông tin người dùng:', error);
         }
     
-        // Reset file list after all uploads
+        // Đặt lại fileList sau khi tất cả file đã được tải lên
         info.fileList = [];
     };
     
