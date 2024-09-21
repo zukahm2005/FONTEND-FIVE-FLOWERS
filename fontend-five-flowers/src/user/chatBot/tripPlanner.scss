@@ -9,163 +9,197 @@
     background-color: #ffffff;
     box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
     margin: 0 auto;
+  
     input {
-        border: thin solid #ccc;
-        transition: border 0.3s ease-in-out; // Hiệu ứng mượt khi thay đổi viền
-      
+      border: thin solid #ccc;
+      transition: border 0.3s ease-in-out; // Hiệu ứng mượt khi thay đổi viền
+  
+      &:hover {
+        border: thin solid rgb(250, 93, 50); // Viền đỏ khi hover
+      }
+  
+      &:focus {
+        border: thin solid rgb(250, 93, 50) !important; // Viền đỏ khi focus, sử dụng !important để ghi đè
+        outline: none; // Loại bỏ outline mặc định
+      }
+    }
+  
+    .chat-box {
+      flex-grow: 1;
+      padding: 15px;
+      overflow-y: auto;
+      background-color: #ffffff;
+      display: flex;
+      flex-direction: column;
+  
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+  
+      &::-webkit-scrollbar-track {
+        background-color: transparent;
+      }
+  
+      &::-webkit-scrollbar-thumb {
+        background-color: #ccc;
+        border-radius: 10px;
+  
         &:hover {
-          border: thin solid rgb(242, 95, 75); // Viền đỏ khi hover
-        }
-      
-        &:focus {
-          border: thin solid rgb(242, 95, 75) !important; // Viền đỏ khi focus, sử dụng !important để ghi đè
-          outline: none; // Loại bỏ outline mặc định
+          background-color: #bbb;
         }
       }
-      
-    .chat-box {
-        flex-grow: 1;
-        padding: 15px;
-        overflow-y: auto;
-        background-color: #ffffff;
-        display: flex;
-        flex-direction: column;
-
-        &::-webkit-scrollbar {
-            width: 6px;
-        }
-
-        &::-webkit-scrollbar-track {
-            background-color: transparent;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background-color: #ccc;
-            border-radius: 10px;
-
-            &:hover {
-                background-color: #bbb;
-            }
-        }
     }
-
+  
     .chat-message {
-        margin-bottom: 8px;
-        max-width: 100%;
-        display: flex;
-        flex-direction: column;
-        border-radius: 18px;
-        padding: 8px 10px;
-        position: relative;
-        word-wrap: break-word;
-        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
-        background-color: #f8f9fa;
-
-        &:hover {
-            .save-button {
-                display: block;
-            }
+      margin-bottom: 8px;
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      border-radius: 18px;
+      padding: 8px 10px;
+      position: relative;
+      word-wrap: break-word;
+      box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.05);
+      background-color: #f8f9fa;
+  
+      &:hover {
+        .save-button {
+          display: block;
         }
-
-        &.user {
-            align-self: flex-end;
-            background-color: rgb(240, 242, 245);
-            color: #343a40;
-            border-radius: 18px 18px 0px 18px;
-            max-width: 30rem;
-        }
-
-        &.bot {
-            align-self: flex-start;
-            background-color: #f1f3f5;
-            color: #343a40;
-            border-radius: 18px 18px 18px 0px;
-            max-width: 30rem;
-        }
-
-        .message-content {
-            font-size: 14px;
-            color: inherit;
-            margin-bottom: 2.5px;
-            text-align: left;
-            padding: 0 0 0 0.6rem;
-        }
-
-        .message-time {
-            font-size: 12px;
-            text-align: right;
-            opacity: 0.6;
-            margin-top: 3px;
-        }
+      }
+  
+      &.user {
+        align-self: flex-end;
+        background-color: rgb(240, 242, 245);
+        color: #343a40;
+        border-radius: 18px 18px 0px 18px;
+        max-width: 30rem;
+      }
+  
+      &.bot {
+        align-self: flex-start;
+        background-color: #f1f3f5;
+        color: #343a40;
+        border-radius: 18px 18px 18px 0px;
+        max-width: 30rem;
+      }
+  
+      .message-content {
+        font-size: 14px;
+        color: inherit;
+        margin-bottom: 2.5px;
+        text-align: left;
+        padding: 0 0 0 0.6rem;
+      }
+  
+      .message-time {
+        font-size: 12px;
+        text-align: right;
+        opacity: 0.6;
+        margin-top: 3px;
+      }
     }
-
+  
     .chat-input-container {
+      max-width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+  
+      .locations-start-end {
         max-width: 100%;
         display: flex;
-        flex-direction: column;
-        gap: 1rem;
-
-        .locations-start-end {
-            max-width: 100%;
-            display: flex;
-            flex-direction: row;
-            gap: 3rem;
-
-            .locations-start {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                gap: 16px;
-                width: 100%;
-                input {
-                    width: 100%;
-                }
-            }
-
-            .locations-end {
-                display: flex;
-                flex-direction: row;
-                align-items: center;
-                gap: 16px;
-                width: 100%;
-                input {
-                    width: 100%;
-                }
-            }
-
-            input {
-                width: 100%;
-            }
-        }
-
-        .request-chat-bot {
-            display: flex;
-            flex-direction: row;
-            gap: 1rem;
+        flex-direction: row;
+        gap: 3rem;
+  
+        .locations-start {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 16px;
+          width: 100%;
+  
+          input {
             width: 100%;
-
-            input {
-                width: 100%;
-            }
-
-            .button-group {
-                display: flex;
-                flex-direction: row;
-                gap: 10px; /* Khoảng cách giữa các nút */
-                align-items: center;
-            }
+          }
         }
+  
+        .locations-end {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          gap: 16px;
+          width: 100%;
+  
+          input {
+            width: 100%;
+          }
+        }
+  
+        input {
+          width: 100%;
+        }
+      }
+  
+      .request-chat-bot {
+        display: flex;
+        flex-direction: row;
+        gap: 1rem;
+        width: 100%;
+        position: relative;
+        .suggestion-wrapper {
+            position: absolute;
+            top: -440%;
+            z-index: 10;
+            background-color: rgb(51, 51, 51);
+            padding: 0.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+          
+            li {
+              list-style: none;
+              color: rgba(255, 255, 255, 0.6); /* Màu chữ nhạt */
+              padding: 0.5rem 0; /* Thêm khoảng cách giữa các mục */
+          
+              &:hover {
+                color: #ffffff; /* Chuyển sang màu trắng khi hover */
+                background-color: rgba(255, 255, 255, 0.1); /* Nền nhẹ khi hover */
+                border-radius: 5px; /* Tạo hiệu ứng bo góc khi hover */
+              }
+            }
+          }
+          
+        .suggestion-wrapper {
+            display: none; /* Ẩn suggestion-wrapper khi không có gợi ý */
+          }
+          
+          .suggestion-wrapper.show {
+            display: block; /* Chỉ hiển thị khi có gợi ý */
+          }
+          
+        
+        input {
+          width: 100%;
+        }
+  
+        .button-group {
+          display: flex;
+          flex-direction: row;
+          gap: 10px; /* Khoảng cách giữa các nút */
+          align-items: center;
+        }
+      }
     }
-
+  
     .start-end-input {
-        flex-grow: 0.5;
-        min-width: 150px;
+      flex-grow: 0.5;
+      min-width: 150px;
     }
-
+  
     .extra-request-input {
-        flex-grow: 1;
+      flex-grow: 1;
     }
-
+  
     .send-button,
     .save-info-button {
       border: none;
@@ -179,36 +213,37 @@
       margin-left: 10px;
       border-radius: 10px;
       transition: transform 0.3s ease, background-color 0.3s ease; /* Thêm hiệu ứng chuyển mượt mà */
-      
+  
       p {
         color: white;
       }
-    
+  
       &:hover {
-        background-color: rgb(243, 81, 17);
+        background-color: rgb(250, 93, 50);
         transform: scale(1.05); /* Phóng to 1.05 khi hover */
       }
-    
+  
       svg {
         width: 20px;
         height: 20px;
       }
     }
+  
     .sidebar {
-        position: fixed;
-        top: 0;
-        right: 0;
-        width: 60rem;
-        height: 100%;
-        background-color: #f8f9fa;
-        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
-        z-index: 1000;
-        padding: 5px;
-        transform: translateX(100%); /* Đảm bảo sidebar nằm ngoài màn hình bên phải */
-      
-        .button-close-sidebar-trip{
-            cursor: pointer;
-        }
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 60rem;
+      height: 100%;
+      background-color: #f8f9fa;
+      box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+      z-index: 1000;
+      padding: 5px;
+      transform: translateX(100%); /* Đảm bảo sidebar nằm ngoài màn hình bên phải */
+  
+      .button-close-sidebar-trip {
+        cursor: pointer;
+      }
     }
-      
-}
+  }
+  

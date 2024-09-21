@@ -9,10 +9,21 @@ import remarkGfm from "remark-gfm";
 import TripList from "./tripManage/listTrip/TripList";
 import "./tripPlanner.scss";
 
+// Mảng gợi ý tin nhắn
+const suggestions = [
+  "What is the best route?",
+  "Can you calculate the cost?",
+  "Tell me about the weather.",
+  "How long will it take?",
+  "What are the landmarks along the route?",
+];
+
 const TripPlanner = ({ userId }) => {
   const [startLocation, setStartLocation] = useState("");
   const [endLocation, setEndLocation] = useState("");
   const [extraRequest, setExtraRequest] = useState("");
+  const [showSuggestions, setShowSuggestions] = useState(false);
+
   const [messages, setMessages] = useState(() => {
     const savedMessages = sessionStorage.getItem("chatMessages");
     return savedMessages
@@ -26,12 +37,18 @@ const TripPlanner = ({ userId }) => {
           },
         ];
   });
+
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [currentStartLocation, setCurrentStartLocation] = useState("");
   const [currentEndLocation, setCurrentEndLocation] = useState("");
   const [conversationId, setConversationId] = useState(null);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); // State quản lý sidebar
+
+  const handleSuggestionClick = (suggestion) => {
+    setExtraRequest(suggestion);
+    setShowSuggestions(false); // Ẩn gợi ý sau khi chọn
+  };
 
   useEffect(() => {
     sessionStorage.setItem("chatMessages", JSON.stringify(messages));
@@ -202,14 +219,38 @@ const TripPlanner = ({ userId }) => {
           </div>
         </div>
         <div className="request-chat-bot">
+          <div
+            className={`suggestion-wrapper ${showSuggestions ? "show" : ""}`}
+          >
+            {showSuggestions && (
+              <ul className="suggestions-list">
+                {suggestions.map((suggestion, index) => (
+                  <li
+                    key={index}
+                    onClick={() => handleSuggestionClick(suggestion)}
+                  >
+                    {suggestion}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+
           <input
             type="text"
             value={extraRequest}
-            onChange={(e) => setExtraRequest(e.target.value)}
+            onChange={(e) => {
+              setExtraRequest(e.target.value);
+              setShowSuggestions(false); // Ẩn gợi ý khi người dùng nhập liệu
+            }}
             onKeyDown={(e) => {
               if (e.key === "Enter") {
                 sendMessage();
               }
+            }}
+            onFocus={() => setShowSuggestions(true)} // Hiển thị gợi ý khi nhấn vào input
+            onBlur={() => {
+              setTimeout(() => setShowSuggestions(false), 200); // Trì hoãn việc ẩn gợi ý để xử lý sự kiện nhấn vào gợi ý
             }}
             placeholder="Additional request (e.g., calculate cost)"
             className="chat-input extra-request-input"
