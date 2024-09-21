@@ -57,7 +57,7 @@
                             {
                               "amount": 60,
                               "category": "Transport",
-                              "note": "Taxi to the gardens"
+                              "note": "Ride a bike to the gardens"
                             }
                           ]
                         },
@@ -77,7 +77,7 @@
                             {
                               "amount": 40,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -102,7 +102,7 @@
                             {
                               "amount": 80,
                               "category": "Transport",
-                              "note": "Taxi to Yoga Center"
+                              "note": "Ride a bike to Yoga Center"
                             }
                           ]
                         },
@@ -122,7 +122,7 @@
                             {
                               "amount": 30,
                               "category": "Transport",
-                              "note": "Taxi to Linh Phuoc Pagoda"
+                              "note": "Ride a bike to Linh Phuoc Pagoda"
                             }
                           ]
                         },
@@ -142,7 +142,7 @@
                             {
                               "amount": 50,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -172,7 +172,7 @@
                             {
                               "amount": 80,
                               "category": "Transport",
-                              "note": "Taxi to Edensee Resort"
+                              "note": "Ride a bike to Edensee Resort"
                             }
                           ]
                         },
@@ -192,7 +192,7 @@
                             {
                               "amount": 50,
                               "category": "Transport",
-                              "note": "Taxi to Valley of Love"
+                              "note": "Ride a bike to Valley of Love"
                             }
                           ]
                         },
@@ -212,7 +212,7 @@
                             {
                               "amount": 60,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -237,7 +237,7 @@
                             {
                               "amount": 60,
                               "category": "Transport",
-                              "note": "Taxi to Yoga Studio"
+                              "note": "Ride a bike to Yoga Studio"
                             }
                           ]
                         },
@@ -257,7 +257,7 @@
                             {
                               "amount": 40,
                               "category": "Transport",
-                              "note": "Taxi to lake"
+                              "note": "Ride a bike to lake"
                             }
                           ]
                         },
@@ -277,7 +277,7 @@
                             {
                               "amount": 40,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -332,7 +332,7 @@
                             {
                               "amount": 300,
                               "category": "Transport",
-                              "note": "Group taxi to gardens"
+                              "note": "Group Ride a bike to gardens"
                             }
                           ]
                         },
@@ -352,7 +352,7 @@
                             {
                               "amount": 200,
                               "category": "Transport",
-                              "note": "Group taxi back to hotel"
+                              "note": "Group Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -377,7 +377,7 @@
                             {
                               "amount": 300,
                               "category": "Transport",
-                              "note": "Group taxi to Yoga Center"
+                              "note": "Group Ride a bike to Yoga Center"
                             }
                           ]
                         },
@@ -397,7 +397,7 @@
                             {
                               "amount": 350,
                               "category": "Transport",
-                              "note": "Group taxi to Pagoda"
+                              "note": "Group Ride a bike to Pagoda"
                             }
                           ]
                         },
@@ -417,7 +417,7 @@
                             {
                               "amount": 250,
                               "category": "Transport",
-                              "note": "Group taxi back to hotel"
+                              "note": "Group Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -472,7 +472,7 @@
                             {
                               "amount": 500,
                               "category": "Transport",
-                              "note": "Taxi back to resort"
+                              "note": "Ride a bike back to resort"
                             }
                           ]
                         },
@@ -732,7 +732,7 @@
                             {
                               "amount": 100,
                               "category": "Transport",
-                              "note": "Taxi to Lang Biang Mountain"
+                              "note": "Ride a bike to Lang Biang Mountain"
                             }
                           ]
                         },
@@ -752,7 +752,7 @@
                             {
                               "amount": 60,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         },
@@ -772,7 +772,7 @@
                             {
                               "amount": 50,
                               "category": "Transport",
-                              "note": "Taxi back to the hotel"
+                              "note": "Ride a bike back to the hotel"
                             }
                           ]
                         }
@@ -797,7 +797,7 @@
                             {
                               "amount": 100,
                               "category": "Transport",
-                              "note": "Taxi to Datanla Waterfalls"
+                              "note": "Ride a bike to Datanla Waterfalls"
                             }
                           ]
                         },
@@ -817,7 +817,7 @@
                             {
                               "amount": 50,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         },
@@ -837,7 +837,7 @@
                             {
                               "amount": 50,
                               "category": "Transport",
-                              "note": "Taxi back to the hotel"
+                              "note": "Ride a bike back to the hotel"
                             }
                           ]
                         }
@@ -872,7 +872,7 @@
                             {
                               "amount": 250,
                               "category": "Transport",
-                              "note": "Taxi for group to Lang Biang Mountain"
+                              "note": "Ride a bike for group to Lang Biang Mountain"
                             }
                           ]
                         },
@@ -892,7 +892,7 @@
                             {
                               "amount": 150,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         },
@@ -912,7 +912,7 @@
                             {
                               "amount": 120,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -937,7 +937,7 @@
                             {
                               "amount": 200,
                               "category": "Transport",
-                              "note": "Taxi for group to Datanla Waterfalls"
+                              "note": "Ride a bike for group to Datanla Waterfalls"
                             }
                           ]
                         },
@@ -957,7 +957,7 @@
                             {
                               "amount": 150,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         },
@@ -977,7 +977,7 @@
                             {
                               "amount": 150,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -1012,7 +1012,7 @@
                             {
                               "amount": 300,
                               "category": "Transport",
-                              "note": "Taxi for group to Lang Biang Mountain"
+                              "note": "Ride a bike for group to Lang Biang Mountain"
                             }
                           ]
                         },
@@ -1032,7 +1032,7 @@
                             {
                               "amount": 250,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         },
@@ -1052,7 +1052,7 @@
                             {
                               "amount": 200,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -1077,7 +1077,7 @@
                             {
                               "amount": 300,
                               "category": "Transport",
-                              "note": "Taxi for group to Datanla Waterfalls"
+                              "note": "Ride a bike for group to Datanla Waterfalls"
                             }
                           ]
                         },
@@ -1097,7 +1097,7 @@
                             {
                               "amount": 250,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         },
@@ -1117,7 +1117,7 @@
                             {
                               "amount": 250,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -1152,7 +1152,7 @@
                             {
                               "amount": 20,
                               "category": "Transport",
-                              "note": "Taxi to the central market"
+                              "note": "Ride a bike to the central market"
                             }
                           ]
                         },
@@ -1182,7 +1182,7 @@
                             {
                               "amount": 50,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -1212,7 +1212,7 @@
                             {
                               "amount": 60,
                               "category": "Transport",
-                              "note": "Taxi to Xuan Huong Lake"
+                              "note": "Ride a bike to Xuan Huong Lake"
                             }
                           ]
                         },
@@ -1227,7 +1227,7 @@
                             {
                               "amount": 50,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -1262,7 +1262,7 @@
                             {
                               "amount": 100,
                               "category": "Transport",
-                              "note": "Taxi to Pongour Waterfall"
+                              "note": "Ride a bike to Pongour Waterfall"
                             }
                           ]
                         },
@@ -1277,7 +1277,7 @@
                             {
                               "amount": 50,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -1322,7 +1322,7 @@
                             {
                               "amount": 60,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -1352,7 +1352,7 @@
                             {
                               "amount": 60,
                               "category": "Transport",
-                              "note": "Taxi for group to central market"
+                              "note": "Ride a bike for group to central market"
                             }
                           ]
                         },
@@ -1382,7 +1382,7 @@
                             {
                               "amount": 100,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -1412,7 +1412,7 @@
                             {
                               "amount": 150,
                               "category": "Transport",
-                              "note": "Taxi to Xuan Huong Lake"
+                              "note": "Ride a bike to Xuan Huong Lake"
                             }
                           ]
                         },
@@ -1427,7 +1427,7 @@
                             {
                               "amount": 100,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -1457,7 +1457,7 @@
                             {
                               "amount": 120,
                               "category": "Transport",
-                              "note": "Taxi for group to central market"
+                              "note": "Ride a bike for group to central market"
                             }
                           ]
                         },
@@ -1487,7 +1487,7 @@
                             {
                               "amount": 200,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
@@ -1517,7 +1517,7 @@
                             {
                               "amount": 200,
                               "category": "Transport",
-                              "note": "Taxi to Xuan Huong Lake"
+                              "note": "Ride a bike to Xuan Huong Lake"
                             }
                           ]
                         },
@@ -1532,7 +1532,7 @@
                             {
                               "amount": 200,
                               "category": "Transport",
-                              "note": "Taxi back to hotel"
+                              "note": "Ride a bike back to hotel"
                             }
                           ]
                         }
