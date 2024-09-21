@@ -1,0 +1,1141 @@
+{
+    "sampleTrips": [
+      {
+        "tripName": "Nha Trang - Da Lat",
+        "startLocation": "Nha Trang",
+        "endLocation": "Da Lat",
+        "distance": 140,
+        "totalBudget": 7500,
+        "startDate": "2024-12-01",
+        "endDate": "2024-12-07",
+        "categories": [
+          {
+            "categoryName": "Relaxation",
+            "groupSizeOptions": [
+              {
+                "groupSize": "1 person",
+                "itineraries": [
+                  {
+                    "description": "Relaxing in Da Lat Solo - Itinerary 1",
+                    "days": [
+                      {
+                        "date": "2024-12-02",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 120,
+                                "category": "Food",
+                                "note": "Breakfast at An Cafe"
+                              },
+                              {
+                                "amount": 180,
+                                "category": "Activity",
+                                "note": "Solo spa at Dalat Edensee Resort"
+                              },
+                              {
+                                "amount": 70,
+                                "category": "Transport",
+                                "note": "Taxi to Tuyen Lam Lake"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 150,
+                                "category": "Food",
+                                "note": "Lunch at Nhà Hàng Đà Lạt Xưa"
+                              },
+                              {
+                                "amount": 90,
+                                "category": "Activity",
+                                "note": "Visit Truc Lam Zen Monastery"
+                              },
+                              {
+                                "amount": 60,
+                                "category": "Transport",
+                                "note": "Cable car ride back to Da Lat"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 200,
+                                "category": "Food",
+                                "note": "Dinner at Le Chalet Dalat"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Activity",
+                                "note": "Evening walk around Xuan Huong Lake"
+                              },
+                              {
+                                "amount": 70,
+                                "category": "Transport",
+                                "note": "Taxi back to hotel"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-12-03",
+                        "hours": [
+                          {
+                            "time": "07:30",
+                            "expenses": [
+                              {
+                                "amount": 100,
+                                "category": "Food",
+                                "note": "Breakfast at Dalat Train Cafe"
+                              },
+                              {
+                                "amount": 180,
+                                "category": "Activity",
+                                "note": "Visit Crazy House"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Transport",
+                                "note": "Taxi to Da Lat Market"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 150,
+                                "category": "Food",
+                                "note": "Lunch at Da Quy Restaurant"
+                              },
+                              {
+                                "amount": 90,
+                                "category": "Activity",
+                                "note": "Stroll through Da Lat Market"
+                              },
+                              {
+                                "amount": 70,
+                                "category": "Transport",
+                                "note": "Return to hotel"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "groupSize": "3-5 people",
+                "itineraries": [
+                  {
+                    "description": "Relaxing in Da Lat for Group - Itinerary 1",
+                    "days": [
+                      {
+                        "date": "2024-12-02",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 360,
+                                "category": "Food",
+                                "note": "Breakfast at An Cafe (Group)"
+                              },
+                              {
+                                "amount": 500,
+                                "category": "Activity",
+                                "note": "Group spa at Dalat Edensee Resort"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Transport",
+                                "note": "Taxi to Tuyen Lam Lake"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 500,
+                                "category": "Food",
+                                "note": "Lunch at Nhà Hàng Đà Lạt Xưa (Group)"
+                              },
+                              {
+                                "amount": 120,
+                                "category": "Activity",
+                                "note": "Visit Truc Lam Zen Monastery (Group)"
+                              },
+                              {
+                                "amount": 100,
+                                "category": "Transport",
+                                "note": "Cable car ride back to Da Lat (Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 800,
+                                "category": "Food",
+                                "note": "Dinner at Le Chalet Dalat (Group)"
+                              },
+                              {
+                                "amount": 120,
+                                "category": "Activity",
+                                "note": "Evening walk around Xuan Huong Lake (Group)"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Transport",
+                                "note": "Taxi back to hotel"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-12-03",
+                        "hours": [
+                          {
+                            "time": "07:30",
+                            "expenses": [
+                              {
+                                "amount": 300,
+                                "category": "Food",
+                                "note": "Breakfast at Dalat Train Cafe (Group)"
+                              },
+                              {
+                                "amount": 500,
+                                "category": "Activity",
+                                "note": "Visit Crazy House (Group)"
+                              },
+                              {
+                                "amount": 100,
+                                "category": "Transport",
+                                "note": "Taxi to Da Lat Market (Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 600,
+                                "category": "Food",
+                                "note": "Lunch at Da Quy Restaurant (Group)"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Activity",
+                                "note": "Stroll through Da Lat Market (Group)"
+                              },
+                              {
+                                "amount": 100,
+                                "category": "Transport",
+                                "note": "Return to hotel (Group)"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "groupSize": "7-9 people",
+                "itineraries": [
+                  {
+                    "description": "Relaxing in Da Lat for Large Group - Itinerary 2",
+                    "days": [
+                      {
+                        "date": "2024-12-02",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 600,
+                                "category": "Food",
+                                "note": "Breakfast at An Cafe (Large Group)"
+                              },
+                              {
+                                "amount": 900,
+                                "category": "Activity",
+                                "note": "Group spa at Dalat Edensee Resort (Large Group)"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Transport",
+                                "note": "Taxi to Tuyen Lam Lake (Large Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 900,
+                                "category": "Food",
+                                "note": "Lunch at Nhà Hàng Đà Lạt Xưa (Large Group)"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Activity",
+                                "note": "Visit Truc Lam Zen Monastery (Large Group)"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Transport",
+                                "note": "Cable car ride back to Da Lat (Large Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 1200,
+                                "category": "Food",
+                                "note": "Dinner at Le Chalet Dalat (Large Group)"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Activity",
+                                "note": "Evening walk around Xuan Huong Lake (Large Group)"
+                              },
+                              {
+                                "amount": 250,
+                                "category": "Transport",
+                                "note": "Taxi back to hotel (Large Group)"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-12-03",
+                        "hours": [
+                          {
+                            "time": "07:30",
+                            "expenses": [
+                              {
+                                "amount": 500,
+                                "category": "Food",
+                                "note": "Breakfast at Dalat Train Cafe (Large Group)"
+                              },
+                              {
+                                "amount": 800,
+                                "category": "Activity",
+                                "note": "Visit Crazy House (Large Group)"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Transport",
+                                "note": "Taxi to Da Lat Market (Large Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 1000,
+                                "category": "Food",
+                                "note": "Lunch at Da Quy Restaurant (Large Group)"
+                              },
+                              {
+                                "amount": 300,
+                                "category": "Activity",
+                                "note": "Stroll through Da Lat Market (Large Group)"
+                              },
+                              {
+                                "amount": 250,
+                                "category": "Transport",
+                                "note": "Return to hotel (Large Group)"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "categoryName": "Exploration",
+            "groupSizeOptions": [
+              {
+                "groupSize": "1 person",
+                "itineraries": [
+                  {
+                    "description": "Solo Da Lat Adventure - Itinerary 1",
+                    "days": [
+                      {
+                        "date": "2024-12-02",
+                        "hours": [
+                          {
+                            "time": "06:30",
+                            "expenses": [
+                              {
+                                "amount": 90,
+                                "category": "Food",
+                                "note": "Breakfast at Artist Alley Restaurant"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Activity",
+                                "note": "Solo trek to Lang Biang Mountain"
+                              },
+                              {
+                                "amount": 120,
+                                "category": "Transport",
+                                "note": "Taxi to Lang Biang"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 180,
+                                "category": "Food",
+                                "note": "Lunch at Lang Biang Peak"
+                              },
+                              {
+                                "amount": 100,
+                                "category": "Activity",
+                                "note": "Exploring Lang Biang Mountain"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 200,
+                                "category": "Food",
+                                "note": "Dinner at Biang Bistro"
+                              },
+                              {
+                                "amount": 60,
+                                "category": "Transport",
+                                "note": "Return to hotel"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-12-03",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 120,
+                                "category": "Food",
+                                "note": "Breakfast at An Cafe"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Activity",
+                                "note": "Exploring Da Lat Flower Garden"
+                              },
+                              {
+                                "amount": 80,
+                                "category": "Transport",
+                                "note": "Taxi to Flower Garden"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:30",
+                            "expenses": [
+                              {
+                                "amount": 150,
+                                "category": "Food",
+                                "note": "Lunch at Nhà Hàng Trống Đồng"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Activity",
+                                "note": "Explore Da Lat's famous pine forests"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "19:00",
+                            "expenses": [
+                              {
+                                "amount": 180,
+                                "category": "Food",
+                                "note": "Dinner at The Memory Restaurant"
+                              },
+                              {
+                                "amount": 60,
+                                "category": "Transport",
+                                "note": "Return to hotel"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "groupSize": "3-5 people",
+                "itineraries": [
+                  {
+                    "description": "Da Lat Adventure for Group - Itinerary 1",
+                    "days": [
+                      {
+                        "date": "2024-12-02",
+                        "hours": [
+                          {
+                            "time": "06:30",
+                            "expenses": [
+                              {
+                                "amount": 300,
+                                "category": "Food",
+                                "note": "Breakfast at Artist Alley Restaurant (Group)"
+                              },
+                              {
+                                "amount": 400,
+                                "category": "Activity",
+                                "note": "Trek to Lang Biang Mountain (Group)"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Transport",
+                                "note": "Taxi to Lang Biang (Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 500,
+                                "category": "Food",
+                                "note": "Lunch at Lang Biang Peak (Group)"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Activity",
+                                "note": "Exploring Lang Biang Mountain (Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 600,
+                                "category": "Food",
+                                "note": "Dinner at Biang Bistro (Group)"
+                              },
+                              {
+                                "amount": 120,
+                                "category": "Transport",
+                                "note": "Return to hotel"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-12-03",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 300,
+                                "category": "Food",
+                                "note": "Breakfast at An Cafe (Group)"
+                              },
+                              {
+                                "amount": 500,
+                                "category": "Activity",
+                                "note": "Exploring Da Lat Flower Garden (Group)"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Transport",
+                                "note": "Taxi to Flower Garden (Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:30",
+                            "expenses": [
+                              {
+                                "amount": 450,
+                                "category": "Food",
+                                "note": "Lunch at Nhà Hàng Trống Đồng (Group)"
+                              },
+                              {
+                                "amount": 100,
+                                "category": "Activity",
+                                "note": "Explore Da Lat's famous pine forests (Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "19:00",
+                            "expenses": [
+                              {
+                                "amount": 600,
+                                "category": "Food",
+                                "note": "Dinner at The Memory Restaurant (Group)"
+                              },
+                              {
+                                "amount": 120,
+                                "category": "Transport",
+                                "note": "Return to hotel (Group)"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "groupSize": "7-9 people",
+                "itineraries": [
+                  {
+                    "description": "Da Lat Adventure for Large Group - Itinerary 2",
+                    "days": [
+                      {
+                        "date": "2024-12-02",
+                        "hours": [
+                          {
+                            "time": "06:30",
+                            "expenses": [
+                              {
+                                "amount": 500,
+                                "category": "Food",
+                                "note": "Breakfast at Artist Alley Restaurant (Large Group)"
+                              },
+                              {
+                                "amount": 800,
+                                "category": "Activity",
+                                "note": "Trek to Lang Biang Mountain (Large Group)"
+                              },
+                              {
+                                "amount": 300,
+                                "category": "Transport",
+                                "note": "Taxi to Lang Biang (Large Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 900,
+                                "category": "Food",
+                                "note": "Lunch at Lang Biang Peak (Large Group)"
+                              },
+                              {
+                                "amount": 300,
+                                "category": "Activity",
+                                "note": "Exploring Lang Biang Mountain (Large Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 1200,
+                                "category": "Food",
+                                "note": "Dinner at Biang Bistro (Large Group)"
+                              },
+                              {
+                                "amount": 250,
+                                "category": "Transport",
+                                "note": "Return to hotel (Large Group)"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-12-03",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 500,
+                                "category": "Food",
+                                "note": "Breakfast at An Cafe (Large Group)"
+                              },
+                              {
+                                "amount": 800,
+                                "category": "Activity",
+                                "note": "Exploring Da Lat Flower Garden (Large Group)"
+                              },
+                              {
+                                "amount": 300,
+                                "category": "Transport",
+                                "note": "Taxi to Flower Garden (Large Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:30",
+                            "expenses": [
+                              {
+                                "amount": 900,
+                                "category": "Food",
+                                "note": "Lunch at Nhà Hàng Trống Đồng (Large Group)"
+                              },
+                              {
+                                "amount": 300,
+                                "category": "Activity",
+                                "note": "Explore Da Lat's famous pine forests (Large Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "19:00",
+                            "expenses": [
+                              {
+                                "amount": 1200,
+                                "category": "Food",
+                                "note": "Dinner at The Memory Restaurant (Large Group)"
+                              },
+                              {
+                                "amount": 250,
+                                "category": "Transport",
+                                "note": "Return to hotel (Large Group)"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "categoryName": "Food Tour",
+            "groupSizeOptions": [
+              {
+                "groupSize": "1 person",
+                "itineraries": [
+                  {
+                    "description": "Da Lat Food Tour - Solo Itinerary 1",
+                    "days": [
+                      {
+                        "date": "2024-12-02",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 80,
+                                "category": "Food",
+                                "note": "Breakfast at Dalat House Cafe"
+                              },
+                              {
+                                "amount": 100,
+                                "category": "Activity",
+                                "note": "Tour Da Lat morning market"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Transport",
+                                "note": "Taxi to Da Lat Market"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 150,
+                                "category": "Food",
+                                "note": "Lunch at Nhà Hàng Cung Đình"
+                              },
+                              {
+                                "amount": 80,
+                                "category": "Activity",
+                                "note": "Explore street food stalls"
+                              },
+                              {
+                                "amount": 60,
+                                "category": "Transport",
+                                "note": "Taxi back to hotel"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 180,
+                                "category": "Food",
+                                "note": "Dinner at The Hungry Pig"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Activity",
+                                "note": "Night food market tour"
+                              },
+                              {
+                                "amount": 60,
+                                "category": "Transport",
+                                "note": "Return to hotel"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-12-03",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 90,
+                                "category": "Food",
+                                "note": "Breakfast at Le Rabelais"
+                              },
+                              {
+                                "amount": 120,
+                                "category": "Activity",
+                                "note": "Da Lat Cooking Class"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Transport",
+                                "note": "Taxi to cooking class"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 180,
+                                "category": "Food",
+                                "note": "Lunch from cooking class"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Activity",
+                                "note": "Visit Da Lat local food market"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "19:00",
+                            "expenses": [
+                              {
+                                "amount": 200,
+                                "category": "Food",
+                                "note": "Dinner at Barn House BBQ & Beer"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Transport",
+                                "note": "Return to hotel"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "groupSize": "3-5 people",
+                "itineraries": [
+                  {
+                    "description": "Da Lat Food Tour - Group Itinerary 1",
+                    "days": [
+                      {
+                        "date": "2024-12-02",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 300,
+                                "category": "Food",
+                                "note": "Breakfast at Dalat House Cafe (Group)"
+                              },
+                              {
+                                "amount": 400,
+                                "category": "Activity",
+                                "note": "Group tour of Da Lat morning market"
+                              },
+                              {
+                                "amount": 120,
+                                "category": "Transport",
+                                "note": "Taxi to market (Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 600,
+                                "category": "Food",
+                                "note": "Group lunch at Nhà Hàng Cung Đình"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Activity",
+                                "note": "Explore street food stalls (Group)"
+                              },
+                              {
+                                "amount": 100,
+                                "category": "Transport",
+                                "note": "Return to hotel (Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 700,
+                                "category": "Food",
+                                "note": "Dinner at The Hungry Pig (Group)"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Activity",
+                                "note": "Night food market tour (Group)"
+                              },
+                              {
+                                "amount": 100,
+                                "category": "Transport",
+                                "note": "Return to hotel (Group)"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-12-03",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 350,
+                                "category": "Food",
+                                "note": "Breakfast at Le Rabelais (Group)"
+                              },
+                              {
+                                "amount": 500,
+                                "category": "Activity",
+                                "note": "Da Lat Cooking Class (Group)"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Transport",
+                                "note": "Taxi to cooking class (Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 600,
+                                "category": "Food",
+                                "note": "Lunch from cooking class (Group)"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Activity",
+                                "note": "Visit Da Lat local food market (Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "19:00",
+                            "expenses": [
+                              {
+                                "amount": 700,
+                                "category": "Food",
+                                "note": "Dinner at Barn House BBQ & Beer (Group)"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Transport",
+                                "note": "Return to hotel (Group)"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "groupSize": "7-9 people",
+                "itineraries": [
+                  {
+                    "description": "Da Lat Food Tour - Large Group Itinerary 2",
+                    "days": [
+                      {
+                        "date": "2024-12-02",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 600,
+                                "category": "Food",
+                                "note": "Breakfast at Dalat House Cafe (Large Group)"
+                              },
+                              {
+                                "amount": 800,
+                                "category": "Activity",
+                                "note": "Large group tour of Da Lat morning market"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Transport",
+                                "note": "Taxi to market (Large Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 1000,
+                                "category": "Food",
+                                "note": "Lunch at Nhà Hàng Cung Đình (Large Group)"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Activity",
+                                "note": "Explore street food stalls (Large Group)"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Transport",
+                                "note": "Return to hotel (Large Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 1200,
+                                "category": "Food",
+                                "note": "Dinner at The Hungry Pig (Large Group)"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Activity",
+                                "note": "Night food market tour (Large Group)"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Transport",
+                                "note": "Return to hotel (Large Group)"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-12-03",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 700,
+                                "category": "Food",
+                                "note": "Breakfast at Le Rabelais (Large Group)"
+                              },
+                              {
+                                "amount": 1000,
+                                "category": "Activity",
+                                "note": "Da Lat Cooking Class (Large Group)"
+                              },
+                              {
+                                "amount": 300,
+                                "category": "Transport",
+                                "note": "Taxi to cooking class (Large Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 1000,
+                                "category": "Food",
+                                "note": "Lunch from cooking class (Large Group)"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Activity",
+                                "note": "Visit Da Lat local food market (Large Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "19:00",
+                            "expenses": [
+                              {
+                                "amount": 1200,
+                                "category": "Food",
+                                "note": "Dinner at Barn House BBQ & Beer (Large Group)"
+                              },
+                              {
+                                "amount": 300,
+                                "category": "Transport",
+                                "note": "Return to hotel (Large Group)"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

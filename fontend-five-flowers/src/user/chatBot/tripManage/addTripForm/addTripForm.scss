@@ -1,32 +1,85 @@
 .add-trip-container {
-    padding: 20px;
-    background-color: #f9f9f9;
-   
-    height: 40rem;
-    overflow-y: auto;
-    h2 {
-      margin-bottom: 20px;
-      text-align: center;
-    }
-  
-    .ant-form-item {
-      margin-bottom: 16px;
-    }
-  
-    .ant-row {
-      margin-bottom: 16px;
-    }
-  
-    .ant-input,
-    .ant-picker {
-      width: 100%;
-    }
+  padding: 20px;
+  background-color: #f9f9f9;
+  height: 60rem;
 
+  h2 {
+    margin-bottom: 20px;
+    text-align: center;
+  }
 
-    .header-add-trip-container{
-        display: grid;
-        grid-template-columns: repeat(3,1fr);
-        gap: 1rem;
+  .ant-form-item {
+    margin-bottom: 16px;
+  }
+
+  .ant-row {
+    margin-bottom: 16px;
+  }
+
+  .ant-input,
+  .ant-picker {
+    width: 100%;
+  }
+
+  .header-add-trip-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); // 4 columns for inputs
+    gap: 1rem;
+
+    .name-trip,
+    .start-point-trip,
+    .end-point-trip {
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+
+      label {
+        font-weight: bold;
+        margin-bottom: 0.5rem;
+      }
+
+      input {
+        width: 100%;
+        padding: 0.5rem;
+        border-radius: 4px;
+        border: 1px solid #ccc;
+      }
     }
   }
-  
+
+  .expense-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+
+    th {
+      background-color: #f0f0f0;
+      font-weight: bold;
+      padding: 8px;
+      text-align: left;
+    }
+
+    td {
+      padding: 8px;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.5rem;
+      border-radius: 4px;
+    }
+
+    .remove-btn {
+      color: red; /* Change the color of "Remove" to red */
+    }
+  }
+
+  .button-container-btn {
+    display: flex;
+    padding-bottom: 1rem;
+  }
+
+  .remove-btn {
+    color: red; /* For other remove buttons */
+  }
+}

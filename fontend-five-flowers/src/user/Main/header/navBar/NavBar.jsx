@@ -14,7 +14,7 @@ const NavBar = () => {
           <Link to={`/${item}`}>
             <motion.div
               className="nav-item"
-              whileHover={{ scale: 1.1 }}
+              whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
               <motion.p

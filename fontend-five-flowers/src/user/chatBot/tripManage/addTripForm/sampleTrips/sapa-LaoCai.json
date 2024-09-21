@@ -1,0 +1,1185 @@
+{
+  "sampleTrips": [
+    {
+      "tripName": "Sapa - Lao Cai",
+      "startLocation": "Lao Cai",
+      "endLocation": "Sapa",
+      "distance": 38,
+      "totalBudget": 7000,
+      "startDate": "2024-11-10",
+      "endDate": "2024-11-15",
+      "categories": [
+        {
+          "categoryName": "Relaxation",
+          "groupSizeOptions": [
+            {
+              "groupSize": "1 person",
+              "itineraries": [
+                {
+                  "description": "Relaxing in Sapa Solo - Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-11-11",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 100,
+                              "category": "Food",
+                              "note": "Breakfast at Indigo Restaurant"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Solo spa at Sapa Highland Resort"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi to Cat Cat Village"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 180,
+                              "category": "Food",
+                              "note": "Lunch at The Hill Station"
+                            },
+                            {
+                              "amount": 80,
+                              "category": "Activity",
+                              "note": "Visit Cat Cat Waterfall"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 200,
+                              "category": "Food",
+                              "note": "Dinner at Red Dao House"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Activity",
+                              "note": "Evening walk around Sapa Lake"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-11-12",
+                      "hours": [
+                        {
+                          "time": "07:30",
+                          "expenses": [
+                            {
+                              "amount": 100,
+                              "category": "Food",
+                              "note": "Breakfast at Mountain Bar & Pub"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Solo spa session at Topas Ecolodge"
+                            },
+                            {
+                              "amount": 70,
+                              "category": "Transport",
+                              "note": "Taxi to Topas Ecolodge"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 180,
+                              "category": "Food",
+                              "note": "Lunch at Topas Ecolodge Restaurant"
+                            },
+                            {
+                              "amount": 80,
+                              "category": "Activity",
+                              "note": "Explore Muong Hoa Valley"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to Sapa"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 150,
+                              "category": "Food",
+                              "note": "Dinner at The Gecko Restaurant"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Activity",
+                              "note": "Relax and enjoy mountain view at hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "groupSize": "3-5 people",
+              "itineraries": [
+                {
+                  "description": "Relaxing in Sapa for Group - Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-11-11",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 400,
+                              "category": "Food",
+                              "note": "Breakfast at Indigo Restaurant (Group)"
+                            },
+                            {
+                              "amount": 500,
+                              "category": "Activity",
+                              "note": "Group spa at Sapa Highland Resort"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi to Cat Cat Village"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Group lunch at The Hill Station"
+                            },
+                            {
+                              "amount": 120,
+                              "category": "Activity",
+                              "note": "Visit Cat Cat Waterfall"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 800,
+                              "category": "Food",
+                              "note": "Group dinner at Red Dao House"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Evening walk around Sapa Lake"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-11-12",
+                      "hours": [
+                        {
+                          "time": "07:30",
+                          "expenses": [
+                            {
+                              "amount": 400,
+                              "category": "Food",
+                              "note": "Group breakfast at Mountain Bar & Pub"
+                            },
+                            {
+                              "amount": 500,
+                              "category": "Activity",
+                              "note": "Group spa session at Topas Ecolodge"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Transport",
+                              "note": "Taxi to Topas Ecolodge"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 700,
+                              "category": "Food",
+                              "note": "Lunch at Topas Ecolodge Restaurant (Group)"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Explore Muong Hoa Valley"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi back to Sapa"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 650,
+                              "category": "Food",
+                              "note": "Dinner at The Gecko Restaurant (Group)"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Relax and enjoy mountain view at hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "groupSize": "7-9 people",
+              "itineraries": [
+                {
+                  "description": "Relaxing in Sapa for Group - Itinerary 2",
+                  "days": [
+                    {
+                      "date": "2024-11-11",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 700,
+                              "category": "Food",
+                              "note": "Group breakfast at Indigo Restaurant"
+                            },
+                            {
+                              "amount": 800,
+                              "category": "Activity",
+                              "note": "Group spa at Sapa Highland Resort"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Transport",
+                              "note": "Taxi to Cat Cat Village"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 1000,
+                              "category": "Food",
+                              "note": "Lunch at The Hill Station (Group)"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Explore Cat Cat Waterfall"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Dinner at Red Dao House (Group)"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Evening walk at Sapa Lake"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-11-12",
+                      "hours": [
+                        {
+                          "time": "07:30",
+                          "expenses": [
+                            {
+                              "amount": 800,
+                              "category": "Food",
+                              "note": "Group breakfast at Mountain Bar & Pub"
+                            },
+                            {
+                              "amount": 1000,
+                              "category": "Activity",
+                              "note": "Spa session at Topas Ecolodge for group"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Transport",
+                              "note": "Taxi to Topas Ecolodge"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Lunch at Topas Ecolodge Restaurant (Group)"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Activity",
+                              "note": "Explore Muong Hoa Valley"
+                            },
+                            {
+                              "amount": 250,
+                              "category": "Transport",
+                              "note": "Taxi back to Sapa"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Dinner at The Gecko Restaurant (Group)"
+                            },
+                            {
+                              "amount": 250,
+                              "category": "Activity",
+                              "note": "Relax at hotel with mountain view"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "categoryName": "Exploration",
+          "groupSizeOptions": [
+            {
+              "groupSize": "1 person",
+              "itineraries": [
+                {
+                  "description": "Solo Sapa Adventure - Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-11-11",
+                      "hours": [
+                        {
+                          "time": "06:30",
+                          "expenses": [
+                            {
+                              "amount": 80,
+                              "category": "Food",
+                              "note": "Breakfast at Good Morning Vietnam"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Solo trek to Fansipan Mountain"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Transport",
+                              "note": "Taxi to Fansipan Cable Car"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 180,
+                              "category": "Food",
+                              "note": "Lunch at Fansipan Restaurant"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Activity",
+                              "note": "Hiking at Silver Waterfall"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 120,
+                              "category": "Food",
+                              "note": "Dinner at The Haven Sapa Camp Site"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-11-12",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 100,
+                              "category": "Food",
+                              "note": "Breakfast at Pi's Kitchen"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Trekking to Ta Van Village"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Transport",
+                              "note": "Taxi to Ta Van Village"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:30",
+                          "expenses": [
+                            {
+                              "amount": 150,
+                              "category": "Food",
+                              "note": "Lunch at homestay in Ta Van Village"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Activity",
+                              "note": "Explore rice terraces"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 180,
+                              "category": "Food",
+                              "note": "Dinner at The Hill Station Signature Restaurant"
+                            },
+                            {
+                              "amount": 70,
+                              "category": "Transport",
+                              "note": "Taxi back to Sapa"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "groupSize": "3-5 people",
+              "itineraries": [
+                {
+                  "description": "Sapa Adventure for Group - Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-11-11",
+                      "hours": [
+                        {
+                          "time": "06:30",
+                          "expenses": [
+                            {
+                              "amount": 250,
+                              "category": "Food",
+                              "note": "Breakfast at Good Morning Vietnam (Group)"
+                            },
+                            {
+                              "amount": 400,
+                              "category": "Activity",
+                              "note": "Trek to Fansipan Mountain (Group)"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi to Fansipan Cable Car"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Group lunch at Fansipan Restaurant"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Hiking at Silver Waterfall"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 400,
+                              "category": "Food",
+                              "note": "Dinner at The Haven Sapa Camp Site"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-11-12",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 300,
+                              "category": "Food",
+                              "note": "Group breakfast at Pi's Kitchen"
+                            },
+                            {
+                              "amount": 500,
+                              "category": "Activity",
+                              "note": "Trekking to Ta Van Village (Group)"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Transport",
+                              "note": "Taxi to Ta Van Village"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:30",
+                          "expenses": [
+                            {
+                              "amount": 400,
+                              "category": "Food",
+                              "note": "Lunch at homestay in Ta Van Village (Group)"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Activity",
+                              "note": "Explore rice terraces in Ta Van"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Group dinner at The Hill Station Signature Restaurant"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Transport",
+                              "note": "Taxi back to Sapa"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "groupSize": "7-9 people",
+              "itineraries": [
+                {
+                  "description": "Sapa Adventure for Large Group - Itinerary 2",
+                  "days": [
+                    {
+                      "date": "2024-11-11",
+                      "hours": [
+                        {
+                          "time": "06:30",
+                          "expenses": [
+                            {
+                              "amount": 450,
+                              "category": "Food",
+                              "note": "Breakfast at Good Morning Vietnam (Group)"
+                            },
+                            {
+                              "amount": 800,
+                              "category": "Activity",
+                              "note": "Trek to Fansipan Mountain (Large Group)"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Transport",
+                              "note": "Taxi to Fansipan Cable Car"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 900,
+                              "category": "Food",
+                              "note": "Group lunch at Fansipan Restaurant"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Activity",
+                              "note": "Hiking at Silver Waterfall"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 800,
+                              "category": "Food",
+                              "note": "Dinner at The Haven Sapa Camp Site"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-11-12",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 450,
+                              "category": "Food",
+                              "note": "Breakfast at Pi's Kitchen (Group)"
+                            },
+                            {
+                              "amount": 800,
+                              "category": "Activity",
+                              "note": "Trekking to Ta Van Village (Large Group)"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Transport",
+                              "note": "Taxi to Ta Van Village"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:30",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Lunch at homestay in Ta Van Village (Group)"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Explore rice terraces"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 1000,
+                              "category": "Food",
+                              "note": "Group dinner at The Hill Station Signature Restaurant"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Transport",
+                              "note": "Taxi back to Sapa"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "categoryName": "Food Tour",
+          "groupSizeOptions": [
+            {
+              "groupSize": "1 person",
+              "itineraries": [
+                {
+                  "description": "Sapa Food Tour - Solo Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-11-11",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 60,
+                              "category": "Food",
+                              "note": "Breakfast at Sapa O'Chau Cafe"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Activity",
+                              "note": "Tour local morning market"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi to market"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 150,
+                              "category": "Food",
+                              "note": "Lunch at Red Dao House"
+                            },
+                            {
+                              "amount": 80,
+                              "category": "Activity",
+                              "note": "Visit a local food vendor street"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 180,
+                              "category": "Food",
+                              "note": "Dinner at The Hill Station Signature Restaurant"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Activity",
+                              "note": "Night walk at Sapa Night Market"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-11-12",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 70,
+                              "category": "Food",
+                              "note": "Breakfast at Le Gecko"
+                            },
+                            {
+                              "amount": 120,
+                              "category": "Activity",
+                              "note": "Sapa Cooking Class"
+                            },
+                            {
+                              "amount": 60,
+                              "category": "Transport",
+                              "note": "Taxi to cooking class"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 150,
+                              "category": "Food",
+                              "note": "Lunch with food prepared in cooking class"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Activity",
+                              "note": "Exploring Sapa’s local markets"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "19:00",
+                          "expenses": [
+                            {
+                              "amount": 200,
+                              "category": "Food",
+                              "note": "Dinner at Pi's Kitchen"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "groupSize": "3-5 people",
+              "itineraries": [
+                {
+                  "description": "Sapa Food Tour - Group Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-11-11",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 300,
+                              "category": "Food",
+                              "note": "Group breakfast at Sapa O'Chau Cafe"
+                            },
+                            {
+                              "amount": 400,
+                              "category": "Activity",
+                              "note": "Group tour of Sapa morning market"
+                            },
+                            {
+                              "amount": 120,
+                              "category": "Transport",
+                              "note": "Taxi to market (Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Group lunch at Red Dao House"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Visit street food vendors"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 700,
+                              "category": "Food",
+                              "note": "Dinner at The Hill Station Signature Restaurant (Group)"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Night market tour"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-11-12",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 350,
+                              "category": "Food",
+                              "note": "Group breakfast at Le Gecko"
+                            },
+                            {
+                              "amount": 500,
+                              "category": "Activity",
+                              "note": "Group Sapa Cooking Class"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Transport",
+                              "note": "Taxi to cooking class (Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Lunch with food from cooking class (Group)"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Explore Sapa local markets (Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "19:00",
+                          "expenses": [
+                            {
+                              "amount": 700,
+                              "category": "Food",
+                              "note": "Group dinner at Pi's Kitchen"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "groupSize": "7-9 people",
+              "itineraries": [
+                {
+                  "description": "Sapa Food Tour - Large Group Itinerary 2",
+                  "days": [
+                    {
+                      "date": "2024-11-11",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Breakfast at Sapa O'Chau Cafe (Large Group)"
+                            },
+                            {
+                              "amount": 800,
+                              "category": "Activity",
+                              "note": "Morning market tour for large group"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Transport",
+                              "note": "Taxi to market (Large Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 1000,
+                              "category": "Food",
+                              "note": "Lunch at Red Dao House (Large Group)"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Street food exploration"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Dinner at The Hill Station Signature Restaurant (Large Group)"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Night market exploration"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-11-12",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 700,
+                              "category": "Food",
+                              "note": "Group breakfast at Le Gecko (Large Group)"
+                            },
+                            {
+                              "amount": 1000,
+                              "category": "Activity",
+                              "note": "Group cooking class at Sapa"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Transport",
+                              "note": "Taxi to cooking class (Large Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 1000,
+                              "category": "Food",
+                              "note": "Lunch with food prepared in cooking class (Large Group)"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Explore Sapa's local food markets"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "19:00",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Dinner at Pi's Kitchen (Large Group)"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

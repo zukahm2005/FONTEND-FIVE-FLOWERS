@@ -1,0 +1,731 @@
+{
+    "sampleTrips": [
+      {
+        "tripName": "Da Nang - Hoi An",
+        "startLocation": "Da Nang",
+        "endLocation": "Hoi An",
+        "distance": 30,
+        "totalBudget": 8000,
+        "startDate": "2024-11-10",
+        "endDate": "2024-11-15",
+        "categories": [
+          {
+            "categoryName": "Relaxation",
+            "groupSizeOptions": [
+              {
+                "groupSize": "1 person",
+                "itineraries": [
+                  {
+                    "description": "Relaxing in Hoi An - Solo Itinerary 1",
+                    "days": [
+                      {
+                        "date": "2024-11-11",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 100,
+                                "category": "Food",
+                                "note": "Breakfast at A Roi Cafe"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Activity",
+                                "note": "Relaxation at An Bang Beach"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Transport",
+                                "note": "Taxi to An Bang Beach"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 180,
+                                "category": "Food",
+                                "note": "Lunch at The DeckHouse Restaurant"
+                              },
+                              {
+                                "amount": 80,
+                                "category": "Activity",
+                                "note": "Afternoon walk along the beach"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Transport",
+                                "note": "Taxi back to hotel"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 200,
+                                "category": "Food",
+                                "note": "Dinner at Cargo Club"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Activity",
+                                "note": "Evening stroll in Hoi An Old Town"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Transport",
+                                "note": "Taxi back to hotel"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-11-12",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 100,
+                                "category": "Food",
+                                "note": "Breakfast at Rosie's Cafe"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Activity",
+                                "note": "Relaxation and spa at Almanity Hoi An Wellness Resort"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Transport",
+                                "note": "Taxi to spa"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 180,
+                                "category": "Food",
+                                "note": "Lunch at Banh Mi Phuong"
+                              },
+                              {
+                                "amount": 100,
+                                "category": "Activity",
+                                "note": "Visit riverside cafe"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Transport",
+                                "note": "Taxi back to hotel"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "19:00",
+                            "expenses": [
+                              {
+                                "amount": 250,
+                                "category": "Food",
+                                "note": "Dinner at Morning Glory Restaurant"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Activity",
+                                "note": "Evening lantern walk in Hoi An Old Town"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "groupSize": "3-5 people",
+                "itineraries": [
+                  {
+                    "description": "Relaxing in Hoi An for Group - Itinerary 1",
+                    "days": [
+                      {
+                        "date": "2024-11-11",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 400,
+                                "category": "Food",
+                                "note": "Group breakfast at A Roi Cafe"
+                              },
+                              {
+                                "amount": 500,
+                                "category": "Activity",
+                                "note": "Relaxation at An Bang Beach for group"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Transport",
+                                "note": "Taxi to An Bang Beach"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 600,
+                                "category": "Food",
+                                "note": "Group lunch at The DeckHouse"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Activity",
+                                "note": "Beach walk for group"
+                              },
+                              {
+                                "amount": 100,
+                                "category": "Transport",
+                                "note": "Taxi back to hotel"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 800,
+                                "category": "Food",
+                                "note": "Dinner at Cargo Club"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Activity",
+                                "note": "Evening stroll around Hoi An Old Town"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-11-12",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 500,
+                                "category": "Food",
+                                "note": "Group breakfast at Rosie's Cafe"
+                              },
+                              {
+                                "amount": 700,
+                                "category": "Activity",
+                                "note": "Spa treatment for group at Almanity Hoi An"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 600,
+                                "category": "Food",
+                                "note": "Lunch at Banh Mi Phuong"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Activity",
+                                "note": "Riverside cafe and relaxation"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "19:00",
+                            "expenses": [
+                              {
+                                "amount": 1000,
+                                "category": "Food",
+                                "note": "Dinner at Morning Glory Restaurant"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Activity",
+                                "note": "Lantern-lit street walk"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "groupSize": "7-9 people",
+                "itineraries": [
+                  {
+                    "description": "Relaxing in Hoi An for Large Group - Itinerary 2",
+                    "days": [
+                      {
+                        "date": "2024-11-11",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 700,
+                                "category": "Food",
+                                "note": "Group breakfast at A Roi Cafe (Large Group)"
+                              },
+                              {
+                                "amount": 1000,
+                                "category": "Activity",
+                                "note": "Relaxation at An Bang Beach for large group"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Transport",
+                                "note": "Taxi to beach"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 1000,
+                                "category": "Food",
+                                "note": "Group lunch at The DeckHouse (Large Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 1500,
+                                "category": "Food",
+                                "note": "Dinner at Cargo Club (Large Group)"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Activity",
+                                "note": "Evening stroll in Hoi An Old Town"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-11-12",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 1000,
+                                "category": "Food",
+                                "note": "Group breakfast at Rosie's Cafe (Large Group)"
+                              },
+                              {
+                                "amount": 1200,
+                                "category": "Activity",
+                                "note": "Group spa treatment at Almanity Hoi An"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 1000,
+                                "category": "Food",
+                                "note": "Lunch at Banh Mi Phuong"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "19:00",
+                            "expenses": [
+                              {
+                                "amount": 1500,
+                                "category": "Food",
+                                "note": "Dinner at Morning Glory Restaurant"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "categoryName": "Exploration",
+            "groupSizeOptions": [
+              {
+                "groupSize": "1 person",
+                "itineraries": [
+                  {
+                    "description": "Exploring Hoi An - Solo Itinerary 1",
+                    "days": [
+                      {
+                        "date": "2024-11-11",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 100,
+                                "category": "Food",
+                                "note": "Breakfast at Faifo Coffee"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Activity",
+                                "note": "Walking tour of Hoi An Old Town"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 120,
+                                "category": "Food",
+                                "note": "Lunch at Cargo Club"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 200,
+                                "category": "Food",
+                                "note": "Dinner at Ba Le Well"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-11-12",
+                        "hours": [
+                          {
+                            "time": "09:00",
+                            "expenses": [
+                              {
+                                "amount": 120,
+                                "category": "Food",
+                                "note": "Breakfast at Rosie's Cafe"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Activity",
+                                "note": "Visit Marble Mountains"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "groupSize": "3-5 people",
+                "itineraries": [
+                  {
+                    "description": "Hoi An Exploration for Group - Itinerary 1",
+                    "days": [
+                      {
+                        "date": "2024-11-11",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 300,
+                                "category": "Food",
+                                "note": "Group breakfast at Faifo Coffee"
+                              },
+                              {
+                                "amount": 400,
+                                "category": "Activity",
+                                "note": "Group tour of Hoi An Old Town"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 400,
+                                "category": "Food",
+                                "note": "Group lunch at Cargo Club"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 600,
+                                "category": "Food",
+                                "note": "Group dinner at Ba Le Well"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-11-12",
+                        "hours": [
+                          {
+                            "time": "09:00",
+                            "expenses": [
+                              {
+                                "amount": 400,
+                                "category": "Food",
+                                "note": "Group breakfast at Rosie's Cafe"
+                              },
+                              {
+                                "amount": 600,
+                                "category": "Activity",
+                                "note": "Visit Marble Mountains"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "groupSize": "7-9 people",
+                "itineraries": [
+                  {
+                    "description": "Hoi An Exploration for Large Group - Itinerary 2",
+                    "days": [
+                      {
+                        "date": "2024-11-11",
+                        "hours": [
+                          {
+                            "time": "08:00",
+                            "expenses": [
+                              {
+                                "amount": 500,
+                                "category": "Food",
+                                "note": "Group breakfast at Faifo Coffee"
+                              },
+                              {
+                                "amount": 700,
+                                "category": "Activity",
+                                "note": "Large group tour of Hoi An Old Town"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 700,
+                                "category": "Food",
+                                "note": "Group lunch at Cargo Club"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "18:00",
+                            "expenses": [
+                              {
+                                "amount": 1000,
+                                "category": "Food",
+                                "note": "Large group dinner at Ba Le Well"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "date": "2024-11-12",
+                        "hours": [
+                          {
+                            "time": "09:00",
+                            "expenses": [
+                              {
+                                "amount": 600,
+                                "category": "Food",
+                                "note": "Group breakfast at Rosie's Cafe"
+                              },
+                              {
+                                "amount": 800,
+                                "category": "Activity",
+                                "note": "Visit Marble Mountains"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "categoryName": "Food Tour",
+            "groupSizeOptions": [
+              {
+                "groupSize": "1 person",
+                "itineraries": [
+                  {
+                    "description": "Hoi An Food Tour - Solo Itinerary",
+                    "days": [
+                      {
+                        "date": "2024-11-11",
+                        "hours": [
+                          {
+                            "time": "07:00",
+                            "expenses": [
+                              {
+                                "amount": 120,
+                                "category": "Food",
+                                "note": "Breakfast at Banh Mi Phuong"
+                              },
+                              {
+                                "amount": 50,
+                                "category": "Transport",
+                                "note": "Taxi to Hoi An Market"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 180,
+                                "category": "Food",
+                                "note": "Lunch at Central Market"
+                              },
+                              {
+                                "amount": 70,
+                                "category": "Activity",
+                                "note": "Cooking class at Red Bridge Cooking School"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "groupSize": "3-5 people",
+                "itineraries": [
+                  {
+                    "description": "Hoi An Food Tour for Group - Itinerary 1",
+                    "days": [
+                      {
+                        "date": "2024-11-11",
+                        "hours": [
+                          {
+                            "time": "07:00",
+                            "expenses": [
+                              {
+                                "amount": 350,
+                                "category": "Food",
+                                "note": "Group breakfast at Banh Mi Phuong"
+                              },
+                              {
+                                "amount": 150,
+                                "category": "Transport",
+                                "note": "Taxi to Hoi An Market (Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 500,
+                                "category": "Food",
+                                "note": "Group lunch at Central Market"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Activity",
+                                "note": "Group cooking class at Red Bridge"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "groupSize": "7-9 people",
+                "itineraries": [
+                  {
+                    "description": "Hoi An Food Tour for Large Group - Itinerary 2",
+                    "days": [
+                      {
+                        "date": "2024-11-11",
+                        "hours": [
+                          {
+                            "time": "07:00",
+                            "expenses": [
+                              {
+                                "amount": 500,
+                                "category": "Food",
+                                "note": "Group breakfast at Banh Mi Phuong (Large Group)"
+                              },
+                              {
+                                "amount": 200,
+                                "category": "Transport",
+                                "note": "Taxi to Hoi An Market (Large Group)"
+                              }
+                            ]
+                          },
+                          {
+                            "time": "12:00",
+                            "expenses": [
+                              {
+                                "amount": 700,
+                                "category": "Food",
+                                "note": "Large group lunch at Central Market"
+                              },
+                              {
+                                "amount": 300,
+                                "category": "Activity",
+                                "note": "Large group cooking class"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+  

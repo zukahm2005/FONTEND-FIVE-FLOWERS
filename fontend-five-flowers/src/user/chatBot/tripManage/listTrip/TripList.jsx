@@ -758,13 +758,13 @@ const TripList = () => {
       key: "endLocation",
     },
     {
-      title: "Distance",
+      title: "Distance(km)",
       dataIndex: "distance",
       key: "distance",
       render: (distance) => `${distance} `, // Display distance with km unit
     },
     {
-      title: "Budget ($)",
+      title: "Budget($)",
       dataIndex: "totalBudget",
       key: "totalBudget",
       render: (budget) => `${budget} `, // Display total cost

@@ -1,0 +1,1095 @@
+{
+  "sampleTrips": [
+    {
+      "tripName": "Hue - Nha Trang",
+      "startLocation": "Hue",
+      "endLocation": "Nha Trang",
+      "distance": 530,
+      "totalBudget": 8000,
+      "startDate": "2024-12-01",
+      "endDate": "2024-12-07",
+      "categories": [
+        {
+          "categoryName": "Relaxation",
+          "groupSizeOptions": [
+            {
+              "groupSize": "1 person",
+              "itineraries": [
+                {
+                  "description": "Relaxing in Hue Solo - Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-12-02",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 120,
+                              "category": "Food",
+                              "note": "Breakfast at La Residence Hotel"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Spa at La Residence Spa"
+                            },
+                            {
+                              "amount": 60,
+                              "category": "Transport",
+                              "note": "Taxi to Thien Mu Pagoda"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 180,
+                              "category": "Food",
+                              "note": "Lunch at Ancient Hue Restaurant"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Activity",
+                              "note": "Visit Imperial City of Hue"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 220,
+                              "category": "Food",
+                              "note": "Dinner at Risotto Hue"
+                            },
+                            {
+                              "amount": 80,
+                              "category": "Activity",
+                              "note": "Evening walk along Perfume River"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-12-03",
+                      "hours": [
+                        {
+                          "time": "07:30",
+                          "expenses": [
+                            {
+                              "amount": 120,
+                              "category": "Food",
+                              "note": "Breakfast at Mandarin Cafe"
+                            },
+                            {
+                              "amount": 180,
+                              "category": "Activity",
+                              "note": "Boat ride on Perfume River"
+                            },
+                            {
+                              "amount": 60,
+                              "category": "Transport",
+                              "note": "Taxi to Tomb of Minh Mang"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 200,
+                              "category": "Food",
+                              "note": "Lunch at Les Jardins de la Carambole"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Activity",
+                              "note": "Visit Tomb of Khai Dinh"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to Hue center"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 180,
+                              "category": "Food",
+                              "note": "Dinner at Serene Palace Restaurant"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Activity",
+                              "note": "Evening walk around Dong Ba Market"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "groupSize": "3-5 people",
+              "itineraries": [
+                {
+                  "description": "Relaxing in Hue for Group - Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-12-02",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 400,
+                              "category": "Food",
+                              "note": "Group breakfast at La Residence Hotel"
+                            },
+                            {
+                              "amount": 500,
+                              "category": "Activity",
+                              "note": "Group spa at La Residence Spa"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi to Thien Mu Pagoda"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Group lunch at Ancient Hue Restaurant"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Visit Imperial City of Hue"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 800,
+                              "category": "Food",
+                              "note": "Group dinner at Risotto Hue"
+                            },
+                            {
+                              "amount": 120,
+                              "category": "Activity",
+                              "note": "Evening walk along Perfume River"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-12-03",
+                      "hours": [
+                        {
+                          "time": "07:30",
+                          "expenses": [
+                            {
+                              "amount": 400,
+                              "category": "Food",
+                              "note": "Group breakfast at Mandarin Cafe"
+                            },
+                            {
+                              "amount": 500,
+                              "category": "Activity",
+                              "note": "Boat ride on Perfume River"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi to Tomb of Minh Mang"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 700,
+                              "category": "Food",
+                              "note": "Group lunch at Les Jardins de la Carambole"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Visit Tomb of Khai Dinh"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Transport",
+                              "note": "Taxi back to Hue center"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 650,
+                              "category": "Food",
+                              "note": "Dinner at Serene Palace Restaurant"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Activity",
+                              "note": "Evening walk around Dong Ba Market"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "groupSize": "7-9 people",
+              "itineraries": [
+                {
+                  "description": "Relaxing in Hue for Group - Itinerary 2",
+                  "days": [
+                    {
+                      "date": "2024-12-02",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 700,
+                              "category": "Food",
+                              "note": "Group breakfast at La Residence Hotel"
+                            },
+                            {
+                              "amount": 800,
+                              "category": "Activity",
+                              "note": "Group spa at La Residence Spa"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Transport",
+                              "note": "Taxi to Thien Mu Pagoda"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 1000,
+                              "category": "Food",
+                              "note": "Lunch at Ancient Hue Restaurant"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Visit Imperial City of Hue"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Dinner at Risotto Hue"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Evening walk along Perfume River"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-12-03",
+                      "hours": [
+                        {
+                          "time": "07:30",
+                          "expenses": [
+                            {
+                              "amount": 800,
+                              "category": "Food",
+                              "note": "Group breakfast at Mandarin Cafe"
+                            },
+                            {
+                              "amount": 1000,
+                              "category": "Activity",
+                              "note": "Boat ride on Perfume River"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Transport",
+                              "note": "Taxi to Tomb of Minh Mang"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Lunch at Les Jardins de la Carambole"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Activity",
+                              "note": "Visit Tomb of Khai Dinh"
+                            },
+                            {
+                              "amount": 250,
+                              "category": "Transport",
+                              "note": "Taxi back to Hue center"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Dinner at Serene Palace Restaurant"
+                            },
+                            {
+                              "amount": 250,
+                              "category": "Activity",
+                              "note": "Evening walk around Dong Ba Market"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "categoryName": "Exploration",
+          "groupSizeOptions": [
+            {
+              "groupSize": "1 person",
+              "itineraries": [
+                {
+                  "description": "Solo Hue Exploration - Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-12-02",
+                      "hours": [
+                        {
+                          "time": "06:30",
+                          "expenses": [
+                            {
+                              "amount": 80,
+                              "category": "Food",
+                              "note": "Breakfast at Hue's Garden Cafe"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Explore Thien Mu Pagoda"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi to Thien Mu Pagoda"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 180,
+                              "category": "Food",
+                              "note": "Lunch at Y Thao Garden"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Activity",
+                              "note": "Visit Imperial City of Hue"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 120,
+                              "category": "Food",
+                              "note": "Dinner at Ancient Hue Restaurant"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Activity",
+                              "note": "Evening stroll along Perfume River"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-12-03",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 100,
+                              "category": "Food",
+                              "note": "Breakfast at Mandarin Cafe"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Visit Tomb of Khai Dinh"
+                            },
+                            {
+                              "amount": 60,
+                              "category": "Transport",
+                              "note": "Taxi to Tomb of Khai Dinh"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 180,
+                              "category": "Food",
+                              "note": "Lunch at Les Jardins de la Carambole"
+                            },
+                            {
+                              "amount": 80,
+                              "category": "Activity",
+                              "note": "Explore local markets"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 150,
+                              "category": "Food",
+                              "note": "Dinner at Serene Palace"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "groupSize": "3-5 people",
+              "itineraries": [
+                {
+                  "description": "Hue Exploration for Group - Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-12-02",
+                      "hours": [
+                        {
+                          "time": "06:30",
+                          "expenses": [
+                            {
+                              "amount": 300,
+                              "category": "Food",
+                              "note": "Breakfast at Hue's Garden Cafe (Group)"
+                            },
+                            {
+                              "amount": 400,
+                              "category": "Activity",
+                              "note": "Explore Thien Mu Pagoda (Group)"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi to Thien Mu Pagoda"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Group lunch at Y Thao Garden"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Visit Imperial City of Hue (Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 500,
+                              "category": "Food",
+                              "note": "Dinner at Ancient Hue Restaurant (Group)"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Evening stroll along Perfume River (Group)"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-12-03",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 400,
+                              "category": "Food",
+                              "note": "Group breakfast at Mandarin Cafe"
+                            },
+                            {
+                              "amount": 500,
+                              "category": "Activity",
+                              "note": "Visit Tomb of Khai Dinh (Group)"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi to Tomb of Khai Dinh"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Group lunch at Les Jardins de la Carambole"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Explore local markets (Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 650,
+                              "category": "Food",
+                              "note": "Group dinner at Serene Palace"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "groupSize": "7-9 people",
+              "itineraries": [
+                {
+                  "description": "Hue Exploration for Large Group - Itinerary 2",
+                  "days": [
+                    {
+                      "date": "2024-12-02",
+                      "hours": [
+                        {
+                          "time": "06:30",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Group breakfast at Hue's Garden Cafe (Large Group)"
+                            },
+                            {
+                              "amount": 800,
+                              "category": "Activity",
+                              "note": "Explore Thien Mu Pagoda (Large Group)"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Transport",
+                              "note": "Taxi to Thien Mu Pagoda"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 1000,
+                              "category": "Food",
+                              "note": "Group lunch at Y Thao Garden"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Activity",
+                              "note": "Visit Imperial City of Hue (Large Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Group dinner at Ancient Hue Restaurant"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Evening stroll along Perfume River (Large Group)"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-12-03",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 800,
+                              "category": "Food",
+                              "note": "Group breakfast at Mandarin Cafe"
+                            },
+                            {
+                              "amount": 1000,
+                              "category": "Activity",
+                              "note": "Visit Tomb of Khai Dinh (Large Group)"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Transport",
+                              "note": "Taxi to Tomb of Khai Dinh"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Group lunch at Les Jardins de la Carambole"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Activity",
+                              "note": "Explore local markets (Large Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Group dinner at Serene Palace"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "categoryName": "Food Tour",
+          "groupSizeOptions": [
+            {
+              "groupSize": "1 person",
+              "itineraries": [
+                {
+                  "description": "Solo Hue Food Tour - Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-12-02",
+                      "hours": [
+                        {
+                          "time": "07:00",
+                          "expenses": [
+                            {
+                              "amount": 70,
+                              "category": "Food",
+                              "note": "Breakfast at Ba Hoa Bun Bo Hue"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi to Dong Ba Market"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 150,
+                              "category": "Food",
+                              "note": "Lunch at Hanh Restaurant (famous for Hue local dishes)"
+                            },
+                            {
+                              "amount": 80,
+                              "category": "Activity",
+                              "note": "Explore street food stalls near the Imperial City"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 200,
+                              "category": "Food",
+                              "note": "Dinner at Ancient Hue Restaurant"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-12-03",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 80,
+                              "category": "Food",
+                              "note": "Breakfast at Mandarin Cafe"
+                            },
+                            {
+                              "amount": 60,
+                              "category": "Activity",
+                              "note": "Visit local food market"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 150,
+                              "category": "Food",
+                              "note": "Lunch at Quan Me - Vegetarian Restaurant"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Activity",
+                              "note": "Street food tour in the evening"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "19:00",
+                          "expenses": [
+                            {
+                              "amount": 180,
+                              "category": "Food",
+                              "note": "Dinner at Les Jardins de la Carambole"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "groupSize": "3-5 people",
+              "itineraries": [
+                {
+                  "description": "Hue Food Tour for Group - Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-12-02",
+                      "hours": [
+                        {
+                          "time": "07:00",
+                          "expenses": [
+                            {
+                              "amount": 300,
+                              "category": "Food",
+                              "note": "Group breakfast at Ba Hoa Bun Bo Hue"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Transport",
+                              "note": "Taxi to Dong Ba Market (Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Group lunch at Hanh Restaurant (Hue local dishes)"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Explore street food near the Imperial City (Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 800,
+                              "category": "Food",
+                              "note": "Group dinner at Ancient Hue Restaurant"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel (Group)"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-12-03",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 400,
+                              "category": "Food",
+                              "note": "Group breakfast at Mandarin Cafe"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Visit local food market (Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Group lunch at Quan Me - Vegetarian Restaurant"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Street food tour in the evening (Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "19:00",
+                          "expenses": [
+                            {
+                              "amount": 700,
+                              "category": "Food",
+                              "note": "Group dinner at Les Jardins de la Carambole"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "groupSize": "7-9 people",
+              "itineraries": [
+                {
+                  "description": "Hue Food Tour for Large Group - Itinerary 2",
+                  "days": [
+                    {
+                      "date": "2024-12-02",
+                      "hours": [
+                        {
+                          "time": "07:00",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Breakfast at Ba Hoa Bun Bo Hue (Large Group)"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Transport",
+                              "note": "Taxi to Dong Ba Market (Large Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 1000,
+                              "category": "Food",
+                              "note": "Group lunch at Hanh Restaurant (Large Group)"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Activity",
+                              "note": "Explore street food stalls near the Imperial City"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Group dinner at Ancient Hue Restaurant"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel (Large Group)"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-12-03",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 800,
+                              "category": "Food",
+                              "note": "Group breakfast at Mandarin Cafe"
+                            },
+                            {
+                              "amount": 500,
+                              "category": "Activity",
+                              "note": "Visit local food market (Large Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 1000,
+                              "category": "Food",
+                              "note": "Group lunch at Quan Me - Vegetarian Restaurant"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Street food tour in the evening (Large Group)"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "19:00",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Group dinner at Les Jardins de la Carambole"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
