@@ -38,7 +38,7 @@ const TripPlanner = ({ userId }) => {
   }, [messages]);
 
   const sendMessage = async () => {
-    const combinedMessage = `Start: ${startLocation}, End: ${endLocation}. Request: ${extraRequest}`;
+    const combinedMessage = `From ${startLocation} - To ${endLocation}: ${extraRequest}`;
     const updatedMessages = [
       ...messages,
       {
@@ -206,9 +206,15 @@ const TripPlanner = ({ userId }) => {
             type="text"
             value={extraRequest}
             onChange={(e) => setExtraRequest(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                sendMessage();
+              }
+            }}
             placeholder="Additional request (e.g., calculate cost)"
             className="chat-input extra-request-input"
           />
+
           <div className="button-group">
             <div className="send-button" onClick={sendMessage}>
               <p>

@@ -5,7 +5,6 @@ import {
   FaPinterestP,
   FaTwitter,
 } from "react-icons/fa";
-import AddTripForm from "../../chatBot/tripManage/addTripForm/AddTripForm";
 import "./footer.scss";
 
 const Footer = () => {
@@ -65,7 +64,6 @@ const Footer = () => {
           © 2024 Bikex Club (password: buddha) Design Themes
         </div>
       </div>
-     <AddTripForm/>
     </footer>
   );
 };
