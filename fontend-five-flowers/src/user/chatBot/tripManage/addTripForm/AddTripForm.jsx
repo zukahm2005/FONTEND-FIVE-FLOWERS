@@ -14,11 +14,12 @@ import React, { useState } from "react";
 import "./addTripForm.scss";
 
 // Import your JSON files
+import canthoPhuQuoc from "./sampleTrips/canthoPhuQuoc.json";
 import danangHoiAn from "./sampleTrips/danang-hoian.json";
 import hueNhaTrang from "./sampleTrips/hue-NhaTrang.json";
+import nhatrangDaLat from "./sampleTrips/nhatrang-DaLat.json";
 import sampleTrips from "./sampleTrips/sampleTrips.json";
 import sapaLaoCai from "./sampleTrips/sapa-LaoCai.json";
-import nhatrangDaLat from "./sampleTrips/nhatrang-DaLat.json"
 const { Option } = Select;
 
 const AddTripForm = () => {
@@ -33,6 +34,7 @@ const AddTripForm = () => {
     ...danangHoiAn.sampleTrips,
     ...hueNhaTrang.sampleTrips,
     ...nhatrangDaLat.sampleTrips,
+    ...canthoPhuQuoc.sampleTrips,
   ];
 
   // Automatically fill data when selecting an available trip

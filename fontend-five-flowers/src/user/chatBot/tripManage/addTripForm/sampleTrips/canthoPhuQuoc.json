@@ -1,551 +1,550 @@
 {
-    "sampleTrips": [
-      {
-        "tripName": "Can Tho - Phu Quoc",
-        "startLocation": "Can Tho",
-        "endLocation": "Phu Quoc",
-        "distance": 200,
-        "totalBudget": 8000,
-        "startDate": "2024-12-20",
-        "endDate": "2024-12-25",
-        "categories": [
-          {
-            "categoryName": "Relaxation",
-            "groupSizeOptions": [
-              {
-                "groupSize": "1 person",
-                "itineraries": [
-                  {
-                    "description": "Relaxing in Phu Quoc Solo - Itinerary 1",
-                    "days": [
-                      {
-                        "date": "2024-12-21",
-                        "hours": [
-                          {
-                            "time": "08:00",
-                            "expenses": [
-                              {
-                                "amount": 100,
-                                "category": "Food",
-                                "note": "Breakfast at Mango Bay Resort"
-                              },
-                              {
-                                "amount": 150,
-                                "category": "Activity",
-                                "note": "Morning massage at La Veranda Resort"
-                              },
-                              {
-                                "amount": 50,
-                                "category": "Transport",
-                                "note": "Taxi to Sao Beach"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "12:00",
-                            "expenses": [
-                              {
-                                "amount": 180,
-                                "category": "Food",
-                                "note": "Lunch at On The Rocks Restaurant"
-                              },
-                              {
-                                "amount": 80,
-                                "category": "Activity",
-                                "note": "Sunbathing at Sao Beach"
-                              },
-                              {
-                                "amount": 50,
-                                "category": "Transport",
-                                "note": "Taxi back to resort"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "18:00",
-                            "expenses": [
-                              {
-                                "amount": 200,
-                                "category": "Food",
-                                "note": "Dinner at The Pepper Tree"
-                              },
-                              {
-                                "amount": 50,
-                                "category": "Activity",
-                                "note": "Evening beach walk"
-                              },
-                              {
-                                "amount": 50,
-                                "category": "Transport",
-                                "note": "Taxi back to resort"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "date": "2024-12-22",
-                        "hours": [
-                          {
-                            "time": "07:30",
-                            "expenses": [
-                              {
-                                "amount": 120,
-                                "category": "Food",
-                                "note": "Breakfast at Salinda Resort"
-                              },
-                              {
-                                "amount": 150,
-                                "category": "Activity",
-                                "note": "Spa session at Salinda Spa"
-                              },
-                              {
-                                "amount": 70,
-                                "category": "Transport",
-                                "note": "Taxi to Vinpearl Safari"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "12:00",
-                            "expenses": [
-                              {
-                                "amount": 180,
-                                "category": "Food",
-                                "note": "Lunch at Vinpearl Safari Restaurant"
-                              },
-                              {
-                                "amount": 150,
-                                "category": "Activity",
-                                "note": "Exploring Vinpearl Safari"
-                              },
-                              {
-                                "amount": 50,
-                                "category": "Transport",
-                                "note": "Taxi back to resort"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "18:30",
-                            "expenses": [
-                              {
-                                "amount": 150,
-                                "category": "Food",
-                                "note": "Dinner at Chuon Chuon Bistro"
-                              },
-                              {
-                                "amount": 50,
-                                "category": "Activity",
-                                "note": "Night walk around the beach"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "groupSize": "3-5 people",
-                "itineraries": [
-                  {
-                    "description": "Relaxing in Phu Quoc for Group - Itinerary 1",
-                    "days": [
-                      {
-                        "date": "2024-12-21",
-                        "hours": [
-                          {
-                            "time": "08:00",
-                            "expenses": [
-                              {
-                                "amount": 400,
-                                "category": "Food",
-                                "note": "Group breakfast at Mango Bay Resort"
-                              },
-                              {
-                                "amount": 500,
-                                "category": "Activity",
-                                "note": "Group massage at La Veranda Resort"
-                              },
-                              {
-                                "amount": 150,
-                                "category": "Transport",
-                                "note": "Taxi to Sao Beach"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "12:00",
-                            "expenses": [
-                              {
-                                "amount": 600,
-                                "category": "Food",
-                                "note": "Group lunch at On The Rocks Restaurant"
-                              },
-                              {
-                                "amount": 120,
-                                "category": "Activity",
-                                "note": "Sunbathing at Sao Beach (Group)"
-                              },
-                              {
-                                "amount": 100,
-                                "category": "Transport",
-                                "note": "Taxi back to resort"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "18:00",
-                            "expenses": [
-                              {
-                                "amount": 800,
-                                "category": "Food",
-                                "note": "Group dinner at The Pepper Tree"
-                              },
-                              {
-                                "amount": 150,
-                                "category": "Activity",
-                                "note": "Evening beach walk (Group)"
-                              },
-                              {
-                                "amount": 100,
-                                "category": "Transport",
-                                "note": "Taxi back to resort"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "date": "2024-12-22",
-                        "hours": [
-                          {
-                            "time": "07:30",
-                            "expenses": [
-                              {
-                                "amount": 400,
-                                "category": "Food",
-                                "note": "Group breakfast at Salinda Resort"
-                              },
-                              {
-                                "amount": 500,
-                                "category": "Activity",
-                                "note": "Group spa session at Salinda Spa"
-                              },
-                              {
-                                "amount": 200,
-                                "category": "Transport",
-                                "note": "Taxi to Vinpearl Safari"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "12:00",
-                            "expenses": [
-                              {
-                                "amount": 700,
-                                "category": "Food",
-                                "note": "Group lunch at Vinpearl Safari Restaurant"
-                              },
-                              {
-                                "amount": 150,
-                                "category": "Activity",
-                                "note": "Exploring Vinpearl Safari (Group)"
-                              },
-                              {
-                                "amount": 150,
-                                "category": "Transport",
-                                "note": "Taxi back to resort"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "18:30",
-                            "expenses": [
-                              {
-                                "amount": 650,
-                                "category": "Food",
-                                "note": "Group dinner at Chuon Chuon Bistro"
-                              },
-                              {
-                                "amount": 150,
-                                "category": "Activity",
-                                "note": "Night walk around the beach (Group)"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "groupSize": "7-9 people",
-                "itineraries": [
-                  {
-                    "description": "Relaxing in Phu Quoc for Large Group - Itinerary 2",
-                    "days": [
-                      {
-                        "date": "2024-12-21",
-                        "hours": [
-                          {
-                            "time": "08:00",
-                            "expenses": [
-                              {
-                                "amount": 700,
-                                "category": "Food",
-                                "note": "Group breakfast at Mango Bay Resort"
-                              },
-                              {
-                                "amount": 800,
-                                "category": "Activity",
-                                "note": "Group massage at La Veranda Resort"
-                              },
-                              {
-                                "amount": 200,
-                                "category": "Transport",
-                                "note": "Taxi to Sao Beach"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "12:00",
-                            "expenses": [
-                              {
-                                "amount": 1000,
-                                "category": "Food",
-                                "note": "Group lunch at On The Rocks Restaurant"
-                              },
-                              {
-                                "amount": 200,
-                                "category": "Activity",
-                                "note": "Sunbathing at Sao Beach (Large Group)"
-                              },
-                              {
-                                "amount": 150,
-                                "category": "Transport",
-                                "note": "Taxi back to resort"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "18:00",
-                            "expenses": [
-                              {
-                                "amount": 1200,
-                                "category": "Food",
-                                "note": "Group dinner at The Pepper Tree"
-                              },
-                              {
-                                "amount": 200,
-                                "category": "Activity",
-                                "note": "Evening beach walk (Large Group)"
-                              },
-                              {
-                                "amount": 150,
-                                "category": "Transport",
-                                "note": "Taxi back to resort"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "date": "2024-12-22",
-                        "hours": [
-                          {
-                            "time": "07:30",
-                            "expenses": [
-                              {
-                                "amount": 800,
-                                "category": "Food",
-                                "note": "Group breakfast at Salinda Resort"
-                              },
-                              {
-                                "amount": 1000,
-                                "category": "Activity",
-                                "note": "Group spa session at Salinda Spa"
-                              },
-                              {
-                                "amount": 300,
-                                "category": "Transport",
-                                "note": "Taxi to Vinpearl Safari"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "12:00",
-                            "expenses": [
-                              {
-                                "amount": 1200,
-                                "category": "Food",
-                                "note": "Group lunch at Vinpearl Safari Restaurant"
-                              },
-                              {
-                                "amount": 200,
-                                "category": "Activity",
-                                "note": "Exploring Vinpearl Safari (Large Group)"
-                              },
-                              {
-                                "amount": 250,
-                                "category": "Transport",
-                                "note": "Taxi back to resort"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "18:30",
-                            "expenses": [
-                              {
-                                "amount": 1200,
-                                "category": "Food",
-                                "note": "Group dinner at Chuon Chuon Bistro"
-                              },
-                              {
-                                "amount": 250,
-                                "category": "Activity",
-                                "note": "Night walk around the beach (Large Group)"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "categoryName": "Exploration",
-            "groupSizeOptions": [
-              {
-                "groupSize": "1 person",
-                "itineraries": [
-                  {
-                    "description": "Solo Phu Quoc Adventure - Itinerary 1",
-                    "days": [
-                      {
-                        "date": "2024-12-21",
-                        "hours": [
-                          {
-                            "time": "06:30",
-                            "expenses": [
-                              {
-                                "amount": 80,
-                                "category": "Food",
-                                "note": "Breakfast at Coi Nguon Restaurant"
-                              },
-                              {
-                                "amount": 200,
-                                "category": "Activity",
-                                "note": "Visit Phu Quoc National Park"
-                              },
-                              {
-                                "amount": 100,
-                                "category": "Transport",
-                                "note": "Taxi to National Park"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "12:00",
-                            "expenses": [
-                              {
-                                "amount": 180,
-                                "category": "Food",
-                                "note": "Lunch at the Phu Quoc Fish Market"
-                              },
-                              {
-                                "amount": 100,
-                                "category": "Activity",
-                                "note": "Hiking around Ganh Dau Cape"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "18:30",
-                            "expenses": [
-                              {
-                                "amount": 120,
-                                "category": "Food",
-                                "note": "Dinner at The Happy Buddha"
-                              },
-                              {
-                                "amount": 50,
-                                "category": "Transport",
-                                "note": "Taxi back to hotel"
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      {
-                        "date": "2024-12-22",
-                        "hours": [
-                          {
-                            "time": "08:00",
-                            "expenses": [
-                              {
-                                "amount": 100,
-                                "category": "Food",
-                                "note": "Breakfast at Saigon Phu Quoc Resort"
-                              },
-                              {
-                                "amount": 200,
-                                "category": "Activity",
-                                "note": "Snorkeling tour around the islands"
-                              },
-                              {
-                                "amount": 100,
-                                "category": "Transport",
-                                "note": "Boat to the snorkeling spots"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "12:30",
-                            "expenses": [
-                              {
-                                "amount": 150,
-                                "category": "Food",
-                                "note": "Lunch at a beachside seafood restaurant"
-                              },
-                              {
-                                "amount": 50,
-                                "category": "Activity",
-                                "note": "Exploring Starfish Beach"
-                              }
-                            ]
-                          },
-                          {
-                            "time": "18:00",
-                            "expenses": [
-                              {
-                                "amount": 180,
-                                "category": "Food",
-                                "note": "Dinner at Mai House Resort"
-                              },
-                              {
-                                "amount": 70,
-                                "category": "Transport",
-                                "note": "Taxi back to hotel"
-                              }
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  }
-  
+  "sampleTrips": [
+    {
+      "tripName": "Can Tho - Phu Quoc",
+      "startLocation": "Can Tho",
+      "endLocation": "Phu Quoc",
+      "distance": 200,
+      "totalBudget": 8000,
+      "startDate": "2024-12-20",
+      "endDate": "2024-12-25",
+      "categories": [
+        {
+          "categoryName": "Relaxation",
+          "groupSizeOptions": [
+            {
+              "groupSize": "1 person",
+              "itineraries": [
+                {
+                  "description": "Relaxing in Phu Quoc Solo - Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-12-21",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 100,
+                              "category": "Food",
+                              "note": "Breakfast at Mango Bay Resort"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Morning massage at La Veranda Resort"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi to Sao Beach"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 180,
+                              "category": "Food",
+                              "note": "Lunch at On The Rocks Restaurant"
+                            },
+                            {
+                              "amount": 80,
+                              "category": "Activity",
+                              "note": "Sunbathing at Sao Beach"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to resort"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 200,
+                              "category": "Food",
+                              "note": "Dinner at The Pepper Tree"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Activity",
+                              "note": "Evening beach walk"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to resort"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-12-22",
+                      "hours": [
+                        {
+                          "time": "07:30",
+                          "expenses": [
+                            {
+                              "amount": 120,
+                              "category": "Food",
+                              "note": "Breakfast at Salinda Resort"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Spa session at Salinda Spa"
+                            },
+                            {
+                              "amount": 70,
+                              "category": "Transport",
+                              "note": "Taxi to Vinpearl Safari"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 180,
+                              "category": "Food",
+                              "note": "Lunch at Vinpearl Safari Restaurant"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Exploring Vinpearl Safari"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to resort"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 150,
+                              "category": "Food",
+                              "note": "Dinner at Chuon Chuon Bistro"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Activity",
+                              "note": "Night walk around the beach"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "groupSize": "3-5 people",
+              "itineraries": [
+                {
+                  "description": "Relaxing in Phu Quoc for Group - Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-12-21",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 400,
+                              "category": "Food",
+                              "note": "Group breakfast at Mango Bay Resort"
+                            },
+                            {
+                              "amount": 500,
+                              "category": "Activity",
+                              "note": "Group massage at La Veranda Resort"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi to Sao Beach"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 600,
+                              "category": "Food",
+                              "note": "Group lunch at On The Rocks Restaurant"
+                            },
+                            {
+                              "amount": 120,
+                              "category": "Activity",
+                              "note": "Sunbathing at Sao Beach (Group)"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Transport",
+                              "note": "Taxi back to resort"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 800,
+                              "category": "Food",
+                              "note": "Group dinner at The Pepper Tree"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Evening beach walk (Group)"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Transport",
+                              "note": "Taxi back to resort"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-12-22",
+                      "hours": [
+                        {
+                          "time": "07:30",
+                          "expenses": [
+                            {
+                              "amount": 400,
+                              "category": "Food",
+                              "note": "Group breakfast at Salinda Resort"
+                            },
+                            {
+                              "amount": 500,
+                              "category": "Activity",
+                              "note": "Group spa session at Salinda Spa"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Transport",
+                              "note": "Taxi to Vinpearl Safari"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 700,
+                              "category": "Food",
+                              "note": "Group lunch at Vinpearl Safari Restaurant"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Exploring Vinpearl Safari (Group)"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi back to resort"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 650,
+                              "category": "Food",
+                              "note": "Group dinner at Chuon Chuon Bistro"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Activity",
+                              "note": "Night walk around the beach (Group)"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "groupSize": "7-9 people",
+              "itineraries": [
+                {
+                  "description": "Relaxing in Phu Quoc for Large Group - Itinerary 2",
+                  "days": [
+                    {
+                      "date": "2024-12-21",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 700,
+                              "category": "Food",
+                              "note": "Group breakfast at Mango Bay Resort"
+                            },
+                            {
+                              "amount": 800,
+                              "category": "Activity",
+                              "note": "Group massage at La Veranda Resort"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Transport",
+                              "note": "Taxi to Sao Beach"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 1000,
+                              "category": "Food",
+                              "note": "Group lunch at On The Rocks Restaurant"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Sunbathing at Sao Beach (Large Group)"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi back to resort"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Group dinner at The Pepper Tree"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Evening beach walk (Large Group)"
+                            },
+                            {
+                              "amount": 150,
+                              "category": "Transport",
+                              "note": "Taxi back to resort"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-12-22",
+                      "hours": [
+                        {
+                          "time": "07:30",
+                          "expenses": [
+                            {
+                              "amount": 800,
+                              "category": "Food",
+                              "note": "Group breakfast at Salinda Resort"
+                            },
+                            {
+                              "amount": 1000,
+                              "category": "Activity",
+                              "note": "Group spa session at Salinda Spa"
+                            },
+                            {
+                              "amount": 300,
+                              "category": "Transport",
+                              "note": "Taxi to Vinpearl Safari"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Group lunch at Vinpearl Safari Restaurant"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Exploring Vinpearl Safari (Large Group)"
+                            },
+                            {
+                              "amount": 250,
+                              "category": "Transport",
+                              "note": "Taxi back to resort"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 1200,
+                              "category": "Food",
+                              "note": "Group dinner at Chuon Chuon Bistro"
+                            },
+                            {
+                              "amount": 250,
+                              "category": "Activity",
+                              "note": "Night walk around the beach (Large Group)"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "categoryName": "Exploration",
+          "groupSizeOptions": [
+            {
+              "groupSize": "1 person",
+              "itineraries": [
+                {
+                  "description": "Solo Phu Quoc Adventure - Itinerary 1",
+                  "days": [
+                    {
+                      "date": "2024-12-21",
+                      "hours": [
+                        {
+                          "time": "06:30",
+                          "expenses": [
+                            {
+                              "amount": 80,
+                              "category": "Food",
+                              "note": "Breakfast at Coi Nguon Restaurant"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Visit Phu Quoc National Park"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Transport",
+                              "note": "Taxi to National Park"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:00",
+                          "expenses": [
+                            {
+                              "amount": 180,
+                              "category": "Food",
+                              "note": "Lunch at the Phu Quoc Fish Market"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Activity",
+                              "note": "Hiking around Ganh Dau Cape"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:30",
+                          "expenses": [
+                            {
+                              "amount": 120,
+                              "category": "Food",
+                              "note": "Dinner at The Happy Buddha"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "date": "2024-12-22",
+                      "hours": [
+                        {
+                          "time": "08:00",
+                          "expenses": [
+                            {
+                              "amount": 100,
+                              "category": "Food",
+                              "note": "Breakfast at Saigon Phu Quoc Resort"
+                            },
+                            {
+                              "amount": 200,
+                              "category": "Activity",
+                              "note": "Snorkeling tour around the islands"
+                            },
+                            {
+                              "amount": 100,
+                              "category": "Transport",
+                              "note": "Boat to the snorkeling spots"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "12:30",
+                          "expenses": [
+                            {
+                              "amount": 150,
+                              "category": "Food",
+                              "note": "Lunch at a beachside seafood restaurant"
+                            },
+                            {
+                              "amount": 50,
+                              "category": "Activity",
+                              "note": "Exploring Starfish Beach"
+                            }
+                          ]
+                        },
+                        {
+                          "time": "18:00",
+                          "expenses": [
+                            {
+                              "amount": 180,
+                              "category": "Food",
+                              "note": "Dinner at Mai House Resort"
+                            },
+                            {
+                              "amount": 70,
+                              "category": "Transport",
+                              "note": "Taxi back to hotel"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
