@@ -20,6 +20,7 @@ import hueNhaTrang from "./sampleTrips/hue-NhaTrang.json";
 import nhatrangDaLat from "./sampleTrips/nhatrang-DaLat.json";
 import sampleTrips from "./sampleTrips/sampleTrips.json";
 import sapaLaoCai from "./sampleTrips/sapa-LaoCai.json";
+
 const { Option } = Select;
 
 const AddTripForm = () => {
@@ -100,9 +101,9 @@ const AddTripForm = () => {
     setItineraries([...itineraries, newItinerary]); // Add itinerary manually
   };
 
-  const addDay = (index) => {
+  const addDay = (itineraryIndex) => {
     const newItineraries = [...itineraries];
-    newItineraries[index].days.push({
+    newItineraries[itineraryIndex].days.push({
       date: null,
       hours: [
         { time: null, expenses: [{ amount: "", category: "", note: "" }] },
@@ -111,13 +112,16 @@ const AddTripForm = () => {
     setItineraries(newItineraries);
   };
 
-  const handleDateChange = (index, dayIndex, date) => {
-    const newItineraries = [...itineraries];
-    newItineraries[index].days[dayIndex].date = date
+  const handleDateChange = (itineraryIndex, dayIndex, date) => {
+    console.log("Selected date for day", dayIndex, ":", date); // Kiểm tra giá trị ngày được chọn
+    const updatedItineraries = [...itineraries];
+    updatedItineraries[itineraryIndex].days[dayIndex].date = date
       ? date.format("YYYY-MM-DD")
-      : null; // Update the date as a string when saving
-    setItineraries(newItineraries);
+      : null; // Format thành chuỗi "YYYY-MM-DD" hoặc gán null nếu không có giá trị
+    setItineraries(updatedItineraries);
+    console.log("Updated itineraries: ", updatedItineraries);
   };
+  
 
   const removeDay = (itineraryIndex, dayIndex) => {
     const newItineraries = [...itineraries];
@@ -174,16 +178,13 @@ const AddTripForm = () => {
         ...values,
         startDate: values.startDate
           ? values.startDate.format("YYYY-MM-DD")
-          : null,
-        endDate: values.endDate ? values.endDate.format("YYYY-MM-DD") : null,
+          : null, // Format startDate
+        endDate: values.endDate ? values.endDate.format("YYYY-MM-DD") : null, // Format endDate
         itineraries: itineraries.map((itinerary) => ({
           ...itinerary,
           days: itinerary.days.map((day) => ({
             ...day,
-            date:
-              day.date && moment.isMoment(day.date)
-                ? day.date.format("YYYY-MM-DD")
-                : null, // Check before calling format
+            date: day.date ? day.date : null // Kiểm tra và gán date đúng nếu có giá trị
           })),
         })),
         user: {
@@ -205,6 +206,7 @@ const AddTripForm = () => {
       message.error("An error occurred while adding the trip.");
     }
   };
+
   const removeItinerary = (index) => {
     const newItineraries = [...itineraries];
     newItineraries.splice(index, 1); // Remove the selected itinerary
@@ -313,9 +315,7 @@ const AddTripForm = () => {
             <Form.Item
               label="Start Date"
               name="startDate"
-              rules={[
-                { required: true, message: "Please select a start date!" },
-              ]}
+              rules={[{ required: true, message: "Please select a start date!" }]}
             >
               <DatePicker format="YYYY-MM-DD" />
             </Form.Item>
@@ -324,9 +324,7 @@ const AddTripForm = () => {
             <Form.Item
               label="End Date"
               name="endDate"
-              rules={[
-                { required: true, message: "Please select an end date!" },
-              ]}
+              rules={[{ required: true, message: "Please select an end date!" }]}
             >
               <DatePicker format="YYYY-MM-DD" />
             </Form.Item>
@@ -335,11 +333,11 @@ const AddTripForm = () => {
         <Divider />
         <h3>Itinerary</h3>
         {itineraries.length > 0 ? (
-          itineraries.map((itinerary, index) => (
-            <div key={index} style={{ marginBottom: "20px" }}>
+          itineraries.map((itinerary, itineraryIndex) => (
+            <div key={itineraryIndex} style={{ marginBottom: "20px" }}>
               <div className="itinerary-header">
                 <Form.Item
-                  label={`Itinerary ${index + 1} Description`}
+                  label={`Itinerary ${itineraryIndex + 1} Description`}
                   style={{ display: "block" }}
                 >
                   <Input
@@ -347,7 +345,8 @@ const AddTripForm = () => {
                     onChange={(e) =>
                       setItineraries((prevItineraries) => {
                         const newItineraries = [...prevItineraries];
-                        newItineraries[index].description = e.target.value;
+                        newItineraries[itineraryIndex].description =
+                          e.target.value;
                         return newItineraries;
                       })
                     }
@@ -365,7 +364,7 @@ const AddTripForm = () => {
                     <DatePicker
                       value={day.date ? moment(day.date, "YYYY-MM-DD") : null}
                       onChange={(date) =>
-                        handleDateChange(index, dayIndex, date)
+                        handleDateChange(itineraryIndex, dayIndex, date)
                       }
                       format="YYYY-MM-DD"
                     />
@@ -374,7 +373,7 @@ const AddTripForm = () => {
                   <div className="button-container-btn">
                     <Button
                       type="dashed"
-                      onClick={() => addDay(index)}
+                      onClick={() => addDay(itineraryIndex)}
                       style={{
                         display: "block",
                         width: "fit-content",
@@ -387,7 +386,7 @@ const AddTripForm = () => {
                     <Button
                       type="danger"
                       className="remove-btn"
-                      onClick={() => removeDay(index, dayIndex)}
+                      onClick={() => removeDay(itineraryIndex, dayIndex)}
                       style={{
                         display: "block",
                         width: "fit-content",
@@ -409,9 +408,10 @@ const AddTripForm = () => {
                           onChange={(time) =>
                             setItineraries((prevItineraries) => {
                               const newItineraries = [...prevItineraries];
-                              newItineraries[index].days[dayIndex].hours[
-                                hourIndex
-                              ].time = time ? time.format("HH:mm") : null;
+                              newItineraries[itineraryIndex].days[dayIndex]
+                                .hours[hourIndex].time = time
+                                ? time.format("HH:mm")
+                                : null;
                               return newItineraries;
                             })
                           }
@@ -422,7 +422,7 @@ const AddTripForm = () => {
                       <div className="button-container-btn">
                         <Button
                           type="dashed"
-                          onClick={() => addHour(index, dayIndex)}
+                          onClick={() => addHour(itineraryIndex, dayIndex)}
                           style={{
                             display: "block",
                             width: "fit-content",
@@ -435,7 +435,9 @@ const AddTripForm = () => {
                         <Button
                           type="danger"
                           className="remove-btn"
-                          onClick={() => removeHour(index, dayIndex, hourIndex)}
+                          onClick={() =>
+                            removeHour(itineraryIndex, dayIndex, hourIndex)
+                          }
                           style={{
                             display: "block",
                             width: "fit-content",
@@ -460,10 +462,10 @@ const AddTripForm = () => {
                               onChange={(e) =>
                                 setItineraries((prevItineraries) => {
                                   const newItineraries = [...prevItineraries];
-                                  newItineraries[index].days[dayIndex].hours[
-                                    hourIndex
-                                  ].expenses[expenseIndex].amount =
-                                    e.target.value;
+                                  newItineraries[itineraryIndex].days[
+                                    dayIndex
+                                  ].hours[hourIndex].expenses[expenseIndex]
+                                    .amount = e.target.value;
                                   return newItineraries;
                                 })
                               }
@@ -474,10 +476,10 @@ const AddTripForm = () => {
                               onChange={(e) =>
                                 setItineraries((prevItineraries) => {
                                   const newItineraries = [...prevItineraries];
-                                  newItineraries[index].days[dayIndex].hours[
-                                    hourIndex
-                                  ].expenses[expenseIndex].category =
-                                    e.target.value;
+                                  newItineraries[itineraryIndex].days[
+                                    dayIndex
+                                  ].hours[hourIndex].expenses[expenseIndex]
+                                    .category = e.target.value;
                                   return newItineraries;
                                 })
                               }
@@ -488,10 +490,10 @@ const AddTripForm = () => {
                               onChange={(e) =>
                                 setItineraries((prevItineraries) => {
                                   const newItineraries = [...prevItineraries];
-                                  newItineraries[index].days[dayIndex].hours[
-                                    hourIndex
-                                  ].expenses[expenseIndex].note =
-                                    e.target.value;
+                                  newItineraries[itineraryIndex].days[
+                                    dayIndex
+                                  ].hours[hourIndex].expenses[expenseIndex]
+                                    .note = e.target.value;
                                   return newItineraries;
                                 })
                               }
@@ -503,7 +505,7 @@ const AddTripForm = () => {
                             <Button
                               type="dashed"
                               onClick={() =>
-                                addExpense(index, dayIndex, hourIndex)
+                                addExpense(itineraryIndex, dayIndex, hourIndex)
                               }
                               style={{
                                 display: "block",
@@ -519,7 +521,7 @@ const AddTripForm = () => {
                               className="remove-btn"
                               onClick={() =>
                                 removeExpense(
-                                  index,
+                                  itineraryIndex,
                                   dayIndex,
                                   hourIndex,
                                   expenseIndex
