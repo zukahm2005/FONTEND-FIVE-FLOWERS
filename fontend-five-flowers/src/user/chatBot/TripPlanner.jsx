@@ -55,7 +55,25 @@ const TripPlanner = ({ userId }) => {
   }, [messages]);
 
   const sendMessage = async () => {
-    const combinedMessage = `From ${startLocation} - To ${endLocation}: ${extraRequest}`;
+    let combinedMessage = "";
+  
+    if (startLocation) {
+      combinedMessage += `From: ${startLocation}`;
+    }
+  
+    if (endLocation) {
+      combinedMessage += startLocation ? ` - To: ${endLocation}` : `To: ${endLocation}`;
+    }
+  
+    if (extraRequest) {
+      combinedMessage += startLocation || endLocation ? `: ${extraRequest}` : `${extraRequest}`;
+    }
+  
+    if (combinedMessage.trim() === "") {
+      // Nếu tất cả đều trống, không gửi tin nhắn
+      return;
+    }
+  
     const updatedMessages = [
       ...messages,
       {
@@ -64,13 +82,14 @@ const TripPlanner = ({ userId }) => {
         time: new Date().toLocaleTimeString(),
       },
     ];
+  
     setMessages(updatedMessages);
     setCurrentStartLocation(startLocation);
     setCurrentEndLocation(endLocation);
     setStartLocation("");
     setEndLocation("");
     setExtraRequest("");
-
+  
     try {
       const historyToSend = updatedMessages.slice(-5);
       const response = await axios.post(
@@ -79,7 +98,7 @@ const TripPlanner = ({ userId }) => {
         { headers: { "Content-Type": "application/json" } }
       );
       const botResponse = response.data.response;
-
+  
       setMessages([
         ...updatedMessages,
         {
@@ -92,6 +111,7 @@ const TripPlanner = ({ userId }) => {
       console.error("Error sending message:", error);
     }
   };
+  
 
   const saveSpecificMessage = async (messageContent) => {
     const token = localStorage.getItem("token");
